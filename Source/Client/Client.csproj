@@ -151,7 +151,7 @@
   <ItemGroup>
     <Reference Include="ICSharpCode.AvalonEdit, Version=4.0.0.5897, Culture=neutral, PublicKeyToken=9cc39be672370310, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\Third Party\ICSharpCode SharpDevelop\bin\ICSharpCode.AvalonEdit.dll</HintPath>
+      <HintPath>..\..\Components\ICSharpCode.AvalonEdit.dll</HintPath>
     </Reference>
     <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -159,11 +159,10 @@
     </Reference>
     <Reference Include="Microsoft.WindowsAPICodePack, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\Third Party\Windows API Code Pack 1.1\binaries\Microsoft.WindowsAPICodePack.dll</HintPath>
+      <HintPath>..\..\Components\Microsoft.WindowsAPICodePack.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAPICodePack.Shell, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\Third Party\Windows API Code Pack 1.1\binaries\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
+    <Reference Include="Microsoft.WindowsAPICodePack.Shell">
+      <HintPath>..\..\Components\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -563,19 +562,19 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Common\CommonForms\CommonForms.csproj">
+    <ProjectReference Include="..\..\..\..\Common\CommonForms\CommonForms.csproj">
       <Project>{2B26F338-F6E8-4A24-9E2B-7B2DACCFB892}</Project>
       <Name>CommonForms</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Common\Common\Common-2010.csproj">
+    <ProjectReference Include="..\..\..\..\Common\Common\Common-2010.csproj">
       <Project>{8807828D-DB88-462A-875E-647240D48668}</Project>
       <Name>Common-2010</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Licensing\Source\Client\Client.csproj">
+    <ProjectReference Include="..\..\..\..\Licensing\Source\Client\Client.csproj">
       <Project>{68B4B135-962E-4F6E-B0B3-0D5CBF361203}</Project>
       <Name>Client %28Quantum Concepts\Licensing\Client%29</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Licensing\Source\Common\Common.csproj">
+    <ProjectReference Include="..\..\..\..\Licensing\Source\Common\Common.csproj">
       <Project>{7926B660-8A5D-46C6-9A0F-4F6726E88561}</Project>
       <Name>Common %28Quantum Concepts\Licensing\Common%29</Name>
     </ProjectReference>

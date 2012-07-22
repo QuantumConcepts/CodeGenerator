@@ -140,11 +140,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Common\CommonForms\CommonForms.csproj">
+    <ProjectReference Include="..\..\..\..\..\Common\CommonForms\CommonForms.csproj">
       <Project>{2B26F338-F6E8-4A24-9E2B-7B2DACCFB892}</Project>
       <Name>CommonForms</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\Common\Common\Common-2010.csproj">
+    <ProjectReference Include="..\..\..\..\..\Common\Common\Common-2010.csproj">
       <Project>{8807828D-DB88-462A-875E-647240D48668}</Project>
       <Name>Common-2010</Name>
     </ProjectReference>
