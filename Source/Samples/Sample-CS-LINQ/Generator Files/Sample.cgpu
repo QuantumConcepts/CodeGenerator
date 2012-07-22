@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<UserSettings xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://Schemas.QuantumConceptsCorp.com/CodeGenerator/UserSettings.xsd">
+  <Connection>
+    <DatabaseType>SQLServer</DatabaseType>
+    <Host>localhost\SQL2008</Host>
+    <Port>1433</Port>
+    <Database>CodeGeneratorSample</Database>
+    <UserId>CodeGeneratorSample</UserId>
+    <Password>CodeGeneratorSample</Password>
+  </Connection>
+</UserSettings>

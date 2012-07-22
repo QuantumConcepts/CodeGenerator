@@ -1,0 +1,287 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{FD273A49-441A-426E-9367-BF26A675F2E7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>QuantumConcepts.CodeGenerator.Core</RootNamespace>
+    <AssemblyName>QuantumConcepts.CodeGenerator.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <PublishUrl>http://localhost/QuantumConcepts.DAOGenerator.Core/</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Debug\QuantumConcepts.CodeGenerator.Core.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Release\QuantumConcepts.CodeGenerator.Core.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Debug\QuantumConcepts.CodeGenerator.Core.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Release\QuantumConcepts.CodeGenerator.Core.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>QuantumConcepts.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="log4net">
+      <HintPath>..\..\Components\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data, Version=6.5.4.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BatchEditors\BatchEditorField.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BatchEditors\BatchEditorManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BatchEditors\IBatchEditor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BatchEditors\RenameBatchEditor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Data\DatabaseParameter.cs" />
+    <Compile Include="Data\DatabaseWorkerManager.cs" />
+    <Compile Include="Data\MySql\MySqlWorker.cs" />
+    <Compile Include="TemplateGenerationStatusEventArgs.cs" />
+    <Compile Include="GenerationStatusEventArgs.cs" />
+    <Compile Include="ItemGenerationStatusEventArgs.cs" />
+    <Compile Include="GenerationStatus.cs" />
+    <Compile Include="PackageSchema\ApplyAllInputReplacementsAction.cs" />
+    <Compile Include="PackageSchema\ApplyInputReplacementsAction.cs" />
+    <Compile Include="PackageSchema\IReferencesInput.cs" />
+    <Compile Include="PackageSchema\CopyAction.cs" />
+    <Compile Include="PackageSchema\CopyAllAction.cs" />
+    <Compile Include="PackageSchema\BaseAction.cs" />
+    <Compile Include="PackageSchema\Input.cs" />
+    <Compile Include="PackageSchema\InputResult.cs" />
+    <Compile Include="PackageSchema\IReferencesManifestItem.cs" />
+    <Compile Include="PackageSchema\Manifest.cs" />
+    <Compile Include="PackageSchema\ManifestItem.cs" />
+    <Compile Include="PackageSchema\PackageContext.cs" />
+    <Compile Include="PackageSchema\PackageReferenceItem.cs" />
+    <Compile Include="PackageSchema\RenameAction.cs" />
+    <Compile Include="PackageSchema\ReplaceTextAction.cs" />
+    <Compile Include="PackageSchema\ProjectFactory.cs" />
+    <Compile Include="Plugins\PluginConfig.cs" />
+    <Compile Include="Upgrade\Upgrader_1_6_2_0.cs" />
+    <Compile Include="Upgrade\Upgrader_1_6_3_0.cs" />
+    <Compile Include="Utils\ComingledXPathExpressionResult.cs" />
+    <Compile Include="Configuration.cs" />
+    <Compile Include="Data\DatabaseUtil.cs" />
+    <Compile Include="Data\DatabaseWorker.cs" />
+    <Compile Include="Data\QueryConstants.cs" />
+    <Compile Include="Data\SqlServer\SqlServerWorker.cs" />
+    <Compile Include="Generator.cs" />
+    <Compile Include="ProjectSchema\Annotation.cs" />
+    <Compile Include="ProjectSchema\API.cs" />
+    <Compile Include="ProjectSchema\Attribute.cs" />
+    <Compile Include="ProjectSchema\ColumnMapping.cs" />
+    <Compile Include="ProjectSchema\ColumnMappingComparer.cs" />
+    <Compile Include="ProjectSchema\Connection.cs" />
+    <Compile Include="ProjectSchema\IParameter.cs" />
+    <Compile Include="Utils\IComingledXPathExpressionPart.cs" />
+    <Compile Include="PackageSchema\Package.cs" />
+    <Compile Include="ProjectSchema\ElementType.cs" />
+    <Compile Include="ProjectSchema\IAnnotation.cs" />
+    <Compile Include="ProjectSchema\IAttribute.cs" />
+    <Compile Include="ProjectSchema\IHasParameters.cs" />
+    <Compile Include="ProjectSchema\IHasAttributes.cs" />
+    <Compile Include="ProjectSchema\DataTypeMapping.cs" />
+    <Compile Include="ProjectSchema\EnumerationMapping.cs" />
+    <Compile Include="ProjectSchema\EnumerationValueMapping.cs" />
+    <Compile Include="ProjectSchema\ForeignKeyMapping.cs" />
+    <Compile Include="ProjectSchema\ForeignKeyMappingComparer.cs" />
+    <Compile Include="ProjectSchema\IHasAnnotations.cs" />
+    <Compile Include="ProjectSchema\IHasReturnParameter.cs" />
+    <Compile Include="ProjectSchema\IProjectSchemaElement.cs" />
+    <Compile Include="ProjectSchema\Parameter.cs" />
+    <Compile Include="ProjectSchema\Project.cs" />
+    <Compile Include="ProjectSchema\ProjectContext.cs" />
+    <Compile Include="ProjectSchema\TableMapping.cs" />
+    <Compile Include="ProjectSchema\TableMappingComparer.cs" />
+    <Compile Include="ProjectSchema\Template.cs" />
+    <Compile Include="ProjectSchema\TemplateOutputDefinition.cs" />
+    <Compile Include="ProjectSchema\TemplateOutputDefinitionFilename.cs" />
+    <Compile Include="ProjectSchema\TemplateOutputDefinitionFilenameResult.cs" />
+    <Compile Include="Utils\ComingledXPathExpressionTextPart.cs" />
+    <Compile Include="Utils\ComingledXPathExpressionXPathPart.cs" />
+    <Compile Include="ProjectSchema\TemplateOutputMode.cs" />
+    <Compile Include="ProjectSchema\UniqueIndexMapping.cs" />
+    <Compile Include="ProjectSchema\UserSettings.cs" />
+    <Compile Include="ProjectSchema\ViewMapping.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Upgrade\Upgrader_1_5_0_1.cs" />
+    <Compile Include="Utils\CommontUtil.cs" />
+    <Compile Include="Utils\Extensions.cs" />
+    <Compile Include="Utils\LogEventHandler.cs" />
+    <Compile Include="Utils\LogSeverity.cs" />
+    <Compile Include="Utils\StringUtil.cs" />
+    <Compile Include="Utils\TemplateMetrics.cs" />
+    <Compile Include="Utils\Tools.cs" />
+    <Compile Include="Utils\TransformResult.cs" />
+    <Compile Include="Upgrade\IUpgrader.cs" />
+    <Compile Include="Upgrade\UpgradeManager.cs" />
+    <Compile Include="Upgrade\Upgrader_1_4_1_11.cs" />
+    <Compile Include="Utils\XmlUtil.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Common\Common\Common-2010.csproj">
+      <Project>{8807828D-DB88-462A-875E-647240D48668}</Project>
+      <Name>Common-2010</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Licensing\Source\Client\Client.csproj">
+      <Project>{68B4B135-962E-4F6E-B0B3-0D5CBF361203}</Project>
+      <Name>Client %28Quantum Concepts\Licensing\Client%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Licensing\Source\Common\Common.csproj">
+      <Project>{7926B660-8A5D-46C6-9A0F-4F6726E88561}</Project>
+      <Name>Common %28Quantum Concepts\Licensing\Common%29</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="QuantumConcepts.pfx" />
+    <None Include="Xml\Package.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Xml\Project.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Xml\UserSettings.xsd">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

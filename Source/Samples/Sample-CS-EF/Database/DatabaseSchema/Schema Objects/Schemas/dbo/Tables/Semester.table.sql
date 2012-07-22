@@ -1,0 +1,11 @@
+﻿CREATE TABLE dbo.Semester
+(
+	ID INT IDENTITY,
+	[Begin] SMALLDATETIME NOT NULL,
+	[End]  SMALLDATETIME NOT NULL,
+	Name VARCHAR(25) NOT NULL,
+	CONSTRAINT PK_Semester PRIMARY KEY (ID),
+	CONSTRAINT UX_Semester_1 UNIQUE ([Begin], [End]),
+	CONSTRAINT UX_Semester_2 UNIQUE (Name),
+	CONSTRAINT CK_Semester_1 CHECK ([Begin] < [End])
+);

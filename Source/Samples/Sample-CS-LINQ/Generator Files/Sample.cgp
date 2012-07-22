@@ -1,0 +1,979 @@
+<?xml version="1.0"?>
+<Project xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Version="1.5.0.2" RootNamespace="QuantumConcepts.CodeGenerator.Sample" xmlns="http://Schemas.QuantumConceptsCorp.com/CodeGenerator/Project.xsd">
+  <DataTypeMappings>
+    <DataTypeMapping DatabaseDataType="BIGINT" ApplicationDataType="Int64" Nullable="true" />
+    <DataTypeMapping DatabaseDataType="BINARY" ApplicationDataType="byte[]" Nullable="false" />
+    <DataTypeMapping DatabaseDataType="TIMESTAMP" ApplicationDataType="byte[]" Nullable="false" />
+    <DataTypeMapping DatabaseDataType="BIT" ApplicationDataType="bool" Nullable="true" />
+    <DataTypeMapping DatabaseDataType="CHAR" ApplicationDataType="char" Nullable="true" />
+    <DataTypeMapping DatabaseDataType="MONEY" ApplicationDataType="decimal" Nullable="true" />
+    <DataTypeMapping DatabaseDataType="SMALLMONEY" ApplicationDataType="decimal" Nullable="true" />
+    <DataTypeMapping DatabaseDataType="DATETIME" ApplicationDataType="DateTime" Nullable="true" />
+    <DataTypeMapping DatabaseDataType="SMALLDATETIME" ApplicationDataType="DateTime" Nullable="true" />
+    <DataTypeMapping DatabaseDataType="FLOAT" ApplicationDataType="double" Nullable="true" />
+    <DataTypeMapping DatabaseDataType="UNIQUEIDENTIFIER" ApplicationDataType="Guid" Nullable="true" />
+    <DataTypeMapping DatabaseDataType="IDENTITY" ApplicationDataType="int" Nullable="true" />
+    <DataTypeMapping DatabaseDataType="INT" ApplicationDataType="int" Nullable="true" />
+    <DataTypeMapping DatabaseDataType="IMAGE" ApplicationDataType="byte[]" Nullable="false" />
+    <DataTypeMapping DatabaseDataType="TEXT" ApplicationDataType="string" Nullable="false" />
+    <DataTypeMapping DatabaseDataType="NTEXT" ApplicationDataType="string" Nullable="false" />
+    <DataTypeMapping DatabaseDataType="DECIMAL" ApplicationDataType="decimal" Nullable="true" />
+    <DataTypeMapping DatabaseDataType="NUMERIC" ApplicationDataType="decimal" Nullable="true" />
+    <DataTypeMapping DatabaseDataType="REAL" ApplicationDataType="single" Nullable="true" />
+    <DataTypeMapping DatabaseDataType="SMALLINT" ApplicationDataType="int16" Nullable="true" />
+    <DataTypeMapping DatabaseDataType="TINYINT" ApplicationDataType="byte" Nullable="true" />
+    <DataTypeMapping DatabaseDataType="VARBINARY" ApplicationDataType="byte[]" Nullable="false" />
+    <DataTypeMapping DatabaseDataType="VARCHAR" ApplicationDataType="string" Nullable="false" />
+    <DataTypeMapping DatabaseDataType="SQL_VARIANT" ApplicationDataType="object" Nullable="false" />
+    <DataTypeMapping DatabaseDataType="NVARCHAR" ApplicationDataType="string" Nullable="false" />
+    <DataTypeMapping DatabaseDataType="NCHAR" ApplicationDataType="string" Nullable="false" />
+  </DataTypeMappings>
+  <Templates>
+    <Template Name="Cache.xslt" XsltHintPath="Cache.xslt" OutputMode="SingleFile" OutputHintPath="..\DataAccess\Cache\Cache.Generated.cs">
+      <TemplateOutputDefinitions />
+      <Attributes>
+        <Attribute Key="Using" Value="QuantumConcepts.CodeGenerator.Sample.Common" />
+      </Attributes>
+    </Template>
+    <Template Name="DataAccess-LINQ.xslt" XsltHintPath="DataAccess-LINQ.xslt" OutputMode="SingleFile" OutputHintPath="..\DataAccess\DataAccess.Generated.cs">
+      <TemplateOutputDefinitions />
+      <Attributes>
+        <Attribute Key="Using" Value="QuantumConcepts.CodeGenerator.Sample.Common" />
+        <Attribute Key="Using" Value="QuantumConcepts.CodeGenerator.Sample.Common.Utils" />
+      </Attributes>
+    </Template>
+    <Template Name="DataObjects.xslt" XsltHintPath="DataObjects.xslt" OutputMode="SingleFile" OutputHintPath="..\DataObjects\DataObjects.Generated.cs">
+      <TemplateOutputDefinitions />
+      <Attributes />
+    </Template>
+    <Template Name="Enumerations.xslt" XsltHintPath="Enumerations.xslt" OutputMode="SingleFile" OutputHintPath="..\DataObjects\Enumerations.Generated.cs">
+      <TemplateOutputDefinitions />
+      <Attributes />
+    </Template>
+    <Template Name="Logic.xslt" XsltHintPath="Logic.xslt" OutputMode="SingleFile" OutputHintPath="..\Logic\Logic.Generated.cs">
+      <TemplateOutputDefinitions />
+      <Attributes />
+    </Template>
+    <Template Name="Web-EditControls-ASCX.xslt" XsltHintPath="Web-EditControls-ASCX.xslt" OutputMode="MultipleFile">
+      <TemplateOutputDefinitions>
+        <TemplateOutputDefinition ElementType="Table" FilterXPath="@Exclude='false'" RootHintPath="..\Web\WebControls" FilenameXPath="Edit{@ClassName}.ascx" />
+      </TemplateOutputDefinitions>
+      <Attributes />
+    </Template>
+    <Template Name="Web-EditControls-CS.xslt" XsltHintPath="Web-EditControls-CS.xslt" OutputMode="MultipleFile">
+      <TemplateOutputDefinitions>
+        <TemplateOutputDefinition ElementType="Table" FilterXPath="@Exclude='false'" RootHintPath="..\Web\WebControls" FilenameXPath="Edit{@ClassName}.ascx.cs" />
+      </TemplateOutputDefinitions>
+      <Attributes />
+    </Template>
+    <Template Name="Web-ListControls-ASCX.xslt" XsltHintPath="Web-ListControls-ASCX.xslt" OutputMode="MultipleFile">
+      <TemplateOutputDefinitions>
+        <TemplateOutputDefinition ElementType="Table" FilterXPath="@Exclude='false'" RootHintPath="..\Web\WebControls" FilenameXPath="{@ClassName}List.ascx" />
+      </TemplateOutputDefinitions>
+      <Attributes />
+    </Template>
+    <Template Name="Web-ListControls-CS.xslt" XsltHintPath="Web-ListControls-CS.xslt" OutputMode="MultipleFile">
+      <TemplateOutputDefinitions>
+        <TemplateOutputDefinition ElementType="Table" FilterXPath="@Exclude='false'" RootHintPath="..\Web\WebControls" FilenameXPath="{@ClassName}List.ascx.cs" />
+      </TemplateOutputDefinitions>
+      <Attributes />
+    </Template>
+    <Template Name="Web-ListPage-ASPX.xslt" XsltHintPath="Web-ListPage-ASPX.xslt" OutputMode="MultipleFile">
+      <TemplateOutputDefinitions>
+        <TemplateOutputDefinition ElementType="Table" FilterXPath="@Exclude='false'" RootHintPath="..\Web" FilenameXPath="{@PluralClassName}\Default.aspx" />
+      </TemplateOutputDefinitions>
+      <Attributes />
+    </Template>
+    <Template Name="Web-ListPage-CS.xslt" XsltHintPath="Web-ListPage-CS.xslt" OutputMode="MultipleFile">
+      <TemplateOutputDefinitions>
+        <TemplateOutputDefinition ElementType="Table" FilterXPath="@Exclude='false'" RootHintPath="..\Web" FilenameXPath="{@PluralClassName}\Default.aspx.cs" />
+      </TemplateOutputDefinitions>
+      <Attributes />
+    </Template>
+    <Template Name="Web-EditPage-ASPX.xslt" XsltHintPath="Web-EditPage-ASPX.xslt" OutputMode="MultipleFile">
+      <TemplateOutputDefinitions>
+        <TemplateOutputDefinition ElementType="Table" FilterXPath="@Exclude='false'" RootHintPath="..\Web" FilenameXPath="{@PluralClassName}\Edit.aspx" />
+      </TemplateOutputDefinitions>
+      <Attributes />
+    </Template>
+    <Template Name="Web-EditPage-CS.xslt" XsltHintPath="Web-EditPage-CS.xslt" OutputMode="MultipleFile">
+      <TemplateOutputDefinitions>
+        <TemplateOutputDefinition ElementType="Table" FilterXPath="@Exclude='false'" RootHintPath="..\Web" FilenameXPath="{@PluralClassName}\Edit.aspx.cs" />
+      </TemplateOutputDefinitions>
+      <Attributes />
+    </Template>
+    <Template Name="ServiceDocumentation-HTML-Methods.xslt" XsltHintPath="ServiceDocumentation-HTML-Methods.xslt" OutputMode="SingleFile" OutputHintPath="..\Web\Service\Documentation\Methods.aspx">
+      <TemplateOutputDefinitions />
+      <Attributes />
+    </Template>
+    <Template Name="ServiceDocumentation-HTML-Types.xslt" XsltHintPath="ServiceDocumentation-HTML-Types.xslt" OutputMode="SingleFile" OutputHintPath="..\Web\Service\Documentation\Types.aspx">
+      <TemplateOutputDefinitions />
+      <Attributes />
+    </Template>
+    <Template Name="RESTInterface.xslt" XsltHintPath="RESTInterface.xslt" OutputMode="SingleFile" OutputHintPath="..\Service\IREST.Generated.cs">
+      <TemplateOutputDefinitions />
+      <Attributes />
+    </Template>
+    <Template Name="RESTImplementation.xslt" XsltHintPath="RESTImplementation.xslt" OutputMode="SingleFile" OutputHintPath="..\Service\REST.Generated.cs">
+      <TemplateOutputDefinitions />
+      <Attributes />
+    </Template>
+    <Template Name="SOAPImplementation.xslt" XsltHintPath="SOAPImplementation.xslt" OutputMode="SingleFile" OutputHintPath="..\Service\SOAP.Generated.cs">
+      <TemplateOutputDefinitions />
+      <Attributes />
+    </Template>
+    <Template Name="SOAPInterface.xslt" XsltHintPath="SOAPInterface.xslt" OutputMode="SingleFile" OutputHintPath="..\Service\ISOAP.Generated.cs">
+      <TemplateOutputDefinitions />
+      <Attributes />
+    </Template>
+    <Template Name="RESTServiceLinkType.xslt" XsltHintPath="RESTServiceLinkType.xslt" OutputMode="SingleFile" OutputHintPath="..\Service\ServiceObjects\REST\LinkType.Generated.cs">
+      <TemplateOutputDefinitions />
+      <Attributes />
+    </Template>
+    <Template Name="BaseServiceObjects.xslt" XsltHintPath="BaseServiceObjects.xslt" OutputMode="SingleFile" OutputHintPath="..\Service\ServiceObjects\BaseServiceObjects.Generated.cs">
+      <TemplateOutputDefinitions />
+      <Attributes />
+    </Template>
+    <Template Name="RESTServiceObjects.xslt" XsltHintPath="RESTServiceObjects.xslt" OutputMode="SingleFile" OutputHintPath="..\Service\ServiceObjects\REST\RESTServiceObjects.Generated.cs">
+      <TemplateOutputDefinitions />
+      <Attributes />
+    </Template>
+    <Template Name="SOAPServiceObjects.xslt" XsltHintPath="SOAPServiceObjects.xslt" OutputMode="SingleFile" OutputHintPath="..\Service\ServiceObjects\SOAP\SOAPServiceObjects.Generated.cs">
+      <TemplateOutputDefinitions />
+      <Attributes />
+    </Template>
+    <Template Name="RESTUrlUtil.xslt" XsltHintPath="RESTUrlUtil.xslt" OutputMode="SingleFile" OutputHintPath="..\Service\Utils\RESTUrlUtil.Generated.cs">
+      <TemplateOutputDefinitions />
+      <Attributes />
+    </Template>
+  </Templates>
+  <TableMappings>
+    <TableMapping SchemaName="dbo" TableName="__RefactorLog" ClassName="__RefactorLog" PluralClassName="__RefactorLogs" ReadOnly="false" Exclude="true">
+      <ColumnMappings>
+        <ColumnMapping ColumnName="OperationKey" Sequence="1" DataType="Guid" DatabaseDataType="uniqueidentifier" Length="16" Nullable="false" NullableInDatabase="false" PrimaryKey="true" FieldName="OperationKey" TreatAsYesNoIndicator="false" Exclude="false">
+          <Annotations>
+            <Annotation Type="summary">
+              <Text>Maps to the OperationKey column.</Text>
+              <Attributes>
+                <Attribute Key="AutoGen" />
+              </Attributes>
+            </Annotation>
+          </Annotations>
+          <Attributes />
+        </ColumnMapping>
+      </ColumnMappings>
+      <UniqueIndexMappings />
+      <APIs />
+      <Annotations>
+        <Annotation Type="summary">
+          <Text>Maps to the __RefactorLog table in the database.</Text>
+          <Attributes>
+            <Attribute Key="AutoGen" />
+          </Attributes>
+        </Annotation>
+      </Annotations>
+      <Attributes>
+        <Attribute Key="ServiceExposed" Value="" />
+      </Attributes>
+    </TableMapping>
+    <TableMapping SchemaName="dbo" TableName="Course" ClassName="Course" PluralClassName="Courses" ReadOnly="false" Exclude="false">
+      <ColumnMappings>
+        <ColumnMapping ColumnName="ID" Sequence="1" DataType="int" DatabaseDataType="int" Length="10" Nullable="false" NullableInDatabase="false" PrimaryKey="true" FieldName="ID" TreatAsYesNoIndicator="false" Exclude="false">
+          <Annotations>
+            <Annotation Type="summary">
+              <Text>Maps to the ID column.</Text>
+              <Attributes>
+                <Attribute Key="AutoGen" />
+              </Attributes>
+            </Annotation>
+          </Annotations>
+          <Attributes>
+            <Attribute Key="DisplayName" Value="ID" />
+          </Attributes>
+        </ColumnMapping>
+        <ColumnMapping ColumnName="SemesterID" Sequence="2" DataType="int" DatabaseDataType="int" Length="10" Nullable="false" NullableInDatabase="false" PrimaryKey="false" FieldName="SemesterID" TreatAsYesNoIndicator="false" Exclude="false">
+          <Annotations>
+            <Annotation Type="summary">
+              <Text>Maps to the SemesterID column.</Text>
+              <Attributes>
+                <Attribute Key="AutoGen" />
+              </Attributes>
+            </Annotation>
+          </Annotations>
+          <Attributes>
+            <Attribute Key="DisplayName" Value="Semester ID" />
+          </Attributes>
+        </ColumnMapping>
+        <ColumnMapping ColumnName="TeacherID" Sequence="3" DataType="int" DatabaseDataType="int" Length="10" Nullable="false" NullableInDatabase="false" PrimaryKey="false" FieldName="TeacherID" TreatAsYesNoIndicator="false" Exclude="false">
+          <Annotations>
+            <Annotation Type="summary">
+              <Text>Maps to the TeacherID column.</Text>
+              <Attributes>
+                <Attribute Key="AutoGen" />
+              </Attributes>
+            </Annotation>
+          </Annotations>
+          <Attributes>
+            <Attribute Key="DisplayName" Value="Teacher ID" />
+          </Attributes>
+        </ColumnMapping>
+        <ColumnMapping ColumnName="Number" Sequence="4" DataType="string" DatabaseDataType="varchar" Length="10" Nullable="false" NullableInDatabase="false" PrimaryKey="false" FieldName="Number" TreatAsYesNoIndicator="false" Exclude="false">
+          <Annotations>
+            <Annotation Type="summary">
+              <Text>Maps to the Number column.</Text>
+              <Attributes>
+                <Attribute Key="AutoGen" />
+              </Attributes>
+            </Annotation>
+          </Annotations>
+          <Attributes>
+            <Attribute Key="DisplayName" Value="Number" />
+          </Attributes>
+        </ColumnMapping>
+        <ColumnMapping ColumnName="Name" Sequence="5" DataType="string" DatabaseDataType="varchar" Length="50" Nullable="false" NullableInDatabase="false" PrimaryKey="false" FieldName="Name" TreatAsYesNoIndicator="false" Exclude="false">
+          <Annotations>
+            <Annotation Type="summary">
+              <Text>Maps to the Name column.</Text>
+              <Attributes>
+                <Attribute Key="AutoGen" />
+              </Attributes>
+            </Annotation>
+          </Annotations>
+          <Attributes>
+            <Attribute Key="DisplayName" Value="Name" />
+          </Attributes>
+        </ColumnMapping>
+        <ColumnMapping ColumnName="Status" Sequence="6" DataType="string" DatabaseDataType="varchar" Length="10" Nullable="false" NullableInDatabase="false" PrimaryKey="false" FieldName="Status" TreatAsYesNoIndicator="false" Exclude="false">
+          <EnumerationMapping Name="CourseStatus" IsReference="false">
+            <Values>
+              <EnumerationValueMapping Name="Enrolling" DatabaseValue="Enrolling">
+                <Description>Enrolling</Description>
+                <Annotations />
+                <Attributes />
+              </EnumerationValueMapping>
+              <EnumerationValueMapping Name="Active" DatabaseValue="Active">
+                <Description>Active</Description>
+                <Annotations />
+                <Attributes />
+              </EnumerationValueMapping>
+              <EnumerationValueMapping Name="Inactive" DatabaseValue="Inactive">
+                <Description>Inactive</Description>
+                <Annotations />
+                <Attributes />
+              </EnumerationValueMapping>
+            </Values>
+            <Annotations />
+            <Attributes />
+          </EnumerationMapping>
+          <Annotations>
+            <Annotation Type="summary">
+              <Text>Maps to the Status column.</Text>
+              <Attributes>
+                <Attribute Key="AutoGen" />
+              </Attributes>
+            </Annotation>
+          </Annotations>
+          <Attributes>
+            <Attribute Key="DisplayName" Value="Status" />
+          </Attributes>
+        </ColumnMapping>
+      </ColumnMappings>
+      <UniqueIndexMappings>
+        <UniqueIndexMapping UniqueIndexName="UX_Course_1" Exclude="false">
+          <ColumnNames>
+            <ColumnName>SemesterID</ColumnName>
+            <ColumnName>Number</ColumnName>
+          </ColumnNames>
+          <Annotations>
+            <Annotation Type="summary">
+              <Text>Maps to the UX_Course_1 foreign key in the database.</Text>
+              <Attributes>
+                <Attribute Key="AutoGen" />
+              </Attributes>
+            </Annotation>
+          </Annotations>
+          <Attributes />
+        </UniqueIndexMapping>
+        <UniqueIndexMapping UniqueIndexName="UX_Course_2" Exclude="false">
+          <ColumnNames>
+            <ColumnName>SemesterID</ColumnName>
+            <ColumnName>Name</ColumnName>
+          </ColumnNames>
+          <Annotations>
+            <Annotation Type="summary">
+              <Text>Maps to the UX_Course_2 foreign key in the database.</Text>
+              <Attributes>
+                <Attribute Key="AutoGen" />
+              </Attributes>
+            </Annotation>
+          </Annotations>
+          <Attributes />
+        </UniqueIndexMapping>
+      </UniqueIndexMappings>
+      <APIs>
+        <API APIType="Custom" Name="FindCourse">
+          <ReturnParameter IsReturnParameter="true" Modifier="None" Quantifier="List" Type="DataObject" DataTypeReferencedTableMappingName="Course" Nullable="false">
+            <Annotations>
+              <Annotation Type="summary">
+                <Text>Searches for courses based on keyword input.</Text>
+                <Attributes />
+              </Annotation>
+            </Annotations>
+            <Attributes />
+          </ReturnParameter>
+          <Parameters>
+            <Parameter Name="keyword" IsReturnParameter="false" Modifier="None" Quantifier="Single" Type="Other" OtherDataType="string" Nullable="false">
+              <Annotations />
+              <Attributes />
+            </Parameter>
+          </Parameters>
+          <Annotations />
+          <Attributes>
+            <Attribute Key="ServiceExposed" Value="" />
+          </Attributes>
+        </API>
+      </APIs>
+      <Annotations>
+        <Annotation Type="summary">
+          <Text>Maps to the Course table in the database.</Text>
+          <Attributes>
+            <Attribute Key="AutoGen" />
+          </Attributes>
+        </Annotation>
+      </Annotations>
+      <Attributes>
+        <Attribute Key="DisplayName" Value="Course" />
+        <Attribute Key="DisplayField" Value="FullName" />
+        <Attribute Key="ServiceExposed" Value="" />
+      </Attributes>
+    </TableMapping>
+    <TableMapping SchemaName="dbo" TableName="Enrollment" ClassName="Enrollment" PluralClassName="Enrollments" ReadOnly="false" Exclude="false">
+      <ColumnMappings>
+        <ColumnMapping ColumnName="ID" Sequence="1" DataType="int" DatabaseDataType="int" Length="10" Nullable="false" NullableInDatabase="false" PrimaryKey="true" FieldName="ID" TreatAsYesNoIndicator="false" Exclude="false">
+          <Annotations>
+            <Annotation Type="summary">
+              <Text>Maps to the ID column.</Text>
+              <Attributes>
+                <Attribute Key="AutoGen" />
+              </Attributes>
+            </Annotation>
+          </Annotations>
+          <Attributes>
+            <Attribute Key="DisplayName" Value="ID" />
+          </Attributes>
+        </ColumnMapping>
+        <ColumnMapping ColumnName="StudentID" Sequence="2" DataType="int" DatabaseDataType="int" Length="10" Nullable="false" NullableInDatabase="false" PrimaryKey="false" FieldName="StudentID" TreatAsYesNoIndicator="false" Exclude="false">
+          <Annotations>
+            <Annotation Type="summary">
+              <Text>Maps to the StudentID column.</Text>
+              <Attributes>
+                <Attribute Key="AutoGen" />
+              </Attributes>
+            </Annotation>
+          </Annotations>
+          <Attributes>
+            <Attribute Key="DisplayName" Value="Student ID" />
+          </Attributes>
+        </ColumnMapping>
+        <ColumnMapping ColumnName="CourseID" Sequence="3" DataType="int" DatabaseDataType="int" Length="10" Nullable="false" NullableInDatabase="false" PrimaryKey="false" FieldName="CourseID" TreatAsYesNoIndicator="false" Exclude="false">
+          <Annotations>
+            <Annotation Type="summary">
+              <Text>Maps to the CourseID column.</Text>
+              <Attributes>
+                <Attribute Key="AutoGen" />
+              </Attributes>
+            </Annotation>
+          </Annotations>
+          <Attributes>
+            <Attribute Key="DisplayName" Value="Course ID" />
+          </Attributes>
+        </ColumnMapping>
+      </ColumnMappings>
+      <UniqueIndexMappings>
+        <UniqueIndexMapping UniqueIndexName="UX_Enrollment_1" Exclude="false">
+          <ColumnNames>
+            <ColumnName>StudentID</ColumnName>
+            <ColumnName>CourseID</ColumnName>
+          </ColumnNames>
+          <Annotations>
+            <Annotation Type="summary">
+              <Text>Maps to the UX_Enrollment_1 foreign key in the database.</Text>
+              <Attributes>
+                <Attribute Key="AutoGen" />
+              </Attributes>
+            </Annotation>
+          </Annotations>
+          <Attributes />
+        </UniqueIndexMapping>
+      </UniqueIndexMappings>
+      <APIs />
+      <Annotations>
+        <Annotation Type="summary">
+          <Text>Maps to the Enrollment table in the database.</Text>
+          <Attributes>
+            <Attribute Key="AutoGen" />
+          </Attributes>
+        </Annotation>
+      </Annotations>
+      <Attributes>
+        <Attribute Key="DisplayName" Value="Enrollment" />
+        <Attribute Key="ServiceExposed" Value="" />
+      </Attributes>
+    </TableMapping>
+    <TableMapping SchemaName="dbo" TableName="Major" ClassName="Major" PluralClassName="Majors" ReadOnly="false" Exclude="false">
+      <ColumnMappings>
+        <ColumnMapping ColumnName="ID" Sequence="1" DataType="int" DatabaseDataType="int" Length="10" Nullable="false" NullableInDatabase="false" PrimaryKey="true" FieldName="ID" TreatAsYesNoIndicator="false" Exclude="false">
+          <Annotations>
+            <Annotation Type="summary">
+              <Text>Maps to the ID column.</Text>
+              <Attributes>
+                <Attribute Key="AutoGen" />
+              </Attributes>
+            </Annotation>
+          </Annotations>
+          <Attributes>
+            <Attribute Key="DisplayName" Value="ID" />
+          </Attributes>
+        </ColumnMapping>
+        <ColumnMapping ColumnName="Name" Sequence="2" DataType="string" DatabaseDataType="varchar" Length="50" Nullable="false" NullableInDatabase="false" PrimaryKey="false" FieldName="Name" TreatAsYesNoIndicator="false" Exclude="false">
+          <Annotations>
+            <Annotation Type="summary">
+              <Text>Maps to the Name column.</Text>
+              <Attributes>
+                <Attribute Key="AutoGen" />
+              </Attributes>
+            </Annotation>
+          </Annotations>
+          <Attributes>
+            <Attribute Key="DisplayName" Value="Name" />
+          </Attributes>
+        </ColumnMapping>
+      </ColumnMappings>
+      <UniqueIndexMappings>
+        <UniqueIndexMapping UniqueIndexName="UX_Major" Exclude="false">
+          <ColumnNames>
+            <ColumnName>Name</ColumnName>
+          </ColumnNames>
+          <Annotations>
+            <Annotation Type="summary">
+              <Text>Maps to the UX_Major foreign key in the database.</Text>
+              <Attributes>
+                <Attribute Key="AutoGen" />
+              </Attributes>
+            </Annotation>
+          </Annotations>
+          <Attributes />
+        </UniqueIndexMapping>
+      </UniqueIndexMappings>
+      <APIs />
+      <Annotations>
+        <Annotation Type="summary">
+          <Text>Maps to the Major table in the database.</Text>
+          <Attributes>
+            <Attribute Key="AutoGen" />
+          </Attributes>
+        </Annotation>
+      </Annotations>
+      <Attributes>
+        <Attribute Key="Cache" Value="" />
+        <Attribute Key="DisplayName" Value="Major" />
+        <Attribute Key="DisplayField" Value="Name" />
+        <Attribute Key="ServiceExposed" Value="" />
+      </Attributes>
+    </TableMapping>
+    <TableMapping SchemaName="dbo" TableName="Semester" ClassName="Semester" PluralClassName="Semesters" ReadOnly="false" Exclude="false">
+      <ColumnMappings>
+        <ColumnMapping ColumnName="ID" Sequence="1" DataType="int" DatabaseDataType="int" Length="10" Nullable="false" NullableInDatabase="false" PrimaryKey="true" FieldName="ID" TreatAsYesNoIndicator="false" Exclude="false">
+          <Annotations>
+            <Annotation Type="summary">
+              <Text>Maps to the ID column.</Text>
+              <Attributes>
+                <Attribute Key="AutoGen" />
+              </Attributes>
+            </Annotation>
+          </Annotations>
+          <Attributes>
+            <Attribute Key="DisplayName" Value="ID" />
+          </Attributes>
+        </ColumnMapping>
+        <ColumnMapping ColumnName="Begin" Sequence="2" DataType="DateTime" DatabaseDataType="smalldatetime" Length="16" Nullable="false" NullableInDatabase="false" PrimaryKey="false" FieldName="Begin" TreatAsYesNoIndicator="false" Exclude="false">
+          <Annotations>
+            <Annotation Type="summary">
+              <Text>Maps to the Begin column.</Text>
+              <Attributes>
+                <Attribute Key="AutoGen" />
+              </Attributes>
+            </Annotation>
+          </Annotations>
+          <Attributes>
+            <Attribute Key="DisplayName" Value="Begin" />
+          </Attributes>
+        </ColumnMapping>
+        <ColumnMapping ColumnName="End" Sequence="3" DataType="DateTime" DatabaseDataType="smalldatetime" Length="16" Nullable="false" NullableInDatabase="false" PrimaryKey="false" FieldName="End" TreatAsYesNoIndicator="false" Exclude="false">
+          <Annotations>
+            <Annotation Type="summary">
+              <Text>Maps to the End column.</Text>
+              <Attributes>
+                <Attribute Key="AutoGen" />
+              </Attributes>
+            </Annotation>
+          </Annotations>
+          <Attributes>
+            <Attribute Key="DisplayName" Value="End" />
+          </Attributes>
+        </ColumnMapping>
+        <ColumnMapping ColumnName="Name" Sequence="4" DataType="string" DatabaseDataType="varchar" Length="25" Nullable="false" NullableInDatabase="false" PrimaryKey="false" FieldName="Name" TreatAsYesNoIndicator="false" Exclude="false">
+          <Annotations>
+            <Annotation Type="summary">
+              <Text>Maps to the Name column.</Text>
+              <Attributes>
+                <Attribute Key="AutoGen" />
+              </Attributes>
+            </Annotation>
+          </Annotations>
+          <Attributes>
+            <Attribute Key="DisplayName" Value="Name" />
+          </Attributes>
+        </ColumnMapping>
+      </ColumnMappings>
+      <UniqueIndexMappings>
+        <UniqueIndexMapping UniqueIndexName="UX_Semester_1" Exclude="false">
+          <ColumnNames>
+            <ColumnName>Begin</ColumnName>
+            <ColumnName>End</ColumnName>
+          </ColumnNames>
+          <Annotations>
+            <Annotation Type="summary">
+              <Text>Maps to the UX_Semester_1 foreign key in the database.</Text>
+              <Attributes>
+                <Attribute Key="AutoGen" />
+              </Attributes>
+            </Annotation>
+          </Annotations>
+          <Attributes />
+        </UniqueIndexMapping>
+        <UniqueIndexMapping UniqueIndexName="UX_Semester_2" Exclude="false">
+          <ColumnNames>
+            <ColumnName>Name</ColumnName>
+          </ColumnNames>
+          <Annotations>
+            <Annotation Type="summary">
+              <Text>Maps to the UX_Semester_2 foreign key in the database.</Text>
+              <Attributes>
+                <Attribute Key="AutoGen" />
+              </Attributes>
+            </Annotation>
+          </Annotations>
+          <Attributes />
+        </UniqueIndexMapping>
+      </UniqueIndexMappings>
+      <APIs />
+      <Annotations>
+        <Annotation Type="summary">
+          <Text>Maps to the Semester table in the database.</Text>
+          <Attributes>
+            <Attribute Key="AutoGen" />
+          </Attributes>
+        </Annotation>
+      </Annotations>
+      <Attributes>
+        <Attribute Key="DisplayName" Value="Semester" />
+        <Attribute Key="DisplayField" Value="Name" />
+        <Attribute Key="Cache" Value="" />
+        <Attribute Key="ServiceExposed" Value="" />
+      </Attributes>
+    </TableMapping>
+    <TableMapping SchemaName="dbo" TableName="Student" ClassName="Student" PluralClassName="Students" ReadOnly="false" Exclude="false">
+      <ColumnMappings>
+        <ColumnMapping ColumnName="ID" Sequence="1" DataType="int" DatabaseDataType="int" Length="10" Nullable="false" NullableInDatabase="false" PrimaryKey="true" FieldName="ID" TreatAsYesNoIndicator="false" Exclude="false">
+          <Annotations>
+            <Annotation Type="summary">
+              <Text>Maps to the ID column.</Text>
+              <Attributes>
+                <Attribute Key="AutoGen" />
+              </Attributes>
+            </Annotation>
+          </Annotations>
+          <Attributes>
+            <Attribute Key="DisplayName" Value="ID" />
+          </Attributes>
+        </ColumnMapping>
+        <ColumnMapping ColumnName="MajorID" Sequence="2" DataType="int" DatabaseDataType="int" Length="10" Nullable="false" NullableInDatabase="false" PrimaryKey="false" FieldName="MajorID" TreatAsYesNoIndicator="false" Exclude="false">
+          <Annotations>
+            <Annotation Type="summary">
+              <Text>Maps to the MajorID column.</Text>
+              <Attributes>
+                <Attribute Key="AutoGen" />
+              </Attributes>
+            </Annotation>
+          </Annotations>
+          <Attributes>
+            <Attribute Key="DisplayName" Value="Major ID" />
+          </Attributes>
+        </ColumnMapping>
+        <ColumnMapping ColumnName="SSN" Sequence="3" DataType="string" DatabaseDataType="varchar" Length="11" Nullable="false" NullableInDatabase="false" PrimaryKey="false" FieldName="SSN" TreatAsYesNoIndicator="false" Exclude="false">
+          <Annotations>
+            <Annotation Type="summary">
+              <Text>Maps to the SSN column.</Text>
+              <Attributes>
+                <Attribute Key="AutoGen" />
+              </Attributes>
+            </Annotation>
+          </Annotations>
+          <Attributes>
+            <Attribute Key="DisplayName" Value="SSN" />
+            <Attribute Key="FieldMask" Value="999-99-9999" />
+          </Attributes>
+        </ColumnMapping>
+        <ColumnMapping ColumnName="FirstName" Sequence="4" DataType="string" DatabaseDataType="varchar" Length="25" Nullable="false" NullableInDatabase="false" PrimaryKey="false" FieldName="FirstName" TreatAsYesNoIndicator="false" Exclude="false">
+          <Annotations>
+            <Annotation Type="summary">
+              <Text>Maps to the FirstName column.</Text>
+              <Attributes>
+                <Attribute Key="AutoGen" />
+              </Attributes>
+            </Annotation>
+          </Annotations>
+          <Attributes>
+            <Attribute Key="DisplayName" Value="First Name" />
+          </Attributes>
+        </ColumnMapping>
+        <ColumnMapping ColumnName="LastName" Sequence="5" DataType="string" DatabaseDataType="varchar" Length="25" Nullable="false" NullableInDatabase="false" PrimaryKey="false" FieldName="LastName" TreatAsYesNoIndicator="false" Exclude="false">
+          <Annotations>
+            <Annotation Type="summary">
+              <Text>Maps to the LastName column.</Text>
+              <Attributes>
+                <Attribute Key="AutoGen" />
+              </Attributes>
+            </Annotation>
+          </Annotations>
+          <Attributes>
+            <Attribute Key="DisplayName" Value="Last Name" />
+          </Attributes>
+        </ColumnMapping>
+        <ColumnMapping ColumnName="Active" Sequence="6" DataType="bool" DatabaseDataType="bit" Length="1" Nullable="false" NullableInDatabase="false" PrimaryKey="false" FieldName="Active" TreatAsYesNoIndicator="false" Exclude="false">
+          <Annotations>
+            <Annotation Type="summary">
+              <Text>Maps to the Active column.</Text>
+              <Attributes>
+                <Attribute Key="AutoGen" />
+              </Attributes>
+            </Annotation>
+          </Annotations>
+          <Attributes>
+            <Attribute Key="DisplayName" Value="Active" />
+          </Attributes>
+        </ColumnMapping>
+      </ColumnMappings>
+      <UniqueIndexMappings>
+        <UniqueIndexMapping UniqueIndexName="UX_Student_1" Exclude="false">
+          <ColumnNames>
+            <ColumnName>SSN</ColumnName>
+          </ColumnNames>
+          <Annotations>
+            <Annotation Type="summary">
+              <Text>Maps to the UX_Student_1 foreign key in the database.</Text>
+              <Attributes>
+                <Attribute Key="AutoGen" />
+              </Attributes>
+            </Annotation>
+          </Annotations>
+          <Attributes />
+        </UniqueIndexMapping>
+      </UniqueIndexMappings>
+      <APIs />
+      <Annotations>
+        <Annotation Type="summary">
+          <Text>Maps to the Student table in the database.</Text>
+          <Attributes>
+            <Attribute Key="AutoGen" />
+          </Attributes>
+        </Annotation>
+      </Annotations>
+      <Attributes>
+        <Attribute Key="DisplayName" Value="Student" />
+        <Attribute Key="DisplayField" Value="FullName" />
+        <Attribute Key="ServiceExposed" Value="" />
+      </Attributes>
+    </TableMapping>
+    <TableMapping SchemaName="dbo" TableName="Teacher" ClassName="Teacher" PluralClassName="Teachers" ReadOnly="false" Exclude="false">
+      <ColumnMappings>
+        <ColumnMapping ColumnName="ID" Sequence="1" DataType="int" DatabaseDataType="int" Length="10" Nullable="false" NullableInDatabase="false" PrimaryKey="true" FieldName="ID" TreatAsYesNoIndicator="false" Exclude="false">
+          <Annotations>
+            <Annotation Type="summary">
+              <Text>Maps to the ID column.</Text>
+              <Attributes>
+                <Attribute Key="AutoGen" />
+              </Attributes>
+            </Annotation>
+          </Annotations>
+          <Attributes>
+            <Attribute Key="DisplayName" Value="ID" />
+          </Attributes>
+        </ColumnMapping>
+        <ColumnMapping ColumnName="SSN" Sequence="2" DataType="string" DatabaseDataType="varchar" Length="11" Nullable="false" NullableInDatabase="false" PrimaryKey="false" FieldName="SSN" TreatAsYesNoIndicator="false" Exclude="false">
+          <Annotations>
+            <Annotation Type="summary">
+              <Text>Maps to the SSN column.</Text>
+              <Attributes>
+                <Attribute Key="AutoGen" />
+              </Attributes>
+            </Annotation>
+          </Annotations>
+          <Attributes>
+            <Attribute Key="DisplayName" Value="SSN" />
+            <Attribute Key="FieldMask" Value="999-99-9999" />
+          </Attributes>
+        </ColumnMapping>
+        <ColumnMapping ColumnName="FirstName" Sequence="3" DataType="string" DatabaseDataType="varchar" Length="25" Nullable="false" NullableInDatabase="false" PrimaryKey="false" FieldName="FirstName" TreatAsYesNoIndicator="false" Exclude="false">
+          <Annotations>
+            <Annotation Type="summary">
+              <Text>Maps to the FirstName column.</Text>
+              <Attributes>
+                <Attribute Key="AutoGen" />
+              </Attributes>
+            </Annotation>
+          </Annotations>
+          <Attributes>
+            <Attribute Key="DisplayName" Value="First Name" />
+          </Attributes>
+        </ColumnMapping>
+        <ColumnMapping ColumnName="LastName" Sequence="4" DataType="string" DatabaseDataType="varchar" Length="25" Nullable="false" NullableInDatabase="false" PrimaryKey="false" FieldName="LastName" TreatAsYesNoIndicator="false" Exclude="false">
+          <Annotations>
+            <Annotation Type="summary">
+              <Text>Maps to the LastName column.</Text>
+              <Attributes>
+                <Attribute Key="AutoGen" />
+              </Attributes>
+            </Annotation>
+          </Annotations>
+          <Attributes>
+            <Attribute Key="DisplayName" Value="Last Name" />
+          </Attributes>
+        </ColumnMapping>
+        <ColumnMapping ColumnName="Active" Sequence="5" DataType="bool" DatabaseDataType="bit" Length="1" Nullable="false" NullableInDatabase="false" PrimaryKey="false" FieldName="Active" TreatAsYesNoIndicator="false" Exclude="false">
+          <Annotations>
+            <Annotation Type="summary">
+              <Text>Maps to the Active column.</Text>
+              <Attributes>
+                <Attribute Key="AutoGen" />
+              </Attributes>
+            </Annotation>
+          </Annotations>
+          <Attributes>
+            <Attribute Key="DisplayName" Value="Active" />
+          </Attributes>
+        </ColumnMapping>
+      </ColumnMappings>
+      <UniqueIndexMappings>
+        <UniqueIndexMapping UniqueIndexName="UX_Teacher_1" Exclude="false">
+          <ColumnNames>
+            <ColumnName>SSN</ColumnName>
+          </ColumnNames>
+          <Annotations>
+            <Annotation Type="summary">
+              <Text>Maps to the UX_Teacher_1 foreign key in the database.</Text>
+              <Attributes>
+                <Attribute Key="AutoGen" />
+              </Attributes>
+            </Annotation>
+          </Annotations>
+          <Attributes />
+        </UniqueIndexMapping>
+      </UniqueIndexMappings>
+      <APIs />
+      <Annotations>
+        <Annotation Type="summary">
+          <Text>Maps to the Teacher table in the database.</Text>
+          <Attributes>
+            <Attribute Key="AutoGen" />
+          </Attributes>
+        </Annotation>
+      </Annotations>
+      <Attributes>
+        <Attribute Key="DisplayName" Value="Teacher" />
+        <Attribute Key="DisplayField" Value="FullName" />
+        <Attribute Key="ServiceExposed" Value="" />
+      </Attributes>
+    </TableMapping>
+  </TableMappings>
+  <ViewMappings>
+    <ViewMapping SchemaName="dbo" TableName="EnrollmentDetails" ClassName="EnrollmentDetails" PluralClassName="EnrollmentDetailss" ReadOnly="false" Exclude="false" ViewName="EnrollmentDetails">
+      <ColumnMappings>
+        <ColumnMapping ColumnName="CourseID" Sequence="1" DataType="int" DatabaseDataType="int" Length="10" Nullable="false" NullableInDatabase="false" PrimaryKey="false" FieldName="CourseID" TreatAsYesNoIndicator="false" Exclude="false">
+          <Annotations />
+          <Attributes />
+        </ColumnMapping>
+        <ColumnMapping ColumnName="CourseNumber" Sequence="2" DataType="string" DatabaseDataType="varchar" Length="10" Nullable="false" NullableInDatabase="false" PrimaryKey="false" FieldName="CourseNumber" TreatAsYesNoIndicator="false" Exclude="false">
+          <Annotations />
+          <Attributes />
+        </ColumnMapping>
+        <ColumnMapping ColumnName="CourseName" Sequence="3" DataType="string" DatabaseDataType="varchar" Length="50" Nullable="false" NullableInDatabase="false" PrimaryKey="false" FieldName="CourseName" TreatAsYesNoIndicator="false" Exclude="false">
+          <Annotations />
+          <Attributes />
+        </ColumnMapping>
+        <ColumnMapping ColumnName="CourseStatus" Sequence="4" DataType="string" DatabaseDataType="varchar" Length="10" Nullable="false" NullableInDatabase="false" PrimaryKey="false" FieldName="CourseStatus" TreatAsYesNoIndicator="false" Exclude="false">
+          <Annotations />
+          <Attributes />
+        </ColumnMapping>
+        <ColumnMapping ColumnName="SemesterID" Sequence="5" DataType="int" DatabaseDataType="int" Length="10" Nullable="false" NullableInDatabase="false" PrimaryKey="false" FieldName="SemesterID" TreatAsYesNoIndicator="false" Exclude="false">
+          <Annotations />
+          <Attributes />
+        </ColumnMapping>
+        <ColumnMapping ColumnName="SemesterBegin" Sequence="6" DataType="DateTime" DatabaseDataType="smalldatetime" Length="16" Nullable="false" NullableInDatabase="false" PrimaryKey="false" FieldName="SemesterBegin" TreatAsYesNoIndicator="false" Exclude="false">
+          <Annotations />
+          <Attributes />
+        </ColumnMapping>
+        <ColumnMapping ColumnName="SemesterEnd" Sequence="7" DataType="DateTime" DatabaseDataType="smalldatetime" Length="16" Nullable="false" NullableInDatabase="false" PrimaryKey="false" FieldName="SemesterEnd" TreatAsYesNoIndicator="false" Exclude="false">
+          <Annotations />
+          <Attributes />
+        </ColumnMapping>
+        <ColumnMapping ColumnName="SemesterName" Sequence="8" DataType="string" DatabaseDataType="varchar" Length="25" Nullable="false" NullableInDatabase="false" PrimaryKey="false" FieldName="SemesterName" TreatAsYesNoIndicator="false" Exclude="false">
+          <Annotations />
+          <Attributes />
+        </ColumnMapping>
+        <ColumnMapping ColumnName="TeacherID" Sequence="9" DataType="int" DatabaseDataType="int" Length="10" Nullable="false" NullableInDatabase="false" PrimaryKey="false" FieldName="TeacherID" TreatAsYesNoIndicator="false" Exclude="false">
+          <Annotations />
+          <Attributes />
+        </ColumnMapping>
+        <ColumnMapping ColumnName="TeacherFirstName" Sequence="10" DataType="string" DatabaseDataType="varchar" Length="25" Nullable="false" NullableInDatabase="false" PrimaryKey="false" FieldName="TeacherFirstName" TreatAsYesNoIndicator="false" Exclude="false">
+          <Annotations />
+          <Attributes />
+        </ColumnMapping>
+        <ColumnMapping ColumnName="TeacherLastName" Sequence="11" DataType="string" DatabaseDataType="varchar" Length="25" Nullable="false" NullableInDatabase="false" PrimaryKey="false" FieldName="TeacherLastName" TreatAsYesNoIndicator="false" Exclude="false">
+          <Annotations />
+          <Attributes />
+        </ColumnMapping>
+        <ColumnMapping ColumnName="TeacherActive" Sequence="12" DataType="bool" DatabaseDataType="bit" Length="1" Nullable="false" NullableInDatabase="false" PrimaryKey="false" FieldName="TeacherActive" TreatAsYesNoIndicator="false" Exclude="false">
+          <Annotations />
+          <Attributes />
+        </ColumnMapping>
+        <ColumnMapping ColumnName="StudentID" Sequence="13" DataType="int" DatabaseDataType="int" Length="10" Nullable="false" NullableInDatabase="false" PrimaryKey="false" FieldName="StudentID" TreatAsYesNoIndicator="false" Exclude="false">
+          <Annotations />
+          <Attributes />
+        </ColumnMapping>
+        <ColumnMapping ColumnName="StudentFirstName" Sequence="14" DataType="string" DatabaseDataType="varchar" Length="25" Nullable="false" NullableInDatabase="false" PrimaryKey="false" FieldName="StudentFirstName" TreatAsYesNoIndicator="false" Exclude="false">
+          <Annotations />
+          <Attributes />
+        </ColumnMapping>
+        <ColumnMapping ColumnName="StudentLastName" Sequence="15" DataType="string" DatabaseDataType="varchar" Length="25" Nullable="false" NullableInDatabase="false" PrimaryKey="false" FieldName="StudentLastName" TreatAsYesNoIndicator="false" Exclude="false">
+          <Annotations />
+          <Attributes />
+        </ColumnMapping>
+        <ColumnMapping ColumnName="StudentActive" Sequence="16" DataType="bool" DatabaseDataType="bit" Length="1" Nullable="false" NullableInDatabase="false" PrimaryKey="false" FieldName="StudentActive" TreatAsYesNoIndicator="false" Exclude="false">
+          <Annotations />
+          <Attributes />
+        </ColumnMapping>
+      </ColumnMappings>
+      <UniqueIndexMappings />
+      <APIs />
+      <Annotations />
+      <Attributes />
+    </ViewMapping>
+  </ViewMappings>
+  <ForeignKeyMappings>
+    <ForeignKeyMapping ForeignKeyName="FK_Course_Semester" FieldName="SemesterID" PluralFieldName="Courses" PropertyName="Semester" PluralPropertyName="Courses" ParentTableMappingName="Course" ParentColumnMappingName="SemesterID" ReferencedTableMappingName="Semester" ReferencedColumnMappingName="ID" Exclude="false">
+      <Annotations>
+        <Annotation Type="summary">
+          <Text>Maps to the FK_Course_Semester foreign key in the database.</Text>
+          <Attributes>
+            <Attribute Key="AutoGen" />
+          </Attributes>
+        </Annotation>
+        <Annotation Type="summary">
+          <Text>Maps to the FK_Course_Semester foreign key in the database.</Text>
+          <Attributes>
+            <Attribute Key="AutoGen" />
+          </Attributes>
+        </Annotation>
+      </Annotations>
+      <Attributes>
+        <Attribute Key="DisplayName" Value="Semester" />
+        <Attribute Key="ServiceExposed" Value="" />
+      </Attributes>
+    </ForeignKeyMapping>
+    <ForeignKeyMapping ForeignKeyName="FK_Course_Teacher" FieldName="TeacherID" PluralFieldName="Courses" PropertyName="Teacher" PluralPropertyName="Courses" ParentTableMappingName="Course" ParentColumnMappingName="TeacherID" ReferencedTableMappingName="Teacher" ReferencedColumnMappingName="ID" Exclude="false">
+      <Annotations>
+        <Annotation Type="summary">
+          <Text>Maps to the FK_Course_Teacher foreign key in the database.</Text>
+          <Attributes>
+            <Attribute Key="AutoGen" />
+          </Attributes>
+        </Annotation>
+        <Annotation Type="summary">
+          <Text>Maps to the FK_Course_Teacher foreign key in the database.</Text>
+          <Attributes>
+            <Attribute Key="AutoGen" />
+          </Attributes>
+        </Annotation>
+      </Annotations>
+      <Attributes>
+        <Attribute Key="DisplayName" Value="Teacher" />
+        <Attribute Key="ServiceExposed" Value="" />
+      </Attributes>
+    </ForeignKeyMapping>
+    <ForeignKeyMapping ForeignKeyName="FK_Enrollment_Student" FieldName="StudentID" PluralFieldName="Enrollments" PropertyName="Student" PluralPropertyName="Enrollments" ParentTableMappingName="Enrollment" ParentColumnMappingName="StudentID" ReferencedTableMappingName="Student" ReferencedColumnMappingName="ID" Exclude="false">
+      <Annotations>
+        <Annotation Type="summary">
+          <Text>Maps to the FK_Enrollment_Student foreign key in the database.</Text>
+          <Attributes>
+            <Attribute Key="AutoGen" />
+          </Attributes>
+        </Annotation>
+        <Annotation Type="summary">
+          <Text>Maps to the FK_Enrollment_Student foreign key in the database.</Text>
+          <Attributes>
+            <Attribute Key="AutoGen" />
+          </Attributes>
+        </Annotation>
+      </Annotations>
+      <Attributes>
+        <Attribute Key="DisplayName" Value="Student" />
+        <Attribute Key="ServiceExposed" Value="" />
+      </Attributes>
+    </ForeignKeyMapping>
+    <ForeignKeyMapping ForeignKeyName="FK_Enrollment_Course" FieldName="CourseID" PluralFieldName="Enrollments" PropertyName="Course" PluralPropertyName="Enrollments" ParentTableMappingName="Enrollment" ParentColumnMappingName="CourseID" ReferencedTableMappingName="Course" ReferencedColumnMappingName="ID" Exclude="false">
+      <Annotations>
+        <Annotation Type="summary">
+          <Text>Maps to the FK_Enrollment_Course foreign key in the database.</Text>
+          <Attributes>
+            <Attribute Key="AutoGen" />
+          </Attributes>
+        </Annotation>
+        <Annotation Type="summary">
+          <Text>Maps to the FK_Enrollment_Course foreign key in the database.</Text>
+          <Attributes>
+            <Attribute Key="AutoGen" />
+          </Attributes>
+        </Annotation>
+      </Annotations>
+      <Attributes>
+        <Attribute Key="DisplayName" Value="Course" />
+        <Attribute Key="ServiceExposed" Value="" />
+      </Attributes>
+    </ForeignKeyMapping>
+    <ForeignKeyMapping ForeignKeyName="FK_Student_Major" FieldName="MajorID" PluralFieldName="Students" PropertyName="Major" PluralPropertyName="Students" ParentTableMappingName="Student" ParentColumnMappingName="MajorID" ReferencedTableMappingName="Major" ReferencedColumnMappingName="ID" Exclude="false">
+      <Annotations>
+        <Annotation Type="summary">
+          <Text>Maps to the FK_Student_Major foreign key in the database.</Text>
+          <Attributes>
+            <Attribute Key="AutoGen" />
+          </Attributes>
+        </Annotation>
+        <Annotation Type="summary">
+          <Text>Maps to the FK_Student_Major foreign key in the database.</Text>
+          <Attributes>
+            <Attribute Key="AutoGen" />
+          </Attributes>
+        </Annotation>
+      </Annotations>
+      <Attributes>
+        <Attribute Key="DisplayName" Value="Major" />
+        <Attribute Key="ServiceExposed" Value="" />
+      </Attributes>
+    </ForeignKeyMapping>
+  </ForeignKeyMappings>
+  <Attributes>
+    <Attribute Key="DataContextName" Value="SampleDataContext" />
+  </Attributes>
+</Project>

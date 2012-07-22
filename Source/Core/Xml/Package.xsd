@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://Schemas.QuantumConceptsCorp.com/CodeGenerator/Package.xsd" xmlns="http://Schemas.QuantumConceptsCorp.com/CodeGenerator/Package.xsd">
+
+	<xs:element name="Package">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="1" name="Description" type="xs:string"/>
+				<xs:element minOccurs="0" name="PackageReferences">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element maxOccurs="unbounded" name="Item">
+								<xs:complexType>
+									<xs:attribute name="RelativePath" type="xs:string" use="required"/>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Manifest" minOccurs="1">
+					<xs:complexType>
+						<xs:sequence minOccurs="0">
+							<xs:element name="Item" maxOccurs="unbounded" minOccurs="0">
+								<xs:complexType>
+									<xs:attribute name="ID" type="xs:string" use="optional"/>
+									<xs:attribute name="Type" type="ManifestItemType" use="required"/>
+									<xs:attribute name="RelativePath" type="xs:string" use="required"/>
+									<xs:attribute name="DoNotCopy" type="xs:boolean" use="optional"/>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="Automatic" type="xs:boolean"/>
+						<xs:attribute form="unqualified" name="ProjectFileManifestItemID" type="xs:string" use="required"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Inputs" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence minOccurs="0">
+							<xs:element name="Input" maxOccurs="unbounded" minOccurs="0">
+								<xs:complexType>
+									<xs:attribute name="ID" type="xs:string" use="required"/>
+									<xs:attribute name="Label" type="xs:string"/>
+									<xs:attribute name="DataType" type="InputDataType" use="required"/>
+									<xs:attribute name="Required" type="xs:boolean"/>
+									<xs:attribute name="Validation" type="xs:string"/>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Actions" minOccurs="1">
+					<xs:complexType>
+						<xs:sequence minOccurs="0">
+							<xs:element minOccurs="0" name="CopyAll" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:attribute name="SkipIfExists" type="xs:boolean"/>
+								</xs:complexType>
+							</xs:element>
+							<xs:element maxOccurs="unbounded" minOccurs="0" name="Copy">
+								<xs:complexType>
+									<xs:attribute form="unqualified" name="ManifestItemID" type="xs:string" use="required"/>
+									<xs:attribute form="unqualified" name="RelativePath" type="xs:string" use="required"/>
+									<xs:attribute name="SkipIfExists" type="xs:boolean"/>
+								</xs:complexType>
+							</xs:element>
+							<xs:element maxOccurs="unbounded" minOccurs="0" name="Rename">
+								<xs:complexType>
+									<xs:attribute form="unqualified" name="ManifestItemID" type="xs:string" use="required"/>
+									<xs:attribute name="NewName" type="xs:string"/>
+								</xs:complexType>
+							</xs:element>
+							<xs:element maxOccurs="unbounded" minOccurs="0" name="ApplyAllInputReplacements"/>
+							<xs:element maxOccurs="unbounded" minOccurs="0" name="ApplyInputReplacements">
+								<xs:complexType>
+									<xs:attribute name="InputID" type="xs:string" use="required"/>
+									<xs:attribute name="ManifestItemID" type="xs:string"/>
+								</xs:complexType>
+							</xs:element>
+							<xs:element maxOccurs="unbounded" minOccurs="0" name="ReplaceText">
+								<xs:complexType>
+									<xs:attribute form="unqualified" name="ManifestItemID" type="xs:string" use="required"/>
+									<xs:attribute name="Match" type="xs:string" use="required"/>
+									<xs:attribute name="Replacement" type="xs:string" use="required"/>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="Version" type="xs:string" use="required"/>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="InputDataType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="String"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ManifestItemType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="File"/>
+			<xs:enumeration value="Folder"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

@@ -1,0 +1,367 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<xs:schema id="Project" elementFormDefault="qualified" targetNamespace="http://Schemas.QuantumConceptsCorp.com/CodeGenerator/Project.xsd" version="1.5.0.0" xmlns="http://Schemas.QuantumConceptsCorp.com/CodeGenerator/Project.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="Project">
+		<xs:complexType>
+			<xs:sequence minOccurs="1" maxOccurs="1">
+				<xs:element name="DataTypeMappings" minOccurs="1" maxOccurs="1" nillable="false">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="DataTypeMapping" maxOccurs="unbounded" nillable="false">
+								<xs:complexType>
+									<xs:sequence minOccurs="0">
+										<xs:element ref="Annotations" minOccurs="0" maxOccurs="1"/>
+										<xs:element ref="Attributes" minOccurs="0" maxOccurs="1"/>
+									</xs:sequence>
+									<xs:attribute name="DatabaseDataType" use="required" type="xs:string"/>
+									<xs:attribute name="ApplicationDataType" use="required" type="xs:string"/>
+									<xs:attribute name="Nullable" use="required" type="xs:boolean"/>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+
+				<xs:element name="Templates" minOccurs="1" maxOccurs="1" nillable="false">
+					<xs:complexType>
+						<xs:sequence minOccurs="0" maxOccurs="1">
+							<xs:element name="Template" minOccurs="1" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:sequence minOccurs="0" maxOccurs="1">
+										<xs:element name="TemplateOutputDefinitions" minOccurs="1" maxOccurs="1" nillable="false">
+											<xs:complexType>
+												<xs:sequence minOccurs="0" maxOccurs="1">
+													<xs:element name="TemplateOutputDefinition" minOccurs="1" maxOccurs="unbounded" nillable="false">
+														<xs:complexType>
+															<xs:attribute name="ElementType" use="required" type="TemplateOutputDefinitionElementType"/>
+															<xs:attribute name="FilterXPath" type="xs:string"/>
+															<xs:attribute name="RootHintPath" use="required" type="xs:string"/>
+															<xs:attribute name="FilenameXPath" use="required" type="xs:string"/>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element ref="Annotations" minOccurs="0" maxOccurs="1"/>
+										<xs:element ref="Attributes" minOccurs="0" maxOccurs="1"/>
+									</xs:sequence>
+									<xs:attribute name="Name" use="required" type="xs:string"/>
+									<xs:attribute name="XsltHintPath" use="required" type="xs:string"/>
+									<xs:attribute name="OutputMode" use="required" type="TemplateOutputMode"/>
+									<xs:attribute name="OutputHintPath" use="optional" type="xs:string"/>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+
+				<xs:element name="TableMappings" minOccurs="1" maxOccurs="1" nillable="false">
+					<xs:complexType>
+						<xs:sequence minOccurs="1">
+							<xs:element ref="TableMapping" minOccurs="1" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+
+				<xs:element name="ViewMappings" minOccurs="0" maxOccurs="1" nillable="true">
+					<xs:complexType>
+						<xs:sequence minOccurs="0" maxOccurs="1">
+							<xs:element ref="ViewMapping" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+
+				<xs:element name="ForeignKeyMappings" minOccurs="0" maxOccurs="1" nillable="true">
+					<xs:complexType>
+						<xs:sequence minOccurs="0" maxOccurs="1">
+							<xs:element name="ForeignKeyMapping" minOccurs="1" maxOccurs="unbounded" nillable="false">
+								<xs:complexType>
+									<xs:sequence minOccurs="0" maxOccurs="1">
+										<xs:element ref="Annotations" minOccurs="0" maxOccurs="1"/>
+										<xs:element ref="Attributes" minOccurs="0" maxOccurs="1"/>
+									</xs:sequence>
+									<xs:attribute name="ForeignKeyName" use="required" type="xs:string"/>
+									<xs:attribute name="FieldName" use="required" type="xs:string"/>
+									<xs:attribute name="PluralFieldName" use="required" type="xs:string"/>
+									<xs:attribute name="PropertyName" use="required" type="xs:string"/>
+									<xs:attribute name="PluralPropertyName" use="required" type="xs:string"/>
+									<xs:attribute name="ParentTableMappingSchemaName" use="required" type="xs:string"/>
+									<xs:attribute name="ParentTableMappingName" use="required" type="xs:string"/>
+									<xs:attribute name="ParentColumnMappingName" use="required" type="xs:string"/>
+									<xs:attribute name="ReferencedTableMappingSchemaName" use="required" type="xs:string"/>
+									<xs:attribute name="ReferencedTableMappingName" use="required" type="xs:string"/>
+									<xs:attribute name="ReferencedColumnMappingName" use="required" type="xs:string"/>
+									<xs:attribute name="Exclude" use="required" type="xs:boolean"/>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+
+				<xs:element ref="Attributes" minOccurs="0" maxOccurs="1"/>
+			</xs:sequence>
+
+			<xs:attribute name="Version" use="required" type="xs:string"/>
+			<xs:attribute name="RootNamespace" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:simpleType name="TemplateOutputMode">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="SingleFile"/>
+			<xs:enumeration value="MultipleFile"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="TemplateOutputDefinitionElementType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Table"/>
+			<xs:enumeration value="ForeignKey"/>
+			<xs:enumeration value="UniqueIndex"/>
+			<xs:enumeration value="API"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="TableOrViewMapping" abstract="true">
+		<xs:sequence minOccurs="1" maxOccurs="1">
+			<xs:element name="ColumnMappings" minOccurs="1" maxOccurs="1" nillable="false">
+				<xs:complexType>
+					<xs:sequence minOccurs="1" maxOccurs="1">
+						<xs:element name="ColumnMapping" minOccurs="1" maxOccurs="unbounded" nillable="false">
+							<xs:complexType>
+								<xs:sequence maxOccurs="1">
+									<xs:element name="EnumerationMapping" minOccurs="0" maxOccurs="1" nillable="true">
+										<xs:complexType>
+											<xs:sequence minOccurs="1" maxOccurs="unbounded">
+												<xs:element name="Values" minOccurs="0" maxOccurs="1" nillable="true">
+													<xs:complexType>
+														<xs:sequence minOccurs="1" maxOccurs="1">
+															<xs:element name="EnumerationValueMapping" minOccurs="0" maxOccurs="unbounded" nillable="false">
+																<xs:complexType>
+																	<xs:sequence minOccurs="0" maxOccurs="1">
+																		<xs:element name="Description" minOccurs="0" maxOccurs="1" nillable="true" type="xs:string"/>
+																		<xs:element ref="Annotations" minOccurs="0" maxOccurs="1"/>
+																		<xs:element ref="Attributes" minOccurs="0" maxOccurs="1"/>
+																	</xs:sequence>
+																	<xs:attribute name="Name" use="required" type="xs:string"/>
+																	<xs:attribute name="DatabaseValue" use="required" type="xs:string"/>
+																</xs:complexType>
+															</xs:element>
+														</xs:sequence>
+													</xs:complexType>
+												</xs:element>
+												<xs:element ref="Annotations" minOccurs="0" maxOccurs="1"/>
+												<xs:element ref="Attributes" minOccurs="0" maxOccurs="1"/>
+											</xs:sequence>
+											<xs:attribute name="Name" use="required" type="xs:string"/>
+											<xs:attribute name="IsReference" use="required" type="xs:boolean"/>
+											<xs:attribute name="ReferencedTableMappingSchemaName" type="xs:string"/>
+											<xs:attribute name="ReferencedTableMappingName" type="xs:string"/>
+											<xs:attribute name="ReferencedColumnName" type="xs:string"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element ref="Annotations" minOccurs="0" maxOccurs="1"/>
+									<xs:element ref="Attributes" minOccurs="0" maxOccurs="1"/>
+								</xs:sequence>
+								<xs:attribute name="ColumnName" use="required" type="xs:string"/>
+								<xs:attribute name="Sequence" use="required" type="xs:integer"/>
+								<xs:attribute name="DataType" use="required" type="xs:string"/>
+								<xs:attribute name="DatabaseDataType" use="required" type="xs:string"/>
+								<xs:attribute name="Length" use="required" type="xs:integer"/>
+								<xs:attribute name="DefaultValue" use="optional" type="xs:string"/>
+								<xs:attribute name="Nullable" use="required" type="xs:boolean"/>
+								<xs:attribute name="NullableInDatabase" use="required" type="xs:boolean"/>
+								<xs:attribute name="PrimaryKey" use="required" type="xs:boolean"/>
+								<xs:attribute name="FieldName" use="required" type="xs:string"/>
+								<xs:attribute name="TreatAsYesNoIndicator" use="required" type="xs:boolean"/>
+								<xs:attribute name="Exclude" use="required" type="xs:boolean"/>
+								<xs:attribute name="EncryptionVectorColumnName" use="optional" type="xs:string"/>
+								<xs:attribute name="DecryptionPropertyName" use="optional" type="xs:string"/>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="UniqueIndexMappings" minOccurs="0" maxOccurs="1">
+				<xs:complexType>
+					<xs:sequence minOccurs="0" maxOccurs="unbounded">
+						<xs:element name="UniqueIndexMapping" minOccurs="1" maxOccurs="unbounded" nillable="false">
+							<xs:complexType>
+								<xs:sequence minOccurs="1" maxOccurs="1">
+									<xs:element name="ColumnNames" minOccurs="1" maxOccurs="1" nillable="false">
+										<xs:complexType>
+											<xs:sequence minOccurs="1" maxOccurs="unbounded">
+												<xs:element name="ColumnName" minOccurs="1" maxOccurs="unbounded" nillable="false" type="xs:string"/>
+												<xs:element ref="Annotations" minOccurs="0" maxOccurs="1"/>
+												<xs:element ref="Attributes" minOccurs="0" maxOccurs="1"/>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+									<xs:element ref="Annotations" minOccurs="0" maxOccurs="1"/>
+									<xs:element ref="Attributes" minOccurs="0" maxOccurs="1"/>
+								</xs:sequence>
+								<xs:attribute name="UniqueIndexName" use="required" type="xs:string"/>
+								<xs:attribute name="Exclude" use="required" type="xs:boolean"/>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="APIs" minOccurs="0" maxOccurs="1">
+				<xs:complexType>
+					<xs:sequence minOccurs="0" maxOccurs="unbounded">
+						<xs:element name="API" minOccurs="1" maxOccurs="unbounded" nillable="false">
+							<xs:complexType>
+								<xs:sequence minOccurs="1" maxOccurs="1">
+									<xs:element ref="ReturnParameter" minOccurs="1" maxOccurs="1"/>
+									<xs:element name="Parameters" minOccurs="0" maxOccurs="1">
+										<xs:complexType>
+											<xs:sequence minOccurs="0" maxOccurs="1">
+												<xs:element ref="Parameter" minOccurs="1" maxOccurs="unbounded"/>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+									<xs:element ref="Annotations" minOccurs="0" maxOccurs="1"/>
+									<xs:element ref="Attributes" minOccurs="0" maxOccurs="1"/>
+								</xs:sequence>
+								<xs:attribute name="APIType" use="required" type="APIType"/>
+								<xs:attribute name="Name" use="required" type="xs:string"/>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element ref="Annotations" minOccurs="0" maxOccurs="1"/>
+			<xs:element ref="Attributes" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+		<xs:attribute name="SchemaName" use="optional" type="xs:string"/>
+		<xs:attribute name="ClassName" use="required" type="xs:string"/>
+		<xs:attribute name="PluralClassName" use="required" type="xs:string"/>
+		<xs:attribute name="ReadOnly" use="required" type="xs:boolean"/>
+		<xs:attribute name="Exclude" use="required" type="xs:boolean"/>
+	</xs:complexType>
+
+	<xs:element name="TableMapping" nillable="false">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="TableOrViewMapping">
+					<xs:attribute name="TableName" use="required" type="xs:string"/>
+					<xs:attribute name="ViewName" use="optional" type="xs:string"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="ViewMapping" nillable="false">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="TableOrViewMapping">
+					<xs:attribute name="TableName" use="optional" type="xs:string"/>
+					<xs:attribute name="ViewName" use="required" type="xs:string"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="Annotations">
+		<xs:complexType>
+			<xs:sequence minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="Annotation" minOccurs="1" maxOccurs="unbounded" nillable="false">
+					<xs:complexType>
+						<xs:sequence minOccurs="1" maxOccurs="1">
+							<xs:element name="Text" minOccurs="1" maxOccurs="1" nillable="false" type="xs:string"/>
+							<xs:element ref="Attributes" minOccurs="0" maxOccurs="1"/>
+						</xs:sequence>
+						<xs:attribute name="Type" use="required" type="xs:string"/>
+						<xs:attribute name="Text" use="optional" type="xs:string"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="Attributes">
+		<xs:complexType>
+			<xs:sequence minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="Attribute" minOccurs="1" maxOccurs="unbounded" nillable="false">
+					<xs:complexType>
+						<xs:attribute name="Key" use="required" type="xs:string"/>
+						<xs:attribute name="Value" use="optional" type="xs:string"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:complexType name="Parameter-Base" abstract="true">
+		<xs:sequence minOccurs="0" maxOccurs="1">
+			<xs:element ref="Annotations" minOccurs="0" maxOccurs="1"/>
+			<xs:element ref="Attributes" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+		<xs:attribute name="DataTypeReferencedEnumTableMappingSchemaName" use="required" type="xs:string"/>
+		<xs:attribute name="DataTypeReferencedEnumTableMappingName" use="required" type="xs:string"/>
+		<xs:attribute name="DataTypeReferencedEnumColumnMappingName" use="required" type="xs:string"/>
+		<xs:attribute name="IsReturnParameter" use="required" type="xs:boolean"/>
+		<xs:attribute name="Quantifier" use="required" type="ParameterQuantifier"/>
+		<xs:attribute name="Type" use="required" type="ParameterType"/>
+		<xs:attribute name="Nullable" use="required" type="xs:boolean"/>
+		<xs:attribute name="OtherDataType" use="optional" type="xs:string"/>
+	</xs:complexType>
+
+	<xs:element name="ReturnParameter" nillable="false">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Parameter-Base">
+					<xs:attribute name="Name" use="optional" type="xs:string"/>
+					<xs:attribute name="Modifier" use="optional" type="ParameterModifier"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="Parameter" nillable="false">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Parameter-Base">
+					<xs:attribute name="Name" use="required" type="xs:string"/>
+					<xs:attribute name="Modifier" use="required" type="ParameterModifier"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:simpleType name="ParameterModifier">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="None"/>
+			<xs:enumeration value="Out"/>
+			<xs:enumeration value="Params"/>
+			<xs:enumeration value="Ref"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="ParameterQuantifier">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Single"/>
+			<xs:enumeration value="Array"/>
+			<xs:enumeration value="List"/>
+			<xs:enumeration value="IEnumerable"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="ParameterType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Void"/>
+			<xs:enumeration value="DataObject"/>
+			<xs:enumeration value="Enum"/>
+			<xs:enumeration value="Other"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="APIType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Create"/>
+			<xs:enumeration value="Delete"/>
+			<xs:enumeration value="Custom"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

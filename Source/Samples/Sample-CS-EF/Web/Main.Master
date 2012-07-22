@@ -1,0 +1,56 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Main.master.cs" Inherits="QuantumConcepts.CodeGenerator.Sample.Web.Main" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head runat="server">
+        <title>Quantum Concepts Code Generator Sample</title>
+
+        <asp:ContentPlaceHolder id="head" runat="server" />
+        
+        <script type="text/javascript">
+            var _gaq = (_gaq || []);
+
+            _gaq.push(['_setAccount', 'UA-22601718-1']);
+            _gaq.push(['_trackPageview']);
+
+            (function ()
+            {
+                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+            })();
+        </script>
+    </head>
+    <body>
+        <form runat="server">
+            <asp:ScriptManager runat="server" />
+            
+            <div id="Header">
+                <h1>Quantum Concepts Code Generator Sample</h1>
+            </div>
+
+            <div id="MainMenu">
+                <a runat="server" href="~/Default.aspx">Home</a>
+                <a runat="server" href="~/Semesters/Default.aspx">Semesters</a>
+                <a runat="server" href="~/Majors/Default.aspx">Majors</a>
+                <a runat="server" href="~/Teachers/Default.aspx">Teachers</a>
+                <a runat="server" href="~/Courses/Default.aspx">Courses</a>
+                <a runat="server" href="~/Students/Default.aspx">Students</a>
+                <a runat="server" href="~/Enrollments/Default.aspx">Enrollments</a>
+                <a runat="server" href="~/Service/REST.svc">REST Service</a>
+                <a runat="server" href="~/Service/SOAP.svc">SOAP Service</a>
+                <a runat="server" href="~/Service/Documentation/Methods.aspx">Service Methods</a>
+                <a runat="server" href="~/Service/Documentation/Types.aspx">Service Types</a>
+            </div>
+            
+            <div id="Content">
+                <div id="ContentHeader">
+                    <h2><asp:Literal ID="contentHeaderLiteral" runat="server" /></h2>
+                </div>
+
+                <asp:ContentPlaceHolder ID="content" runat="server" />
+            </div>
+        </form>
+    </body>
+</html>

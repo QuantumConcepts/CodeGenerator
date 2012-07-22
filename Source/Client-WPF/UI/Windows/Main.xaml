@@ -1,0 +1,31 @@
+﻿<Window x:Class="QuantumConcepts.DAOGenerator.Client.UI.Windows.Main"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="DAO Generator" Height="481" Width="693"
+    Loaded="Window_Loaded">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="343" />
+            <RowDefinition Height="100*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="225*" />
+            <ColumnDefinition Width="435*" />
+        </Grid.ColumnDefinitions>
+        <GridSplitter Grid.Row="0" Grid.Column="0" Width="5" ResizeDirection="Columns" HorizontalAlignment="Right" VerticalAlignment="Stretch" Style="{StaticResource Splitter}"/>
+        <DockPanel Grid.Row="0" Grid.Column="0" Margin="0,0,5,0">
+            <TreeView Name="projectTreeView">
+                <TreeView.Background>
+                    <LinearGradientBrush StartPoint="0.25,0.25" SpreadMethod="Reflect" Opacity="0.2">
+                        <GradientStop Offset="0" Color="White"/>
+                        <GradientStop Offset="1" Color="Black"/>
+                    </LinearGradientBrush>
+                </TreeView.Background>
+            </TreeView>
+        </DockPanel>
+        <GridSplitter Grid.Row="1" Grid.ColumnSpan="2" Height="5" ResizeDirection="Rows" HorizontalAlignment="Stretch" VerticalAlignment="Top" Style="{StaticResource Splitter}"/>
+        <DockPanel Grid.Row="1" Grid.ColumnSpan="2" Margin="0,5,0,0">
+            <RichTextBox Name="logTextBox"/>
+        </DockPanel>
+    </Grid>
+</Window>

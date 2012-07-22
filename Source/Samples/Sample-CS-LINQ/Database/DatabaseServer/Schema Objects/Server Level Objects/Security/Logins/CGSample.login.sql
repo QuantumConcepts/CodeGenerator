@@ -1,0 +1,1 @@
+﻿CREATE LOGIN CGSample WITH PASSWORD = 'CGSample';

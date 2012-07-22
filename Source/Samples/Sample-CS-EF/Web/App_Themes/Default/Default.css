@@ -1,0 +1,205 @@
+﻿
+html, body, form
+{
+    margin: 0;
+    padding: 0;
+    font-family: Arial;
+}
+            
+h1
+{
+    margin: 0;
+    color: #ffffff;
+}
+            
+h2
+{
+    margin: 0;
+}
+            
+div#Header
+{
+    padding: 10px;
+    background-color: #550015;
+    border-bottom: 1px solid #bbb;
+}
+            
+div#MainMenu
+{
+    padding: 2px;
+    text-align: center;
+    background-color: #802;
+    border-bottom: 2px solid #bbb;
+}
+            
+div#MainMenu a
+{
+    margin: 0 5px 0 5px;
+    color: #ffffff;
+}
+            
+div#Content
+{
+    padding: 10px;
+}
+            
+div#Content div#SubMenu
+{
+    padding: 2px;
+    text-align: center;
+    background-color: #aa002b;
+    border: 2px solid #bbb;
+    border-radius: 5px 5px 5px 5px;
+    margin-bottom: 10px;
+}
+            
+div#Content div#SubMenu a
+{
+    margin: 0 5px 0 5px;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+table.Grid
+{
+    width: 100%;
+    font-size: .9em;
+}
+
+table.Grid tbody tr.Header td
+{
+    background-color: #dedede;
+    font-weight: bold;
+}
+
+table.Grid tbody tr td.Action
+{
+    width: 75px;
+}
+
+div.Field span.Label
+{
+    width: 150px;
+    display: inline-block;
+    text-align: right;
+    font-weight: bold;
+}
+
+div.Field span.Input
+{
+    display: inline-block;
+}
+
+table.Metrics
+{
+    border: none;
+    width: 100%;
+}
+
+table.Metrics th,
+table.Metrics td
+{
+    padding: 2px;
+}
+
+table.Metrics thead th
+{
+    background-color: #aa002b;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+table.Metrics tbody tr:nth-child(even)
+{
+    background-color: #dedede;
+}
+
+table.Metrics tbody td:nth-child(3),
+table.Metrics tbody td:nth-child(5),
+table.Metrics tbody td:nth-child(6),
+table.Metrics tfoot td:nth-child(3),
+table.Metrics tfoot td:nth-child(5),
+table.Metrics tfoot td:nth-child(6)
+{
+    text-align: right;
+}
+
+table.Metrics tfoot td
+{
+    font-weight: bold;
+}
+
+table.Metrics tfoot td:nth-child(2)
+{
+    text-align: right;
+}
+
+div.MethodParameters table, 
+div.TypeProperties table 
+{
+	border-collapse: collapse;
+	margin: 10px 0;
+	width: 100%;
+}
+
+div.MethodParameters table tr:nth-child(even), 
+div.TypeProperties table tr:nth-child(even) 
+{
+	background-color: #f9f9f9;
+}
+
+div.MethodParameters table th:first-child,
+div.TypeProperties table th:first-child
+{
+    width: 150px;
+}
+
+div.MethodParameters table th:nth-child(2), 
+div.TypeProperties table th:nth-child(2) 
+{
+    width: 100px;
+}
+
+div.MethodParameters table td, 
+div.TypeProperties table td 
+{
+	border: 1px solid #ddd;
+	padding: 4px 8px;
+	font-size: 12px;
+}
+
+div.MethodParameters table th, 
+div.TypeProperties table th 
+{
+	padding: 2px 8px;
+	font-weight: bold;
+	font-size: 12px;
+	text-align: left;
+}
+
+div.MethodParameters table thead, 
+div.TypeProperties table thead 
+{
+	background-color: #e5e5e5 !important;
+}
+
+div.MethodParameters table thead,
+div.TypeProperties table thead 
+{
+	border-top: 2px solid #bbb;
+	border-bottom: 1px solid #a0a0a0 !important;
+	border-left: 1px solid #ddd;
+	border-right: 1px solid #ddd;	
+}
+
+div.MethodTable td, 
+div.MethodTable th 
+{
+	padding: 1px 3px;
+	font-size: 12px;
+}
+
+div.MethodTable th 
+{
+	text-align: right;
+}

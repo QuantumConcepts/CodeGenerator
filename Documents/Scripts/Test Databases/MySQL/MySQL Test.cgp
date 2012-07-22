@@ -1,0 +1,133 @@
+<?xml version="1.0"?>
+<Project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="1.6.3.0" RootNamespace="QuantumConcepts.CodeGenerator.TestProjects.MySQL" xmlns="http://Schemas.QuantumConceptsCorp.com/CodeGenerator/Project.xsd">
+  <DataTypeMappings>
+    <DataTypeMapping DatabaseDataType="TINYINT" ApplicationDataType="byte" Nullable="true" />
+    <DataTypeMapping DatabaseDataType="SMALLINT" ApplicationDataType="int16" Nullable="true" />
+    <DataTypeMapping DatabaseDataType="MEDIUMINT" ApplicationDataType="int" Nullable="true" />
+    <DataTypeMapping DatabaseDataType="INT" ApplicationDataType="int" Nullable="true" />
+    <DataTypeMapping DatabaseDataType="BIGINT" ApplicationDataType="Int64" Nullable="true" />
+    <DataTypeMapping DatabaseDataType="DECIMAL" ApplicationDataType="decimal" Nullable="true" />
+    <DataTypeMapping DatabaseDataType="NUMERIC" ApplicationDataType="decimal" Nullable="true" />
+    <DataTypeMapping DatabaseDataType="FLOAT" ApplicationDataType="double" Nullable="true" />
+    <DataTypeMapping DatabaseDataType="DOUBLE" ApplicationDataType="double" Nullable="true" />
+    <DataTypeMapping DatabaseDataType="BIT" ApplicationDataType="bool" Nullable="true" />
+    <DataTypeMapping DatabaseDataType="DATE" ApplicationDataType="DateTime" Nullable="true" />
+    <DataTypeMapping DatabaseDataType="DATETIME" ApplicationDataType="DateTime" Nullable="true" />
+    <DataTypeMapping DatabaseDataType="TIMESTAMP" ApplicationDataType="DateTime" Nullable="true" />
+    <DataTypeMapping DatabaseDataType="TIME" ApplicationDataType="DateTime" Nullable="true" />
+    <DataTypeMapping DatabaseDataType="YEAR" ApplicationDataType="byte" Nullable="true" />
+    <DataTypeMapping DatabaseDataType="CHAR" ApplicationDataType="string" Nullable="true" />
+    <DataTypeMapping DatabaseDataType="VARCHAR" ApplicationDataType="string" Nullable="false" />
+    <DataTypeMapping DatabaseDataType="BINARY" ApplicationDataType="byte[]" Nullable="false" />
+    <DataTypeMapping DatabaseDataType="VARBINARY" ApplicationDataType="byte[]" Nullable="false" />
+    <DataTypeMapping DatabaseDataType="BLOB" ApplicationDataType="byte[]" Nullable="false" />
+    <DataTypeMapping DatabaseDataType="TEXT" ApplicationDataType="string" Nullable="false" />
+    <DataTypeMapping DatabaseDataType="ENUM" ApplicationDataType="string" Nullable="false" />
+    <DataTypeMapping DatabaseDataType="SET" ApplicationDataType="string" Nullable="false" />
+  </DataTypeMappings>
+  <Templates />
+  <TableMappings>
+    <TableMapping SchemaName="CodeGeneratorTest" TableName="User" ClassName="User" PluralClassName="Users" ReadOnly="false" Exclude="false">
+      <ColumnMappings>
+        <ColumnMapping ColumnName="ID" Sequence="1" DataType="int" DatabaseDataType="int" Length="0" Nullable="false" NullableInDatabase="false" PrimaryKey="false" FieldName="ID" TreatAsYesNoIndicator="false" Exclude="false">
+          <Annotations />
+          <Attributes />
+        </ColumnMapping>
+        <ColumnMapping ColumnName="Email" Sequence="2" DataType="string" DatabaseDataType="varchar" Length="100" Nullable="false" NullableInDatabase="false" PrimaryKey="false" FieldName="Email" TreatAsYesNoIndicator="false" Exclude="false">
+          <Annotations />
+          <Attributes />
+        </ColumnMapping>
+        <ColumnMapping ColumnName="FirstName" Sequence="3" DataType="string" DatabaseDataType="varchar" Length="50" Nullable="false" NullableInDatabase="false" PrimaryKey="false" FieldName="FirstName" TreatAsYesNoIndicator="false" Exclude="false">
+          <Annotations />
+          <Attributes />
+        </ColumnMapping>
+        <ColumnMapping ColumnName="MiddleName" Sequence="4" DataType="string" DatabaseDataType="varchar" Length="50" Nullable="false" NullableInDatabase="true" PrimaryKey="false" FieldName="MiddleName" TreatAsYesNoIndicator="false" Exclude="false">
+          <Annotations />
+          <Attributes />
+        </ColumnMapping>
+        <ColumnMapping ColumnName="LastName" Sequence="5" DataType="string" DatabaseDataType="varchar" Length="50" Nullable="false" NullableInDatabase="false" PrimaryKey="false" FieldName="LastName" TreatAsYesNoIndicator="false" Exclude="false">
+          <Annotations />
+          <Attributes />
+        </ColumnMapping>
+        <ColumnMapping ColumnName="Age" Sequence="6" DataType="byte" DatabaseDataType="tinyint" Length="0" Nullable="false" NullableInDatabase="false" PrimaryKey="false" FieldName="Age" TreatAsYesNoIndicator="false" Exclude="false">
+          <Annotations />
+          <Attributes />
+        </ColumnMapping>
+      </ColumnMappings>
+      <UniqueIndexMappings>
+        <UniqueIndexMapping UniqueIndexName="UX_User_1" Exclude="false">
+          <ColumnNames>
+            <ColumnName>Email</ColumnName>
+          </ColumnNames>
+          <Annotations />
+          <Attributes />
+        </UniqueIndexMapping>
+      </UniqueIndexMappings>
+      <APIs />
+      <Annotations />
+      <Attributes />
+    </TableMapping>
+    <TableMapping SchemaName="CodeGeneratorTest" TableName="UserRole" ClassName="UserRole" PluralClassName="UserRoles" ReadOnly="false" Exclude="false">
+      <ColumnMappings>
+        <ColumnMapping ColumnName="ID" Sequence="1" DataType="int" DatabaseDataType="int" Length="0" Nullable="false" NullableInDatabase="false" PrimaryKey="false" FieldName="ID" TreatAsYesNoIndicator="false" Exclude="false">
+          <Annotations />
+          <Attributes />
+        </ColumnMapping>
+        <ColumnMapping ColumnName="UserID" Sequence="2" DataType="int" DatabaseDataType="int" Length="0" Nullable="false" NullableInDatabase="false" PrimaryKey="false" FieldName="UserID" TreatAsYesNoIndicator="false" Exclude="false">
+          <Annotations />
+          <Attributes />
+        </ColumnMapping>
+        <ColumnMapping ColumnName="Role" Sequence="3" DataType="string" DatabaseDataType="varchar" Length="25" Nullable="false" NullableInDatabase="false" PrimaryKey="false" FieldName="Role" TreatAsYesNoIndicator="false" Exclude="false">
+          <Annotations />
+          <Attributes />
+        </ColumnMapping>
+        <ColumnMapping ColumnName="Sequence" Sequence="4" DataType="int" DatabaseDataType="int" Length="0" Nullable="false" NullableInDatabase="false" PrimaryKey="false" FieldName="Sequence" TreatAsYesNoIndicator="false" Exclude="false">
+          <Annotations />
+          <Attributes />
+        </ColumnMapping>
+      </ColumnMappings>
+      <UniqueIndexMappings>
+        <UniqueIndexMapping UniqueIndexName="UX_UserRole_1" Exclude="false">
+          <ColumnNames>
+            <ColumnName>UserID</ColumnName>
+            <ColumnName>Role</ColumnName>
+          </ColumnNames>
+          <Annotations />
+          <Attributes />
+        </UniqueIndexMapping>
+      </UniqueIndexMappings>
+      <APIs />
+      <Annotations />
+      <Attributes />
+    </TableMapping>
+  </TableMappings>
+  <ViewMappings>
+    <ViewMapping SchemaName="CodeGeneratorTest" TableName="rolesforuser" ClassName="rolesforuser" PluralClassName="rolesforusers" ReadOnly="false" Exclude="false" ViewName="rolesforuser">
+      <ColumnMappings>
+        <ColumnMapping ColumnName="UserID" Sequence="1" DataType="int" DatabaseDataType="int" Length="0" Nullable="false" NullableInDatabase="false" PrimaryKey="false" FieldName="UserID" TreatAsYesNoIndicator="false" Exclude="false">
+          <Annotations />
+          <Attributes />
+        </ColumnMapping>
+        <ColumnMapping ColumnName="UserEmail" Sequence="2" DataType="string" DatabaseDataType="varchar" Length="100" Nullable="false" NullableInDatabase="false" PrimaryKey="false" FieldName="UserEmail" TreatAsYesNoIndicator="false" Exclude="false">
+          <Annotations />
+          <Attributes />
+        </ColumnMapping>
+        <ColumnMapping ColumnName="Role" Sequence="3" DataType="string" DatabaseDataType="varchar" Length="25" Nullable="false" NullableInDatabase="false" PrimaryKey="false" FieldName="Role" TreatAsYesNoIndicator="false" Exclude="false">
+          <Annotations />
+          <Attributes />
+        </ColumnMapping>
+      </ColumnMappings>
+      <UniqueIndexMappings />
+      <APIs />
+      <Annotations />
+      <Attributes />
+    </ViewMapping>
+  </ViewMappings>
+  <ForeignKeyMappings>
+    <ForeignKeyMapping ForeignKeyName="FK_UserRole_User" FieldName="UserID" PluralFieldName="UserRoles" PropertyName="User" PluralPropertyName="UserRoles" ParentTableMappingSchemaName="CodeGeneratorTest" ParentTableMappingName="UserRole" ParentColumnMappingName="UserID" ReferencedTableMappingSchemaName="CodeGeneratorTest" ReferencedTableMappingName="User" ReferencedColumnMappingName="ID" Exclude="false">
+      <Annotations />
+      <Attributes />
+    </ForeignKeyMapping>
+  </ForeignKeyMappings>
+  <Attributes />
+</Project>
