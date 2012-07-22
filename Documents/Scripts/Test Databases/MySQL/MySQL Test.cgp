@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<Project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="1.6.3.0" RootNamespace="QuantumConcepts.CodeGenerator.TestProjects.MySQL" xmlns="http://Schemas.QuantumConceptsCorp.com/CodeGenerator/Project.xsd">
+<Project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="1.7.0.0" RootNamespace="QuantumConcepts.CodeGenerator.TestProjects.MySQL" xmlns="http://Schemas.QuantumConceptsCorp.com/CodeGenerator/Project.xsd">
   <DataTypeMappings>
     <DataTypeMapping DatabaseDataType="TINYINT" ApplicationDataType="byte" Nullable="true" />
     <DataTypeMapping DatabaseDataType="SMALLINT" ApplicationDataType="int16" Nullable="true" />
@@ -27,7 +27,7 @@
   </DataTypeMappings>
   <Templates />
   <TableMappings>
-    <TableMapping SchemaName="CodeGeneratorTest" TableName="User" ClassName="User" PluralClassName="Users" ReadOnly="false" Exclude="false">
+    <TableMapping SchemaName="CodeGeneratorTest" TableName="User" ClassName="CodeGeneratorTest_User" PluralClassName="Users" ReadOnly="false" Exclude="false">
       <ColumnMappings>
         <ColumnMapping ColumnName="ID" Sequence="1" DataType="int" DatabaseDataType="int" Length="0" Nullable="false" NullableInDatabase="false" PrimaryKey="false" FieldName="ID" TreatAsYesNoIndicator="false" Exclude="false">
           <Annotations />
@@ -67,7 +67,7 @@
       <Annotations />
       <Attributes />
     </TableMapping>
-    <TableMapping SchemaName="CodeGeneratorTest" TableName="UserRole" ClassName="UserRole" PluralClassName="UserRoles" ReadOnly="false" Exclude="false">
+    <TableMapping SchemaName="CodeGeneratorTest" TableName="UserRole" ClassName="CodeGeneratorTest_UserRole" PluralClassName="UserRoles" ReadOnly="false" Exclude="false">
       <ColumnMappings>
         <ColumnMapping ColumnName="ID" Sequence="1" DataType="int" DatabaseDataType="int" Length="0" Nullable="false" NullableInDatabase="false" PrimaryKey="false" FieldName="ID" TreatAsYesNoIndicator="false" Exclude="false">
           <Annotations />

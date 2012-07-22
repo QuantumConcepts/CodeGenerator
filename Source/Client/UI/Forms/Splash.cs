@@ -83,7 +83,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
 
                 try
                 {
-                    BatchEditorManager.Initialize();
+                    this.Main.InitializeBatchEditors();
                 }
                 catch (Exception ex)
                 {

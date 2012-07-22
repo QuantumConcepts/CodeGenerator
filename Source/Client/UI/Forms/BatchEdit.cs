@@ -11,6 +11,7 @@ using QuantumConcepts.Common.Extensions;
 using QuantumConcepts.CodeGenerator.Core.ProjectSchema;
 using QuantumConcepts.Common.Utils;
 using QuantumConcepts.CodeGenerator.Core.Utils;
+using QuantumConcepts.Common.Forms.UI;
 
 namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
 {
@@ -76,9 +77,24 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
                 return;
             }
 
-            EnumValue<ElementType> elementType = (elementTypeComboBox.SelectedItem as EnumValue<ElementType>);
+            using (new Wait())
+            {
+                EnumValue<ElementType> elementType = (elementTypeComboBox.SelectedItem as EnumValue<ElementType>);
+                BaseBatchEditor batchEditor = (BaseBatchEditor)editorComboBox.SelectedItem;
 
+                try
+                {
+                    BatchEditorManager.Instance.Apply(batchEditor, ProjectContext.Project, elementType.Value, filterXPathTextBox.Text, valueXPathTextBox.Text);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                    return;
+                }
+            }
 
+            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
 
         private void BatchEditorSelectionChanged()

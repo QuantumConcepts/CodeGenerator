@@ -18,14 +18,14 @@ namespace QuantumConcepts.CodeGenerator.Core.BatchEditors
 
         public static BatchEditorManager Instance { get; private set; }
 
-        private Dictionary<Type, BaseBatchEditor> BatchProcessorsByType { get; set; }
+        private Dictionary<Type, BaseBatchEditor> BatchEditorsByType { get; set; }
 
         public BaseBatchEditor this[Type type]
         {
             get
             {
-                if (this.BatchProcessorsByType.ContainsKey(type))
-                    return this.BatchProcessorsByType[type];
+                if (this.BatchEditorsByType.ContainsKey(type))
+                    return this.BatchEditorsByType[type];
 
                 return null;
             }
@@ -38,23 +38,23 @@ namespace QuantumConcepts.CodeGenerator.Core.BatchEditors
 
         private BatchEditorManager()
         {
-            this.BatchProcessorsByType = new Dictionary<Type, BaseBatchEditor>();
-            LoadBatchProcessors();
+            this.BatchEditorsByType = new Dictionary<Type, BaseBatchEditor>();
+            LoadBatchEditors();
         }
 
         /// <summary>This method performs no operation but will cause the static initializer to fire.</summary>
         public static void Initialize() { }
 
-        private void LoadBatchProcessors()
+        private void LoadBatchEditors()
         {
             List<string> files = new List<string>();
-            Type baseBatchProcessorType = typeof(BaseBatchEditor);
+            Type baseBatchEditorType = typeof(BaseBatchEditor);
             List<Type> typesAdded = new List<Type>();
 
             files.AddRange(Directory.GetFiles(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "*.dll").ToList());
             files.AddRange(Directory.GetFiles(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "*.exe").ToList());
 
-            this.BatchProcessorsByType.Clear();
+            this.BatchEditorsByType.Clear();
 
             foreach (string file in files)
             {
@@ -71,7 +71,7 @@ namespace QuantumConcepts.CodeGenerator.Core.BatchEditors
 
                 if (assembly != null)
                 {
-                    foreach (Type type in assembly.GetTypes().Where(t => t != baseBatchProcessorType && baseBatchProcessorType.IsAssignableFrom(t)))
+                    foreach (Type type in assembly.GetTypes().Where(t => t != baseBatchEditorType && baseBatchEditorType.IsAssignableFrom(t)))
                     {
                         if (!typesAdded.Contains(type))
                         {
@@ -79,7 +79,7 @@ namespace QuantumConcepts.CodeGenerator.Core.BatchEditors
 
                             if (instance != null)
                             {
-                                this.BatchProcessorsByType.Add(type, instance);
+                                this.BatchEditorsByType.Add(type, instance);
                                 typesAdded.Add(type);
                             }
                         }
@@ -106,20 +106,19 @@ namespace QuantumConcepts.CodeGenerator.Core.BatchEditors
         {
             List<ComingledXPathExpressionResult> results = Calculate(project, elementType, filterXPath, valueXPath);
 
-            //TODO
-            //if (!results.IsNullOrEmpty())
-            //    foreach (ComingledXPathExpressionResult result in results)
-            //        batchEditor.Apply(XmlUtil.GetElementForXElement(project, elementType, result.Element), result.Value);
+            if (!results.IsNullOrEmpty())
+                foreach (ComingledXPathExpressionResult result in results)
+                    batchEditor.Apply(XmlUtil.GetElementForXElement(project, elementType, result.Element), result.Value);
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return this.BatchProcessorsByType.GetEnumerator();
+            return this.BatchEditorsByType.GetEnumerator();
         }
 
         public IEnumerator<BaseBatchEditor> GetEnumerator()
         {
-            return this.BatchProcessorsByType.Values.GetEnumerator();
+            return this.BatchEditorsByType.Values.GetEnumerator();
         }
     }
 }

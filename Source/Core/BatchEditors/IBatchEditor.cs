@@ -12,7 +12,7 @@ namespace QuantumConcepts.CodeGenerator.Core.BatchEditors
         public abstract string Name { get; }
         public abstract ElementType[] ElementTypes { get; }
         public abstract string[] Fields { get; }
-        public abstract bool Apply(IProjectSchemaElement element, BatchEditorField[] fields);
+        public abstract bool Apply(IProjectSchemaElement element, string newValue);
 
         public static BatchEditorField GetField(BatchEditorField[] fields, string name)
         {

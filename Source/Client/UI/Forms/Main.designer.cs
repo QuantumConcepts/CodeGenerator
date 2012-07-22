@@ -149,8 +149,8 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.newMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("newMenuItem.Image")));
             this.newMenuItem.Name = "newMenuItem";
             this.newMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.newMenuItem.Size = new System.Drawing.Size(198, 22);
-            this.newMenuItem.Text = "&New....";
+            this.newMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.newMenuItem.Text = "&New...";
             this.newMenuItem.Click += new System.EventHandler(this.new_Click);
             // 
             // openMenuItem
@@ -158,7 +158,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.openMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("openMenuItem.Image")));
             this.openMenuItem.Name = "openMenuItem";
             this.openMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.openMenuItem.Size = new System.Drawing.Size(198, 22);
+            this.openMenuItem.Size = new System.Drawing.Size(195, 22);
             this.openMenuItem.Text = "&Open...";
             this.openMenuItem.Click += new System.EventHandler(this.open_Click);
             // 
@@ -168,7 +168,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.saveMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("saveMenuItem.Image")));
             this.saveMenuItem.Name = "saveMenuItem";
             this.saveMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveMenuItem.Size = new System.Drawing.Size(198, 22);
+            this.saveMenuItem.Size = new System.Drawing.Size(195, 22);
             this.saveMenuItem.Text = "&Save";
             this.saveMenuItem.Click += new System.EventHandler(this.save_Click);
             // 
@@ -179,30 +179,30 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.saveAsMenuItem.Name = "saveAsMenuItem";
             this.saveAsMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.S)));
-            this.saveAsMenuItem.Size = new System.Drawing.Size(198, 22);
-            this.saveAsMenuItem.Text = "&Save As....";
+            this.saveAsMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.saveAsMenuItem.Text = "&Save As...";
             this.saveAsMenuItem.Click += new System.EventHandler(this.saveAs_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(195, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(192, 6);
             // 
             // recentProjectsMenuItem
             // 
             this.recentProjectsMenuItem.Name = "recentProjectsMenuItem";
-            this.recentProjectsMenuItem.Size = new System.Drawing.Size(198, 22);
+            this.recentProjectsMenuItem.Size = new System.Drawing.Size(195, 22);
             this.recentProjectsMenuItem.Text = "Recent Projects";
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(195, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(192, 6);
             // 
             // exitMenuItem
             // 
             this.exitMenuItem.Name = "exitMenuItem";
-            this.exitMenuItem.Size = new System.Drawing.Size(198, 22);
+            this.exitMenuItem.Size = new System.Drawing.Size(195, 22);
             this.exitMenuItem.Text = "E&xit";
             this.exitMenuItem.Click += new System.EventHandler(this.exit_Click);
             // 
@@ -226,8 +226,8 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.propertiesMenuItem.Name = "propertiesMenuItem";
             this.propertiesMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.P)));
-            this.propertiesMenuItem.Size = new System.Drawing.Size(212, 22);
-            this.propertiesMenuItem.Text = "&Properties....";
+            this.propertiesMenuItem.Size = new System.Drawing.Size(209, 22);
+            this.propertiesMenuItem.Text = "&Properties...";
             this.propertiesMenuItem.Click += new System.EventHandler(this.properties_Click);
             // 
             // refreshMenuItem
@@ -236,7 +236,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.refreshMenuItem.Name = "refreshMenuItem";
             this.refreshMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.R)));
-            this.refreshMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.refreshMenuItem.Size = new System.Drawing.Size(209, 22);
             this.refreshMenuItem.Text = "&Refresh";
             this.refreshMenuItem.Click += new System.EventHandler(this.refresh_Click);
             // 
@@ -249,8 +249,8 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.generateParentMenuItem.Name = "generateParentMenuItem";
             this.generateParentMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.G)));
-            this.generateParentMenuItem.Size = new System.Drawing.Size(212, 22);
-            this.generateParentMenuItem.Text = "&Generate....";
+            this.generateParentMenuItem.Size = new System.Drawing.Size(209, 22);
+            this.generateParentMenuItem.Text = "&Generate";
             // 
             // generateMenuItem
             // 
@@ -271,7 +271,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(209, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(206, 6);
             // 
             // addToAllToolStripMenuItem
             // 
@@ -282,7 +282,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.uniqueIndicesMenuItem,
             this.aPIToolStripMenuItem});
             this.addToAllToolStripMenuItem.Name = "addToAllToolStripMenuItem";
-            this.addToAllToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.addToAllToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
             this.addToAllToolStripMenuItem.Text = "Add to All";
             // 
             // classesToolStripMenuItem1
@@ -374,21 +374,21 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             // addCreateMenuItem
             // 
             this.addCreateMenuItem.Name = "addCreateMenuItem";
-            this.addCreateMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.addCreateMenuItem.Size = new System.Drawing.Size(152, 22);
             this.addCreateMenuItem.Text = "Create";
             this.addCreateMenuItem.Click += new System.EventHandler(this.addCreateAPIMenuItem_Click);
             // 
             // addDeleteMenuItem
             // 
             this.addDeleteMenuItem.Name = "addDeleteMenuItem";
-            this.addDeleteMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.addDeleteMenuItem.Size = new System.Drawing.Size(152, 22);
             this.addDeleteMenuItem.Text = "Delete";
             this.addDeleteMenuItem.Click += new System.EventHandler(this.addDeleteAPIMenuItem_Click);
             // 
             // addAPIAttributeMenuItem
             // 
             this.addAPIAttributeMenuItem.Name = "addAPIAttributeMenuItem";
-            this.addAPIAttributeMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.addAPIAttributeMenuItem.Size = new System.Drawing.Size(152, 22);
             this.addAPIAttributeMenuItem.Text = "Attribute...";
             this.addAPIAttributeMenuItem.Click += new System.EventHandler(this.addAPIAttributeMenuItem_Click);
             // 
@@ -400,7 +400,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.foreignKeysToolStripMenuItem1,
             this.aPIToolStripMenuItem1});
             this.removeAllToolStripMenuItem.Name = "removeAllToolStripMenuItem";
-            this.removeAllToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.removeAllToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
             this.removeAllToolStripMenuItem.Text = "Remove From All";
             // 
             // classesToolStripMenuItem
@@ -408,7 +408,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.classesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.removeDefaultClassAnnotationMenuItem});
             this.classesToolStripMenuItem.Name = "classesToolStripMenuItem";
-            this.classesToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.classesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.classesToolStripMenuItem.Text = "Classes";
             // 
             // removeDefaultClassAnnotationMenuItem
@@ -423,7 +423,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.propertiesToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.removeDefaultPropertyAnnotationMenuItem});
             this.propertiesToolStripMenuItem1.Name = "propertiesToolStripMenuItem1";
-            this.propertiesToolStripMenuItem1.Size = new System.Drawing.Size(141, 22);
+            this.propertiesToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
             this.propertiesToolStripMenuItem1.Text = "Properties";
             // 
             // removeDefaultPropertyAnnotationMenuItem
@@ -438,7 +438,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.foreignKeysToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.removeDefaultForeignKeyAnnotationMenuItem});
             this.foreignKeysToolStripMenuItem1.Name = "foreignKeysToolStripMenuItem1";
-            this.foreignKeysToolStripMenuItem1.Size = new System.Drawing.Size(141, 22);
+            this.foreignKeysToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
             this.foreignKeysToolStripMenuItem1.Text = "Foreign Keys";
             // 
             // removeDefaultForeignKeyAnnotationMenuItem
@@ -454,20 +454,20 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.removeCreateMenuItem1,
             this.removeDeleteMenuItem1});
             this.aPIToolStripMenuItem1.Name = "aPIToolStripMenuItem1";
-            this.aPIToolStripMenuItem1.Size = new System.Drawing.Size(141, 22);
+            this.aPIToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
             this.aPIToolStripMenuItem1.Text = "API";
             // 
             // removeCreateMenuItem1
             // 
             this.removeCreateMenuItem1.Name = "removeCreateMenuItem1";
-            this.removeCreateMenuItem1.Size = new System.Drawing.Size(108, 22);
+            this.removeCreateMenuItem1.Size = new System.Drawing.Size(152, 22);
             this.removeCreateMenuItem1.Text = "Create";
             this.removeCreateMenuItem1.Click += new System.EventHandler(this.removeCreateAPIMenuItem_Click);
             // 
             // removeDeleteMenuItem1
             // 
             this.removeDeleteMenuItem1.Name = "removeDeleteMenuItem1";
-            this.removeDeleteMenuItem1.Size = new System.Drawing.Size(108, 22);
+            this.removeDeleteMenuItem1.Size = new System.Drawing.Size(152, 22);
             this.removeDeleteMenuItem1.Text = "Delete";
             this.removeDeleteMenuItem1.Click += new System.EventHandler(this.removeDeleteAPIMenuItem_Click);
             // 
@@ -484,16 +484,15 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             // metricsMenuItem
             // 
             this.metricsMenuItem.Name = "metricsMenuItem";
-            this.metricsMenuItem.Size = new System.Drawing.Size(127, 22);
-            this.metricsMenuItem.Text = "&Metrics";
+            this.metricsMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.metricsMenuItem.Text = "&Metrics...";
             this.metricsMenuItem.Click += new System.EventHandler(this.metricsMenuItem_Click);
             // 
             // batchEditMenuItem
             // 
             this.batchEditMenuItem.Name = "batchEditMenuItem";
-            this.batchEditMenuItem.Size = new System.Drawing.Size(127, 22);
-            this.batchEditMenuItem.Text = "&Batch Edit";
-            this.batchEditMenuItem.Visible = false;
+            this.batchEditMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.batchEditMenuItem.Text = "&Batch Edit...";
             this.batchEditMenuItem.Click += new System.EventHandler(this.batchEditMenuItem_Click);
             // 
             // helpMenuItem
@@ -511,34 +510,34 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             // feedbackMenuItem
             // 
             this.feedbackMenuItem.Name = "feedbackMenuItem";
-            this.feedbackMenuItem.Size = new System.Drawing.Size(133, 22);
+            this.feedbackMenuItem.Size = new System.Drawing.Size(152, 22);
             this.feedbackMenuItem.Text = "&Feedback...";
             this.feedbackMenuItem.Click += new System.EventHandler(this.feedbackMenuItem_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(130, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(149, 6);
             // 
             // trialInfoMenuItem
             // 
             this.trialInfoMenuItem.Name = "trialInfoMenuItem";
-            this.trialInfoMenuItem.Size = new System.Drawing.Size(133, 22);
+            this.trialInfoMenuItem.Size = new System.Drawing.Size(152, 22);
             this.trialInfoMenuItem.Text = "&Trial Info...";
             this.trialInfoMenuItem.Click += new System.EventHandler(this.trialInfoMenuItem_Click);
             // 
             // samplesMenuItem
             // 
             this.samplesMenuItem.Name = "samplesMenuItem";
-            this.samplesMenuItem.Size = new System.Drawing.Size(133, 22);
+            this.samplesMenuItem.Size = new System.Drawing.Size(152, 22);
             this.samplesMenuItem.Text = "Samples...";
             this.samplesMenuItem.Click += new System.EventHandler(this.samplesMenuItem_Click);
             // 
             // aboutMenuItem
             // 
             this.aboutMenuItem.Name = "aboutMenuItem";
-            this.aboutMenuItem.Size = new System.Drawing.Size(133, 22);
-            this.aboutMenuItem.Text = "&About....";
+            this.aboutMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.aboutMenuItem.Text = "&About...";
             this.aboutMenuItem.Click += new System.EventHandler(this.aboutMenuItem_Click);
             // 
             // toolStrip

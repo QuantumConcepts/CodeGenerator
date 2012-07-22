@@ -154,13 +154,13 @@ namespace QuantumConcepts.CodeGenerator.Core.Utils
 
         public static string GetNameForElement(ElementType elementType, XElement element)
         {
-            string xPath = GetXPathForNameForElementType(elementType);
-            XAttribute attribute = (element.XPathEvaluate(xPath) as XAttribute);
+            string nameXPath = GetXPathForNameForElementType(elementType);
+            XAttribute nameAttribute = (XAttribute)((IEnumerable)element.XPathEvaluate(nameXPath)).Cast<object>().First();
 
-            if (attribute == null)
+            if (nameAttribute == null)
                 throw new ApplicationException("Could not determine name for element of type \"{0}.\"".FormatString(elementType));
 
-            return attribute.Value;
+            return nameAttribute.Value;
         }
 
         public static string GetNameForParentElement(ElementType elementType, XElement element)

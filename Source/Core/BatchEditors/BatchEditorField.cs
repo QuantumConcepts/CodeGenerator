@@ -23,8 +23,7 @@ namespace QuantumConcepts.CodeGenerator.Core.BatchEditors
 
         public ComingledXPathExpressionResult GetValue(XElement element, ElementType elementType)
         {
-            //return XmlUtil.ComputeComingledXPathExpression(element, elementType, this.XPathParts);
-            return null;    //TODO
+            return XmlUtil.ComputeComingledXPathExpression(element, elementType, this.XPathParts);
         }
     }
 }

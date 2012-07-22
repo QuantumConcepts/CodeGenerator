@@ -28,6 +28,7 @@ using QuantumConcepts.Licensing.Client.UI.Forms;
 using System.Reflection;
 using System.Diagnostics;
 using QuantumConcepts.CodeGenerator.Client.Plugins;
+using QuantumConcepts.CodeGenerator.Core.BatchEditors;
 
 namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
 {
@@ -418,7 +419,13 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             }
         }
 
-        public void InitializePlugins()
+        internal void InitializeBatchEditors()
+        {
+            BatchEditorManager.Initialize();
+            batchEditMenuItem.Visible = BatchEditorManager.Instance.Any();
+        }
+
+        internal void InitializePlugins()
         {
             Type iPluginType = typeof(IPlugin);
 
@@ -535,6 +542,21 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
                 Save();
             else if (result == DialogResult.Cancel)
                 return;
+
+            if (!File.Exists(path))
+            {
+                Logger.Info("File does not exist.");
+
+                if (isFromRecentFilesList && MessageBox.Show("Could not find file \"{0}\". Would you like to remove it from the Recent Projects list?".FormatString(path), null, MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == System.Windows.Forms.DialogResult.Yes)
+                {
+                    Configuration.Instance.RecentProjects.Remove(path);
+                    InitializeRecentProjectsMenu();
+                }
+                else if (!isFromRecentFilesList)
+                    MessageBox.Show("Could not find file \"{0}\".".FormatString(path), null, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+
+                return;
+            }
 
             using (new Wait())
             {

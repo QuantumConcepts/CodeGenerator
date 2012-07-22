@@ -468,10 +468,19 @@
       <SubType>Designer</SubType>
       <DependentUpon>ProjectProperties.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\Forms\Refresh.resx">
+      <DependentUpon>Refresh.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\Forms\Splash.resx">
       <SubType>Designer</SubType>
       <DependentUpon>Splash.cs</DependentUpon>
     </EmbeddedResource>
+    <Compile Include="UI\Forms\Refresh.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\Refresh.Designer.cs">
+      <DependentUpon>Refresh.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\Forms\Splash.cs">
       <SubType>Form</SubType>
     </Compile>
