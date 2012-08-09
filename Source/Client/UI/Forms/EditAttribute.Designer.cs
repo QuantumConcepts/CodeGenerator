@@ -64,7 +64,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.okButton.Location = new System.Drawing.Point(326, 68);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 23);
-            this.okButton.TabIndex = 2;
+            this.okButton.TabIndex = 3;
             this.okButton.Text = "&OK";
             this.okButton.UseVisualStyleBackColor = true;
             this.okButton.Click += new System.EventHandler(this.okButton_Click);
@@ -76,7 +76,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.cancelButton.Location = new System.Drawing.Point(407, 68);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(75, 23);
-            this.cancelButton.TabIndex = 3;
+            this.cancelButton.TabIndex = 4;
             this.cancelButton.Text = "&Cancel";
             this.cancelButton.UseVisualStyleBackColor = true;
             this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
@@ -91,7 +91,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.keyComboBox.Location = new System.Drawing.Point(57, 12);
             this.keyComboBox.Name = "keyComboBox";
             this.keyComboBox.Size = new System.Drawing.Size(425, 21);
-            this.keyComboBox.TabIndex = 0;
+            this.keyComboBox.TabIndex = 1;
             // 
             // valueComboBox
             // 
@@ -103,7 +103,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.valueComboBox.Location = new System.Drawing.Point(57, 39);
             this.valueComboBox.Name = "valueComboBox";
             this.valueComboBox.Size = new System.Drawing.Size(425, 21);
-            this.valueComboBox.TabIndex = 1;
+            this.valueComboBox.TabIndex = 2;
             // 
             // EditAttribute
             // 
@@ -122,6 +122,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "EditAttribute";
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Edit Attribute";
             this.ResumeLayout(false);

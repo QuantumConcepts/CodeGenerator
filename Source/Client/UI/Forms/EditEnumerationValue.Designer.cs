@@ -107,7 +107,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.cancelButton.Location = new System.Drawing.Point(401, 115);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(75, 23);
-            this.cancelButton.TabIndex = 5;
+            this.cancelButton.TabIndex = 7;
             this.cancelButton.Text = "&Cancel";
             this.cancelButton.UseVisualStyleBackColor = true;
             this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
@@ -118,7 +118,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.okButton.Location = new System.Drawing.Point(320, 115);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 23);
-            this.okButton.TabIndex = 4;
+            this.okButton.TabIndex = 6;
             this.okButton.Text = "&OK";
             this.okButton.UseVisualStyleBackColor = true;
             this.okButton.Click += new System.EventHandler(this.okButton_Click);
@@ -129,7 +129,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.attributesButton.Location = new System.Drawing.Point(177, 115);
             this.attributesButton.Name = "attributesButton";
             this.attributesButton.Size = new System.Drawing.Size(75, 23);
-            this.attributesButton.TabIndex = 23;
+            this.attributesButton.TabIndex = 5;
             this.attributesButton.Text = "&Attributes";
             this.attributesButton.UseVisualStyleBackColor = true;
             this.attributesButton.Click += new System.EventHandler(this.attributesButton_Click);
@@ -140,7 +140,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.editAnnotationsButton.Location = new System.Drawing.Point(96, 115);
             this.editAnnotationsButton.Name = "editAnnotationsButton";
             this.editAnnotationsButton.Size = new System.Drawing.Size(75, 23);
-            this.editAnnotationsButton.TabIndex = 22;
+            this.editAnnotationsButton.TabIndex = 4;
             this.editAnnotationsButton.Text = "A&nnotations";
             this.editAnnotationsButton.UseVisualStyleBackColor = true;
             this.editAnnotationsButton.Click += new System.EventHandler(this.editAnnotationsButton_Click);
@@ -165,6 +165,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "EditEnumerationValue";
             this.ShowIcon = false;
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Edit Enumeration Value";
             this.ResumeLayout(false);

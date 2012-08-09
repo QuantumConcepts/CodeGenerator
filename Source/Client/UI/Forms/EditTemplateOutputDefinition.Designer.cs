@@ -255,7 +255,7 @@
             this.okButton.Location = new System.Drawing.Point(466, 402);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 23);
-            this.okButton.TabIndex = 6;
+            this.okButton.TabIndex = 7;
             this.okButton.Text = "&Ok";
             this.okButton.UseVisualStyleBackColor = true;
             this.okButton.Click += new System.EventHandler(this.okButton_Click);
@@ -267,7 +267,7 @@
             this.cancelButton.Location = new System.Drawing.Point(547, 402);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(75, 23);
-            this.cancelButton.TabIndex = 7;
+            this.cancelButton.TabIndex = 8;
             this.cancelButton.Text = "&Cancel";
             this.cancelButton.UseVisualStyleBackColor = true;
             // 
@@ -277,7 +277,7 @@
             this.updatePreviewButton.Location = new System.Drawing.Point(12, 402);
             this.updatePreviewButton.Name = "updatePreviewButton";
             this.updatePreviewButton.Size = new System.Drawing.Size(100, 23);
-            this.updatePreviewButton.TabIndex = 28;
+            this.updatePreviewButton.TabIndex = 6;
             this.updatePreviewButton.Text = "&Update Preview";
             this.updatePreviewButton.UseVisualStyleBackColor = true;
             this.updatePreviewButton.Click += new System.EventHandler(this.updatePreviewButton_Click);
@@ -313,6 +313,7 @@
             this.MinimizeBox = false;
             this.Name = "EditTemplateOutputDefinition";
             this.ShowIcon = false;
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Edit Template Output Definition";
             this.groupBox1.ResumeLayout(false);

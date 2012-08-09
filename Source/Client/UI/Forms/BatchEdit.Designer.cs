@@ -65,7 +65,7 @@
             this.valueXPathTextBox.Location = new System.Drawing.Point(101, 92);
             this.valueXPathTextBox.Name = "valueXPathTextBox";
             this.valueXPathTextBox.Size = new System.Drawing.Size(521, 20);
-            this.valueXPathTextBox.TabIndex = 28;
+            this.valueXPathTextBox.TabIndex = 4;
             this.valueXPathTextBox.Click += new System.EventHandler(this.field_Changed);
             // 
             // label3
@@ -84,7 +84,7 @@
             this.elementTypeComboBox.Location = new System.Drawing.Point(101, 39);
             this.elementTypeComboBox.Name = "elementTypeComboBox";
             this.elementTypeComboBox.Size = new System.Drawing.Size(150, 21);
-            this.elementTypeComboBox.TabIndex = 26;
+            this.elementTypeComboBox.TabIndex = 2;
             this.elementTypeComboBox.SelectedIndexChanged += new System.EventHandler(this.field_Changed);
             // 
             // filterXPathTextBox
@@ -94,7 +94,7 @@
             this.filterXPathTextBox.Location = new System.Drawing.Point(101, 66);
             this.filterXPathTextBox.Name = "filterXPathTextBox";
             this.filterXPathTextBox.Size = new System.Drawing.Size(521, 20);
-            this.filterXPathTextBox.TabIndex = 27;
+            this.filterXPathTextBox.TabIndex = 3;
             this.filterXPathTextBox.Text = "@Exclude=\'false\'";
             this.filterXPathTextBox.Click += new System.EventHandler(this.field_Changed);
             // 
@@ -142,7 +142,7 @@
             this.updatePreviewButton.Location = new System.Drawing.Point(12, 403);
             this.updatePreviewButton.Name = "updatePreviewButton";
             this.updatePreviewButton.Size = new System.Drawing.Size(100, 22);
-            this.updatePreviewButton.TabIndex = 38;
+            this.updatePreviewButton.TabIndex = 6;
             this.updatePreviewButton.Text = "&Update Preview";
             this.updatePreviewButton.UseVisualStyleBackColor = true;
             this.updatePreviewButton.Click += new System.EventHandler(this.updatePreviewButton_Click);
@@ -154,7 +154,7 @@
             this.okButton.Location = new System.Drawing.Point(466, 402);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 23);
-            this.okButton.TabIndex = 35;
+            this.okButton.TabIndex = 7;
             this.okButton.Text = "&Ok";
             this.okButton.UseVisualStyleBackColor = true;
             this.okButton.Click += new System.EventHandler(this.okButton_Click);
@@ -166,7 +166,7 @@
             this.cancelButton.Location = new System.Drawing.Point(547, 402);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(75, 23);
-            this.cancelButton.TabIndex = 36;
+            this.cancelButton.TabIndex = 8;
             this.cancelButton.Text = "&Cancel";
             this.cancelButton.UseVisualStyleBackColor = true;
             // 
@@ -179,7 +179,7 @@
             this.groupBox1.Location = new System.Drawing.Point(12, 150);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(610, 246);
-            this.groupBox1.TabIndex = 37;
+            this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Preview";
             // 
@@ -248,6 +248,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.label2);
             this.Name = "BatchEdit";
+            this.ShowInTaskbar = false;
             this.Text = "Batch Edit";
             this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);

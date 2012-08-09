@@ -65,7 +65,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.okButton.Location = new System.Drawing.Point(333, 68);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 23);
-            this.okButton.TabIndex = 3;
+            this.okButton.TabIndex = 4;
             this.okButton.Text = "&OK";
             this.okButton.UseVisualStyleBackColor = true;
             this.okButton.Click += new System.EventHandler(this.okButton_Click);
@@ -77,7 +77,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.cancelButton.Location = new System.Drawing.Point(414, 68);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(75, 23);
-            this.cancelButton.TabIndex = 4;
+            this.cancelButton.TabIndex = 5;
             this.cancelButton.Text = "&Cancel";
             this.cancelButton.UseVisualStyleBackColor = true;
             this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
@@ -88,7 +88,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.attributesButton.Location = new System.Drawing.Point(57, 68);
             this.attributesButton.Name = "attributesButton";
             this.attributesButton.Size = new System.Drawing.Size(75, 23);
-            this.attributesButton.TabIndex = 2;
+            this.attributesButton.TabIndex = 3;
             this.attributesButton.Text = "&Attributes";
             this.attributesButton.UseVisualStyleBackColor = true;
             this.attributesButton.Click += new System.EventHandler(this.attributesButton_Click);
@@ -101,7 +101,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.typeComboBox.Location = new System.Drawing.Point(57, 12);
             this.typeComboBox.Name = "typeComboBox";
             this.typeComboBox.Size = new System.Drawing.Size(432, 21);
-            this.typeComboBox.TabIndex = 0;
+            this.typeComboBox.TabIndex = 1;
             // 
             // textComboBox
             // 
@@ -111,7 +111,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.textComboBox.Location = new System.Drawing.Point(57, 39);
             this.textComboBox.Name = "textComboBox";
             this.textComboBox.Size = new System.Drawing.Size(432, 21);
-            this.textComboBox.TabIndex = 1;
+            this.textComboBox.TabIndex = 2;
             // 
             // EditAnnotation
             // 
@@ -131,6 +131,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "EditAnnotation";
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Edit Annotation";
             this.ResumeLayout(false);

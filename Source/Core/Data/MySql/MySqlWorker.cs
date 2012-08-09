@@ -59,12 +59,12 @@ namespace QuantumConcepts.CodeGenerator.Core.Data.MySql
                     "c.table_schema AS " + QueryConstants.TableOrView.SchemaName + ", " +
                     "c.table_name AS " + QueryConstants.TableOrView.Name + ", " +
                     "c.column_name AS " + QueryConstants.Column.Name + ", " +
-                    "c.ordinal_position AS " + QueryConstants.Column.Sequence + ", " +
+                    "CONVERT(c.ordinal_position, DECIMAL(65, 0)) AS " + QueryConstants.Column.Sequence + ", " +
                     "c.data_type AS " + QueryConstants.Column.DataType + ", " +
-                    "c.character_maximum_length AS " + QueryConstants.Column.Length + ", " +
+                    "CONVERT(c.character_maximum_length, DECIMAL(65, 0)) AS " + QueryConstants.Column.Length + ", " +
                     "c.column_default AS " + QueryConstants.Column.DefaultValue + ", " +
                     "c.is_nullable AS " + QueryConstants.Column.Nullable + ", " +
-                    "c.column_key AS " + QueryConstants.Column.PrimaryKey + " " +
+                    "IF(c.column_key = \"PRI\", \"YES\", \"NO\") AS " + QueryConstants.Column.PrimaryKey + " " +
                 "FROM " +
                     "information_schema.columns c " +
                     "JOIN information_schema.tables t ON t.table_schema = c.table_schema AND t.table_name = c.table_name " +
@@ -110,15 +110,15 @@ namespace QuantumConcepts.CodeGenerator.Core.Data.MySql
                     "AND i.constraint_type = \"UNIQUE\"", GetCommonParameters(project));
         }
 
-        protected override void ExtractColumnInfo(DataRow dr, out string forParent, out string name, out string schemaName, out string tableName, out UInt64 sequence, out string databaseDataType, out UInt64 length, out string defaultValue, out bool nullable, out bool primaryKey)
+        protected override void ExtractColumnInfo(DataRow dr, out string forParent, out string name, out string schemaName, out string tableName, out decimal sequence, out string databaseDataType, out decimal length, out string defaultValue, out bool nullable, out bool primaryKey)
         {
             forParent = dr.TryGetValue<string>(QueryConstants.Column.For);
             name = dr.TryGetValue<string>(QueryConstants.Column.Name);
             schemaName = dr.TryGetValue<string>(QueryConstants.TableOrView.SchemaName);
             tableName = dr.TryGetValue<string>(QueryConstants.TableOrView.Name);
-            sequence = dr.TryGetValue<UInt64>(QueryConstants.Column.Sequence);
+            sequence = dr.TryGetValue<decimal>(QueryConstants.Column.Sequence);
             databaseDataType = dr.TryGetValue<string>(QueryConstants.Column.DataType);
-            length = dr.TryGetValue<UInt64>(QueryConstants.Column.Length);
+            length = dr.TryGetValue<decimal>(QueryConstants.Column.Length);
             defaultValue = dr.TryGetValue<string>(QueryConstants.Column.DefaultValue);
             nullable = YesNoToBool(dr.TryGetValue<string>(QueryConstants.Column.Nullable));
             primaryKey = YesNoToBool(dr.TryGetValue<string>(QueryConstants.Column.PrimaryKey));

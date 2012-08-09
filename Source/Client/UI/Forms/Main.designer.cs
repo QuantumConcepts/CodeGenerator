@@ -92,7 +92,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.contentSplitContainer = new System.Windows.Forms.SplitContainer();
             this.leftSplitContainer = new System.Windows.Forms.SplitContainer();
-            this.toolbox1 = new QuantumConcepts.Common.Forms.UI.Controls.Toolbox();
+            this.projectToolbox = new QuantumConcepts.Common.Forms.UI.Controls.Toolbox();
             this.projectTreeview = new System.Windows.Forms.TreeView();
             this.propertiesToolbox = new QuantumConcepts.Common.Forms.UI.Controls.Toolbox();
             this.optionsPlaceholderPanel = new System.Windows.Forms.Panel();
@@ -110,7 +110,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.leftSplitContainer.Panel1.SuspendLayout();
             this.leftSplitContainer.Panel2.SuspendLayout();
             this.leftSplitContainer.SuspendLayout();
-            this.toolbox1.SuspendLayout();
+            this.projectToolbox.SuspendLayout();
             this.propertiesToolbox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.contentWatermarkPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.watermarkPictureBox)).BeginInit();
@@ -374,21 +374,21 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             // addCreateMenuItem
             // 
             this.addCreateMenuItem.Name = "addCreateMenuItem";
-            this.addCreateMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.addCreateMenuItem.Size = new System.Drawing.Size(130, 22);
             this.addCreateMenuItem.Text = "Create";
             this.addCreateMenuItem.Click += new System.EventHandler(this.addCreateAPIMenuItem_Click);
             // 
             // addDeleteMenuItem
             // 
             this.addDeleteMenuItem.Name = "addDeleteMenuItem";
-            this.addDeleteMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.addDeleteMenuItem.Size = new System.Drawing.Size(130, 22);
             this.addDeleteMenuItem.Text = "Delete";
             this.addDeleteMenuItem.Click += new System.EventHandler(this.addDeleteAPIMenuItem_Click);
             // 
             // addAPIAttributeMenuItem
             // 
             this.addAPIAttributeMenuItem.Name = "addAPIAttributeMenuItem";
-            this.addAPIAttributeMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.addAPIAttributeMenuItem.Size = new System.Drawing.Size(130, 22);
             this.addAPIAttributeMenuItem.Text = "Attribute...";
             this.addAPIAttributeMenuItem.Click += new System.EventHandler(this.addAPIAttributeMenuItem_Click);
             // 
@@ -408,7 +408,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.classesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.removeDefaultClassAnnotationMenuItem});
             this.classesToolStripMenuItem.Name = "classesToolStripMenuItem";
-            this.classesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.classesToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
             this.classesToolStripMenuItem.Text = "Classes";
             // 
             // removeDefaultClassAnnotationMenuItem
@@ -423,7 +423,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.propertiesToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.removeDefaultPropertyAnnotationMenuItem});
             this.propertiesToolStripMenuItem1.Name = "propertiesToolStripMenuItem1";
-            this.propertiesToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.propertiesToolStripMenuItem1.Size = new System.Drawing.Size(141, 22);
             this.propertiesToolStripMenuItem1.Text = "Properties";
             // 
             // removeDefaultPropertyAnnotationMenuItem
@@ -438,7 +438,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.foreignKeysToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.removeDefaultForeignKeyAnnotationMenuItem});
             this.foreignKeysToolStripMenuItem1.Name = "foreignKeysToolStripMenuItem1";
-            this.foreignKeysToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.foreignKeysToolStripMenuItem1.Size = new System.Drawing.Size(141, 22);
             this.foreignKeysToolStripMenuItem1.Text = "Foreign Keys";
             // 
             // removeDefaultForeignKeyAnnotationMenuItem
@@ -454,20 +454,20 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.removeCreateMenuItem1,
             this.removeDeleteMenuItem1});
             this.aPIToolStripMenuItem1.Name = "aPIToolStripMenuItem1";
-            this.aPIToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.aPIToolStripMenuItem1.Size = new System.Drawing.Size(141, 22);
             this.aPIToolStripMenuItem1.Text = "API";
             // 
             // removeCreateMenuItem1
             // 
             this.removeCreateMenuItem1.Name = "removeCreateMenuItem1";
-            this.removeCreateMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.removeCreateMenuItem1.Size = new System.Drawing.Size(108, 22);
             this.removeCreateMenuItem1.Text = "Create";
             this.removeCreateMenuItem1.Click += new System.EventHandler(this.removeCreateAPIMenuItem_Click);
             // 
             // removeDeleteMenuItem1
             // 
             this.removeDeleteMenuItem1.Name = "removeDeleteMenuItem1";
-            this.removeDeleteMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.removeDeleteMenuItem1.Size = new System.Drawing.Size(108, 22);
             this.removeDeleteMenuItem1.Text = "Delete";
             this.removeDeleteMenuItem1.Click += new System.EventHandler(this.removeDeleteAPIMenuItem_Click);
             // 
@@ -484,14 +484,14 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             // metricsMenuItem
             // 
             this.metricsMenuItem.Name = "metricsMenuItem";
-            this.metricsMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.metricsMenuItem.Size = new System.Drawing.Size(136, 22);
             this.metricsMenuItem.Text = "&Metrics...";
             this.metricsMenuItem.Click += new System.EventHandler(this.metricsMenuItem_Click);
             // 
             // batchEditMenuItem
             // 
             this.batchEditMenuItem.Name = "batchEditMenuItem";
-            this.batchEditMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.batchEditMenuItem.Size = new System.Drawing.Size(136, 22);
             this.batchEditMenuItem.Text = "&Batch Edit...";
             this.batchEditMenuItem.Click += new System.EventHandler(this.batchEditMenuItem_Click);
             // 
@@ -510,33 +510,33 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             // feedbackMenuItem
             // 
             this.feedbackMenuItem.Name = "feedbackMenuItem";
-            this.feedbackMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.feedbackMenuItem.Size = new System.Drawing.Size(133, 22);
             this.feedbackMenuItem.Text = "&Feedback...";
             this.feedbackMenuItem.Click += new System.EventHandler(this.feedbackMenuItem_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(130, 6);
             // 
             // trialInfoMenuItem
             // 
             this.trialInfoMenuItem.Name = "trialInfoMenuItem";
-            this.trialInfoMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.trialInfoMenuItem.Size = new System.Drawing.Size(133, 22);
             this.trialInfoMenuItem.Text = "&Trial Info...";
             this.trialInfoMenuItem.Click += new System.EventHandler(this.trialInfoMenuItem_Click);
             // 
             // samplesMenuItem
             // 
             this.samplesMenuItem.Name = "samplesMenuItem";
-            this.samplesMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.samplesMenuItem.Size = new System.Drawing.Size(133, 22);
             this.samplesMenuItem.Text = "Samples...";
             this.samplesMenuItem.Click += new System.EventHandler(this.samplesMenuItem_Click);
             // 
             // aboutMenuItem
             // 
             this.aboutMenuItem.Name = "aboutMenuItem";
-            this.aboutMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.aboutMenuItem.Size = new System.Drawing.Size(133, 22);
             this.aboutMenuItem.Text = "&About...";
             this.aboutMenuItem.Click += new System.EventHandler(this.aboutMenuItem_Click);
             // 
@@ -554,7 +554,8 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.toolStrip.Location = new System.Drawing.Point(0, 24);
             this.toolStrip.Name = "toolStrip";
             this.toolStrip.Size = new System.Drawing.Size(919, 39);
-            this.toolStrip.TabIndex = 5;
+            this.toolStrip.TabIndex = 1;
+            this.toolStrip.TabStop = true;
             // 
             // newButton
             // 
@@ -653,7 +654,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.contentSplitContainer.Panel2.Controls.Add(this.contentWatermarkPictureBox);
             this.contentSplitContainer.Size = new System.Drawing.Size(919, 563);
             this.contentSplitContainer.SplitterDistance = 300;
-            this.contentSplitContainer.TabIndex = 14;
+            this.contentSplitContainer.TabIndex = 2;
             this.contentSplitContainer.Visible = false;
             // 
             // leftSplitContainer
@@ -666,7 +667,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             // 
             // leftSplitContainer.Panel1
             // 
-            this.leftSplitContainer.Panel1.Controls.Add(this.toolbox1);
+            this.leftSplitContainer.Panel1.Controls.Add(this.projectToolbox);
             // 
             // leftSplitContainer.Panel2
             // 
@@ -676,19 +677,19 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.leftSplitContainer.SplitterDistance = 254;
             this.leftSplitContainer.TabIndex = 1;
             // 
-            // toolbox1
+            // projectToolbox
             // 
-            this.toolbox1.Controls.Add(this.projectTreeview);
-            this.toolbox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.toolbox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.toolbox1.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.toolbox1.HeaderAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.toolbox1.HeaderText = "Project Explorer";
-            this.toolbox1.Location = new System.Drawing.Point(0, 0);
-            this.toolbox1.Name = "toolbox1";
-            this.toolbox1.Orientation = QuantumConcepts.Common.Forms.UI.Controls.ToolboxOrientation.None;
-            this.toolbox1.Size = new System.Drawing.Size(300, 254);
-            this.toolbox1.TabIndex = 17;
+            this.projectToolbox.Controls.Add(this.projectTreeview);
+            this.projectToolbox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.projectToolbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.projectToolbox.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.projectToolbox.HeaderAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.projectToolbox.HeaderText = "Project Explorer";
+            this.projectToolbox.Location = new System.Drawing.Point(0, 0);
+            this.projectToolbox.Name = "projectToolbox";
+            this.projectToolbox.Orientation = QuantumConcepts.Common.Forms.UI.Controls.ToolboxOrientation.None;
+            this.projectToolbox.Size = new System.Drawing.Size(300, 254);
+            this.projectToolbox.TabIndex = 1;
             // 
             // projectTreeview
             // 
@@ -808,7 +809,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.leftSplitContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.leftSplitContainer)).EndInit();
             this.leftSplitContainer.ResumeLayout(false);
-            this.toolbox1.ResumeLayout(false);
+            this.projectToolbox.ResumeLayout(false);
             this.propertiesToolbox.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.contentWatermarkPictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.watermarkPictureBox)).EndInit();
@@ -879,7 +880,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
         private System.Windows.Forms.ToolStripMenuItem feedbackMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripMenuItem trialInfoMenuItem;
-        private Common.Forms.UI.Controls.Toolbox toolbox1;
+        private Common.Forms.UI.Controls.Toolbox projectToolbox;
         private Common.Forms.UI.Controls.Toolbox propertiesToolbox;
         private System.Windows.Forms.ToolStripMenuItem samplesMenuItem;
         private System.Windows.Forms.ToolStripMenuItem batchEditMenuItem;

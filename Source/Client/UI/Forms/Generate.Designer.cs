@@ -57,10 +57,11 @@
             this.outputsListView.Location = new System.Drawing.Point(12, 42);
             this.outputsListView.Name = "outputsListView";
             this.outputsListView.Size = new System.Drawing.Size(724, 357);
-            this.outputsListView.TabIndex = 0;
+            this.outputsListView.TabIndex = 1;
             this.outputsListView.UseCompatibleStateImageBehavior = false;
             this.outputsListView.View = System.Windows.Forms.View.Details;
             this.outputsListView.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.outputsListView_ItemChecked);
+            this.outputsListView.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.outputsListView_MouseDoubleClick);
             // 
             // pathColumn
             // 
@@ -99,7 +100,7 @@
             this.generateButton.Location = new System.Drawing.Point(499, 428);
             this.generateButton.Name = "generateButton";
             this.generateButton.Size = new System.Drawing.Size(75, 23);
-            this.generateButton.TabIndex = 2;
+            this.generateButton.TabIndex = 3;
             this.generateButton.Text = "&Generate";
             this.generateButton.UseVisualStyleBackColor = true;
             this.generateButton.Click += new System.EventHandler(this.generateButton_Click);
@@ -110,7 +111,7 @@
             this.generateAllButton.Location = new System.Drawing.Point(580, 428);
             this.generateAllButton.Name = "generateAllButton";
             this.generateAllButton.Size = new System.Drawing.Size(75, 23);
-            this.generateAllButton.TabIndex = 3;
+            this.generateAllButton.TabIndex = 4;
             this.generateAllButton.Text = "Generate &All";
             this.generateAllButton.UseVisualStyleBackColor = true;
             this.generateAllButton.Click += new System.EventHandler(this.generateAllButton_Click);
@@ -121,10 +122,10 @@
             this.closeButton.Location = new System.Drawing.Point(661, 428);
             this.closeButton.Name = "closeButton";
             this.closeButton.Size = new System.Drawing.Size(75, 23);
-            this.closeButton.TabIndex = 4;
+            this.closeButton.TabIndex = 5;
             this.closeButton.Text = "&Close";
             this.closeButton.UseVisualStyleBackColor = true;
-            this.closeButton.Click += new System.EventHandler(this.cancelButton_Click);
+            this.closeButton.Click += new System.EventHandler(this.closeButton_Click);
             // 
             // progressBar
             // 
@@ -143,7 +144,7 @@
             this.autoCloseCheckBox.Location = new System.Drawing.Point(12, 405);
             this.autoCloseCheckBox.Name = "autoCloseCheckBox";
             this.autoCloseCheckBox.Size = new System.Drawing.Size(246, 17);
-            this.autoCloseCheckBox.TabIndex = 6;
+            this.autoCloseCheckBox.TabIndex = 2;
             this.autoCloseCheckBox.Text = "Close this window upon successful generation.";
             this.autoCloseCheckBox.UseVisualStyleBackColor = true;
             // 

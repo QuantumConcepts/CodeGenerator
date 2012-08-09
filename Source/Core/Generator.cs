@@ -14,11 +14,14 @@ using LC = QuantumConcepts.Licensing.Client;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Threading;
+using log4net;
 
 namespace QuantumConcepts.CodeGenerator.Core
 {
     internal class Generator
     {
+        private static readonly ILog Logger = LogManager.GetLogger(typeof(Generator));
+
         public delegate void GenerationStatusEventHandler(Generator generator, GenerationStatusEventArgs e);
         public delegate void TemplateGenerationStatusEventHandler(Generator generator, TemplateGenerationStatusEventArgs e);
         public delegate void ItemGenerationStatusEventHandler(Generator generator, ItemGenerationStatusEventArgs e);
@@ -99,17 +102,22 @@ namespace QuantumConcepts.CodeGenerator.Core
                     }
                     catch (Exception ex)
                     {
+                        Generator.Logger.Error(ex);
                         OnTemplateGenerationStatus(TemplateGenerationStatusEventArgs.CreateError(o, new ApplicationException("Unable to load XSLT.", ex)));
                         return;
                     }
 
-                    this.TemplateXslts.Add(o, xslTransform);
+                    lock (this.TemplateXslts)
+                    {
+                        this.TemplateXslts.Add(o, xslTransform);
+                    }
 
                     OnTemplateGenerationStatus(TemplateGenerationStatusEventArgs.CreateComplete(o));
                 });
 
                 Parallel.ForEach(from t in this.TemplateOutputs.Keys
                                  from o in this.TemplateOutputs[t]
+                                 where this.TemplateXslts.ContainsKey(t)
                                  select new
                                  {
                                      Template = t,
@@ -137,6 +145,7 @@ namespace QuantumConcepts.CodeGenerator.Core
             }
             catch (Exception ex)
             {
+                Generator.Logger.Error(ex);
                 OnItemGenerationStatus(ItemGenerationStatusEventArgs.CreateError(template, output, new ApplicationException("Unable to delete existing file.", ex)));
                 return;
             }
@@ -148,6 +157,7 @@ namespace QuantumConcepts.CodeGenerator.Core
             }
             catch (Exception ex)
             {
+                Generator.Logger.Error(ex);
                 OnItemGenerationStatus(ItemGenerationStatusEventArgs.CreateError(template, output, new ApplicationException("Unable to create output directory.", ex)));
                 return;
             }
@@ -179,6 +189,7 @@ namespace QuantumConcepts.CodeGenerator.Core
             }
             catch (Exception ex)
             {
+                Generator.Logger.Error(ex);
                 OnItemGenerationStatus(ItemGenerationStatusEventArgs.CreateError(template, output, new ApplicationException("Unable to generate, error writing to the specified path or the template or input XML is not valid.", ex)));
                 return;
             }

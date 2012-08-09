@@ -298,8 +298,8 @@
 			<xs:element ref="Annotations" minOccurs="0" maxOccurs="1"/>
 			<xs:element ref="Attributes" minOccurs="0" maxOccurs="1"/>
 		</xs:sequence>
-		<xs:attribute name="DataTypeReferencedEnumTableMappingSchemaName" use="required" type="xs:string"/>
-		<xs:attribute name="DataTypeReferencedEnumTableMappingName" use="required" type="xs:string"/>
+		<xs:attribute name="DataTypeReferencedTableMappingSchemaName" use="required" type="xs:string"/>
+		<xs:attribute name="DataTypeReferencedTableMappingName" use="required" type="xs:string"/>
 		<xs:attribute name="DataTypeReferencedEnumColumnMappingName" use="required" type="xs:string"/>
 		<xs:attribute name="IsReturnParameter" use="required" type="xs:boolean"/>
 		<xs:attribute name="Quantifier" use="required" type="ParameterQuantifier"/>

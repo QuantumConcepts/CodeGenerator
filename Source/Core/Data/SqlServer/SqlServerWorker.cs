@@ -56,9 +56,9 @@ namespace QuantumConcepts.CodeGenerator.Core.Data.SqlServer
                             "s.name AS " + QueryConstants.TableOrView.SchemaName + ", " +
                             "t.name AS " + QueryConstants.TableOrView.Name + ", " +
                             "c.name AS " + QueryConstants.Column.Name + ", " +
-                            "c.column_id AS " + QueryConstants.Column.Sequence + ", " +
+                            "CONVERT(DECIMAL(20, 0), c.column_id) AS " + QueryConstants.Column.Sequence + ", " +
                             "ty.name AS " + QueryConstants.Column.DataType + ", " +
-                            "CASE WHEN c.precision = 0 THEN c.max_length ELSE c.precision END AS " + QueryConstants.Column.Length + ", " +
+                            "CONVERT(DECIMAL(20, 0), CASE WHEN c.precision = 0 THEN c.max_length ELSE c.precision END) AS " + QueryConstants.Column.Length + ", " +
                             "CASE WHEN dc.name IS NULL THEN NULL ELSE dc.definition END AS " + QueryConstants.Column.DefaultValue + ", " +
                             "c.is_nullable AS " + QueryConstants.Column.Nullable + ", " +
                             "CONVERT(BIT, CASE WHEN kc.name IS NULL THEN 0 ELSE 1 END) AS " + QueryConstants.Column.PrimaryKey + " " +
@@ -100,9 +100,9 @@ namespace QuantumConcepts.CodeGenerator.Core.Data.SqlServer
                             "s.name AS " + QueryConstants.TableOrView.SchemaName + ", " +
                             "v.name AS " + QueryConstants.TableOrView.Name + ", " +
                             "c.name AS " + QueryConstants.Column.Name + ", " +
-                            "c.column_id AS " + QueryConstants.Column.Sequence + ", " +
+                            "CONVERT(DECIMAL(38, 0), c.column_id) AS " + QueryConstants.Column.Sequence + ", " +
                             "ty.name AS " + QueryConstants.Column.DataType + ", " +
-                            "CASE WHEN c.precision = 0 THEN c.max_length ELSE c.precision END AS " + QueryConstants.Column.Length + ", " +
+                            "CONVERT(DECIMAL(38, 0), CASE WHEN c.precision = 0 THEN c.max_length ELSE c.precision END) AS " + QueryConstants.Column.Length + ", " +
                             "CASE WHEN dc.name IS NULL THEN NULL ELSE dc.definition END AS " + QueryConstants.Column.DefaultValue + ", " +
                             "c.is_nullable AS " + QueryConstants.Column.Nullable + ", " +
                             "CONVERT(BIT, CASE WHEN kc.name IS NULL THEN 0 ELSE 1 END) AS " + QueryConstants.Column.PrimaryKey + " " +

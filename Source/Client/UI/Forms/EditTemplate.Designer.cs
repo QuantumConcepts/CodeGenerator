@@ -57,7 +57,7 @@
             this.singleFileOutputPathBrowseButton.Location = new System.Drawing.Point(365, 3);
             this.singleFileOutputPathBrowseButton.Name = "singleFileOutputPathBrowseButton";
             this.singleFileOutputPathBrowseButton.Size = new System.Drawing.Size(75, 23);
-            this.singleFileOutputPathBrowseButton.TabIndex = 13;
+            this.singleFileOutputPathBrowseButton.TabIndex = 2;
             this.singleFileOutputPathBrowseButton.Text = "&Browse";
             this.singleFileOutputPathBrowseButton.UseVisualStyleBackColor = true;
             this.singleFileOutputPathBrowseButton.Click += new System.EventHandler(this.singleFileOutputPathBrowseButton_Click);
@@ -69,7 +69,7 @@
             this.singleFileOutputPathTextBox.Location = new System.Drawing.Point(3, 5);
             this.singleFileOutputPathTextBox.Name = "singleFileOutputPathTextBox";
             this.singleFileOutputPathTextBox.Size = new System.Drawing.Size(356, 20);
-            this.singleFileOutputPathTextBox.TabIndex = 11;
+            this.singleFileOutputPathTextBox.TabIndex = 1;
             // 
             // xsltBrowseButton
             // 
@@ -77,7 +77,7 @@
             this.xsltBrowseButton.Location = new System.Drawing.Point(428, 10);
             this.xsltBrowseButton.Name = "xsltBrowseButton";
             this.xsltBrowseButton.Size = new System.Drawing.Size(75, 23);
-            this.xsltBrowseButton.TabIndex = 10;
+            this.xsltBrowseButton.TabIndex = 2;
             this.xsltBrowseButton.Text = "Browse";
             this.xsltBrowseButton.UseVisualStyleBackColor = true;
             this.xsltBrowseButton.Click += new System.EventHandler(this.xsltBrowseButton_Click);
@@ -89,7 +89,7 @@
             this.xsltPathTextBox.Location = new System.Drawing.Point(83, 12);
             this.xsltPathTextBox.Name = "xsltPathTextBox";
             this.xsltPathTextBox.Size = new System.Drawing.Size(339, 20);
-            this.xsltPathTextBox.TabIndex = 9;
+            this.xsltPathTextBox.TabIndex = 1;
             // 
             // label2
             // 
@@ -112,7 +112,7 @@
             this.groupBox1.Location = new System.Drawing.Point(12, 39);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(491, 331);
-            this.groupBox1.TabIndex = 17;
+            this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Output Options";
             // 
@@ -127,7 +127,7 @@
             this.multipleFilesPanel.Location = new System.Drawing.Point(42, 100);
             this.multipleFilesPanel.Name = "multipleFilesPanel";
             this.multipleFilesPanel.Size = new System.Drawing.Size(443, 225);
-            this.multipleFilesPanel.TabIndex = 62;
+            this.multipleFilesPanel.TabIndex = 3;
             // 
             // templateOutputDefinitionsListBox
             // 
@@ -137,7 +137,7 @@
             this.templateOutputDefinitionsListBox.Location = new System.Drawing.Point(0, 25);
             this.templateOutputDefinitionsListBox.Name = "templateOutputDefinitionsListBox";
             this.templateOutputDefinitionsListBox.Size = new System.Drawing.Size(443, 199);
-            this.templateOutputDefinitionsListBox.TabIndex = 1;
+            this.templateOutputDefinitionsListBox.TabIndex = 2;
             this.templateOutputDefinitionsListBox.SelectedIndexChanged += new System.EventHandler(this.outputDefinitionsListBox_SelectedIndexChanged);
             // 
             // multipleFilesToolStrip
@@ -152,7 +152,8 @@
             this.multipleFilesToolStrip.Location = new System.Drawing.Point(0, 0);
             this.multipleFilesToolStrip.Name = "multipleFilesToolStrip";
             this.multipleFilesToolStrip.Size = new System.Drawing.Size(195, 25);
-            this.multipleFilesToolStrip.TabIndex = 0;
+            this.multipleFilesToolStrip.TabIndex = 1;
+            this.multipleFilesToolStrip.TabStop = true;
             // 
             // addButton
             // 
@@ -189,7 +190,7 @@
             this.multipleFilesRadioButton.Location = new System.Drawing.Point(6, 77);
             this.multipleFilesRadioButton.Name = "multipleFilesRadioButton";
             this.multipleFilesRadioButton.Size = new System.Drawing.Size(85, 17);
-            this.multipleFilesRadioButton.TabIndex = 61;
+            this.multipleFilesRadioButton.TabIndex = 1;
             this.multipleFilesRadioButton.Text = "Multiple Files";
             this.multipleFilesRadioButton.UseVisualStyleBackColor = true;
             this.multipleFilesRadioButton.CheckedChanged += new System.EventHandler(this.multipleFilesRadioButton_CheckedChanged);
@@ -203,7 +204,8 @@
             this.singleFilePanel.Location = new System.Drawing.Point(42, 42);
             this.singleFilePanel.Name = "singleFilePanel";
             this.singleFilePanel.Size = new System.Drawing.Size(443, 29);
-            this.singleFilePanel.TabIndex = 59;
+            this.singleFilePanel.TabIndex = 2;
+            this.singleFilePanel.TabStop = true;
             // 
             // singleFileRadioButton
             // 
@@ -212,7 +214,7 @@
             this.singleFileRadioButton.Location = new System.Drawing.Point(6, 19);
             this.singleFileRadioButton.Name = "singleFileRadioButton";
             this.singleFileRadioButton.Size = new System.Drawing.Size(73, 17);
-            this.singleFileRadioButton.TabIndex = 58;
+            this.singleFileRadioButton.TabIndex = 1;
             this.singleFileRadioButton.TabStop = true;
             this.singleFileRadioButton.Text = "Single File";
             this.singleFileRadioButton.UseVisualStyleBackColor = true;
@@ -222,20 +224,20 @@
             // 
             this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancelButton.Location = new System.Drawing.Point(428, 397);
+            this.cancelButton.Location = new System.Drawing.Point(428, 376);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(75, 23);
-            this.cancelButton.TabIndex = 15;
+            this.cancelButton.TabIndex = 5;
             this.cancelButton.Text = "&Cancel";
             this.cancelButton.UseVisualStyleBackColor = true;
             // 
             // okButton
             // 
             this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.okButton.Location = new System.Drawing.Point(347, 397);
+            this.okButton.Location = new System.Drawing.Point(347, 376);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 23);
-            this.okButton.TabIndex = 14;
+            this.okButton.TabIndex = 4;
             this.okButton.Text = "&OK";
             this.okButton.UseVisualStyleBackColor = true;
             this.okButton.Click += new System.EventHandler(this.okButton_Click);
@@ -246,7 +248,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cancelButton;
-            this.ClientSize = new System.Drawing.Size(515, 432);
+            this.ClientSize = new System.Drawing.Size(515, 411);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.okButton);
             this.Controls.Add(this.cancelButton);
@@ -256,6 +258,7 @@
             this.MinimizeBox = false;
             this.Name = "EditTemplate";
             this.ShowIcon = false;
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Edit Template";
             this.groupBox1.ResumeLayout(false);

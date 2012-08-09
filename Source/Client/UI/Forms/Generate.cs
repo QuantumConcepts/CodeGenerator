@@ -59,6 +59,38 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             generateButton.Enabled = !outputsListView.CheckedItems.IsNullOrEmpty();
         }
 
+        private void outputsListView_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            ListViewItem item = outputsListView.GetItemAt(e.Location.X, e.Location.Y);
+
+            if (item != null)
+            {
+                Template template = (Template)item.Group.Tag;
+                Exception error = (item.SubItems[messageColumn.Index].Tag as Exception);
+
+                if (error != null)
+                {
+                    StringBuilder message = new StringBuilder();
+
+                    message.AppendLine("Template:\t\t{0}".FormatString(template.Name));
+                    message.AppendLine("XSLT Path:\t{0}".FormatString(template.XsltAbsolutePath));
+                    message.AppendLine("Output Path:\t{0}".FormatString(template.OutputAbsolutePath));
+                    message.AppendLine();
+
+                    while (error != null)
+                    {
+                        message.AppendLine(error.Message);
+                        error = error.InnerException;
+                    }
+
+                    message.AppendLine();
+                    message.Append("See the log for more information.");
+
+                    MessageBox.Show(message.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+            }
+        }
+
         private void generateButton_Click(object sender, EventArgs e)
         {
             GenerateSelection();
@@ -69,7 +101,21 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             GenerateAll();
         }
 
-        private void generator_GenerationStatus(Generator generator, GenerationStatusEventArgs e)
+        private void closeButton_Click(object sender, EventArgs e)
+        {
+            if (this.Generator != null)
+            {
+                if (MessageBox.Show("Generation is currently under way, are you sure you want to cancel?", "Confirm Cancelation", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) != System.Windows.Forms.DialogResult.Yes)
+                    return;
+
+                this.Generator.Cancel();
+            }
+
+            this.DialogResult = DialogResult.Cancel;
+            this.Close();
+        }
+
+        private void Generator_GenerationStatus(Generator generator, GenerationStatusEventArgs e)
         {
             this.Invoke(new GenericDelegate<GenerationStatusEventArgs>(x =>
             {
@@ -82,37 +128,63 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
                     MessageBox.Show(x.Error.Message, "Generation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
 
-                this.Generator.GenerationStatus -= new Generator.GenerationStatusEventHandler(generator_GenerationStatus);
-                this.Generator.ItemGenerationStatus -= new Generator.ItemGenerationStatusEventHandler(generator_ItemGenerationStatus);
+                this.Generator.GenerationStatus -= new Generator.GenerationStatusEventHandler(Generator_GenerationStatus);
+                this.Generator.TemplateGenerationStatus -= new Generator.TemplateGenerationStatusEventHandler(Generator_TemplateGenerationStatus);
+                this.Generator.ItemGenerationStatus -= new Generator.ItemGenerationStatusEventHandler(Generator_ItemGenerationStatus);
                 this.Generator = null;
 
-                if (x.Status == GenerationStatus.Complete && autoCloseCheckBox.Checked)
+                if (x.Status == GenerationStatus.Complete)
                 {
-                    this.DialogResult = DialogResult.OK;
-                    this.Close();
-                }
+                    bool hasErrors = outputsListView.Items.Cast<ListViewItem>().Any(o => GenerationStatus.Error.ToString().Equals(o.SubItems[statusColumn.Index].Text));
 
-                ToggleUI(true);
-                progressBar.Visible = false;
+                    ToggleUI(true);
+                    progressBar.Visible = false;
+
+                    if (!hasErrors && autoCloseCheckBox.Checked)
+                    {
+                        this.DialogResult = DialogResult.OK;
+                        this.Close();
+                    }
+                    else if (hasErrors)
+                        MessageBox.Show("One or more errors occurred during the generation process. Double click each error message above for more information.", "Errors Occurred", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
             }), e);
         }
 
-        private void generator_ItemGenerationStatus(Generator generator, ItemGenerationStatusEventArgs e)
+        void Generator_TemplateGenerationStatus(Generator generator, TemplateGenerationStatusEventArgs e)
+        {
+            this.Invoke(new GenericDelegate<TemplateGenerationStatusEventArgs>(x =>
+            {
+                ListViewGroup group = outputsListView.Groups.Cast<ListViewGroup>().Single(o => o.Tag == e.Template);
+
+                foreach (ListViewItem item in group.Items)
+                    UpdateListViewItemStatus(item, e.Status, e.Error);
+            }), e);
+        }
+
+        private void Generator_ItemGenerationStatus(Generator generator, ItemGenerationStatusEventArgs e)
         {
             this.Invoke(new GenericDelegate<ItemGenerationStatusEventArgs>(x =>
             {
                 ListViewItem item = outputsListView.CheckedItems.Cast<ListViewItem>().Single(o => o.Tag == x.Result);
 
-                item.SubItems[statusColumn.Index].Text = x.Status.ToString();
-
                 if (x.Status == GenerationStatus.Complete)
                     progressBar.Value++;
-                else if (x.Status == GenerationStatus.Error)
-                {
-                    Logger.Error(x.Error);
-                    outputsListView.Items.Cast<ListViewItem>().Single(o => o.Tag == x.Template).SubItems[messageColumn.Index].Text = x.Error.Message;
-                }
+
+                UpdateListViewItemStatus(item, x.Status, x.Error);
             }), e);
+        }
+
+        private void UpdateListViewItemStatus(ListViewItem item, GenerationStatus status, Exception exception)
+        {
+            item.SubItems[statusColumn.Index].Text = status.ToString();
+
+            if (status == GenerationStatus.Error)
+            {
+                Logger.Error(exception);
+                item.SubItems[messageColumn.Index].Text = "{0} (Double click for more.)".FormatString(exception.Message);
+                item.SubItems[messageColumn.Index].Tag = exception;
+            }
         }
 
         private void LoadOutputsListView()
@@ -178,8 +250,9 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
                 progressBar.Visible = true;
 
                 this.Generator = new Generator(ProjectContext.Project, templateOutputs);
-                this.Generator.GenerationStatus += new Generator.GenerationStatusEventHandler(generator_GenerationStatus);
-                this.Generator.ItemGenerationStatus += new Generator.ItemGenerationStatusEventHandler(generator_ItemGenerationStatus);
+                this.Generator.GenerationStatus += new Generator.GenerationStatusEventHandler(Generator_GenerationStatus);
+                this.Generator.TemplateGenerationStatus += new Generator.TemplateGenerationStatusEventHandler(Generator_TemplateGenerationStatus);
+                this.Generator.ItemGenerationStatus += new Generator.ItemGenerationStatusEventHandler(Generator_ItemGenerationStatus);
                 this.Generator.Generate();
             }
         }
@@ -190,20 +263,6 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             autoCloseCheckBox.Enabled = enable;
             generateButton.Enabled = enable;
             generateAllButton.Enabled = enable;
-        }
-
-        private void cancelButton_Click(object sender, EventArgs e)
-        {
-            if (this.Generator != null)
-            {
-                if (MessageBox.Show("Generation is currently under way, are you sure you want to cancel?", "Confirm Cancelation", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) != System.Windows.Forms.DialogResult.Yes)
-                    return;
-
-                this.Generator.Cancel();
-            }
-
-            this.DialogResult = DialogResult.Cancel;
-            this.Close();
         }
     }
 }

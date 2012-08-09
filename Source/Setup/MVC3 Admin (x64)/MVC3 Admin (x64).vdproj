@@ -190,15 +190,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:CodeGenerator MVC3 Admin Plugin"
-        "ProductCode" = "8:{DD5A0358-8D77-4163-9E58-1D1B545DCA62}"
-        "PackageCode" = "8:{0D3B0106-4EA5-4BBF-832F-FCD16CA0AB1E}"
+        "ProductCode" = "8:{0E3BAFEF-C065-426F-BE21-85AF873D941E}"
+        "PackageCode" = "8:{C3BF51A3-A9B2-473B-821A-147FBDB4E09A}"
         "UpgradeCode" = "8:{B33F1D45-E98B-4681-9AC4-7C6B99C96E7E}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:1.0.2"
+        "ProductVersion" = "8:1.0.3"
         "Manufacturer" = "8:Quantum Concepts"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:http://bugs.quantumconceptscorp.com"
@@ -712,7 +712,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_07C044F6379D4FF9804CC4A6FFC264BF"
             {
-            "SourcePath" = "8:..\\..\\Plugins\\MVC3 Admin\\obj\\x64\\Release\\QuantumConcepts.CodeGenerator.Plugins.MVC3Admin.dll"
+            "SourcePath" = "8:"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_8832DD09B7C04119B8BA8EF1DCA2707C"

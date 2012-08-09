@@ -11,7 +11,8 @@ CREATE TABLE User
     MiddleName VARCHAR(50) NULL,
     LastName VARCHAR(50) NOT NULL,
     Age TINYINT UNSIGNED NOT NULL,
-    
+    PasswordEncrypted VARBINARY(50) NOT NULL,
+    EncryptionVector VARBINARY(50) NOT NULL,
     CONSTRAINT PK_User PRIMARY KEY (ID),
     CONSTRAINT UX_User_1 UNIQUE (Email)
 );

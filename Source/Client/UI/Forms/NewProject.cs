@@ -217,7 +217,6 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
 
             progressLabel.Text = "Initializing";
             progressBar.Value = 0;
-            progressBar.Maximum = 0;
             progressPanel.Visible = true;
 
             //Extract package inputs.

@@ -31,15 +31,15 @@ namespace QuantumConcepts.CodeGenerator.Core.Data
             ExtractTableInfo(dr, out schemaName, out name);
         }
 
-        protected virtual void ExtractColumnInfo(DataRow dr, out string forParent, out string name, out string schemaName, out string tableName, out UInt64 sequence, out string databaseDataType, out UInt64 length, out string defaultValue, out bool nullable, out bool primaryKey)
+        protected virtual void ExtractColumnInfo(DataRow dr, out string forParent, out string name, out string schemaName, out string tableName, out decimal sequence, out string databaseDataType, out decimal length, out string defaultValue, out bool nullable, out bool primaryKey)
         {
             forParent = dr.TryGetValue<string>(QueryConstants.Column.For);
             name = dr.TryGetValue<string>(QueryConstants.Column.Name);
             schemaName = dr.TryGetValue<string>(QueryConstants.TableOrView.SchemaName);
             tableName = dr.TryGetValue<string>(QueryConstants.TableOrView.Name);
-            sequence = dr.TryGetValue<UInt64>(QueryConstants.Column.Sequence);
+            sequence = dr.TryGetValue<decimal>(QueryConstants.Column.Sequence);
             databaseDataType = dr.TryGetValue<string>(QueryConstants.Column.DataType);
-            length = dr.TryGetValue<UInt64>(QueryConstants.Column.Length);
+            length = dr.TryGetValue<decimal>(QueryConstants.Column.Length);
             defaultValue = dr.TryGetValue<string>(QueryConstants.Column.DefaultValue);
             nullable = dr.TryGetValue<bool>(QueryConstants.Column.Nullable);
             primaryKey = dr.TryGetValue<bool>(QueryConstants.Column.PrimaryKey);
@@ -193,9 +193,9 @@ namespace QuantumConcepts.CodeGenerator.Core.Data
                 string name;
                 string schemaName;
                 string tableName;
-                UInt64 sequence;
+                decimal sequence;
                 string databaseDataType;
-                UInt64 length;
+                decimal length;
                 string defaultValue;
                 bool nullable;
                 bool primaryKey;

@@ -45,7 +45,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.buttonPanel.Location = new System.Drawing.Point(0, 227);
             this.buttonPanel.Name = "buttonPanel";
             this.buttonPanel.Size = new System.Drawing.Size(487, 39);
-            this.buttonPanel.TabIndex = 0;
+            this.buttonPanel.TabIndex = 2;
             // 
             // okButton
             // 
@@ -53,7 +53,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.okButton.Location = new System.Drawing.Point(319, 4);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 23);
-            this.okButton.TabIndex = 8;
+            this.okButton.TabIndex = 1;
             this.okButton.Text = "&OK";
             this.okButton.UseVisualStyleBackColor = true;
             this.okButton.Click += new System.EventHandler(this.okButton_Click);
@@ -65,7 +65,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.cancelButton.Location = new System.Drawing.Point(400, 4);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(75, 23);
-            this.cancelButton.TabIndex = 9;
+            this.cancelButton.TabIndex = 2;
             this.cancelButton.Text = "&Cancel";
             this.cancelButton.UseVisualStyleBackColor = true;
             this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
@@ -90,6 +90,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.Controls.Add(this.buttonPanel);
             this.Name = "EditAttributes";
             this.ShowIcon = false;
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Edit Attributes";
             this.buttonPanel.ResumeLayout(false);

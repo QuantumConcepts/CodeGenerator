@@ -74,7 +74,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             nameTextBox.Text = nameTextBox.Text.Trim();
 
             if (string.IsNullOrEmpty(databaseValueTextBox.Text))
-                databaseValueTextBox.Text = nameTextBox.Text.Substring(0, 1).ToUpper();
+                databaseValueTextBox.Text = nameTextBox.Text;
 
             if (string.IsNullOrEmpty(descriptionTextBox.Text))
                 descriptionTextBox.Text = Regex.Replace(nameTextBox.Text, "(?-i)([A-Z])", " $1").Trim();

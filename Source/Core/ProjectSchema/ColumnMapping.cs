@@ -23,7 +23,7 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
         public string ColumnName { get; set; }
 
         [XmlAttribute]
-        public UInt64 Sequence { get; set; }
+        public decimal Sequence { get; set; }
 
         [XmlAttribute]
         public string DataType { get; set; }
@@ -32,7 +32,7 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
         public string DatabaseDataType { get; set; }
 
         [XmlAttribute]
-        public UInt64 Length { get; set; }
+        public decimal Length { get; set; }
 
         [XmlAttribute]
         public string DefaultValue { get; set; }
@@ -113,7 +113,7 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
 
         public ColumnMapping() { }
 
-        public ColumnMapping(TableMapping tableMapping, string columnName, UInt64 sequence, string dataType, string databaseDataType, UInt64 length, string defaultValue, bool nullable, bool nullableInDatabase, bool primaryKey, List<Annotation<ColumnMapping>> annotations, List<Attribute<ColumnMapping>> attributes)
+        public ColumnMapping(TableMapping tableMapping, string columnName, decimal sequence, string dataType, string databaseDataType, decimal length, string defaultValue, bool nullable, bool nullableInDatabase, bool primaryKey, List<Annotation<ColumnMapping>> annotations, List<Attribute<ColumnMapping>> attributes)
         {
             this.TableMapping = tableMapping;
             this.ColumnName = columnName;

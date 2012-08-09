@@ -10,8 +10,8 @@ SELECT
     CONCAT(IF(INSTR(c.column_type, "unsigned") > 0, "u", ""), c.data_type) AS ColumnDataType,
     c.character_maximum_length AS ColumnLength,
     c.column_default AS ColumnDefaultValue,
-    IF(c.is_nullable = "YES", true, false) AS ColumnNullable,
-    IF(c.column_key = "PRI", true, false) AS ColumnPrimaryKey
+    c.is_nullable AS ColumnNullable,
+    IF(c.column_key = "PRI", "YES", "NO") AS ColumnPrimaryKey
 FROM
     information_schema.columns c
     JOIN information_schema.tables t ON t.table_schema = c.table_schema AND t.table_name = c.table_name

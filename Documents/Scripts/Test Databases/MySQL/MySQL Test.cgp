@@ -29,7 +29,7 @@
   <TableMappings>
     <TableMapping SchemaName="CodeGeneratorTest" TableName="User" ClassName="CodeGeneratorTest_User" PluralClassName="Users" ReadOnly="false" Exclude="false">
       <ColumnMappings>
-        <ColumnMapping ColumnName="ID" Sequence="1" DataType="int" DatabaseDataType="int" Length="0" Nullable="false" NullableInDatabase="false" PrimaryKey="false" FieldName="ID" TreatAsYesNoIndicator="false" Exclude="false">
+        <ColumnMapping ColumnName="ID" Sequence="1" DataType="int" DatabaseDataType="int" Length="0" Nullable="false" NullableInDatabase="false" PrimaryKey="true" FieldName="ID" TreatAsYesNoIndicator="false" Exclude="false">
           <Annotations />
           <Attributes />
         </ColumnMapping>
@@ -53,6 +53,14 @@
           <Annotations />
           <Attributes />
         </ColumnMapping>
+        <ColumnMapping ColumnName="PasswordEncrypted" Sequence="7" DataType="byte[]" DatabaseDataType="varbinary" Length="50" Nullable="false" NullableInDatabase="false" PrimaryKey="false" FieldName="PasswordEncrypted" TreatAsYesNoIndicator="false" Exclude="false">
+          <Annotations />
+          <Attributes />
+        </ColumnMapping>
+        <ColumnMapping ColumnName="EncryptionVector" Sequence="8" DataType="byte[]" DatabaseDataType="varbinary" Length="50" Nullable="false" NullableInDatabase="false" PrimaryKey="false" FieldName="EncryptionVector" TreatAsYesNoIndicator="false" Exclude="false">
+          <Annotations />
+          <Attributes />
+        </ColumnMapping>
       </ColumnMappings>
       <UniqueIndexMappings>
         <UniqueIndexMapping UniqueIndexName="UX_User_1" Exclude="false">
@@ -69,7 +77,7 @@
     </TableMapping>
     <TableMapping SchemaName="CodeGeneratorTest" TableName="UserRole" ClassName="CodeGeneratorTest_UserRole" PluralClassName="UserRoles" ReadOnly="false" Exclude="false">
       <ColumnMappings>
-        <ColumnMapping ColumnName="ID" Sequence="1" DataType="int" DatabaseDataType="int" Length="0" Nullable="false" NullableInDatabase="false" PrimaryKey="false" FieldName="ID" TreatAsYesNoIndicator="false" Exclude="false">
+        <ColumnMapping ColumnName="ID" Sequence="1" DataType="int" DatabaseDataType="int" Length="0" Nullable="false" NullableInDatabase="false" PrimaryKey="true" FieldName="ID" TreatAsYesNoIndicator="false" Exclude="false">
           <Annotations />
           <Attributes />
         </ColumnMapping>
@@ -104,7 +112,7 @@
   <ViewMappings>
     <ViewMapping SchemaName="CodeGeneratorTest" TableName="rolesforuser" ClassName="rolesforuser" PluralClassName="rolesforusers" ReadOnly="false" Exclude="false" ViewName="rolesforuser">
       <ColumnMappings>
-        <ColumnMapping ColumnName="UserID" Sequence="1" DataType="int" DatabaseDataType="int" Length="0" Nullable="false" NullableInDatabase="false" PrimaryKey="false" FieldName="UserID" TreatAsYesNoIndicator="false" Exclude="false">
+        <ColumnMapping ColumnName="UserID" Sequence="1" DataType="int" DatabaseDataType="int" Length="0" DefaultValue="0" Nullable="false" NullableInDatabase="false" PrimaryKey="false" FieldName="UserID" TreatAsYesNoIndicator="false" Exclude="false">
           <Annotations />
           <Attributes />
         </ColumnMapping>

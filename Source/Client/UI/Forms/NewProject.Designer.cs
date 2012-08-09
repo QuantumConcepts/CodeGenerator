@@ -257,6 +257,7 @@
             this.Controls.Add(this.packageSelectionPanel);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "NewProject";
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "New Project";
             this.Load += new System.EventHandler(this.NewPoject_Load);

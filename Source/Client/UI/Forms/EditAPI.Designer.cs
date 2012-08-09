@@ -76,7 +76,7 @@
             this.nameTextBox.Location = new System.Drawing.Point(108, 12);
             this.nameTextBox.Name = "nameTextBox";
             this.nameTextBox.Size = new System.Drawing.Size(360, 20);
-            this.nameTextBox.TabIndex = 9;
+            this.nameTextBox.TabIndex = 1;
             // 
             // label1
             // 
@@ -102,7 +102,7 @@
             this.groupBox2.Location = new System.Drawing.Point(12, 67);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(456, 283);
-            this.groupBox2.TabIndex = 11;
+            this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Parameters";
             // 
@@ -114,7 +114,7 @@
             this.moveUpButton.Location = new System.Drawing.Point(374, 106);
             this.moveUpButton.Name = "moveUpButton";
             this.moveUpButton.Size = new System.Drawing.Size(35, 23);
-            this.moveUpButton.TabIndex = 44;
+            this.moveUpButton.TabIndex = 5;
             this.moveUpButton.Text = "á";
             this.moveUpButton.UseVisualStyleBackColor = true;
             this.moveUpButton.Click += new System.EventHandler(this.moveUpButton_Click);
@@ -127,7 +127,7 @@
             this.moveDownButton.Location = new System.Drawing.Point(414, 106);
             this.moveDownButton.Name = "moveDownButton";
             this.moveDownButton.Size = new System.Drawing.Size(35, 23);
-            this.moveDownButton.TabIndex = 43;
+            this.moveDownButton.TabIndex = 6;
             this.moveDownButton.Text = "â";
             this.moveDownButton.UseVisualStyleBackColor = true;
             this.moveDownButton.Click += new System.EventHandler(this.moveDownButton_Click);
@@ -145,7 +145,7 @@
             this.parametersListView.MultiSelect = false;
             this.parametersListView.Name = "parametersListView";
             this.parametersListView.Size = new System.Drawing.Size(362, 258);
-            this.parametersListView.TabIndex = 42;
+            this.parametersListView.TabIndex = 1;
             this.parametersListView.UseCompatibleStateImageBehavior = false;
             this.parametersListView.View = System.Windows.Forms.View.Details;
             this.parametersListView.SelectedIndexChanged += new System.EventHandler(this.parametersListView_SelectedIndexChanged);
@@ -163,7 +163,7 @@
             this.editParameterButton.Location = new System.Drawing.Point(374, 48);
             this.editParameterButton.Name = "editParameterButton";
             this.editParameterButton.Size = new System.Drawing.Size(75, 23);
-            this.editParameterButton.TabIndex = 41;
+            this.editParameterButton.TabIndex = 3;
             this.editParameterButton.Text = "&Edit";
             this.editParameterButton.UseVisualStyleBackColor = true;
             this.editParameterButton.Click += new System.EventHandler(this.editParameterButton_Click);
@@ -175,7 +175,7 @@
             this.removeParameterButton.Location = new System.Drawing.Point(374, 77);
             this.removeParameterButton.Name = "removeParameterButton";
             this.removeParameterButton.Size = new System.Drawing.Size(76, 23);
-            this.removeParameterButton.TabIndex = 40;
+            this.removeParameterButton.TabIndex = 4;
             this.removeParameterButton.Text = "&Remove";
             this.removeParameterButton.UseVisualStyleBackColor = true;
             this.removeParameterButton.Click += new System.EventHandler(this.removeParameterButton_Click);
@@ -186,7 +186,7 @@
             this.addParameterButton.Location = new System.Drawing.Point(374, 19);
             this.addParameterButton.Name = "addParameterButton";
             this.addParameterButton.Size = new System.Drawing.Size(76, 23);
-            this.addParameterButton.TabIndex = 39;
+            this.addParameterButton.TabIndex = 2;
             this.addParameterButton.Text = "&Add";
             this.addParameterButton.UseVisualStyleBackColor = true;
             this.addParameterButton.Click += new System.EventHandler(this.addParameterButton_Click);
@@ -206,7 +206,7 @@
             this.editReturnParameterButton.Location = new System.Drawing.Point(431, 38);
             this.editReturnParameterButton.Name = "editReturnParameterButton";
             this.editReturnParameterButton.Size = new System.Drawing.Size(37, 23);
-            this.editReturnParameterButton.TabIndex = 14;
+            this.editReturnParameterButton.TabIndex = 2;
             this.editReturnParameterButton.Text = "&Edit";
             this.editReturnParameterButton.UseVisualStyleBackColor = true;
             this.editReturnParameterButton.Click += new System.EventHandler(this.editReturnParameterButton_Click);
@@ -226,7 +226,7 @@
             this.editAnnotationsButton.Location = new System.Drawing.Point(12, 356);
             this.editAnnotationsButton.Name = "editAnnotationsButton";
             this.editAnnotationsButton.Size = new System.Drawing.Size(75, 23);
-            this.editAnnotationsButton.TabIndex = 16;
+            this.editAnnotationsButton.TabIndex = 4;
             this.editAnnotationsButton.Text = "A&nnotations";
             this.editAnnotationsButton.UseVisualStyleBackColor = true;
             this.editAnnotationsButton.Click += new System.EventHandler(this.editAnnotationsButton_Click);
@@ -237,7 +237,7 @@
             this.attributesButton.Location = new System.Drawing.Point(93, 356);
             this.attributesButton.Name = "attributesButton";
             this.attributesButton.Size = new System.Drawing.Size(75, 23);
-            this.attributesButton.TabIndex = 17;
+            this.attributesButton.TabIndex = 5;
             this.attributesButton.Text = "&Attributes";
             this.attributesButton.UseVisualStyleBackColor = true;
             this.attributesButton.Click += new System.EventHandler(this.attributesButton_Click);
@@ -261,6 +261,7 @@
             this.Controls.Add(this.cancelButton);
             this.Name = "EditAPI";
             this.ShowIcon = false;
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Edit API";
             this.Load += new System.EventHandler(this.EditAPIDialog_Load);

@@ -66,7 +66,7 @@
             this.nameTextBox.Location = new System.Drawing.Point(59, 246);
             this.nameTextBox.Name = "nameTextBox";
             this.nameTextBox.Size = new System.Drawing.Size(439, 20);
-            this.nameTextBox.TabIndex = 18;
+            this.nameTextBox.TabIndex = 3;
             // 
             // label1
             // 
@@ -95,7 +95,7 @@
             this.dataTypeGroupBox.Location = new System.Drawing.Point(12, 60);
             this.dataTypeGroupBox.Name = "dataTypeGroupBox";
             this.dataTypeGroupBox.Size = new System.Drawing.Size(486, 180);
-            this.dataTypeGroupBox.TabIndex = 11;
+            this.dataTypeGroupBox.TabIndex = 2;
             this.dataTypeGroupBox.TabStop = false;
             this.dataTypeGroupBox.Text = "Data Type";
             // 
@@ -110,7 +110,8 @@
             this.panel1.Location = new System.Drawing.Point(6, 19);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(474, 30);
-            this.panel1.TabIndex = 30;
+            this.panel1.TabIndex = 1;
+            this.panel1.TabStop = true;
             // 
             // arrayOfDataTypeRadioButton
             // 
@@ -119,7 +120,7 @@
             this.arrayOfDataTypeRadioButton.Location = new System.Drawing.Point(84, 1);
             this.arrayOfDataTypeRadioButton.Name = "arrayOfDataTypeRadioButton";
             this.arrayOfDataTypeRadioButton.Size = new System.Drawing.Size(73, 17);
-            this.arrayOfDataTypeRadioButton.TabIndex = 6;
+            this.arrayOfDataTypeRadioButton.TabIndex = 1;
             this.arrayOfDataTypeRadioButton.Text = "Array of....";
             this.arrayOfDataTypeRadioButton.UseVisualStyleBackColor = false;
             // 
@@ -131,7 +132,7 @@
             this.singleDataTypeRadioButton.Location = new System.Drawing.Point(0, 1);
             this.singleDataTypeRadioButton.Name = "singleDataTypeRadioButton";
             this.singleDataTypeRadioButton.Size = new System.Drawing.Size(78, 17);
-            this.singleDataTypeRadioButton.TabIndex = 5;
+            this.singleDataTypeRadioButton.TabIndex = 1;
             this.singleDataTypeRadioButton.TabStop = true;
             this.singleDataTypeRadioButton.Text = "Single of....";
             this.singleDataTypeRadioButton.UseVisualStyleBackColor = false;
@@ -143,7 +144,7 @@
             this.enumerableOfDataTypeRadioButton.Location = new System.Drawing.Point(234, 1);
             this.enumerableOfDataTypeRadioButton.Name = "enumerableOfDataTypeRadioButton";
             this.enumerableOfDataTypeRadioButton.Size = new System.Drawing.Size(105, 17);
-            this.enumerableOfDataTypeRadioButton.TabIndex = 8;
+            this.enumerableOfDataTypeRadioButton.TabIndex = 1;
             this.enumerableOfDataTypeRadioButton.Text = "Enumerable of....";
             this.enumerableOfDataTypeRadioButton.UseVisualStyleBackColor = false;
             // 
@@ -154,7 +155,7 @@
             this.listOfDataTypeRadioButton.Location = new System.Drawing.Point(163, 1);
             this.listOfDataTypeRadioButton.Name = "listOfDataTypeRadioButton";
             this.listOfDataTypeRadioButton.Size = new System.Drawing.Size(65, 17);
-            this.listOfDataTypeRadioButton.TabIndex = 7;
+            this.listOfDataTypeRadioButton.TabIndex = 1;
             this.listOfDataTypeRadioButton.Text = "List of....";
             this.listOfDataTypeRadioButton.UseVisualStyleBackColor = false;
             // 
@@ -165,7 +166,7 @@
             this.nullableDataTypeCheckBox.Location = new System.Drawing.Point(91, 158);
             this.nullableDataTypeCheckBox.Name = "nullableDataTypeCheckBox";
             this.nullableDataTypeCheckBox.Size = new System.Drawing.Size(64, 17);
-            this.nullableDataTypeCheckBox.TabIndex = 17;
+            this.nullableDataTypeCheckBox.TabIndex = 7;
             this.nullableDataTypeCheckBox.Text = "Nullable";
             this.nullableDataTypeCheckBox.UseVisualStyleBackColor = true;
             // 
@@ -175,7 +176,7 @@
             this.dataObjectDataTypeRadioButton.Location = new System.Drawing.Point(6, 78);
             this.dataObjectDataTypeRadioButton.Name = "dataObjectDataTypeRadioButton";
             this.dataObjectDataTypeRadioButton.Size = new System.Drawing.Size(79, 17);
-            this.dataObjectDataTypeRadioButton.TabIndex = 10;
+            this.dataObjectDataTypeRadioButton.TabIndex = 2;
             this.dataObjectDataTypeRadioButton.Text = "DataObject";
             this.dataObjectDataTypeRadioButton.UseVisualStyleBackColor = true;
             this.dataObjectDataTypeRadioButton.CheckedChanged += new System.EventHandler(this.DataType_CheckChanged);
@@ -189,7 +190,7 @@
             this.tablesComboBox.Location = new System.Drawing.Point(91, 77);
             this.tablesComboBox.Name = "tablesComboBox";
             this.tablesComboBox.Size = new System.Drawing.Size(389, 21);
-            this.tablesComboBox.TabIndex = 11;
+            this.tablesComboBox.TabIndex = 3;
             this.tablesComboBox.Visible = false;
             // 
             // enumTypeComboBox
@@ -201,7 +202,7 @@
             this.enumTypeComboBox.Location = new System.Drawing.Point(214, 104);
             this.enumTypeComboBox.Name = "enumTypeComboBox";
             this.enumTypeComboBox.Size = new System.Drawing.Size(266, 21);
-            this.enumTypeComboBox.TabIndex = 14;
+            this.enumTypeComboBox.TabIndex = 5;
             this.enumTypeComboBox.Visible = false;
             this.enumTypeComboBox.SelectedIndexChanged += new System.EventHandler(this.enumTypeComboBox_SelectedIndexChanged);
             // 
@@ -212,7 +213,7 @@
             this.enumTableComboBox.Location = new System.Drawing.Point(91, 104);
             this.enumTableComboBox.Name = "enumTableComboBox";
             this.enumTableComboBox.Size = new System.Drawing.Size(117, 21);
-            this.enumTableComboBox.TabIndex = 13;
+            this.enumTableComboBox.TabIndex = 4;
             this.enumTableComboBox.Visible = false;
             this.enumTableComboBox.SelectedIndexChanged += new System.EventHandler(this.enumTableComboBox_SelectedIndexChanged);
             // 
@@ -222,7 +223,7 @@
             this.enumDataTypeRadioButton.Location = new System.Drawing.Point(6, 105);
             this.enumDataTypeRadioButton.Name = "enumDataTypeRadioButton";
             this.enumDataTypeRadioButton.Size = new System.Drawing.Size(52, 17);
-            this.enumDataTypeRadioButton.TabIndex = 12;
+            this.enumDataTypeRadioButton.TabIndex = 2;
             this.enumDataTypeRadioButton.Text = "Enum";
             this.enumDataTypeRadioButton.UseVisualStyleBackColor = true;
             this.enumDataTypeRadioButton.CheckedChanged += new System.EventHandler(this.DataType_CheckChanged);
@@ -234,28 +235,25 @@
             this.otherDataTypeComboBox.FormattingEnabled = true;
             this.otherDataTypeComboBox.Items.AddRange(new object[] {
             "bool",
-            "bool?",
             "char",
-            "char?",
             "decimal",
-            "decimal?",
             "double",
-            "double?",
             "int",
-            "int?",
             "string"});
             this.otherDataTypeComboBox.Location = new System.Drawing.Point(91, 131);
             this.otherDataTypeComboBox.Name = "otherDataTypeComboBox";
             this.otherDataTypeComboBox.Size = new System.Drawing.Size(389, 21);
-            this.otherDataTypeComboBox.TabIndex = 16;
+            this.otherDataTypeComboBox.TabIndex = 6;
             // 
             // otherDataTypeRadioButton
             // 
             this.otherDataTypeRadioButton.AutoSize = true;
+            this.otherDataTypeRadioButton.Checked = true;
             this.otherDataTypeRadioButton.Location = new System.Drawing.Point(6, 132);
             this.otherDataTypeRadioButton.Name = "otherDataTypeRadioButton";
             this.otherDataTypeRadioButton.Size = new System.Drawing.Size(51, 17);
-            this.otherDataTypeRadioButton.TabIndex = 15;
+            this.otherDataTypeRadioButton.TabIndex = 2;
+            this.otherDataTypeRadioButton.TabStop = true;
             this.otherDataTypeRadioButton.Text = "Other";
             this.otherDataTypeRadioButton.UseVisualStyleBackColor = true;
             this.otherDataTypeRadioButton.CheckedChanged += new System.EventHandler(this.DataType_CheckChanged);
@@ -266,7 +264,7 @@
             this.voidDataTypeRadioButton.Location = new System.Drawing.Point(6, 55);
             this.voidDataTypeRadioButton.Name = "voidDataTypeRadioButton";
             this.voidDataTypeRadioButton.Size = new System.Drawing.Size(80, 17);
-            this.voidDataTypeRadioButton.TabIndex = 9;
+            this.voidDataTypeRadioButton.TabIndex = 2;
             this.voidDataTypeRadioButton.Text = "None (void)";
             this.voidDataTypeRadioButton.UseVisualStyleBackColor = true;
             this.voidDataTypeRadioButton.CheckedChanged += new System.EventHandler(this.DataType_CheckChanged);
@@ -277,7 +275,7 @@
             this.okButton.Location = new System.Drawing.Point(342, 274);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 23);
-            this.okButton.TabIndex = 21;
+            this.okButton.TabIndex = 6;
             this.okButton.Text = "&OK";
             this.okButton.UseVisualStyleBackColor = true;
             this.okButton.Click += new System.EventHandler(this.okButton_Click);
@@ -289,7 +287,7 @@
             this.cancelButton.Location = new System.Drawing.Point(423, 274);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(75, 23);
-            this.cancelButton.TabIndex = 22;
+            this.cancelButton.TabIndex = 7;
             this.cancelButton.Text = "&Cancel";
             this.cancelButton.UseVisualStyleBackColor = true;
             this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
@@ -312,7 +310,7 @@
             this.outModifierRadioButton.Location = new System.Drawing.Point(106, 19);
             this.outModifierRadioButton.Name = "outModifierRadioButton";
             this.outModifierRadioButton.Size = new System.Drawing.Size(40, 17);
-            this.outModifierRadioButton.TabIndex = 3;
+            this.outModifierRadioButton.TabIndex = 1;
             this.outModifierRadioButton.Text = "out";
             this.outModifierRadioButton.UseVisualStyleBackColor = true;
             // 
@@ -322,7 +320,7 @@
             this.paramsModifierRadioButton.Location = new System.Drawing.Point(154, 19);
             this.paramsModifierRadioButton.Name = "paramsModifierRadioButton";
             this.paramsModifierRadioButton.Size = new System.Drawing.Size(59, 17);
-            this.paramsModifierRadioButton.TabIndex = 4;
+            this.paramsModifierRadioButton.TabIndex = 1;
             this.paramsModifierRadioButton.Text = "params";
             this.paramsModifierRadioButton.UseVisualStyleBackColor = true;
             // 
@@ -337,7 +335,7 @@
             this.modifierGroupBox.Location = new System.Drawing.Point(12, 12);
             this.modifierGroupBox.Name = "modifierGroupBox";
             this.modifierGroupBox.Size = new System.Drawing.Size(486, 42);
-            this.modifierGroupBox.TabIndex = 19;
+            this.modifierGroupBox.TabIndex = 1;
             this.modifierGroupBox.TabStop = false;
             this.modifierGroupBox.Text = "Modifier";
             // 
@@ -347,7 +345,7 @@
             this.refModifierRadioButton.Location = new System.Drawing.Point(63, 19);
             this.refModifierRadioButton.Name = "refModifierRadioButton";
             this.refModifierRadioButton.Size = new System.Drawing.Size(37, 17);
-            this.refModifierRadioButton.TabIndex = 2;
+            this.refModifierRadioButton.TabIndex = 1;
             this.refModifierRadioButton.Text = "ref";
             this.refModifierRadioButton.UseVisualStyleBackColor = true;
             // 
@@ -357,7 +355,7 @@
             this.attributesButton.Location = new System.Drawing.Point(92, 274);
             this.attributesButton.Name = "attributesButton";
             this.attributesButton.Size = new System.Drawing.Size(75, 23);
-            this.attributesButton.TabIndex = 20;
+            this.attributesButton.TabIndex = 5;
             this.attributesButton.Text = "&Attributes";
             this.attributesButton.UseVisualStyleBackColor = true;
             this.attributesButton.Click += new System.EventHandler(this.attributesButton_Click);
@@ -368,7 +366,7 @@
             this.editAnnotationsButton.Location = new System.Drawing.Point(11, 274);
             this.editAnnotationsButton.Name = "editAnnotationsButton";
             this.editAnnotationsButton.Size = new System.Drawing.Size(75, 23);
-            this.editAnnotationsButton.TabIndex = 19;
+            this.editAnnotationsButton.TabIndex = 4;
             this.editAnnotationsButton.Text = "A&nnotations";
             this.editAnnotationsButton.UseVisualStyleBackColor = true;
             this.editAnnotationsButton.Click += new System.EventHandler(this.editAnnotationsButton_Click);
@@ -393,6 +391,7 @@
             this.MinimizeBox = false;
             this.Name = "EditParameterDialog";
             this.ShowIcon = false;
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Edit Parameter";
             this.Load += new System.EventHandler(this.EditParameterDialog_Load);

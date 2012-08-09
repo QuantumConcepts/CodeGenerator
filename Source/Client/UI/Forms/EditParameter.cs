@@ -43,6 +43,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             {
                 this.Parameter = new Parameter<T>();
                 nameTextBox.Enabled = !_isReturnParameter;
+                otherDataTypeComboBox.Focus();
             }
             else
             {
@@ -124,16 +125,23 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             nullableDataTypeCheckBox.Enabled = (enumDataTypeRadioButton.Checked || otherDataTypeRadioButton.Checked);
 
             if (!isDataObjectSelected)
+            {
                 tablesComboBox.SelectedIndex = -1;
+                tablesComboBox.Focus();
+            }
 
             if (!isEnumSelected)
             {
                 enumTableComboBox.SelectedIndex = -1;
                 enumTypeComboBox.SelectedIndex = -1;
+                enumTableComboBox.Focus();
             }
 
             if (!isOtherSelected)
+            {
                 otherDataTypeComboBox.Text = null;
+                otherDataTypeComboBox.Focus();
+            }
         }
 
         private void okButton_Click(object sender, EventArgs e)

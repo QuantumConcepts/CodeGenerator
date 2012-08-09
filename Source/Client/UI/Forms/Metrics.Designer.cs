@@ -118,6 +118,7 @@
             this.MinimizeBox = false;
             this.Name = "Metrics";
             this.ShowIcon = false;
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Metrics";
             this.ResumeLayout(false);
