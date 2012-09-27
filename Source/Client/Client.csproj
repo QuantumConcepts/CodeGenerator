@@ -493,12 +493,12 @@
     <Content Include="Logging.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="QuantumConcepts.pfx" />
     <None Include="App.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings1.Designer.cs</LastGenOutput>
     </None>
+    <None Include="QuantumConcepts.pfx" />
     <None Include="Resources\Properties.ico" />
     <Content Include="Resources\Package.ico" />
     <Content Include="Resources\Package.png" />

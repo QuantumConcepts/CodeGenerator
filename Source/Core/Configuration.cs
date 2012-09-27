@@ -88,7 +88,8 @@ namespace QuantumConcepts.CodeGenerator.Core
         {
             IsolatedStorageFile file = IsolatedStorageFile.GetUserStoreForAssembly();
 
-            exists = file.FileExists(Configuration.FileName);
+            if (!(exists = file.FileExists(Configuration.FileName)))
+                return file.CreateFile(Configuration.FileName);
 
             return file.OpenFile(Configuration.FileName, mode, access);
         }
