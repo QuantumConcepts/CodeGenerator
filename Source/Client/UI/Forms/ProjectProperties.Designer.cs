@@ -53,20 +53,18 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.databaseTabPage = new System.Windows.Forms.TabPage();
+            this.databaseParametersGridView = new System.Windows.Forms.DataGridView();
+            this.databaseParametersNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.databaseParametersValueColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.databaseConnectionStringTextBox = new System.Windows.Forms.TextBox();
             this.databaseTypeComboBox = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.generalTabPage = new System.Windows.Forms.TabPage();
             this.rootNamespaceTextBox = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.propertiesTabControl = new System.Windows.Forms.TabControl();
-            this.attributesTabPage = new System.Windows.Forms.TabPage();
-            this.databaseParametersGridView = new System.Windows.Forms.DataGridView();
-            this.label1 = new System.Windows.Forms.Label();
-            this.editAttributes = new QuantumConcepts.CodeGenerator.Client.UI.Controls.EditProjectAttributes();
-            this.databaseParametersNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.databaseParametersValueColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.buttonPanel.SuspendLayout();
             this.templatesListViewContextMenuStrip.SuspendLayout();
             this.dataTypesListViewContextMenuStrip.SuspendLayout();
@@ -74,10 +72,9 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.dataTypesToolStrip.SuspendLayout();
             this.addDataTypeGroupBox.SuspendLayout();
             this.databaseTabPage.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.databaseParametersGridView)).BeginInit();
             this.generalTabPage.SuspendLayout();
             this.propertiesTabControl.SuspendLayout();
-            this.attributesTabPage.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.databaseParametersGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // buttonPanel
@@ -296,6 +293,44 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.databaseTabPage.Text = "Database";
             this.databaseTabPage.UseVisualStyleBackColor = true;
             // 
+            // databaseParametersGridView
+            // 
+            this.databaseParametersGridView.AllowUserToAddRows = false;
+            this.databaseParametersGridView.AllowUserToDeleteRows = false;
+            this.databaseParametersGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.databaseParametersGridView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.databaseParametersGridView.BackgroundColor = System.Drawing.SystemColors.Window;
+            this.databaseParametersGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.databaseParametersGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.databaseParametersNameColumn,
+            this.databaseParametersValueColumn});
+            this.databaseParametersGridView.GridColor = System.Drawing.SystemColors.ControlLight;
+            this.databaseParametersGridView.Location = new System.Drawing.Point(108, 139);
+            this.databaseParametersGridView.MultiSelect = false;
+            this.databaseParametersGridView.Name = "databaseParametersGridView";
+            this.databaseParametersGridView.ShowCellErrors = false;
+            this.databaseParametersGridView.ShowEditingIcon = false;
+            this.databaseParametersGridView.ShowRowErrors = false;
+            this.databaseParametersGridView.Size = new System.Drawing.Size(483, 174);
+            this.databaseParametersGridView.TabIndex = 0;
+            this.databaseParametersGridView.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.databaseParametersGridView_CellValueChanged);
+            // 
+            // databaseParametersNameColumn
+            // 
+            this.databaseParametersNameColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.databaseParametersNameColumn.Frozen = true;
+            this.databaseParametersNameColumn.HeaderText = "Name";
+            this.databaseParametersNameColumn.Name = "databaseParametersNameColumn";
+            this.databaseParametersNameColumn.ReadOnly = true;
+            // 
+            // databaseParametersValueColumn
+            // 
+            this.databaseParametersValueColumn.HeaderText = "Value";
+            this.databaseParametersValueColumn.Name = "databaseParametersValueColumn";
+            this.databaseParametersValueColumn.Width = 300;
+            // 
             // databaseConnectionStringTextBox
             // 
             this.databaseConnectionStringTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -317,6 +352,15 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.databaseTypeComboBox.Size = new System.Drawing.Size(483, 21);
             this.databaseTypeComboBox.TabIndex = 1;
             this.databaseTypeComboBox.SelectedIndexChanged += new System.EventHandler(this.databaseType_SelectedIndexChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(39, 139);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(63, 13);
+            this.label1.TabIndex = 12;
+            this.label1.Text = "Parameters:";
             // 
             // label9
             // 
@@ -371,79 +415,12 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.propertiesTabControl.Controls.Add(this.generalTabPage);
             this.propertiesTabControl.Controls.Add(this.databaseTabPage);
             this.propertiesTabControl.Controls.Add(this.dataTypesTabPage);
-            this.propertiesTabControl.Controls.Add(this.attributesTabPage);
             this.propertiesTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.propertiesTabControl.Location = new System.Drawing.Point(0, 0);
             this.propertiesTabControl.Name = "propertiesTabControl";
             this.propertiesTabControl.SelectedIndex = 0;
             this.propertiesTabControl.Size = new System.Drawing.Size(607, 345);
             this.propertiesTabControl.TabIndex = 2;
-            // 
-            // attributesTabPage
-            // 
-            this.attributesTabPage.Controls.Add(this.editAttributes);
-            this.attributesTabPage.Location = new System.Drawing.Point(4, 22);
-            this.attributesTabPage.Name = "attributesTabPage";
-            this.attributesTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.attributesTabPage.Size = new System.Drawing.Size(599, 319);
-            this.attributesTabPage.TabIndex = 4;
-            this.attributesTabPage.Text = "Attributes";
-            this.attributesTabPage.UseVisualStyleBackColor = true;
-            // 
-            // databaseParametersGridView
-            // 
-            this.databaseParametersGridView.AllowUserToAddRows = false;
-            this.databaseParametersGridView.AllowUserToDeleteRows = false;
-            this.databaseParametersGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.databaseParametersGridView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            this.databaseParametersGridView.BackgroundColor = System.Drawing.SystemColors.Window;
-            this.databaseParametersGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.databaseParametersGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.databaseParametersNameColumn,
-            this.databaseParametersValueColumn});
-            this.databaseParametersGridView.GridColor = System.Drawing.SystemColors.ControlLight;
-            this.databaseParametersGridView.Location = new System.Drawing.Point(108, 139);
-            this.databaseParametersGridView.MultiSelect = false;
-            this.databaseParametersGridView.Name = "databaseParametersGridView";
-            this.databaseParametersGridView.ShowCellErrors = false;
-            this.databaseParametersGridView.ShowEditingIcon = false;
-            this.databaseParametersGridView.ShowRowErrors = false;
-            this.databaseParametersGridView.Size = new System.Drawing.Size(483, 174);
-            this.databaseParametersGridView.TabIndex = 0;
-            this.databaseParametersGridView.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.databaseParametersGridView_CellValueChanged);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(39, 139);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(63, 13);
-            this.label1.TabIndex = 12;
-            this.label1.Text = "Parameters:";
-            // 
-            // editAttributes
-            // 
-            this.editAttributes.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.editAttributes.Location = new System.Drawing.Point(3, 3);
-            this.editAttributes.Name = "editAttributes";
-            this.editAttributes.Size = new System.Drawing.Size(593, 313);
-            this.editAttributes.TabIndex = 0;
-            // 
-            // databaseParametersNameColumn
-            // 
-            this.databaseParametersNameColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.databaseParametersNameColumn.Frozen = true;
-            this.databaseParametersNameColumn.HeaderText = "Name";
-            this.databaseParametersNameColumn.Name = "databaseParametersNameColumn";
-            this.databaseParametersNameColumn.ReadOnly = true;
-            // 
-            // databaseParametersValueColumn
-            // 
-            this.databaseParametersValueColumn.HeaderText = "Value";
-            this.databaseParametersValueColumn.Name = "databaseParametersValueColumn";
-            this.databaseParametersValueColumn.Width = 300;
             // 
             // ProjectProperties
             // 
@@ -469,11 +446,10 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.addDataTypeGroupBox.PerformLayout();
             this.databaseTabPage.ResumeLayout(false);
             this.databaseTabPage.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.databaseParametersGridView)).EndInit();
             this.generalTabPage.ResumeLayout(false);
             this.generalTabPage.PerformLayout();
             this.propertiesTabControl.ResumeLayout(false);
-            this.attributesTabPage.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.databaseParametersGridView)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -508,7 +484,6 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
         private System.Windows.Forms.TabControl propertiesTabControl;
         private System.Windows.Forms.TextBox rootNamespaceTextBox;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TabPage attributesTabPage;
         private Controls.EditProjectAttributes editAttributes;
         private System.Windows.Forms.ToolStrip dataTypesToolStrip;
         private System.Windows.Forms.ToolStripDropDownButton resetToDefaultDataTypesButton;
