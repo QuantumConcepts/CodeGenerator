@@ -167,9 +167,7 @@ namespace </xsl:text>
 					else
 						instance = </xsl:text>
 			<xsl:value-of select="@ClassName"/>
-			<xsl:text>Logic.Create</xsl:text>
-			<xsl:value-of select="@ClassName"/>
-			<xsl:text>(this.DataContext, </xsl:text>
+			<xsl:text>Logic.Create(this.DataContext, </xsl:text>
 			<xsl:for-each select="P:ColumnMappings/P:ColumnMapping[@Exclude='false' and @PrimaryKey='false' and not(P:Attributes/P:Attribute[@Key='ExcludeFromCreate'])]">
 				<xsl:variable name="fieldName" select="@FieldName"/>
 				

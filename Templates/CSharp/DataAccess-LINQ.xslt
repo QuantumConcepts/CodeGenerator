@@ -27,9 +27,6 @@
 		<xsl:call-template name="Using">
 			<xsl:with-param name="namespace" select="'System.ComponentModel'"/>
 		</xsl:call-template>
-		<xsl:call-template name="Using">
-			<xsl:with-param name="namespace" select="'QuantumConcepts.Common'"/>
-		</xsl:call-template>
 		<xsl:call-template name="Using-Project"/>
 		<xsl:call-template name="Using-Template">
 			<xsl:with-param name="template" select="P:Templates/P:Template[@Name=$templateName]"/>
@@ -341,6 +338,53 @@ namespace </xsl:text>
 			}
 		}
 		</xsl:text>
+		
+				<xsl:if test="@EncryptionVectorColumnName">
+					<xsl:text>
+		public string </xsl:text>
+					<xsl:value-of select="@DecryptionPropertyName"/>
+					<xsl:text>
+		{
+			get
+			{
+				if (this.</xsl:text>
+					<xsl:value-of select="@FieldName"/>
+					<xsl:text>.IsNullOrEmpty() || this.</xsl:text>
+					<xsl:value-of select="@EncryptionVectorColumnName"/>
+					<xsl:text>.IsNullOrEmpty())
+					return null;
+				
+				return EncryptionUtil.Instance.DecryptTextViaRijndael(this.</xsl:text>
+					<xsl:value-of select="@FieldName"/>
+					<xsl:text>, this.</xsl:text>
+					<xsl:value-of select="@EncryptionVectorColumnName"/>
+					<xsl:text>);
+			}
+			set
+			{
+				if (value.IsNullOrEmpty())
+					this.</xsl:text>
+					<xsl:value-of select="@FieldName"/>
+					<xsl:text> = null;
+				else
+				{
+					if (this.</xsl:text>
+					<xsl:value-of select="@EncryptionVectorColumnName"/>
+					<xsl:text>.IsNullOrEmpty())
+						this.</xsl:text>
+					<xsl:value-of select="@EncryptionVectorColumnName"/>
+					<xsl:text> = EncryptionUtil.GenerateEncryptionVector();
+					
+					this.</xsl:text>
+					<xsl:value-of select="@FieldName"/>
+					<xsl:text> = EncryptionUtil.Instance.EncryptTextViaRijndael(value, this.</xsl:text>
+					<xsl:value-of select="@EncryptionVectorColumnName"/>
+					<xsl:text>);
+				}
+			}
+		}
+		</xsl:text>
+				</xsl:if>
 			</xsl:for-each>
 		
 			<xsl:for-each select="../../P:ForeignKeyMappings/P:ForeignKeyMapping[@Exclude='false' and @ReferencedTableMappingSchemaName=$table/@SchemaName and @ReferencedTableMappingName=$table/@TableName]">
@@ -611,9 +655,34 @@ namespace </xsl:text>
 			<xsl:value-of select="$pkColumn/@FieldName"/>
 			<xsl:text>)
 		{
-			return context.</xsl:text>
+			return GetByID(context.</xsl:text>
 			<xsl:value-of select="@PluralClassName"/>
-			<xsl:text>.SingleOrDefault(o => o.</xsl:text>
+			<xsl:text>, </xsl:text>
+			<xsl:value-of select="$pkColumn/@FieldName"/>
+			<xsl:text>);
+		}
+		
+		/// &lt;summary&gt;Returns the </xsl:text>
+			<xsl:value-of select="@ClassName"/>
+			<xsl:text> with the provided primary key value.&lt;/summary&gt;
+		/// &lt;param name="id"&gt;The primary key of the </xsl:text>
+			<xsl:value-of select="@ClassName"/>
+			<xsl:text> to fetch.&lt;/param&gt;
+		/// &lt;param name="context"&gt;The data context to use.&lt;/param&gt;
+		/// &lt;returns&gt;A single </xsl:text>
+			<xsl:value-of select="@ClassName"/>
+			<xsl:text>, or null if it does not exist.&lt;/returns&gt;
+		public static DA.</xsl:text>
+			<xsl:value-of select="@ClassName"/>
+			<xsl:text> GetByID(IQueryable&lt;</xsl:text>
+			<xsl:value-of select="@ClassName"/>
+			<xsl:text>&gt; items, </xsl:text>
+			<xsl:value-of select="$pkColumn/@DataType"/>
+			<xsl:text> </xsl:text>
+			<xsl:value-of select="$pkColumn/@FieldName"/>
+			<xsl:text>)
+		{
+			return items.SingleOrDefault(o => o.</xsl:text>
 			<xsl:value-of select="$pkColumn/@FieldName"/>
 			<xsl:text> == </xsl:text>
 			<xsl:value-of select="$pkColumn/@FieldName"/>
@@ -676,27 +745,44 @@ namespace </xsl:text>
 				</xsl:call-template>
 				<xsl:text>)
 		{
-				</xsl:text>
-				<xsl:choose>
-					<xsl:when test="../../P:Attributes/P:Attribute[@Key='Cache']">
-						<xsl:text>var source = </xsl:text>
-						<xsl:value-of select="$parentTableMapping/@ClassName"/>
-						<xsl:text>Cache.Instance.All;</xsl:text>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:text>var source = context.</xsl:text>
-						<xsl:value-of select="$parentTableMapping/@PluralClassName"/>
-						<xsl:text>;</xsl:text>
-					</xsl:otherwise>
-				</xsl:choose>
+			return GetBy</xsl:text>
+				<xsl:value-of select="@FieldName"/>
+				<xsl:text>(</xsl:text>
+				<xsl:value-of select="$parentTableMapping/@ClassName"/>
+				<xsl:text>.GetAll(), </xsl:text>
+				<xsl:call-template name="FirstCharacterToLowerCase">
+					<xsl:with-param name="input" select="$referencedColumnName"/>
+				</xsl:call-template>
+				<xsl:text>);
+		}
+		</xsl:text>
+		
+
+				<xsl:call-template name="GetForeignKeyGetDocumentation">
+					<xsl:with-param name="spacingBefore" select="concat($tab, $tab)"/>
+				</xsl:call-template>
 				<xsl:text>
-			return (from o in source where o.</xsl:text>
+		public static IQueryable&lt;</xsl:text>
+				<xsl:value-of select="$parentTableMapping/@ClassName"/>
+				<xsl:text>&gt; GetBy</xsl:text>
+				<xsl:value-of select="@FieldName"/>
+				<xsl:text>(IQueryable&lt;</xsl:text>
+				<xsl:value-of select="$parentTableMapping/@ClassName"/>
+				<xsl:text>&gt; items, </xsl:text>
+				<xsl:value-of select="$referencedTableMapping/P:ColumnMappings/P:ColumnMapping[@ColumnName=$referencedColumnName]/@DataType"/>
+				<xsl:text> </xsl:text>
+				<xsl:call-template name="FirstCharacterToLowerCase">
+					<xsl:with-param name="input" select="$referencedColumnName"/>
+				</xsl:call-template>
+				<xsl:text>)
+		{
+			return items.Where( o=&gt; o.</xsl:text>
 				<xsl:value-of select="@FieldName"/>
 				<xsl:text> == </xsl:text>
 				<xsl:call-template name="FirstCharacterToLowerCase">
 					<xsl:with-param name="input" select="$referencedColumnName"/>
 				</xsl:call-template>
-				<xsl:text> select o);
+				<xsl:text>);
 		}
 		</xsl:text>
 			</xsl:for-each>
@@ -819,9 +905,80 @@ namespace </xsl:text>
 				</xsl:for-each>
 				<xsl:text>)
 		{
-			return context.</xsl:text>
+			return GetBy</xsl:text>
+				<xsl:for-each select="P:ColumnNames/P:ColumnName">
+					<xsl:variable name="columnName" select="text()"/>
+					<xsl:variable name="column" select="../../../../P:ColumnMappings/P:ColumnMapping[@ColumnName=$columnName]"/>
+	
+					<xsl:value-of select="$column/@FieldName"/>
+					<xsl:if test="position()!=last()">
+						<xsl:text>And</xsl:text>
+					</xsl:if>
+				</xsl:for-each>
+				<xsl:text>(context.</xsl:text>
 				<xsl:value-of select="../../@PluralClassName"/>
-				<xsl:text>.FirstOrDefault(o =&gt; </xsl:text>
+				<xsl:text>, </xsl:text>
+				<xsl:for-each select="P:ColumnNames/P:ColumnName">
+					<xsl:variable name="columnName" select="text()"/>
+					<xsl:variable name="column" select="../../../../P:ColumnMappings/P:ColumnMapping[@ColumnName=$columnName]"/>
+	
+					<xsl:call-template name="FirstCharacterToLowerCase">
+						<xsl:with-param name="input" select="$column/@FieldName"/>
+					</xsl:call-template>
+	
+					<xsl:if test="position()!=last()">
+						<xsl:text>, </xsl:text>
+					</xsl:if>
+				</xsl:for-each>
+				<xsl:text>);
+		}
+		
+		<![CDATA[/// <summary>Gets the ]]></xsl:text>
+				<xsl:value-of select="../../@ClassName"/>
+				<xsl:text><![CDATA[ matching the unique index using the passed-in values.</summary>]]>
+		public static </xsl:text>
+				<xsl:value-of select="../../@ClassName"/>
+				<xsl:text> GetBy</xsl:text>
+				<xsl:for-each select="P:ColumnNames/P:ColumnName">
+					<xsl:variable name="columnName" select="text()"/>
+					<xsl:variable name="column" select="../../../../P:ColumnMappings/P:ColumnMapping[@ColumnName=$columnName]"/>
+	
+					<xsl:value-of select="$column/@FieldName"/>
+					<xsl:if test="position()!=last()">
+						<xsl:text>And</xsl:text>
+					</xsl:if>
+				</xsl:for-each>
+				<xsl:text>(IQueryable&lt;</xsl:text>
+				<xsl:value-of select="../../@ClassName"/>
+				<xsl:text>&gt; items, </xsl:text>
+				<xsl:for-each select="P:ColumnNames/P:ColumnName">
+					<xsl:variable name="columnName" select="text()"/>
+					<xsl:variable name="column" select="../../../../P:ColumnMappings/P:ColumnMapping[@ColumnName=$columnName]"/>
+	
+					<xsl:choose>
+						<xsl:when test="$column/P:EnumerationMapping">
+							<xsl:text>DO.</xsl:text>
+							<xsl:value-of select="$column/P:EnumerationMapping/@Name"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="$column/@DataType"/>
+						</xsl:otherwise>
+					</xsl:choose>
+					<xsl:if test="$column/@Nullable='true'">
+						<xsl:text>?</xsl:text>
+					</xsl:if>
+					<xsl:text> </xsl:text>
+					<xsl:call-template name="FirstCharacterToLowerCase">
+						<xsl:with-param name="input" select="$column/@FieldName"/>
+					</xsl:call-template>
+	
+					<xsl:if test="position()!=last()">
+						<xsl:text>, </xsl:text>
+					</xsl:if>
+				</xsl:for-each>
+				<xsl:text>)
+		{
+			return items.FirstOrDefault(o =&gt; </xsl:text>
 				<xsl:for-each select="P:ColumnNames/P:ColumnName">
 					<xsl:variable name="columnName" select="text()"/>
 					<xsl:variable name="column" select="../../../../P:ColumnMappings/P:ColumnMapping[@ColumnName=$columnName]"/>

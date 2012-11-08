@@ -101,6 +101,7 @@ namespace </xsl:text>
 		[HiddenInput]
 		[TemplateVisibility(false, true)]
 		public int? ID { get; set; }</xsl:text>
+		
 			<xsl:for-each select="$allColumns[@PrimaryKey='false']">
 				<xsl:variable name="columnName" select="@ColumnName"/>
 				<xsl:variable name="fieldName" select="@FieldName"/>
@@ -196,6 +197,9 @@ namespace </xsl:text>
 					<xsl:when test="P:EnumerationMapping">
 						<xsl:text>DO.</xsl:text>
 						<xsl:value-of select="P:EnumerationMapping/@Name"/>
+					</xsl:when>
+					<xsl:when test="@EncryptionVectorColumnName">
+						<xsl:text>string</xsl:text>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:value-of select="@DataType"/>

@@ -10,9 +10,6 @@
 	
 	<xsl:template match="P:Project">
 		<xsl:call-template name="Using-System" />
-		<xsl:call-template name="Using">
-			<xsl:with-param name="namespace" select="'QuantumConcepts.Common.Utils.DescriptiveEnum'"/>
-		</xsl:call-template>
 		<xsl:call-template name="Using-Project"/>
 		<xsl:call-template name="Using-Template">
 			<xsl:with-param name="template" select="P:Templates/P:Template[@Name=$templateName]"/>

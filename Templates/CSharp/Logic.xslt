@@ -19,9 +19,6 @@
 		<xsl:call-template name="Using">
 			<xsl:with-param name="namespace" select="'System.Linq.Expressions'"/>
 		</xsl:call-template>
-		<xsl:call-template name="Using">
-			<xsl:with-param name="namespace" select="'QuantumConcepts.Common.Utils'"/>
-		</xsl:call-template>
 		<xsl:call-template name="Using-Project"/>
 		<xsl:call-template name="Using-Template">
 			<xsl:with-param name="template" select="P:Templates/P:Template[@Name=$templateName]"/>
@@ -459,9 +456,7 @@ namespace </xsl:text>
 	    
 		public static DA.</xsl:text>
 			<xsl:value-of select="@ClassName"/>
-			<xsl:text> Load</xsl:text>
-			<xsl:value-of select="@ClassName"/>
-			<xsl:text>FromDataContext(this DA.</xsl:text>
+			<xsl:text> Reload(this DA.</xsl:text>
 			<xsl:value-of select="@ClassName"/>
 			<xsl:text> obj, DA.</xsl:text>
 			<xsl:value-of select="/P:Project/P:Attributes/P:Attribute[@Key='DataContextName']/@Value"/>
@@ -576,13 +571,11 @@ namespace </xsl:text>
 				<xsl:text> = </xsl:text>
 				<xsl:choose>
 					<xsl:when test="@EncryptionVectorColumnName">
-						<xsl:text>(</xsl:text>
-						<xsl:value-of select="@FieldName"/>
-						<xsl:text>_Parameter != null ? EncryptionUtil.Instance.EncryptTextViaRijndael(</xsl:text>
+						<xsl:text>EncryptionUtil.Instance.EncryptTextViaRijndael(</xsl:text>
 						<xsl:value-of select="@FieldName"/>
 						<xsl:text>_Parameter, </xsl:text>
 						<xsl:value-of select="@EncryptionVectorColumnName"/>
-						<xsl:text>_Parameter) : null)</xsl:text>
+						<xsl:text>_Parameter)</xsl:text>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:value-of select="@FieldName"/>

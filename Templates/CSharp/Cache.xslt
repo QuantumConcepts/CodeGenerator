@@ -15,12 +15,6 @@
 		<xsl:call-template name="Using">
 			<xsl:with-param name="namespace" select="'System.Linq'"/>
 		</xsl:call-template>
-		<xsl:call-template name="Using">
-			<xsl:with-param name="namespace" select="'QuantumConcepts.Common'"/>
-		</xsl:call-template>
-		<xsl:call-template name="Using">
-			<xsl:with-param name="namespace" select="'QuantumConcepts.Common.Cache'"/>
-		</xsl:call-template>
 		<xsl:call-template name="Using-Project"/>
 		<xsl:call-template name="Using-Template">
 			<xsl:with-param name="template" select="P:Templates/P:Template[@Name=$templateName]"/>
@@ -165,6 +159,153 @@ namespace </xsl:text>
 		}
 		
 		partial void DoCustomRefresh();
+		
+		/// &lt;summary&gt;Returns the </xsl:text>
+			<xsl:value-of select="@ClassName"/>
+			<xsl:text> with the provided primary key value.&lt;/summary&gt;
+		/// &lt;param name="id"&gt;The primary key of the </xsl:text>
+			<xsl:value-of select="@ClassName"/>
+			<xsl:text> to fetch.&lt;/param&gt;
+		/// &lt;returns&gt;A single </xsl:text>
+			<xsl:value-of select="@ClassName"/>
+			<xsl:text>, or null if it does not exist.&lt;/returns&gt;
+		public static </xsl:text>
+			<xsl:value-of select="@ClassName"/>
+			<xsl:text> GetByID(int id)
+		{
+			return </xsl:text>
+			<xsl:value-of select="@ClassName"/>
+			<xsl:text>.GetByID((IQueryable&lt;</xsl:text>
+			<xsl:value-of select="@ClassName"/>
+			<xsl:text>&gt;)</xsl:text>
+			<xsl:value-of select="@ClassName"/>
+			<xsl:text>Cache.Instance.All, id);
+		}</xsl:text>
+		
+			<xsl:for-each select="../../P:ForeignKeyMappings/P:ForeignKeyMapping[@Exclude='false' and @ParentTableMappingSchemaName=$table/@SchemaName and @ParentTableMappingName=$table/@TableName]">
+				<xsl:variable name="foreignKey" select="."/>
+				<xsl:variable name="parentTableMapping" select="//P:TableMapping[@SchemaName=$foreignKey/@ParentTableMappingSchemaName and @TableName=$foreignKey/@ParentTableMappingName]"/>
+				<xsl:variable name="referencedTableMapping" select="//P:TableMapping[@SchemaName=$foreignKey/@ReferencedTableMappingSchemaName and @TableName=$foreignKey/@ReferencedTableMappingName]"/>
+				<xsl:variable name="parentTableName" select="@ParentTableMappingName"/>
+				<xsl:variable name="parentColumnName" select="@ParentColumnMappingName"/>
+				<xsl:variable name="referencedTableName" select="@ReferencedTableMappingName"/>
+				<xsl:variable name="referencedColumnName" select="@ReferencedColumnMappingName"/>
+				<xsl:call-template name="GetForeignKeyGetDocumentation">
+					<xsl:with-param name="spacingBefore" select="concat($tab, $tab)"/>
+				</xsl:call-template>
+				<xsl:text>
+		public static IQueryable&lt;</xsl:text>
+				<xsl:value-of select="$parentTableMapping/@ClassName"/>
+				<xsl:text>&gt; GetBy</xsl:text>
+				<xsl:value-of select="@FieldName"/>
+				<xsl:text>(</xsl:text>
+				<xsl:value-of select="$referencedTableMapping/P:ColumnMappings/P:ColumnMapping[@ColumnName=$referencedColumnName]/@DataType"/>
+				<xsl:text> </xsl:text>
+				<xsl:call-template name="FirstCharacterToLowerCase">
+					<xsl:with-param name="input" select="$referencedColumnName"/>
+				</xsl:call-template>
+				<xsl:text>)
+		{
+			return </xsl:text>
+				<xsl:value-of select="$parentTableMapping/@ClassName"/>
+				<xsl:text>.GetBy</xsl:text>
+				<xsl:value-of select="@FieldName"/>
+				<xsl:text>((IQueryable&lt;</xsl:text>
+				<xsl:value-of select="$parentTableMapping/@ClassName"/>
+				<xsl:text>&gt;)</xsl:text>
+				<xsl:value-of select="$parentTableMapping/@ClassName"/>
+				<xsl:text>Cache.Instance.All, </xsl:text>
+				<xsl:call-template name="FirstCharacterToLowerCase">
+					<xsl:with-param name="input" select="$referencedColumnName"/>
+				</xsl:call-template>
+				<xsl:text>);
+		}
+		</xsl:text>
+		
+				<xsl:if test="position() != last()">
+					<xsl:value-of select="$newLine"/>
+				</xsl:if>
+			</xsl:for-each>
+
+			<xsl:for-each select="P:UniqueIndexMappings/P:UniqueIndexMapping[@Exclude='false']">
+				<xsl:text>
+		<![CDATA[/// <summary>Gets the ]]></xsl:text>
+				<xsl:value-of select="../../@ClassName"/>
+				<xsl:text><![CDATA[ matching the unique index using the passed-in values.</summary>]]>
+		public static </xsl:text>
+				<xsl:value-of select="../../@ClassName"/>
+				<xsl:text> GetBy</xsl:text>
+				<xsl:for-each select="P:ColumnNames/P:ColumnName">
+					<xsl:variable name="columnName" select="text()"/>
+					<xsl:variable name="column" select="../../../../P:ColumnMappings/P:ColumnMapping[@ColumnName=$columnName]"/>
+	
+					<xsl:value-of select="$column/@FieldName"/>
+					<xsl:if test="position()!=last()">
+						<xsl:text>And</xsl:text>
+					</xsl:if>
+				</xsl:for-each>
+				<xsl:text>(</xsl:text>
+				<xsl:for-each select="P:ColumnNames/P:ColumnName">
+					<xsl:variable name="columnName" select="text()"/>
+					<xsl:variable name="column" select="../../../../P:ColumnMappings/P:ColumnMapping[@ColumnName=$columnName]"/>
+	
+					<xsl:choose>
+						<xsl:when test="$column/P:EnumerationMapping">
+							<xsl:text>DO.</xsl:text>
+							<xsl:value-of select="$column/P:EnumerationMapping/@Name"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="$column/@DataType"/>
+						</xsl:otherwise>
+					</xsl:choose>
+					<xsl:if test="$column/@Nullable='true'">
+						<xsl:text>?</xsl:text>
+					</xsl:if>
+					<xsl:text> </xsl:text>
+					<xsl:call-template name="FirstCharacterToLowerCase">
+						<xsl:with-param name="input" select="$column/@FieldName"/>
+					</xsl:call-template>
+	
+					<xsl:if test="position()!=last()">
+						<xsl:text>, </xsl:text>
+					</xsl:if>
+				</xsl:for-each>
+				<xsl:text>)
+		{
+			return </xsl:text>
+				<xsl:value-of select="../../@ClassName"/>
+				<xsl:text>.GetBy</xsl:text>
+				<xsl:for-each select="P:ColumnNames/P:ColumnName">
+					<xsl:variable name="columnName" select="text()"/>
+					<xsl:variable name="column" select="../../../../P:ColumnMappings/P:ColumnMapping[@ColumnName=$columnName]"/>
+	
+					<xsl:value-of select="$column/@FieldName"/>
+					<xsl:if test="position()!=last()">
+						<xsl:text>And</xsl:text>
+					</xsl:if>
+				</xsl:for-each>
+				<xsl:text>((IQueryable&lt;</xsl:text>
+				<xsl:value-of select="../../@ClassName"/>
+				<xsl:text>&gt;)</xsl:text>
+				<xsl:value-of select="../../@ClassName"/>
+				<xsl:text>Cache.Instance.All, </xsl:text>
+				<xsl:for-each select="P:ColumnNames/P:ColumnName">
+					<xsl:variable name="columnName" select="text()"/>
+					<xsl:variable name="column" select="../../../../P:ColumnMappings/P:ColumnMapping[@ColumnName=$columnName]"/>
+	
+					<xsl:call-template name="FirstCharacterToLowerCase">
+						<xsl:with-param name="input" select="$column/@FieldName"/>
+					</xsl:call-template>
+	
+					<xsl:if test="position()!=last()">
+						<xsl:text>, </xsl:text>
+					</xsl:if>
+				</xsl:for-each>
+				<xsl:text>);
+		}</xsl:text>
+			</xsl:for-each>
+			
+			<xsl:text>
 	}</xsl:text>
 			<xsl:if test="position()!=last()">
 				<xsl:value-of select="$newLine"/>
