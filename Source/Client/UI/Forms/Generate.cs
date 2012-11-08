@@ -74,7 +74,11 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
 
                     message.AppendLine("Template:\t\t{0}".FormatString(template.Name));
                     message.AppendLine("XSLT Path:\t{0}".FormatString(template.XsltAbsolutePath));
-                    message.AppendLine("Output Path:\t{0}".FormatString(template.OutputAbsolutePath));
+                    message.AppendLine("Output Path:\t{0}".FormatString(item.SubItems[pathColumn.Index].Text));
+
+                    if (template.OutputMode == TemplateOutputMode.MultipleFile)
+                        message.AppendLine("Element:\t\t{0}".FormatString(item.SubItems[elementColumn.Index].Text));
+
                     message.AppendLine();
 
                     while (error != null)

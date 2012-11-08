@@ -51,15 +51,28 @@ namespace QuantumConcepts.CodeGenerator.Plugins.MVC3Admin.UI.Forms
             set { pluralDisplayName.Enabled = value; }
         }
 
+        public bool Deletable
+        {
+            get { return deletable.Checked; }
+            set { deletable.Checked = value; }
+        }
+
+        public bool DeletableEnabled
+        {
+            get { return deletable.Enabled; }
+            set { deletable.Enabled = value; }
+        }
+
         public EditTable()
         {
             InitializeComponent();
         }
 
-        public EditTable(bool visible, string displayName, string pluralDisplayName)
+        public EditTable(bool visible, bool editable, string displayName, string pluralDisplayName)
             : this()
         {
             this.Visible = visible;
+            this.Deletable = editable;
             this.DisplayName = displayName;
             this.PluralDisplayName = pluralDisplayName;
         }

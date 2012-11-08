@@ -77,8 +77,14 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
         {
             get
             {
-                foreach (IAttribute attribute in this.Attributes.Union(this.DataTypeMappings.SelectMany(o => o.AllAttributes).Union(this.TableMappings.SelectMany(o => o.AllAttributes)).Union(this.ForeignKeyMappings.SelectMany(o => o.AllAttributes))))
+                foreach (IAttribute attribute in this.Attributes
+                    .Union(this.DataTypeMappings.SelectMany(o => o.AllAttributes))
+                    .Union(this.Templates.SelectMany(o => o.AllAttributes))
+                    .Union(this.TableMappings.SelectMany(o => o.AllAttributes))
+                    .Union(this.ForeignKeyMappings.SelectMany(o => o.AllAttributes)))
+                {
                     yield return attribute;
+                }
             }
         }
 

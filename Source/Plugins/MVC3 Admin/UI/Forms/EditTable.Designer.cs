@@ -36,6 +36,8 @@
             this.visible = new System.Windows.Forms.CheckBox();
             this.cancel = new System.Windows.Forms.Button();
             this.ok = new System.Windows.Forms.Button();
+            this.deletable = new System.Windows.Forms.CheckBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -96,23 +98,41 @@
             // 
             this.cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancel.Location = new System.Drawing.Point(328, 88);
+            this.cancel.Location = new System.Drawing.Point(328, 105);
             this.cancel.Name = "cancel";
             this.cancel.Size = new System.Drawing.Size(75, 23);
-            this.cancel.TabIndex = 4;
+            this.cancel.TabIndex = 5;
             this.cancel.Text = "&Cancel";
             this.cancel.UseVisualStyleBackColor = true;
             // 
             // ok
             // 
             this.ok.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.ok.Location = new System.Drawing.Point(247, 88);
+            this.ok.Location = new System.Drawing.Point(247, 105);
             this.ok.Name = "ok";
             this.ok.Size = new System.Drawing.Size(75, 23);
-            this.ok.TabIndex = 3;
+            this.ok.TabIndex = 4;
             this.ok.Text = "&OK";
             this.ok.UseVisualStyleBackColor = true;
             this.ok.Click += new System.EventHandler(this.ok_Click);
+            // 
+            // deletable
+            // 
+            this.deletable.AutoSize = true;
+            this.deletable.Location = new System.Drawing.Point(122, 84);
+            this.deletable.Name = "deletable";
+            this.deletable.Size = new System.Drawing.Size(15, 14);
+            this.deletable.TabIndex = 3;
+            this.deletable.UseVisualStyleBackColor = true;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(61, 84);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(55, 13);
+            this.label4.TabIndex = 6;
+            this.label4.Text = "Deletable:";
             // 
             // EditTable
             // 
@@ -120,7 +140,9 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cancel;
-            this.ClientSize = new System.Drawing.Size(415, 123);
+            this.ClientSize = new System.Drawing.Size(415, 140);
+            this.Controls.Add(this.deletable);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.ok);
             this.Controls.Add(this.cancel);
             this.Controls.Add(this.visible);
@@ -150,5 +172,7 @@
         private System.Windows.Forms.CheckBox visible;
         private System.Windows.Forms.Button cancel;
         private System.Windows.Forms.Button ok;
+        private System.Windows.Forms.CheckBox deletable;
+        private System.Windows.Forms.Label label4;
     }
 }

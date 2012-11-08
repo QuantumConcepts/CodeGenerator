@@ -92,6 +92,8 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.keyComboBox.Name = "keyComboBox";
             this.keyComboBox.Size = new System.Drawing.Size(425, 21);
             this.keyComboBox.TabIndex = 1;
+            this.keyComboBox.SelectedIndexChanged += new System.EventHandler(this.keyComboBox_Changed);
+            this.keyComboBox.TextChanged += new System.EventHandler(this.keyComboBox_Changed);
             // 
             // valueComboBox
             // 

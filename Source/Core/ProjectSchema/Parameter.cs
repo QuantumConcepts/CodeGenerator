@@ -235,9 +235,19 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
                 }
 
                 if (_type == Parameter<T>.ParameterType.DataObject)
-                    description.Append(DataTypeReferencedTableMapping.ClassName);
+                {
+                    if (this.DataTypeReferencedTableMapping != null)
+                        description.Append(DataTypeReferencedTableMapping.ClassName);
+                    else
+                        description.Append("Unknown DataObject");
+                }
                 else if (_type == Parameter<T>.ParameterType.Enum)
-                    description.Append(DataTypeReferencedEnumColumnMapping.EnumerationMapping.Name + (_nullable ? "?" : ""));
+                {
+                    if (this.DataTypeReferencedEnumColumnMapping != null && DataTypeReferencedEnumColumnMapping.EnumerationMapping != null)
+                        description.Append(DataTypeReferencedEnumColumnMapping.EnumerationMapping.Name + (_nullable ? "?" : ""));
+                    else
+                        description.Append("Unknown Enum" + (_nullable ? "?" : ""));
+                }
                 else if (_type == Parameter<T>.ParameterType.Other)
                     description.Append(_otherDataType + (_nullable ? "?" : ""));
 

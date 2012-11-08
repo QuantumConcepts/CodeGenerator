@@ -3,7 +3,7 @@
 <xsl:stylesheet version="1.0" xmlns:P="http://Schemas.QuantumConceptsCorp.com/CodeGenerator/Project.xsd" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:fn="http://www.w3.org/2005/xpath-functions" xmlns:xdt="http://www.w3.org/2005/xpath-datatypes">
 	<xsl:output method="text" version="1.0" encoding="UTF-8" indent="no"/>
 
-	<xsl:include href="XSLTCommon-CS.xslt"/>
+	<xsl:include href="Common.xslt"/>
 	
 	<xsl:param name="templateName"/>
 	
@@ -36,7 +36,7 @@ namespace  </xsl:text>
 	[DataContract]
 	public partial class </xsl:text>
 			<xsl:value-of select="@ClassName"/>
-			<xsl:text>
+			<xsl:text> : IDataObject
 	{</xsl:text>
 			<xsl:for-each select="P:ColumnMappings/P:ColumnMapping[@Exclude='false']">
 				<xsl:variable name="dataType" select="@DataType"/>

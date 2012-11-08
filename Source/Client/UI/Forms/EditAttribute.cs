@@ -17,8 +17,8 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
         public Attribute<T> Attribute { get; private set; }
 
         public EditAttribute()
-            :this(null)
-        {}
+            : this(null)
+        { }
 
         public EditAttribute(Attribute<T> attribute)
         {
@@ -39,6 +39,12 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
 
             keyComboBox.Text = this.Attribute.Key;
             valueComboBox.Text = this.Attribute.Value;
+        }
+
+        private void keyComboBox_Changed(object sender, EventArgs e)
+        {
+            valueComboBox.Items.Clear();
+            valueComboBox.Items.TryAddRange(ProjectContext.Project.AllAttributes.Where(a => string.Equals(a.Key, keyComboBox.Text)).Select(a => a.Value).Distinct());
         }
 
         private void okButton_Click(object sender, EventArgs e)

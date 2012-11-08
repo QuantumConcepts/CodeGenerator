@@ -18,6 +18,7 @@ namespace QuantumConcepts.CodeGenerator.Plugins.MVC3Admin.UI.Forms
         private const string Key_MvcAdmin = "MVC-Admin";
         private const string Key_DisplayName = "DisplayName";
         private const string Key_PluralDisplayName = "PluralDisplayName";
+        private const string Key_MvcAdminDeletable = "MVC-Admin-Deletable";
         private const string Key_MvcAdminShow = "MVC-Admin-Show";
         private const string Key_MvcAdminIndexColumn = "MVC-Admin-Index-Column";
         private const string Key_MvcAdminIndexColumnOrder = "MVC-Admin-Index-Column-Order";
@@ -51,6 +52,7 @@ namespace QuantumConcepts.CodeGenerator.Plugins.MVC3Admin.UI.Forms
                 IEnumerable<ListViewItem> selectedItems = tablesListView.SelectedItems.Cast<ListViewItem>();
 
                 tablesVisibleMenuItem.Checked = selectedItems.All(o => o.Checked);
+                tablesDeletableMenuItem.Checked = selectedItems.All(o => string.Equals(o.SubItems[tableDeletableColumnHeader.Index].Text, bool.TrueString));
 
                 ShowContextMenu(tablesContextMenu, e.Location, tablesListView);
             }
@@ -65,6 +67,12 @@ namespace QuantumConcepts.CodeGenerator.Plugins.MVC3Admin.UI.Forms
         {
             foreach (ListViewItem item in tablesListView.SelectedItems)
                 item.Checked = tablesVisibleMenuItem.Checked;
+        }
+
+        private void tablesDeletableMenuItem_CheckedChanged(object sender, EventArgs e)
+        {
+            foreach (ListViewItem item in tablesListView.SelectedItems)
+                item.SubItems[tableDeletableColumnHeader.Index].Text = tablesDeletableMenuItem.Checked.ToString();
         }
 
         private void columnsListView_MouseDown(object sender, MouseEventArgs e)
@@ -132,7 +140,8 @@ namespace QuantumConcepts.CodeGenerator.Plugins.MVC3Admin.UI.Forms
                     bool showTable = t.Attributes.Any(a => Key_MvcAdmin.EqualsIgnoreCase(a.Key));
                     string tableDisplayName = t.Attributes.SingleOrDefault(a => Key_DisplayName.EqualsIgnoreCase(a.Key)).ValueOrDefault(a => a.Value);
                     string tablePluralDisplayName = t.Attributes.SingleOrDefault(a => Key_PluralDisplayName.EqualsIgnoreCase(a.Key)).ValueOrDefault(a => a.Value);
-                    ListViewItem listViewItem = new ListViewItem(new[] { t.ClassName, tableDisplayName, tablePluralDisplayName })
+                    bool editable = t.Attributes.Any(a => Key_MvcAdminDeletable.EqualsIgnoreCase(a.Key));
+                    ListViewItem listViewItem = new ListViewItem(new[] { t.ClassName, tableDisplayName, tablePluralDisplayName, editable.ToString() })
                     {
                         Name = t.ToString(),
                         Checked = showTable,
@@ -190,8 +199,8 @@ namespace QuantumConcepts.CodeGenerator.Plugins.MVC3Admin.UI.Forms
                     string dataType = c.Attributes.SingleOrDefault(a => Key_MvcAdminDataType.EqualsIgnoreCase(a.Key)).ValueOrDefault(a => a.Value);
                     ListViewItem listViewItem = (columnsListView.Items.Count > 0 ? columnsListView.FindItemWithText(c.ToString(), false, 0) : null);
 
-                    if (c.Attributes.SingleOrDefault(a => Key_DisplayName.EqualsIgnoreCase(a.Key)).ValueOrDefault(a => a.Value).IsInt())
-                        indexOrder = int.Parse(c.Attributes.Single(a => Key_DisplayName.EqualsIgnoreCase(a.Key)).Value);
+                    if (c.Attributes.SingleOrDefault(a => Key_MvcAdminIndexColumnOrder.EqualsIgnoreCase(a.Key)).ValueOrDefault(a => a.Value).IsInt())
+                        indexOrder = int.Parse(c.Attributes.Single(a => Key_MvcAdminIndexColumnOrder.EqualsIgnoreCase(a.Key)).Value);
 
                     if (listViewItem != null)
                         columnsListView.Items.Remove(listViewItem);
@@ -245,12 +254,18 @@ namespace QuantumConcepts.CodeGenerator.Plugins.MVC3Admin.UI.Forms
                         dialog.PluralDisplayName = selectedItems[0].SubItems[tablePluralDisplayNameColumnHeader.Index].Text;
                     else
                         dialog.PluralDisplayNameEnabled = false;
+
+                    if (selectedItems.GroupBy(o => o.SubItems[tableDeletableColumnHeader.Index].Text.ToBool()).Count() == 1)
+                        dialog.Enabled = selectedItems[0].SubItems[tableDeletableColumnHeader.Index].Text.ToBool();
+                    else
+                        dialog.DeletableEnabled = false;
                 }
                 else
                 {
                     dialog.Visible = selectedItems[0].Checked;
                     dialog.DisplayName = selectedItems[0].SubItems[tableDisplayNameColumnHeader.Index].Text;
                     dialog.PluralDisplayName = selectedItems[0].SubItems[tablePluralDisplayNameColumnHeader.Index].Text;
+                    dialog.Deletable = selectedItems[0].SubItems[tableDeletableColumnHeader.Index].Text.ToBool();
                 }
 
                 if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -260,6 +275,7 @@ namespace QuantumConcepts.CodeGenerator.Plugins.MVC3Admin.UI.Forms
                         listViewItem.Checked = dialog.Visible;
                         listViewItem.SubItems[tableDisplayNameColumnHeader.Index].Text = dialog.DisplayName;
                         listViewItem.SubItems[tablePluralDisplayNameColumnHeader.Index].Text = dialog.PluralDisplayName;
+                        listViewItem.SubItems[tableDeletableColumnHeader.Index].Text = dialog.Deletable.ToString();
                     }
                 }
             }
@@ -380,6 +396,7 @@ namespace QuantumConcepts.CodeGenerator.Plugins.MVC3Admin.UI.Forms
 
                     RemoveAttribute(tableMapping, Key_DisplayName);
                     RemoveAttribute(tableMapping, Key_PluralDisplayName);
+                    RemoveAttribute(tableMapping, Key_MvcAdminDeletable);
 
                     if (item.Checked)
                         AddAttribute(tableMapping, Key_MvcAdmin);
@@ -391,6 +408,9 @@ namespace QuantumConcepts.CodeGenerator.Plugins.MVC3Admin.UI.Forms
 
                     if (!item.SubItems[tablePluralDisplayNameColumnHeader.Index].Text.IsNullOrEmpty())
                         AddAttribute(tableMapping, Key_PluralDisplayName, item.SubItems[tablePluralDisplayNameColumnHeader.Index].Text);
+
+                    if (bool.Parse(item.SubItems[tableDeletableColumnHeader.Index].Text))
+                        AddAttribute(tableMapping, Key_MvcAdminDeletable);
                 }
 
                 foreach (ListViewItem item in columnsListView.Items)

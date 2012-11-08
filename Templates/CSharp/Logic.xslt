@@ -3,9 +3,13 @@
 <xsl:stylesheet version="1.0" xmlns:P="http://Schemas.QuantumConceptsCorp.com/CodeGenerator/Project.xsd" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:msxsl="urn:schemas-microsoft-com:xslt" exclude-result-prefixes="msxsl">
 	<xsl:output method="text" version="1.0" encoding="UTF-8" indent="no"/>
 	
-	<xsl:include href="XSLTCommon-CS.xslt"/>
+	<xsl:include href="Common.xslt"/>
 	
 	<xsl:param name="templateName"/>
+	
+	<xsl:key name="tableByName" match="P:TableMapping" use="@TableName" />
+	<xsl:key name="columnByName" match="P:ColumnMapping" use="@ColumnName" />
+	<xsl:key name="columnByTableAndColumnName" match="/P:Project/P:TableMappings/P:TableMapping/P:ColumnMappings/P:ColumnMapping" use="concat(../../@TableName, ',', @ColumnName)"/>
 	
 	<xsl:template match="P:Project">
 		<xsl:call-template name="Using-System-All"/>
@@ -14,6 +18,9 @@
 		</xsl:call-template>
 		<xsl:call-template name="Using">
 			<xsl:with-param name="namespace" select="'System.Linq.Expressions'"/>
+		</xsl:call-template>
+		<xsl:call-template name="Using">
+			<xsl:with-param name="namespace" select="'QuantumConcepts.Common.Utils'"/>
 		</xsl:call-template>
 		<xsl:call-template name="Using-Project"/>
 		<xsl:call-template name="Using-Template">
@@ -46,6 +53,7 @@ namespace </xsl:text>
 <xsl:text>.Logic
 {</xsl:text>
 		<xsl:for-each select="P:TableMappings/P:TableMapping[@Exclude='false']">
+			<xsl:variable name="table" select="."/>
 			<xsl:variable name="tableName" select="@TableName"/>
 			<xsl:variable name="className" select="@ClassName"/>
 			<xsl:variable name="pluralClassName" select="@PluralClassName"/>
@@ -53,7 +61,7 @@ namespace </xsl:text>
 	/// &lt;summary&gt;Contains logical functionality related to the </xsl:text>
 			<xsl:value-of select="@ClassName"/>
 			<xsl:text> class.&lt;/summary&gt;
-	internal static partial class </xsl:text>
+	public static partial class </xsl:text>
 			<xsl:value-of select="@ClassName"/>
 			<xsl:text>Logic
 	{
@@ -101,7 +109,7 @@ namespace </xsl:text>
 				<xsl:with-param name="spacingBefore" select="concat($tab, $tab)"/>
 			</xsl:call-template>
 			<xsl:text>
-		public static IEnumerable&lt;DA.</xsl:text>
+		public static IQueryable&lt;DA.</xsl:text>
 			<xsl:value-of select="@ClassName"/>
 			<xsl:text>&gt; GetAll()
 		{
@@ -116,7 +124,7 @@ namespace </xsl:text>
 				<xsl:with-param name="spacingBefore" select="concat($tab, $tab)"/>
 			</xsl:call-template>
 			<xsl:text>
-		public static IEnumerable&lt;DA.</xsl:text>
+		public static IQueryable&lt;DA.</xsl:text>
 			<xsl:value-of select="@ClassName"/>
 			<xsl:text>&gt; GetAll(DA.</xsl:text>
 			<xsl:value-of select="/P:Project/P:Attributes/P:Attribute[@Key='DataContextName']/@Value"/>
@@ -129,7 +137,10 @@ namespace </xsl:text>
 		}
 		</xsl:text>
 		
-			<xsl:for-each select="../../P:ForeignKeyMappings/P:ForeignKeyMapping[@Exclude='false' and @ParentTableMappingName=$tableName]">
+			<xsl:for-each select="../../P:ForeignKeyMappings/P:ForeignKeyMapping[@Exclude='false' and @ParentTableMappingSchemaName=$table/@SchemaName and @ParentTableMappingName=$table/@TableName]">
+				<xsl:variable name="foreignKey" select="."/>
+				<xsl:variable name="parentTableMapping" select="//P:TableMapping[@SchemaName=$foreignKey/@ParentTableMappingSchemaName and @TableName=$foreignKey/@ParentTableMappingName]"/>
+				<xsl:variable name="referencedTableMapping" select="//P:TableMapping[@SchemaName=$foreignKey/@ReferencedTableMappingSchemaName and @TableName=$foreignKey/@ReferencedTableMappingName]"/>
 				<xsl:variable name="parentTableName" select="@ParentTableMappingName"/>
 				<xsl:variable name="parentColumnName" select="@ParentColumnMappingName"/>
 				<xsl:variable name="referencedTableName" select="@ReferencedTableMappingName"/>
@@ -138,12 +149,12 @@ namespace </xsl:text>
 					<xsl:with-param name="spacingBefore" select="concat($tab, $tab)"/>
 				</xsl:call-template>
 				<xsl:text>
-		public static IEnumerable&lt;DA.</xsl:text>
-				<xsl:value-of select="../../P:TableMappings/P:TableMapping[@TableName=$parentTableName]/@ClassName"/>
+		public static IQueryable&lt;DA.</xsl:text>
+				<xsl:value-of select="$parentTableMapping/@ClassName"/>
 				<xsl:text>&gt; GetBy</xsl:text>
 				<xsl:value-of select="@FieldName"/>
 				<xsl:text>(</xsl:text>
-				<xsl:value-of select="../../P:TableMappings/P:TableMapping[@TableName=$referencedTableName]/P:ColumnMappings/P:ColumnMapping[@ColumnName=$referencedColumnName]/@DataType"/>
+				<xsl:value-of select="$referencedTableMapping/P:ColumnMappings/P:ColumnMapping[@ColumnName=$referencedColumnName]/@DataType"/>
 				<xsl:text> </xsl:text>
 				<xsl:call-template name="FirstCharacterToLowerCase">
 					<xsl:with-param name="input" select="$referencedColumnName"/>
@@ -151,7 +162,7 @@ namespace </xsl:text>
 				<xsl:text>)
 		{
 			return DA.</xsl:text>
-				<xsl:value-of select="../../P:TableMappings/P:TableMapping[@TableName=$parentTableName]/@ClassName"/>
+				<xsl:value-of select="$parentTableMapping/@ClassName"/>
 				<xsl:text>.GetBy</xsl:text>
 				<xsl:value-of select="@FieldName"/>
 				<xsl:text>(</xsl:text>
@@ -166,14 +177,14 @@ namespace </xsl:text>
 					<xsl:with-param name="spacingBefore" select="concat($tab, $tab)"/>
 				</xsl:call-template>
 				<xsl:text>
-		public static IEnumerable&lt;DA.</xsl:text>
-				<xsl:value-of select="../../P:TableMappings/P:TableMapping[@TableName=$parentTableName]/@ClassName"/>
+		public static IQueryable&lt;DA.</xsl:text>
+				<xsl:value-of select="$parentTableMapping/@ClassName"/>
 				<xsl:text>&gt; GetBy</xsl:text>
 				<xsl:value-of select="@FieldName"/>
 				<xsl:text>(DA.</xsl:text>
 				<xsl:value-of select="/P:Project/P:Attributes/P:Attribute[@Key='DataContextName']/@Value"/>
 				<xsl:text> context, </xsl:text>
-				<xsl:value-of select="../../P:TableMappings/P:TableMapping[@TableName=$referencedTableName]/P:ColumnMappings/P:ColumnMapping[@ColumnName=$referencedColumnName]/@DataType"/>
+				<xsl:value-of select="$referencedTableMapping/P:ColumnMappings/P:ColumnMapping[@ColumnName=$referencedColumnName]/@DataType"/>
 				<xsl:text> </xsl:text>
 				<xsl:call-template name="FirstCharacterToLowerCase">
 					<xsl:with-param name="input" select="$referencedColumnName"/>
@@ -181,7 +192,7 @@ namespace </xsl:text>
 				<xsl:text>)
 		{
 			return DA.</xsl:text>
-				<xsl:value-of select="../../P:TableMappings/P:TableMapping[@TableName=$parentTableName]/@ClassName"/>
+				<xsl:value-of select="$parentTableMapping/@ClassName"/>
 				<xsl:text>.GetBy</xsl:text>
 				<xsl:value-of select="@FieldName"/>
 				<xsl:text>(context, </xsl:text>
@@ -226,10 +237,10 @@ namespace </xsl:text>
 							<xsl:value-of select="$column/@DataType"/>
 						</xsl:otherwise>
 					</xsl:choose>
-					<xsl:text> </xsl:text>
-					<xsl:if test="$column/@Nullable = 'true'">
+					<xsl:if test="$column/@Nullable='true'">
 						<xsl:text>?</xsl:text>
 					</xsl:if>
+					<xsl:text> </xsl:text>
 					<xsl:call-template name="FirstCharacterToLowerCase">
 						<xsl:with-param name="input" select="$column/@FieldName"/>
 					</xsl:call-template>
@@ -268,6 +279,9 @@ namespace </xsl:text>
 				<xsl:text>);
 		}
 		
+		<![CDATA[/// <summary>Gets the ]]></xsl:text>
+				<xsl:value-of select="../../@ClassName"/>
+				<xsl:text><![CDATA[ matching the unique index using the passed-in values.</summary>]]>
 		public static DA.</xsl:text>
 				<xsl:value-of select="../../@ClassName"/>
 				<xsl:text> GetBy</xsl:text>
@@ -296,7 +310,7 @@ namespace </xsl:text>
 							<xsl:value-of select="$column/@DataType"/>
 						</xsl:otherwise>
 					</xsl:choose>
-					<xsl:if test="$column/@Nullable = 'true'">
+					<xsl:if test="$column/@Nullable='true'">
 						<xsl:text>?</xsl:text>
 					</xsl:if>
 					<xsl:text> </xsl:text>
@@ -347,35 +361,30 @@ namespace </xsl:text>
 				<xsl:text>
 		public static </xsl:text>
 				<xsl:call-template name="GetReturnParameterDataTypeForAPI">
-					<xsl:with-param name="prefix">
-						<xsl:if test="P:ReturnParameter/@Type='DataObject'">
-							<xsl:text>DA.</xsl:text>
-						</xsl:if>
-					</xsl:with-param>
+					<xsl:with-param name="prefix" select="'DA.'"/>
+					<xsl:with-param name="enumPrefix" select="'DO.'"/>
 				</xsl:call-template>
 				<xsl:text> </xsl:text>
 				<xsl:value-of select="@Name"/>
 				<xsl:text>(</xsl:text>
 				<xsl:call-template name="GetAllParameterDefinitionsForAPI">
 					<xsl:with-param name="prefix" select="'DA.'"/>
+					<xsl:with-param name="enumPrefix" select="'DO.'"/>
 				</xsl:call-template>
 				<xsl:text>)
 		{
 			DA.</xsl:text>
 				<xsl:value-of select="/P:Project/P:Attributes/P:Attribute[@Key='DataContextName']/@Value"/>
-				<xsl:text> context = new DA.</xsl:text>
+				<xsl:text> context = DA.</xsl:text>
 				<xsl:value-of select="/P:Project/P:Attributes/P:Attribute[@Key='DataContextName']/@Value"/>
-				<xsl:text>();</xsl:text>
+				<xsl:text>.Create();</xsl:text>
 				<xsl:choose>
 					<xsl:when test="P:ReturnParameter/@Type!='Void'">
 						<xsl:text>
 			</xsl:text>
 						<xsl:call-template name="GetReturnParameterDataTypeForAPI">
-							<xsl:with-param name="prefix">
-								<xsl:if test="P:ReturnParameter/@Type='DataObject'">
-									<xsl:text>DA.</xsl:text>
-								</xsl:if>
-							</xsl:with-param>
+							<xsl:with-param name="prefix" select="'DA.'"/>
+							<xsl:with-param name="enumPrefix" select="'DO.'"/>
 						</xsl:call-template>
 						<xsl:text> result = </xsl:text>
 					</xsl:when>
@@ -390,7 +399,10 @@ namespace </xsl:text>
 				<xsl:if test="P:Parameters/P:Parameter">
 					<xsl:text>, </xsl:text>
 				</xsl:if>
-				<xsl:call-template name="GetAllParameterModifiersAndNamesForAPI"/>
+				<xsl:call-template name="GetAllParameterModifiersAndNamesForAPI">
+					<xsl:with-param name="prefix" select="'DA.'"/>
+					<xsl:with-param name="enumPrefix" select="'DO.'"/>
+				</xsl:call-template>
 				<xsl:text>);
 
 			context.SubmitChanges();</xsl:text>
@@ -409,11 +421,8 @@ namespace </xsl:text>
 				<xsl:text>
 		public static </xsl:text>
 				<xsl:call-template name="GetReturnParameterDataTypeForAPI">
-					<xsl:with-param name="prefix">
-						<xsl:if test="P:ReturnParameter/@Type='DataObject'">
-							<xsl:text>DA.</xsl:text>
-						</xsl:if>
-					</xsl:with-param>
+					<xsl:with-param name="prefix" select="'DA.'"/>
+					<xsl:with-param name="enumPrefix" select="'DO.'"/>
 				</xsl:call-template>
 				<xsl:text> </xsl:text>
 				<xsl:value-of select="@Name"/>
@@ -425,6 +434,7 @@ namespace </xsl:text>
 				</xsl:if>
 				<xsl:call-template name="GetAllParameterDefinitionsForAPI">
 					<xsl:with-param name="prefix" select="'DA.'"/>
+					<xsl:with-param name="enumPrefix" select="'DO.'"/>
 				</xsl:call-template>
 				<xsl:text>)
 		{
@@ -437,7 +447,10 @@ namespace </xsl:text>
 				<xsl:if test="P:Parameters/P:Parameter">
 					<xsl:text>, </xsl:text>
 				</xsl:if>
-				<xsl:call-template name="GetAllParameterModifiersAndNamesForAPI"/>
+				<xsl:call-template name="GetAllParameterModifiersAndNamesForAPI">
+					<xsl:with-param name="prefix" select="'DA.'"/>
+					<xsl:with-param name="enumPrefix" select="'DO.'"/>
+				</xsl:call-template>
 				<xsl:text>);
 		}
 		</xsl:text>
@@ -469,10 +482,8 @@ namespace </xsl:text>
     
 		public static DA.</xsl:text>
 			<xsl:value-of select="@ClassName"/>
-			<xsl:text> Create</xsl:text>
-			<xsl:value-of select="@ClassName"/>
-			<xsl:text>(</xsl:text>
-			<xsl:for-each select="P:ColumnMappings/P:ColumnMapping[@Exclude='false' and @PrimaryKey='false' and @FieldName != 'Created' and @FieldName != 'Modified']">
+			<xsl:text> Create(</xsl:text>
+			<xsl:for-each select="P:ColumnMappings/P:ColumnMapping[@Exclude='false' and @PrimaryKey='false' and not(P:Attributes/P:Attribute[@Key='ExcludeFromCreate'])]">
 				<xsl:choose>
 					<xsl:when test="P:EnumerationMapping">
 						<xsl:text>DO.</xsl:text>
@@ -499,15 +510,13 @@ namespace </xsl:text>
 		{
 			DA.</xsl:text>
 			<xsl:value-of select="/P:Project/P:Attributes/P:Attribute[@Key='DataContextName']/@Value"/>
-			<xsl:text> context = new DA.</xsl:text>
+			<xsl:text> context = DA.</xsl:text>
 			<xsl:value-of select="/P:Project/P:Attributes/P:Attribute[@Key='DataContextName']/@Value"/>
-			<xsl:text>();
+			<xsl:text>.Create();
 			DA.</xsl:text>
 			<xsl:value-of select="@ClassName"/>
-			<xsl:text> obj = Create</xsl:text>
-			<xsl:value-of select="@ClassName"/>
-			<xsl:text>(context, </xsl:text>
-			<xsl:for-each select="P:ColumnMappings/P:ColumnMapping[@Exclude='false' and @PrimaryKey='false' and @FieldName != 'Created' and @FieldName != 'Modified']">
+			<xsl:text> obj = Create(context, </xsl:text>
+			<xsl:for-each select="P:ColumnMappings/P:ColumnMapping[@Exclude='false' and @PrimaryKey='false' and not(P:Attributes/P:Attribute[@Key='ExcludeFromCreate'])]">
 				<xsl:value-of select="@FieldName"/>
 				<xsl:text>_Parameter</xsl:text>
 				<xsl:if test="position() != last()">
@@ -526,12 +535,10 @@ namespace </xsl:text>
 		
 		public static DA.</xsl:text>
 			<xsl:value-of select="@ClassName"/>
-			<xsl:text> Create</xsl:text>
-			<xsl:value-of select="@ClassName"/>
-			<xsl:text>(DA.</xsl:text>
+			<xsl:text> Create(DA.</xsl:text>
 			<xsl:value-of select="/P:Project/P:Attributes/P:Attribute[@Key='DataContextName']/@Value"/>
 			<xsl:text> context, </xsl:text>
-			<xsl:for-each select="P:ColumnMappings/P:ColumnMapping[@Exclude='false' and @PrimaryKey='false' and @FieldName != 'Created' and @FieldName != 'Modified']">
+			<xsl:for-each select="P:ColumnMappings/P:ColumnMapping[@Exclude='false' and @PrimaryKey='false' and not(P:Attributes/P:Attribute[@Key='ExcludeFromCreate'])]">
 				<xsl:choose>
 					<xsl:when test="P:EnumerationMapping">
 						<xsl:text>DO.</xsl:text>
@@ -563,17 +570,19 @@ namespace </xsl:text>
 			<xsl:text>();
 			
 			</xsl:text>
-			<xsl:for-each select="P:ColumnMappings/P:ColumnMapping[@Exclude='false' and @PrimaryKey='false' and @FieldName != 'Created' and @FieldName != 'Modified']">
+			<xsl:for-each select="P:ColumnMappings/P:ColumnMapping[@Exclude='false' and @PrimaryKey='false' and not(P:Attributes/P:Attribute[@Key='ExcludeFromCreate'])]">
 				<xsl:text>obj.</xsl:text>
 				<xsl:value-of select="@FieldName"/>
 				<xsl:text> = </xsl:text>
 				<xsl:choose>
 					<xsl:when test="@EncryptionVectorColumnName">
-						<xsl:text>EncryptionUtil.Instance.EncryptTextViaRijndael(</xsl:text>
+						<xsl:text>(</xsl:text>
+						<xsl:value-of select="@FieldName"/>
+						<xsl:text>_Parameter != null ? EncryptionUtil.Instance.EncryptTextViaRijndael(</xsl:text>
 						<xsl:value-of select="@FieldName"/>
 						<xsl:text>_Parameter, </xsl:text>
 						<xsl:value-of select="@EncryptionVectorColumnName"/>
-						<xsl:text>_Parameter)</xsl:text>
+						<xsl:text>_Parameter) : null)</xsl:text>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:value-of select="@FieldName"/>
@@ -583,15 +592,7 @@ namespace </xsl:text>
 				<xsl:text>;
 			</xsl:text>
 			</xsl:for-each>
-				<xsl:if test="P:ColumnMappings/P:ColumnMapping[@FieldName = 'Created']">
-					<xsl:text>
-			obj.Created = DateTimeUtil.Now;</xsl:text>
-				</xsl:if>
-				<xsl:if test="P:ColumnMappings/P:ColumnMapping[@FieldName = 'Modified']">
-					<xsl:text>
-			obj.Modified = DateTimeUtil.Now;</xsl:text>
-				</xsl:if>
-				<xsl:text>
+			<xsl:text>
 			Validate(context, obj);
 			PerformPreCreateLogic(context, obj);
 			
@@ -602,16 +603,15 @@ namespace </xsl:text>
 			return obj;
 		}
     		</xsl:text>
-			<xsl:if test="../../P:ForeignKeyMappings/P:ForeignKeyMapping[@ParentTableMappingName = $tableName]">
+    		
+			<xsl:if test="../../P:ForeignKeyMappings/P:ForeignKeyMapping[@Exclude='false' and @ParentTableMappingSchemaName=$table/@SchemaName and @ParentTableMappingName=$table/@TableName and not(key('columnByTableAndColumnName', concat($tableName, ',', @ParentColumnMappingName))/P:Attributes/P:Attribute[@Key='ExcludeFromCreate'])]">
 				<xsl:text>
 		public static DA.</xsl:text>
 				<xsl:value-of select="@ClassName"/>
-				<xsl:text> Create</xsl:text>
-				<xsl:value-of select="@ClassName"/>
-				<xsl:text>(</xsl:text>
-				<xsl:for-each select="P:ColumnMappings/P:ColumnMapping[@PrimaryKey='false' and @FieldName != 'Created' and @FieldName != 'Modified']">
+				<xsl:text> Create(</xsl:text>
+				<xsl:for-each select="P:ColumnMappings/P:ColumnMapping[@Exclude='false' and @PrimaryKey='false' and not(P:Attributes/P:Attribute[@Key='ExcludeFromCreate'])]">
 					<xsl:variable name="columnName" select="@ColumnName"/>
-					<xsl:variable name="foreignKeyMapping" select="../../../../P:ForeignKeyMappings/P:ForeignKeyMapping[@ParentTableMappingName = $tableName and @ParentColumnMappingName = $columnName]"/>
+					<xsl:variable name="foreignKeyMapping" select="../../../../P:ForeignKeyMappings/P:ForeignKeyMapping[@Exclude='false' and @ParentTableMappingSchemaName=$table/@SchemaName and @ParentTableMappingName=$table/@TableName and @ParentColumnMappingName=$columnName]"/>
 					<xsl:choose>
 						<xsl:when test="P:EnumerationMapping">
 							<xsl:text>DO.</xsl:text>
@@ -625,7 +625,7 @@ namespace </xsl:text>
 						</xsl:when>
 						<xsl:when test="$foreignKeyMapping">
 							<xsl:text>DA.</xsl:text>
-							<xsl:value-of select="../../../P:TableMapping[@TableName = $foreignKeyMapping/@ReferencedTableMappingName]/@ClassName"/>
+							<xsl:value-of select="../../../P:TableMapping[@SchemaName=$foreignKeyMapping/@ReferencedTableMappingSchemaName and @TableName=$foreignKeyMapping/@ReferencedTableMappingName]/@ClassName"/>
 						</xsl:when>
 						<xsl:otherwise>
 							<xsl:value-of select="@DataType"/>
@@ -652,17 +652,15 @@ namespace </xsl:text>
 		{
 			DA.</xsl:text>
 				<xsl:value-of select="/P:Project/P:Attributes/P:Attribute[@Key='DataContextName']/@Value"/>
-				<xsl:text> context = new DA.</xsl:text>
+				<xsl:text> context = DA.</xsl:text>
 				<xsl:value-of select="/P:Project/P:Attributes/P:Attribute[@Key='DataContextName']/@Value"/>
-				<xsl:text>();
+				<xsl:text>.Create();
 			DA.</xsl:text>
 				<xsl:value-of select="@ClassName"/>
-				<xsl:text> obj = Create</xsl:text>
-				<xsl:value-of select="@ClassName"/>
-				<xsl:text>(context, </xsl:text>
-				<xsl:for-each select="P:ColumnMappings/P:ColumnMapping[@PrimaryKey='false' and @FieldName != 'Created' and @FieldName != 'Modified']">
+				<xsl:text> obj = Create(context, </xsl:text>
+				<xsl:for-each select="P:ColumnMappings/P:ColumnMapping[@Exclude='false' and @PrimaryKey='false' and not(P:Attributes/P:Attribute[@Key='ExcludeFromCreate'])]">
 					<xsl:variable name="columnName" select="@ColumnName"/>
-					<xsl:variable name="foreignKeyMapping" select="../../../../P:ForeignKeyMappings/P:ForeignKeyMapping[@ParentTableMappingName = $tableName and @ParentColumnMappingName = $columnName]"/>
+					<xsl:variable name="foreignKeyMapping" select="../../../../P:ForeignKeyMappings/P:ForeignKeyMapping[@Exclude='false' and @ParentTableMappingSchemaName=$table/@SchemaName and @ParentTableMappingName=$table/@TableName and @ParentColumnMappingName=$columnName]"/>
 					<xsl:choose>
 						<xsl:when test="$foreignKeyMapping">
 							<xsl:value-of select="$foreignKeyMapping/@PropertyName"/>
@@ -688,14 +686,12 @@ namespace </xsl:text>
 		
 		public static DA.</xsl:text>
 				<xsl:value-of select="@ClassName"/>
-				<xsl:text> Create</xsl:text>
-				<xsl:value-of select="@ClassName"/>
-				<xsl:text>(DA.</xsl:text>
+				<xsl:text> Create(DA.</xsl:text>
 				<xsl:value-of select="/P:Project/P:Attributes/P:Attribute[@Key='DataContextName']/@Value"/>
 				<xsl:text> context, </xsl:text>
-				<xsl:for-each select="P:ColumnMappings/P:ColumnMapping[@PrimaryKey='false' and @FieldName != 'Created' and @FieldName != 'Modified']">
+				<xsl:for-each select="P:ColumnMappings/P:ColumnMapping[@Exclude='false' and @PrimaryKey='false' and not(P:Attributes/P:Attribute[@Key='ExcludeFromCreate'])]">
 					<xsl:variable name="columnName" select="@ColumnName"/>
-					<xsl:variable name="foreignKeyMapping" select="../../../../P:ForeignKeyMappings/P:ForeignKeyMapping[@ParentTableMappingName = $tableName and @ParentColumnMappingName = $columnName]"/>
+					<xsl:variable name="foreignKeyMapping" select="../../../../P:ForeignKeyMappings/P:ForeignKeyMapping[@Exclude='false' and @ParentTableMappingSchemaName=$table/@SchemaName and @ParentTableMappingName=$table/@TableName and @ParentColumnMappingName=$columnName]"/>
 					<xsl:choose>
 						<xsl:when test="P:EnumerationMapping">
 							<xsl:text>DO.</xsl:text>
@@ -709,7 +705,7 @@ namespace </xsl:text>
 						</xsl:when>
 						<xsl:when test="$foreignKeyMapping">
 							<xsl:text>DA.</xsl:text>
-							<xsl:value-of select="../../../P:TableMapping[@TableName = $foreignKeyMapping/@ReferencedTableMappingName]/@ClassName"/>
+							<xsl:value-of select="../../../P:TableMapping[@SchemaName=$foreignKeyMapping/@ReferencedTableMappingSchemaName and @TableName=$foreignKeyMapping/@ReferencedTableMappingName]/@ClassName"/>
 						</xsl:when>
 						<xsl:otherwise>
 							<xsl:value-of select="@DataType"/>
@@ -741,9 +737,9 @@ namespace </xsl:text>
 				<xsl:text>();
 			
 			</xsl:text>
-				<xsl:for-each select="P:ColumnMappings/P:ColumnMapping[@PrimaryKey='false' and @FieldName != 'Created' and @FieldName != 'Modified']">
+				<xsl:for-each select="P:ColumnMappings/P:ColumnMapping[@Exclude='false' and @PrimaryKey='false' and not(P:Attributes/P:Attribute[@Key='ExcludeFromCreate'])]">
 					<xsl:variable name="columnName" select="@ColumnName"/>
-					<xsl:variable name="foreignKeyMapping" select="../../../../P:ForeignKeyMappings/P:ForeignKeyMapping[@ParentTableMappingName = $tableName and @ParentColumnMappingName = $columnName]"/>
+					<xsl:variable name="foreignKeyMapping" select="../../../../P:ForeignKeyMappings/P:ForeignKeyMapping[@Exclude='false' and @ParentTableMappingSchemaName=$table/@SchemaName and @ParentTableMappingName=$table/@TableName and @ParentColumnMappingName=$columnName]"/>
 					<xsl:text>obj.</xsl:text>
 					<xsl:choose>
 						<xsl:when test="$foreignKeyMapping">
@@ -774,14 +770,6 @@ namespace </xsl:text>
 					<xsl:text>;
 			</xsl:text>
 				</xsl:for-each>
-				<xsl:if test="P:ColumnMappings/P:ColumnMapping[@FieldName = 'Created']">
-					<xsl:text>
-			obj.Created = DateTimeUtil.Now;</xsl:text>
-				</xsl:if>
-				<xsl:if test="P:ColumnMappings/P:ColumnMapping[@FieldName = 'Modified']">
-					<xsl:text>
-			obj.Modified = DateTimeUtil.Now;</xsl:text>
-				</xsl:if>
 				<xsl:text>
 			Validate(context, obj);
 			PerformPreCreateLogic(context, obj);
@@ -795,19 +783,15 @@ namespace </xsl:text>
 		</xsl:text>
 			</xsl:if>
 			<xsl:text>
-		public static void Delete</xsl:text>
-			<xsl:value-of select="@ClassName"/>
-			<xsl:text>(int id)
+		public static void Delete(int id)
 		{
 			DA.</xsl:text>
 			<xsl:value-of select="/P:Project/P:Attributes/P:Attribute[@Key='DataContextName']/@Value"/>
-			<xsl:text> context = new DA.</xsl:text>
+			<xsl:text> context = DA.</xsl:text>
 			<xsl:value-of select="/P:Project/P:Attributes/P:Attribute[@Key='DataContextName']/@Value"/>
-			<xsl:text>();
+			<xsl:text>.Create();
 			
-			Delete</xsl:text>
-			<xsl:value-of select="@ClassName"/>
-			<xsl:text>(context, id);
+			Delete(context, id);
 			
 			context.SubmitChanges();
 			DA.</xsl:text>
@@ -815,9 +799,7 @@ namespace </xsl:text>
 			<xsl:text>.OnCacheNeedsRefresh();
 		}
 		
-		public static void Delete</xsl:text>
-			<xsl:value-of select="@ClassName"/>
-			<xsl:text>(DA.</xsl:text>
+		public static void Delete(DA.</xsl:text>
 			<xsl:value-of select="/P:Project/P:Attributes/P:Attribute[@Key='DataContextName']/@Value"/>
 			<xsl:text> context, int id)
 		{
@@ -825,6 +807,33 @@ namespace </xsl:text>
 			<xsl:value-of select="$className"/>
 			<xsl:text> obj = GetByID(context, id);
 			
+			Delete(context, obj);
+		}
+		
+		public static void Delete(DA.</xsl:text>
+			<xsl:value-of select="@ClassName"/>
+			<xsl:text> obj)
+		{
+			DA.</xsl:text>
+			<xsl:value-of select="/P:Project/P:Attributes/P:Attribute[@Key='DataContextName']/@Value"/>
+			<xsl:text> context = DA.</xsl:text>
+			<xsl:value-of select="/P:Project/P:Attributes/P:Attribute[@Key='DataContextName']/@Value"/>
+			<xsl:text>.Create();
+			
+			Delete(context, obj);
+			
+			context.SubmitChanges();
+			DA.</xsl:text>
+			<xsl:value-of select="@ClassName"/>
+			<xsl:text>.OnCacheNeedsRefresh();
+		}
+		
+		public static void Delete(DA.</xsl:text>
+			<xsl:value-of select="/P:Project/P:Attributes/P:Attribute[@Key='DataContextName']/@Value"/>
+			<xsl:text> context, DA.</xsl:text>
+			<xsl:value-of select="@ClassName"/>
+			<xsl:text> obj)
+		{
 			context.</xsl:text>
 			<xsl:value-of select="$pluralClassName"/>
 			<xsl:text>.DeleteOnSubmit(obj);

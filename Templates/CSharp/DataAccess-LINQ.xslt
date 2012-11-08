@@ -3,7 +3,7 @@
 <xsl:stylesheet version="1.0" xmlns:P="http://Schemas.QuantumConceptsCorp.com/CodeGenerator/Project.xsd" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:msxsl="urn:schemas-microsoft-com:xslt" exclude-result-prefixes="msxsl">
 	<xsl:output method="text" version="1.0" encoding="UTF-8" indent="no"/>
 	
-	<xsl:include href="XSLTCommon-CS.xslt"/>
+	<xsl:include href="Common.xslt"/>
 	
 	<xsl:param name="templateName"/>
 	
@@ -26,6 +26,9 @@
 		</xsl:call-template>
 		<xsl:call-template name="Using">
 			<xsl:with-param name="namespace" select="'System.ComponentModel'"/>
+		</xsl:call-template>
+		<xsl:call-template name="Using">
+			<xsl:with-param name="namespace" select="'QuantumConcepts.Common'"/>
 		</xsl:call-template>
 		<xsl:call-template name="Using-Project"/>
 		<xsl:call-template name="Using-Template">
@@ -54,7 +57,7 @@
 		<xsl:text>
 namespace </xsl:text>
 		<xsl:value-of select="@RootNamespace"/>
-<xsl:text>.DataAccess
+		<xsl:text>.DataAccess
 {
 	/// &lt;summary&gt;Exposes all functionality to interact with the database.&lt;/summary&gt;
 	[DatabaseAttribute]
@@ -62,55 +65,19 @@ namespace </xsl:text>
 		<xsl:value-of select="/P:Project/P:Attributes/P:Attribute[@Key='DataContextName']/@Value"/>
 		<xsl:text> : DataContext
 	{
-		private static MappingSource mappingSource = new AttributeMappingSource();
+		///&lt;summary&gt;Indicates whether or not data contexts should be instantiated using the default factory. This should be set to false if a specific Factory is provided.&lt;/summary&gt;
+		public static bool UseDefaultFactory { get; set;}
+		
+		///&lt;summary&gt;Defines the factory method that is used to create a new data context.&lt;/summary&gt;
+		public static Func&lt;</xsl:text>
+		<xsl:value-of select="/P:Project/P:Attributes/P:Attribute[@Key='DataContextName']/@Value"/>
+		<xsl:text>&gt; Factory { get; set; }
 		
 		/// &lt;summary&gt;Creates a new DataContext with which to query and update data.&lt;/summary&gt;
-		public </xsl:text>
+		protected </xsl:text>
 		<xsl:value-of select="/P:Project/P:Attributes/P:Attribute[@Key='DataContextName']/@Value"/>
 		<xsl:text>()
-		: base(ConfigUtil.Instance.ConnectionString, mappingSource)
-		{
-			Initialize();
-		}
-
-		/// &lt;summary&gt;Creates a new DataContext with which to query and update data.&lt;/summary&gt;
-		/// &lt;param name="connection"&gt;The connection string to use.&lt;/param&gt;
-		public </xsl:text>
-		<xsl:value-of select="/P:Project/P:Attributes/P:Attribute[@Key='DataContextName']/@Value"/>
-		<xsl:text>(string connection)
-			 : base(connection, mappingSource)
-		{
-			Initialize();
-		}
-		
-		/// &lt;summary&gt;Creates a new DataContext with which to query and update data.&lt;/summary&gt;
-		/// &lt;param name="connection"&gt;The connection to use.&lt;/param&gt;
-		public </xsl:text>
-		<xsl:value-of select="/P:Project/P:Attributes/P:Attribute[@Key='DataContextName']/@Value"/>
-		<xsl:text>(IDbConnection connection)
-			 : base(connection, mappingSource)
-		{
-			Initialize();
-		}
-		
-		/// &lt;summary&gt;Creates a new DataContext with which to query and update data.&lt;/summary&gt;
-		/// &lt;param name="connection"&gt;The connection string to use.&lt;/param&gt;
-		/// &lt;param name="mappingSource"&gt;The mapping source to use.&lt;/param&gt;
-		public </xsl:text>
-		<xsl:value-of select="/P:Project/P:Attributes/P:Attribute[@Key='DataContextName']/@Value"/>
-		<xsl:text>(string connection, MappingSource mappingSource)
-			 : base(connection, mappingSource)
-		{
-			Initialize();
-		}
-		
-		/// &lt;summary&gt;Creates a new DataContext with which to query and update data.&lt;/summary&gt;
-		/// &lt;param name="connection"&gt;The connection to use.&lt;/param&gt;
-		/// &lt;param name="mappingSource"&gt;The mapping source to use.&lt;/param&gt;
-		public </xsl:text>
-		<xsl:value-of select="/P:Project/P:Attributes/P:Attribute[@Key='DataContextName']/@Value"/>
-		<xsl:text>(IDbConnection connection, MappingSource mappingSource)
-			 : base(connection, mappingSource)
+			: base(ConfigUtil.Instance.ConnectionString, new AttributeMappingSource())
 		{
 			Initialize();
 		}
@@ -170,9 +137,34 @@ namespace </xsl:text>
 			
 			OnCreated();
 		}
+		
+		public static </xsl:text>
+		<xsl:value-of select="/P:Project/P:Attributes/P:Attribute[@Key='DataContextName']/@Value"/>
+		<xsl:text> Create()
+		{
+			if (</xsl:text>
+		<xsl:value-of select="/P:Project/P:Attributes/P:Attribute[@Key='DataContextName']/@Value"/>
+		<xsl:text>.UseDefaultFactory)
+				return new </xsl:text>
+		<xsl:value-of select="/P:Project/P:Attributes/P:Attribute[@Key='DataContextName']/@Value"/>
+		<xsl:text>();
+			else if (</xsl:text>
+		<xsl:value-of select="/P:Project/P:Attributes/P:Attribute[@Key='DataContextName']/@Value"/>
+		<xsl:text>.Factory == null)
+				throw new ApplicationException("</xsl:text>
+		<xsl:value-of select="/P:Project/P:Attributes/P:Attribute[@Key='DataContextName']/@Value"/>
+		<xsl:text>.Factory must be non-null or </xsl:text>
+		<xsl:value-of select="/P:Project/P:Attributes/P:Attribute[@Key='DataContextName']/@Value"/>
+		<xsl:text>.UseDefaultFactory must be set to true.");
+			else
+				return </xsl:text>
+		<xsl:value-of select="/P:Project/P:Attributes/P:Attribute[@Key='DataContextName']/@Value"/>
+		<xsl:text>.Factory();
+		}
 	}</xsl:text>
 	
 		<xsl:for-each select="P:TableMappings/P:TableMapping[@Exclude='false']">
+			<xsl:variable name="table" select="."/>
 			<xsl:variable name="tableName" select="@TableName"/>
 			<xsl:variable name="className" select="@ClassName"/>
 			<xsl:variable name="pluralClassName" select="@PluralClassName"/>
@@ -193,7 +185,13 @@ namespace </xsl:text>
 			<xsl:value-of select="@ClassName"/>
 			<xsl:text> : DO.</xsl:text>
 			<xsl:value-of select="@ClassName"/>
-			<xsl:text>, INotifyPropertyChanging, INotifyPropertyChanged
+			<xsl:text>, INotifyPropertyChanging, INotifyPropertyChanged</xsl:text>
+			<xsl:if test="P:Attributes/P:Attribute[@Key='DisplayField'] or P:Attributes/P:Attribute[@Key='SortField']">
+				<xsl:text>, IComparable&lt;</xsl:text>
+				<xsl:value-of select="@ClassName"/>
+				<xsl:text>&gt;</xsl:text>
+			</xsl:if>
+			<xsl:text>
 	{
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
@@ -207,13 +205,16 @@ namespace </xsl:text>
 		public event PropertyChangedEventHandler PropertyChanged;
 		</xsl:text>
 		
-			<xsl:for-each select="../../P:ForeignKeyMappings/P:ForeignKeyMapping[@ReferencedTableMappingName=$tableName]">
+			<xsl:for-each select="../../P:ForeignKeyMappings/P:ForeignKeyMapping[@Exclude='false' and @ReferencedTableMappingSchemaName=$table/@SchemaName and @ReferencedTableMappingName=$table/@TableName]">
+				<xsl:variable name="foreignKey" select="."/>
+				<xsl:variable name="parentTableMapping" select="//P:TableMapping[@SchemaName=$foreignKey/@ParentTableMappingSchemaName and @TableName=$foreignKey/@ParentTableMappingName]"/>
+				<xsl:variable name="referencedTableMapping" select="//P:TableMapping[@SchemaName=$foreignKey/@ReferencedTableMappingSchemaName and @TableName=$foreignKey/@ReferencedTableMappingName]"/>
 				<xsl:variable name="referencedTableMappingName" select="@ReferencedTableMappingName"/>
 				<xsl:variable name="parentTableMappingName" select="@ParentTableMappingName"/>
-				<xsl:if test="../../P:TableMappings/P:TableMapping[@TableName=$referencedTableMappingName]/@Exclude='false' and ../../P:TableMappings/P:TableMapping[@TableName=$parentTableMappingName]/@Exclude='false'">
+				<xsl:if test="$referencedTableMapping/@Exclude='false' and $parentTableMapping/@Exclude='false'">
 					<xsl:text>
 		private EntitySet&lt;DA.</xsl:text>
-					<xsl:value-of select="../../P:TableMappings/P:TableMapping[@TableName=$parentTableMappingName]/@ClassName"/>
+					<xsl:value-of select="$parentTableMapping/@ClassName"/>
 					<xsl:text>&gt; _</xsl:text>
 					<xsl:value-of select="@PluralPropertyName"/>
 					<xsl:text>;</xsl:text>
@@ -224,13 +225,16 @@ namespace </xsl:text>
 				</xsl:if>
 			</xsl:for-each>
 		
-			<xsl:for-each select="../../P:ForeignKeyMappings/P:ForeignKeyMapping[@ParentTableMappingName=$tableName]">
+			<xsl:for-each select="../../P:ForeignKeyMappings/P:ForeignKeyMapping[@Exclude='false' and @ParentTableMappingSchemaName=$table/@SchemaName and @ParentTableMappingName=$table/@TableName]">
+				<xsl:variable name="foreignKey" select="."/>
+				<xsl:variable name="parentTableMapping" select="//P:TableMapping[@SchemaName=$foreignKey/@ParentTableMappingSchemaName and @TableName=$foreignKey/@ParentTableMappingName]"/>
+				<xsl:variable name="referencedTableMapping" select="//P:TableMapping[@SchemaName=$foreignKey/@ReferencedTableMappingSchemaName and @TableName=$foreignKey/@ReferencedTableMappingName]"/>
 				<xsl:variable name="referencedTableMappingName" select="@ReferencedTableMappingName"/>
 				<xsl:variable name="parentTableMappingName" select="@ParentTableMappingName"/>
-				<xsl:if test="../../P:TableMappings/P:TableMapping[@TableName=$parentTableMappingName]/@Exclude='false' and ../../P:TableMappings/P:TableMapping[@TableName=$referencedTableMappingName]/@Exclude='false'">
+				<xsl:if test="$parentTableMapping/@Exclude='false' and $referencedTableMapping/@Exclude='false'">
 					<xsl:text>
 		private EntityRef&lt;DA.</xsl:text>
-					<xsl:value-of select="../../P:TableMappings/P:TableMapping[@TableName=$referencedTableMappingName]/@ClassName"/>
+					<xsl:value-of select="$referencedTableMapping/@ClassName"/>
 					<xsl:text>&gt; _</xsl:text>
 					<xsl:value-of select="@PropertyName"/>
 					<xsl:text>;</xsl:text>
@@ -295,16 +299,16 @@ namespace </xsl:text>
 				<xsl:value-of select="@FieldName"/>
 				<xsl:text>))
 				{</xsl:text>
-				<xsl:if test="../../../../P:ForeignKeyMappings/P:ForeignKeyMapping[@ParentTableMappingName=$tableName and @ParentColumnMappingName=$columnName]">
+				<xsl:if test="../../../../P:ForeignKeyMappings/P:ForeignKeyMapping[@Exclude='false' and @ParentTableMappingSchemaName=$table/@SchemaName and @ParentTableMappingName=$table/@TableName and @ParentColumnMappingName=$columnName]">
 					<xsl:text>
 					if (_</xsl:text>
-					<xsl:value-of select="../../../../P:ForeignKeyMappings/P:ForeignKeyMapping[@ParentTableMappingName=$tableName and @ParentColumnMappingName=$columnName]/@PropertyName"/>
+					<xsl:value-of select="../../../../P:ForeignKeyMappings/P:ForeignKeyMapping[@ParentTableMappingSchemaName=$table/@SchemaName and @ParentTableMappingName=$table/@TableName and @ParentColumnMappingName=$columnName]/@PropertyName"/>
 					<xsl:text>.HasLoadedOrAssignedValue &amp;&amp; (_</xsl:text>
-					<xsl:value-of select="../../../../P:ForeignKeyMappings/P:ForeignKeyMapping[@ParentTableMappingName=$tableName and @ParentColumnMappingName=$columnName]/@PropertyName"/>
+					<xsl:value-of select="../../../../P:ForeignKeyMappings/P:ForeignKeyMapping[@ParentTableMappingSchemaName=$table/@SchemaName and @ParentTableMappingName=$table/@TableName and @ParentColumnMappingName=$columnName]/@PropertyName"/>
 					<xsl:text>.Entity == null || _</xsl:text>
-					<xsl:value-of select="../../../../P:ForeignKeyMappings/P:ForeignKeyMapping[@ParentTableMappingName=$tableName and @ParentColumnMappingName=$columnName]/@PropertyName"/>
+					<xsl:value-of select="../../../../P:ForeignKeyMappings/P:ForeignKeyMapping[@ParentTableMappingSchemaName=$table/@SchemaName and @ParentTableMappingName=$table/@TableName and @ParentColumnMappingName=$columnName]/@PropertyName"/>
 					<xsl:text>.Entity.</xsl:text>
-					<xsl:value-of select="../../../../P:ForeignKeyMappings/P:ForeignKeyMapping[@ParentTableMappingName=$tableName and @ParentColumnMappingName=$columnName]/@ReferencedColumnMappingName"/>
+					<xsl:value-of select="../../../../P:ForeignKeyMappings/P:ForeignKeyMapping[@ParentTableMappingSchemaName=$table/@SchemaName and @ParentTableMappingName=$table/@TableName and @ParentColumnMappingName=$columnName]/@ReferencedColumnMappingName"/>
 					<xsl:text> != value))
 						throw new ForeignKeyReferenceAlreadyHasValueException();
 						</xsl:text>
@@ -339,10 +343,13 @@ namespace </xsl:text>
 		</xsl:text>
 			</xsl:for-each>
 		
-			<xsl:for-each select="../../P:ForeignKeyMappings/P:ForeignKeyMapping[@ReferencedTableMappingName=$tableName]">
+			<xsl:for-each select="../../P:ForeignKeyMappings/P:ForeignKeyMapping[@Exclude='false' and @ReferencedTableMappingSchemaName=$table/@SchemaName and @ReferencedTableMappingName=$table/@TableName]">
+				<xsl:variable name="foreignKey" select="."/>
+				<xsl:variable name="parentTableMapping" select="//P:TableMapping[@SchemaName=$foreignKey/@ParentTableMappingSchemaName and @TableName=$foreignKey/@ParentTableMappingName]"/>
+				<xsl:variable name="referencedTableMapping" select="//P:TableMapping[@SchemaName=$foreignKey/@ReferencedTableMappingSchemaName and @TableName=$foreignKey/@ReferencedTableMappingName]"/>
 				<xsl:variable name="referencedTableMappingName" select="@ReferencedTableMappingName"/>
 				<xsl:variable name="parentTableMappingName" select="@ParentTableMappingName"/>
-				<xsl:if test="../../P:TableMappings/P:TableMapping[@TableName=$referencedTableMappingName]/@Exclude='false' and ../../P:TableMappings/P:TableMapping[@TableName=$parentTableMappingName]/@Exclude='false'">
+				<xsl:if test="$referencedTableMapping/@Exclude='false' and $parentTableMapping/@Exclude='false'">
 					<xsl:call-template name="GetForeignKeyMappingDocumentation">
 						<xsl:with-param name="spacingBefore" select="concat($tab, $tab)"/>
 					</xsl:call-template>
@@ -357,7 +364,7 @@ namespace </xsl:text>
 					<xsl:value-of select="@FieldName"/>
 					<xsl:text>")]
 		public EntitySet&lt;DA.</xsl:text>
-					<xsl:value-of select="../../P:TableMappings/P:TableMapping[@TableName=$parentTableMappingName]/@ClassName"/>
+					<xsl:value-of select="$parentTableMapping/@ClassName"/>
 					<xsl:text>&gt; </xsl:text>
 					<xsl:value-of select="@PluralPropertyName"/>
 					<xsl:text>
@@ -373,11 +380,14 @@ namespace </xsl:text>
 				</xsl:if>
 			</xsl:for-each>
 		
-			<xsl:for-each select="../../P:ForeignKeyMappings/P:ForeignKeyMapping[@ParentTableMappingName=$tableName]">
+			<xsl:for-each select="../../P:ForeignKeyMappings/P:ForeignKeyMapping[@Exclude='false' and @ParentTableMappingSchemaName=$table/@SchemaName and @ParentTableMappingName=$table/@TableName]">
+				<xsl:variable name="foreignKey" select="."/>
+				<xsl:variable name="parentTableMapping" select="//P:TableMapping[@SchemaName=$foreignKey/@ParentTableMappingSchemaName and @TableName=$foreignKey/@ParentTableMappingName]"/>
+				<xsl:variable name="referencedTableMapping" select="//P:TableMapping[@SchemaName=$foreignKey/@ReferencedTableMappingSchemaName and @TableName=$foreignKey/@ReferencedTableMappingName]"/>
 				<xsl:variable name="referencedTableMappingName" select="@ReferencedTableMappingName"/>
 				<xsl:variable name="parentTableMappingName" select="@ParentTableMappingName"/>
 				<xsl:variable name="parentColumnMappingName" select="@ParentColumnMappingName"/>
-				<xsl:if test="../../P:TableMappings/P:TableMapping[@TableName=$parentTableMappingName]/@Exclude='false' and ../../P:TableMappings/P:TableMapping[@TableName=$referencedTableMappingName]/@Exclude='false'">
+				<xsl:if test="$parentTableMapping/@Exclude='false' and $referencedTableMapping/@Exclude='false'">
 					<xsl:call-template name="GetForeignKeyMappingDocumentation">
 						<xsl:with-param name="spacingBefore" select="concat($tab, $tab)"/>
 					</xsl:call-template>
@@ -392,7 +402,7 @@ namespace </xsl:text>
 					<xsl:value-of select="@ReferencedColumnMappingName"/>
 					<xsl:text>", IsForeignKey=true)]
 		public DA.</xsl:text>
-					<xsl:value-of select="../../P:TableMappings/P:TableMapping[@TableName=$referencedTableMappingName]/@ClassName"/>
+					<xsl:value-of select="$referencedTableMapping/@ClassName"/>
 					<xsl:text> </xsl:text>
 					<xsl:value-of select="@PropertyName"/>
 					<xsl:text>
@@ -406,7 +416,7 @@ namespace </xsl:text>
 			set
 			{
 				</xsl:text>
-					<xsl:value-of select="../../P:TableMappings/P:TableMapping[@TableName=$referencedTableMappingName]/@ClassName"/>
+					<xsl:value-of select="$referencedTableMapping/@ClassName"/>
 					<xsl:text> previousValue = _</xsl:text>
 					<xsl:value-of select="@PropertyName"/>
 					<xsl:text>.Entity;
@@ -448,20 +458,20 @@ namespace </xsl:text>
 					_</xsl:text>
 					<xsl:value-of select="@PropertyName"/>
 					<xsl:text> = default(EntityRef&lt;</xsl:text>
-					<xsl:value-of select="../../P:TableMappings/P:TableMapping[@TableName=$referencedTableMappingName]/@ClassName"/>
+					<xsl:value-of select="$referencedTableMapping/@ClassName"/>
 					<xsl:text>&gt;);
 					this.</xsl:text>
 					<xsl:value-of select="@FieldName"/>
 					<xsl:text> = default(</xsl:text>
 					<xsl:choose>
-						<xsl:when test="../../P:TableMappings/P:TableMapping[@TableName=$parentTableMappingName]/P:ColumnMappings/P:ColumnMapping[@ColumnName=$parentColumnMappingName]/@EnumerationMapping">
-							<xsl:value-of select="../../P:TableMappings/P:TableMapping[@TableName=$parentTableMappingName]/P:ColumnMappings/P:ColumnMapping[@ColumnName=$parentColumnMappingName]/P:EnumerationMapping/Name"/>
+						<xsl:when test="../../P:TableMappings/P:TableMapping[@SchemaName=$parentTableMapping/@SchemaName and @TableName=$parentTableMapping/@TableName]/P:ColumnMappings/P:ColumnMapping[@ColumnName=$parentColumnMappingName]/@EnumerationMapping">
+							<xsl:value-of select="../../P:TableMappings/P:TableMapping[@SchemaName=$parentTableMapping/@SchemaName and @TableName=$parentTableMapping/@TableName]/P:ColumnMappings/P:ColumnMapping[@ColumnName=$parentColumnMappingName]/P:EnumerationMapping/Name"/>
 						</xsl:when>
 						<xsl:otherwise>
-							<xsl:value-of select="../../P:TableMappings/P:TableMapping[@TableName=$parentTableMappingName]/P:ColumnMappings/P:ColumnMapping[@ColumnName=$parentColumnMappingName]/@DataType"/>
+							<xsl:value-of select="../../P:TableMappings/P:TableMapping[@SchemaName=$parentTableMapping/@SchemaName and @TableName=$parentTableMapping/@TableName]/P:ColumnMappings/P:ColumnMapping[@ColumnName=$parentColumnMappingName]/@DataType"/>
 						</xsl:otherwise>
 					</xsl:choose>
-					<xsl:if test="../../P:TableMappings/P:TableMapping[@TableName=$parentTableMappingName]/P:ColumnMappings/P:ColumnMapping[@ColumnName=$parentColumnMappingName]/@Nullable='true'">
+					<xsl:if test="../../P:TableMappings/P:TableMapping[@SchemaName=$parentTableMapping/@SchemaName and @TableName=$parentTableMapping/@TableName]/P:ColumnMappings/P:ColumnMapping[@ColumnName=$parentColumnMappingName]/@Nullable='true'">
 						<xsl:text>?</xsl:text>
 					</xsl:if>
 					<xsl:text>);
@@ -482,35 +492,41 @@ namespace </xsl:text>
 			<xsl:value-of select="@ClassName"/>
 			<xsl:text>()
 		{</xsl:text>
-			<xsl:for-each select="../../P:ForeignKeyMappings/P:ForeignKeyMapping[@ReferencedTableMappingName=$tableName]">
+			<xsl:for-each select="../../P:ForeignKeyMappings/P:ForeignKeyMapping[@Exclude='false' and @ReferencedTableMappingSchemaName=$table/@SchemaName and @ReferencedTableMappingName=$table/@TableName]">
+				<xsl:variable name="foreignKey" select="."/>
+				<xsl:variable name="parentTableMapping" select="//P:TableMapping[@SchemaName=$foreignKey/@ParentTableMappingSchemaName and @TableName=$foreignKey/@ParentTableMappingName]"/>
+				<xsl:variable name="referencedTableMapping" select="//P:TableMapping[@SchemaName=$foreignKey/@ReferencedTableMappingSchemaName and @TableName=$foreignKey/@ReferencedTableMappingName]"/>
 				<xsl:variable name="referencedTableMappingName" select="@ReferencedTableMappingName"/>
 				<xsl:variable name="parentTableMappingName" select="@ParentTableMappingName"/>
-				<xsl:if test="../../P:TableMappings/P:TableMapping[@TableName=$referencedTableMappingName]/@Exclude='false' and ../../P:TableMappings/P:TableMapping[@TableName=$parentTableMappingName]/@Exclude='false'">
+				<xsl:if test="$referencedTableMapping/@Exclude='false' and $parentTableMapping/@Exclude='false'">
 					<xsl:text>
 			_</xsl:text>
 					<xsl:value-of select="@PluralPropertyName"/>
 					<xsl:text>= new EntitySet&lt;DA.</xsl:text>
-					<xsl:value-of select="../../P:TableMappings/P:TableMapping[@TableName=$parentTableMappingName]/@ClassName"/>
+					<xsl:value-of select="$parentTableMapping/@ClassName"/>
 					<xsl:text>&gt;(new Action&lt;DA.</xsl:text>
-					<xsl:value-of select="../../P:TableMappings/P:TableMapping[@TableName=$parentTableMappingName]/@ClassName"/>
+					<xsl:value-of select="$parentTableMapping/@ClassName"/>
 					<xsl:text>&gt;(this.Attach</xsl:text>
 					<xsl:value-of select="@PluralPropertyName"/>
 					<xsl:text>), new Action&lt;DA.</xsl:text>
-					<xsl:value-of select="../../P:TableMappings/P:TableMapping[@TableName=$parentTableMappingName]/@ClassName"/>
+					<xsl:value-of select="$parentTableMapping/@ClassName"/>
 					<xsl:text>&gt;(this.Detach</xsl:text>
 					<xsl:value-of select="@PluralPropertyName"/>
 					<xsl:text>));</xsl:text>
 				</xsl:if>
 			</xsl:for-each>
-			<xsl:for-each select="../../P:ForeignKeyMappings/P:ForeignKeyMapping[@ParentTableMappingName=$tableName]">
+			<xsl:for-each select="../../P:ForeignKeyMappings/P:ForeignKeyMapping[@Exclude='false' and @ParentTableMappingSchemaName=$table/@SchemaName and @ParentTableMappingName=$table/@TableName]">
+				<xsl:variable name="foreignKey" select="."/>
+				<xsl:variable name="parentTableMapping" select="//P:TableMapping[@SchemaName=$foreignKey/@ParentTableMappingSchemaName and @TableName=$foreignKey/@ParentTableMappingName]"/>
+				<xsl:variable name="referencedTableMapping" select="//P:TableMapping[@SchemaName=$foreignKey/@ReferencedTableMappingSchemaName and @TableName=$foreignKey/@ReferencedTableMappingName]"/>
 				<xsl:variable name="referencedTableMappingName" select="@ReferencedTableMappingName"/>
 				<xsl:variable name="parentTableMappingName" select="@ParentTableMappingName"/>
-				<xsl:if test="../../P:TableMappings/P:TableMapping[@TableName=$parentTableMappingName]/@Exclude='false' and ../../P:TableMappings/P:TableMapping[@TableName=$referencedTableMappingName]/@Exclude='false'">
+				<xsl:if test="$parentTableMapping/@Exclude='false' and $referencedTableMapping/@Exclude='false'">
 					<xsl:text>
 			_</xsl:text>
 					<xsl:value-of select="@PropertyName"/>
 					<xsl:text> = default(EntityRef&lt;DA.</xsl:text>
-					<xsl:value-of select="../../P:TableMappings/P:TableMapping[@TableName=$referencedTableMappingName]/@ClassName"/>
+					<xsl:value-of select="$referencedTableMapping/@ClassName"/>
 					<xsl:text>&gt;);</xsl:text>
 				</xsl:if>
 			</xsl:for-each>
@@ -524,14 +540,14 @@ namespace </xsl:text>
 				<xsl:with-param name="spacingBefore" select="concat($tab, $tab)"/>
 			</xsl:call-template>
 			<xsl:text>
-		public static IEnumerable&lt;</xsl:text>
+		public static IQueryable&lt;</xsl:text>
 			<xsl:value-of select="@ClassName"/>
 			<xsl:text>&gt; GetAll()
 		{
 			return GetAll</xsl:text>
-			<xsl:text>(new </xsl:text>
+			<xsl:text>(</xsl:text>
 			<xsl:value-of select="/P:Project/P:Attributes/P:Attribute[@Key='DataContextName']/@Value"/>
-			<xsl:text>());</xsl:text>
+			<xsl:text>.Create());</xsl:text>
 			<xsl:text>
 		}
 			</xsl:text>
@@ -540,7 +556,7 @@ namespace </xsl:text>
 				<xsl:with-param name="spacingBefore" select="concat($tab, $tab)"/>
 			</xsl:call-template>
 			<xsl:text>
-		public static IEnumerable&lt;</xsl:text>
+		public static IQueryable&lt;</xsl:text>
 			<xsl:value-of select="@ClassName"/>
 			<xsl:text>&gt; GetAll(</xsl:text>
 			<xsl:value-of select="/P:Project/P:Attributes/P:Attribute[@Key='DataContextName']/@Value"/>
@@ -568,9 +584,9 @@ namespace </xsl:text>
 			<xsl:value-of select="$pkColumn/@FieldName"/>
 			<xsl:text>)
 		{
-			return GetByID(new </xsl:text>
+			return GetByID(</xsl:text>
 			<xsl:value-of select="/P:Project/P:Attributes/P:Attribute[@Key='DataContextName']/@Value"/>
-			<xsl:text>(), </xsl:text>
+			<xsl:text>.Create(), </xsl:text>
 			<xsl:value-of select="$pkColumn/@FieldName"/>
 			<xsl:text>);
 		}
@@ -605,7 +621,10 @@ namespace </xsl:text>
 		}
 			</xsl:text>
 	
-			<xsl:for-each select="../../P:ForeignKeyMappings/P:ForeignKeyMapping[@Exclude='false' and @ParentTableMappingName=$tableName]">
+			<xsl:for-each select="../../P:ForeignKeyMappings/P:ForeignKeyMapping[@Exclude='false' and @ParentTableMappingSchemaName=$table/@SchemaName and @ParentTableMappingName=$table/@TableName]">
+				<xsl:variable name="foreignKey" select="."/>
+				<xsl:variable name="parentTableMapping" select="//P:TableMapping[@SchemaName=$foreignKey/@ParentTableMappingSchemaName and @TableName=$foreignKey/@ParentTableMappingName]"/>
+				<xsl:variable name="referencedTableMapping" select="//P:TableMapping[@SchemaName=$foreignKey/@ReferencedTableMappingSchemaName and @TableName=$foreignKey/@ReferencedTableMappingName]"/>
 				<xsl:variable name="parentTableMappingName" select="@ParentTableMappingName"/>
 				<xsl:variable name="parentColumnName" select="@ParentColumnMappingName"/>
 				<xsl:variable name="referencedTableMappingName" select="@ReferencedTableMappingName"/>
@@ -614,12 +633,12 @@ namespace </xsl:text>
 					<xsl:with-param name="spacingBefore" select="concat($tab, $tab)"/>
 				</xsl:call-template>
 				<xsl:text>
-		public static IEnumerable&lt;</xsl:text>
-				<xsl:value-of select="../../P:TableMappings/P:TableMapping[@TableName=$parentTableMappingName]/@ClassName"/>
+		public static IQueryable&lt;</xsl:text>
+				<xsl:value-of select="$parentTableMapping/@ClassName"/>
 				<xsl:text>&gt; GetBy</xsl:text>
 				<xsl:value-of select="@FieldName"/>
 				<xsl:text>(</xsl:text>
-				<xsl:value-of select="../../P:TableMappings/P:TableMapping[@TableName=$referencedTableMappingName]/P:ColumnMappings/P:ColumnMapping[@ColumnName=$referencedColumnName]/@DataType"/>
+				<xsl:value-of select="$referencedTableMapping/P:ColumnMappings/P:ColumnMapping[@ColumnName=$referencedColumnName]/@DataType"/>
 				<xsl:text> </xsl:text>
 				<xsl:call-template name="FirstCharacterToLowerCase">
 					<xsl:with-param name="input" select="$referencedColumnName"/>
@@ -628,9 +647,9 @@ namespace </xsl:text>
 		{
 			return GetBy</xsl:text>
 				<xsl:value-of select="@FieldName"/>
-				<xsl:text>(new </xsl:text>
+				<xsl:text>(</xsl:text>
 				<xsl:value-of select="/P:Project/P:Attributes/P:Attribute[@Key='DataContextName']/@Value"/>
-				<xsl:text>(), </xsl:text>
+				<xsl:text>.Create(), </xsl:text>
 				<xsl:call-template name="FirstCharacterToLowerCase">
 					<xsl:with-param name="input" select="$referencedColumnName"/>
 				</xsl:call-template>
@@ -643,30 +662,30 @@ namespace </xsl:text>
 					<xsl:with-param name="spacingBefore" select="concat($tab, $tab)"/>
 				</xsl:call-template>
 				<xsl:text>
-		public static IEnumerable&lt;</xsl:text>
-				<xsl:value-of select="../../P:TableMappings/P:TableMapping[@TableName=$parentTableMappingName]/@ClassName"/>
+		public static IQueryable&lt;</xsl:text>
+				<xsl:value-of select="$parentTableMapping/@ClassName"/>
 				<xsl:text>&gt; GetBy</xsl:text>
 				<xsl:value-of select="@FieldName"/>
 				<xsl:text>(</xsl:text>
 				<xsl:value-of select="/P:Project/P:Attributes/P:Attribute[@Key='DataContextName']/@Value"/>
 				<xsl:text> context, </xsl:text>
-				<xsl:value-of select="../../P:TableMappings/P:TableMapping[@TableName=$referencedTableMappingName]/P:ColumnMappings/P:ColumnMapping[@ColumnName=$referencedColumnName]/@DataType"/>
+				<xsl:value-of select="$referencedTableMapping/P:ColumnMappings/P:ColumnMapping[@ColumnName=$referencedColumnName]/@DataType"/>
 				<xsl:text> </xsl:text>
 				<xsl:call-template name="FirstCharacterToLowerCase">
 					<xsl:with-param name="input" select="$referencedColumnName"/>
 				</xsl:call-template>
 				<xsl:text>)
 		{
-			</xsl:text>
+				</xsl:text>
 				<xsl:choose>
 					<xsl:when test="../../P:Attributes/P:Attribute[@Key='Cache']">
 						<xsl:text>var source = </xsl:text>
-						<xsl:value-of select="../../P:TableMappings/P:TableMapping[@TableName=$parentTableMappingName]/@ClassName"/>
+						<xsl:value-of select="$parentTableMapping/@ClassName"/>
 						<xsl:text>Cache.Instance.All;</xsl:text>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:text>var source = context.</xsl:text>
-						<xsl:value-of select="../../P:TableMappings/P:TableMapping[@TableName=$parentTableMappingName]/@PluralClassName"/>
+						<xsl:value-of select="$parentTableMapping/@PluralClassName"/>
 						<xsl:text>;</xsl:text>
 					</xsl:otherwise>
 				</xsl:choose>
@@ -713,7 +732,7 @@ namespace </xsl:text>
 							<xsl:value-of select="$column/@DataType"/>
 						</xsl:otherwise>
 					</xsl:choose>
-					<xsl:if test="$column/@Nullable = 'true'">
+					<xsl:if test="$column/@Nullable='true'">
 						<xsl:text>?</xsl:text>
 					</xsl:if>
 					<xsl:text> </xsl:text>
@@ -737,9 +756,9 @@ namespace </xsl:text>
 						<xsl:text>And</xsl:text>
 					</xsl:if>
 				</xsl:for-each>
-				<xsl:text>(new </xsl:text>
+				<xsl:text>(</xsl:text>
 				<xsl:value-of select="/P:Project/P:Attributes/P:Attribute[@Key='DataContextName']/@Value"/>
-				<xsl:text>(), </xsl:text>
+				<xsl:text>.Create(), </xsl:text>
 				<xsl:for-each select="P:ColumnNames/P:ColumnName">
 					<xsl:variable name="columnName" select="text()"/>
 					<xsl:variable name="column" select="../../../../P:ColumnMappings/P:ColumnMapping[@ColumnName=$columnName]"/>
@@ -755,6 +774,9 @@ namespace </xsl:text>
 				<xsl:text>);
 		}
 		
+		<![CDATA[/// <summary>Gets the ]]></xsl:text>
+				<xsl:value-of select="../../@ClassName"/>
+				<xsl:text><![CDATA[ matching the unique index using the passed-in values.</summary>]]>
 		public static </xsl:text>
 				<xsl:value-of select="../../@ClassName"/>
 				<xsl:text> GetBy</xsl:text>
@@ -783,7 +805,7 @@ namespace </xsl:text>
 							<xsl:value-of select="$column/@DataType"/>
 						</xsl:otherwise>
 					</xsl:choose>
-					<xsl:if test="$column/@Nullable = 'true'">
+					<xsl:if test="$column/@Nullable='true'">
 						<xsl:text>?</xsl:text>
 					</xsl:if>
 					<xsl:text> </xsl:text>
@@ -820,17 +842,20 @@ namespace </xsl:text>
 		</xsl:text>
 			</xsl:for-each>
 			
-			<xsl:for-each select="../../P:ForeignKeyMappings/P:ForeignKeyMapping[@ReferencedTableMappingName=$tableName]">
+			<xsl:for-each select="../../P:ForeignKeyMappings/P:ForeignKeyMapping[@Exclude='false' and @ReferencedTableMappingSchemaName=$table/@SchemaName and @ReferencedTableMappingName=$table/@TableName]">
+				<xsl:variable name="foreignKey" select="."/>
+				<xsl:variable name="parentTableMapping" select="//P:TableMapping[@SchemaName=$foreignKey/@ParentTableMappingSchemaName and @TableName=$foreignKey/@ParentTableMappingName]"/>
+				<xsl:variable name="referencedTableMapping" select="//P:TableMapping[@SchemaName=$foreignKey/@ReferencedTableMappingSchemaName and @TableName=$foreignKey/@ReferencedTableMappingName]"/>
 				<xsl:variable name="referencedTableMappingName" select="@ReferencedTableMappingName"/>
 				<xsl:variable name="referencedColumnName" select="@ReferencedColumnMappingName"/>
 				<xsl:variable name="parentTableMappingName" select="@ParentTableMappingName"/>
 				<xsl:variable name="parentColumnName" select="@ParentColumnMappingName"/>
-				<xsl:if test="../../P:TableMappings/P:TableMapping[@TableName=$referencedTableMappingName]/@Exclude='false' and ../../P:TableMappings/P:TableMapping[@TableName=$parentTableMappingName]/@Exclude='false'">
+				<xsl:if test="$referencedTableMapping/@Exclude='false' and $parentTableMapping/@Exclude='false'">
 					<xsl:text>
 		private void Attach</xsl:text>
 					<xsl:value-of select="@PluralPropertyName"/>
 					<xsl:text>(</xsl:text>
-					<xsl:value-of select="../../P:TableMappings/P:TableMapping[@TableName=$parentTableMappingName]/@ClassName"/>
+					<xsl:value-of select="$parentTableMapping/@ClassName"/>
 					<xsl:text> entity)
 		{
 			this.OnPropertyChanging();
@@ -842,7 +867,7 @@ namespace </xsl:text>
 		private void Detach</xsl:text>
 					<xsl:value-of select="@PluralPropertyName"/>
 					<xsl:text>(</xsl:text>
-					<xsl:value-of select="../../P:TableMappings/P:TableMapping[@TableName=$parentTableMappingName]/@ClassName"/>
+					<xsl:value-of select="$parentTableMapping/@ClassName"/>
 					<xsl:text> entity)
 		{
 			this.OnPropertyChanging();
@@ -934,12 +959,39 @@ namespace </xsl:text>
 			<xsl:if test="P:Attributes/P:Attribute[@Key='DisplayField']">
 				<xsl:text>
 		
-        public override string ToString()
-        {
-        	return this.</xsl:text>
-				<xsl:value-of select="P:Attributes/P:Attribute[@Key='DisplayField']/@Value"/>
-				<xsl:text>;
-        }</xsl:text>
+		public override string ToString()
+		{
+			return this.</xsl:text>
+					<xsl:value-of select="P:Attributes/P:Attribute[@Key='DisplayField']/@Value"/>
+					<xsl:text>;
+		}</xsl:text>
+			</xsl:if>
+			<xsl:if test="P:Attributes/P:Attribute[@Key='DisplayField'] or P:Attributes/P:Attribute[@Key='SortField']">
+				<xsl:variable name="sortField">
+					<xsl:choose>
+						<xsl:when test="P:Attributes/P:Attribute[@Key='SortField']">
+							<xsl:value-of select="P:Attributes/P:Attribute[@Key='SortField']/@Value"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="P:Attributes/P:Attribute[@Key='DisplayField']/@Value"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:variable>
+				<xsl:text>
+	
+		public int CompareTo(</xsl:text>
+				<xsl:value-of select="@ClassName"/>
+				<xsl:text> other)
+		{
+			if (other == null)
+				return -1;
+		
+			return this.</xsl:text>
+				<xsl:value-of select="$sortField"/>
+				<xsl:text>.CompareTo(other.</xsl:text>
+				<xsl:value-of select="$sortField"/>
+				<xsl:text>);
+		}</xsl:text>
 			</xsl:if>
 			<xsl:text>
 	}</xsl:text>

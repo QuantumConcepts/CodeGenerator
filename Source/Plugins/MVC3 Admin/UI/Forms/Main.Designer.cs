@@ -48,6 +48,7 @@
             this.tableNameColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tableDisplayNameColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tablePluralDisplayNameColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.tableDeletableColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnsTabPage = new System.Windows.Forms.TabPage();
             this.columnFilter = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -64,6 +65,7 @@
             this.tablesEditMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.tablesVisibleMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tablesDeletableMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             this.columnsContextMenu.SuspendLayout();
             this.tabControl.SuspendLayout();
@@ -214,7 +216,8 @@
             this.tablesListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.tableNameColumnHeader,
             this.tableDisplayNameColumnHeader,
-            this.tablePluralDisplayNameColumnHeader});
+            this.tablePluralDisplayNameColumnHeader,
+            this.tableDeletableColumnHeader});
             this.tablesListView.FullRowSelect = true;
             this.tablesListView.Location = new System.Drawing.Point(6, 26);
             this.tablesListView.Name = "tablesListView";
@@ -239,6 +242,11 @@
             // 
             this.tablePluralDisplayNameColumnHeader.Text = "Plural Display Name";
             this.tablePluralDisplayNameColumnHeader.Width = 150;
+            // 
+            // tableDeletableColumnHeader
+            // 
+            this.tableDeletableColumnHeader.Text = "Deletable";
+            this.tableDeletableColumnHeader.Width = 150;
             // 
             // columnsTabPage
             // 
@@ -349,29 +357,38 @@
             this.tablesContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tablesEditMenuItem,
             this.toolStripSeparator2,
-            this.tablesVisibleMenuItem});
+            this.tablesVisibleMenuItem,
+            this.tablesDeletableMenuItem});
             this.tablesContextMenu.Name = "tablesContextMenu";
-            this.tablesContextMenu.Size = new System.Drawing.Size(109, 54);
+            this.tablesContextMenu.Size = new System.Drawing.Size(124, 76);
             // 
             // tablesEditMenuItem
             // 
             this.tablesEditMenuItem.Name = "tablesEditMenuItem";
-            this.tablesEditMenuItem.Size = new System.Drawing.Size(108, 22);
+            this.tablesEditMenuItem.Size = new System.Drawing.Size(123, 22);
             this.tablesEditMenuItem.Text = "&Edit";
             this.tablesEditMenuItem.Click += new System.EventHandler(this.tablesEditMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(105, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(120, 6);
             // 
             // tablesVisibleMenuItem
             // 
             this.tablesVisibleMenuItem.CheckOnClick = true;
             this.tablesVisibleMenuItem.Name = "tablesVisibleMenuItem";
-            this.tablesVisibleMenuItem.Size = new System.Drawing.Size(108, 22);
+            this.tablesVisibleMenuItem.Size = new System.Drawing.Size(123, 22);
             this.tablesVisibleMenuItem.Text = "&Visible";
             this.tablesVisibleMenuItem.CheckedChanged += new System.EventHandler(this.tablesVisibleMenuItem_CheckedChanged);
+            // 
+            // tablesDeletableMenuItem
+            // 
+            this.tablesDeletableMenuItem.CheckOnClick = true;
+            this.tablesDeletableMenuItem.Name = "tablesDeletableMenuItem";
+            this.tablesDeletableMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.tablesDeletableMenuItem.Text = "&Deletable";
+            this.tablesDeletableMenuItem.CheckedChanged += new System.EventHandler(this.tablesDeletableMenuItem_CheckedChanged);
             // 
             // Main
             // 
@@ -437,6 +454,8 @@
         private System.Windows.Forms.ColumnHeader columnDataTypeColumnHeader;
         private System.Windows.Forms.TextBox columnFilter;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ColumnHeader tableDeletableColumnHeader;
+        private System.Windows.Forms.ToolStripMenuItem tablesDeletableMenuItem;
 
     }
 }

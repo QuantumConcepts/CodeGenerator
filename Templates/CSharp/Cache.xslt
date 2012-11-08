@@ -3,7 +3,7 @@
 <xsl:stylesheet version="1.0" xmlns:P="http://Schemas.QuantumConceptsCorp.com/CodeGenerator/Project.xsd" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:msxsl="urn:schemas-microsoft-com:xslt" exclude-result-prefixes="msxsl">
 	<xsl:output method="text" version="1.0" encoding="UTF-8" indent="no"/>
 	
-	<xsl:include href="XSLTCommon-CS.xslt"/>
+	<xsl:include href="Common.xslt"/>
 	
 	<xsl:param name="templateName"/>
 	
@@ -15,9 +15,22 @@
 		<xsl:call-template name="Using">
 			<xsl:with-param name="namespace" select="'System.Linq'"/>
 		</xsl:call-template>
+		<xsl:call-template name="Using">
+			<xsl:with-param name="namespace" select="'QuantumConcepts.Common'"/>
+		</xsl:call-template>
+		<xsl:call-template name="Using">
+			<xsl:with-param name="namespace" select="'QuantumConcepts.Common.Cache'"/>
+		</xsl:call-template>
 		<xsl:call-template name="Using-Project"/>
 		<xsl:call-template name="Using-Template">
 			<xsl:with-param name="template" select="P:Templates/P:Template[@Name=$templateName]"/>
+		</xsl:call-template>
+		<xsl:call-template name="Using">
+			<xsl:with-param name="namespace">
+				<xsl:text>DO = </xsl:text>
+				<xsl:value-of select="@RootNamespace"/>
+				<xsl:text>.DataObjects</xsl:text>
+			</xsl:with-param>
 		</xsl:call-template>
 		 
 		<xsl:text>
@@ -26,13 +39,24 @@ namespace </xsl:text>
 <xsl:text>.DataAccess.Cache
 {</xsl:text>
 		<xsl:for-each select="P:TableMappings/P:TableMapping[P:Attributes/P:Attribute/@Key='Cache']">
+			<xsl:variable name="table" select="."/>
 			<xsl:variable name="pkColumn" select="P:ColumnMappings/P:ColumnMapping[@PrimaryKey='true'][1]"/>
+			<xsl:variable name="enumColumn">
+				<xsl:choose>
+					<xsl:when test="count(.//P:ColumnMapping[P:EnumerationMapping and @ColumnName=../..//P:UniqueIndexMapping//P:ColumnName/text()])=1">
+						<xsl:copy-of select=".//P:ColumnMapping[P:EnumerationMapping and @ColumnName=../..//P:UniqueIndexMapping//P:ColumnName/text()]"/>
+					</xsl:when>
+					<xsl:when test="count(.//P:ColumnMappings/P:ColumnMapping[P:EnumerationMapping[//P:Attribute[@Key='Cache-ByEnum']] and @ColumnName=../..//P:UniqueIndexMapping//P:ColumnName/text()])=1">
+						<xsl:copy-of select=".//P:ColumnMappings/P:ColumnMapping[P:EnumerationMapping[//P:Attribute[@Key='Cache-ByEnum']] and @ColumnName=../..//P:UniqueIndexMapping//P:ColumnName/text()]"/>
+					</xsl:when>
+				</xsl:choose>
+			</xsl:variable>
 			
 			<xsl:text>
 	/// &lt;summary&gt;Implements caching for the </xsl:text>
 			<xsl:value-of select="@ClassName"/>
 			<xsl:text> class.&lt;/summary&gt;
-	internal partial class </xsl:text>
+	public partial class </xsl:text>
 			<xsl:value-of select="@ClassName"/>
 			<xsl:text>Cache : Cache&lt;</xsl:text>
 			<xsl:value-of select="@ClassName"/>
@@ -40,25 +64,47 @@ namespace </xsl:text>
 			<xsl:value-of select="P:ColumnMappings/P:ColumnMapping[@PrimaryKey='true']/@DataType"/>
 			<xsl:text>&gt;
 	{
-        private static </xsl:text>
+		/// &lt;summary&gt;Gets the singleton instance for the cache.&lt;/summary&gt;
+		public static </xsl:text>
 			<xsl:value-of select="@ClassName"/>
-			<xsl:text>Cache _instance = null;
-
-        /// &lt;summary&gt;Gets the singleton instance for the cache.&lt;/summary&gt;
-        public static </xsl:text>
-			<xsl:value-of select="@ClassName"/>
-			<xsl:text>Cache Instance { get { return _instance; } }
-        
+			<xsl:text>Cache Instance { get; private set; }</xsl:text>
+			
+			<xsl:if test="$enumColumn">
+				<xsl:for-each select="msxsl:node-set($enumColumn)//P:EnumerationValueMapping">
+					<xsl:text>
+		
+		/// &lt;summary&gt;Returns a cached, unique </xsl:text>
+					<xsl:value-of select="$table/@ClassName"/>
+					<xsl:text> instance whose </xsl:text>
+					<xsl:value-of select="../../@Name"/>
+					<xsl:text> is "</xsl:text>
+					<xsl:value-of select="@Name"/>
+					<xsl:text>".&lt;/summary&gt;
+		public </xsl:text>
+					<xsl:value-of select="$table/@ClassName"/>
+					<xsl:text> </xsl:text>
+					<xsl:value-of select="@Name"/>
+					<xsl:text> { get; private set; }</xsl:text>
+				</xsl:for-each>
+			</xsl:if>
+			
+			<xsl:text>
+		
 		static </xsl:text>
 			<xsl:value-of select="@ClassName"/>
 			<xsl:text>Cache()
 		{
-            _instance = new </xsl:text>
+			</xsl:text>
+			<xsl:value-of select="@ClassName"/>
+			<xsl:text>Cache.Instance = new </xsl:text>
 			<xsl:value-of select="@ClassName"/>
 			<xsl:text>Cache();
-			CacheManager.Register(new </xsl:text>
+			CacheManager.Register(</xsl:text>
 			<xsl:value-of select="@ClassName"/>
-			<xsl:text>Cache());
+			<xsl:text>Cache.Instance);
+			</xsl:text>
+			<xsl:value-of select="@ClassName"/>
+			<xsl:text>Cache.Instance.DoRefresh();
 			
 			// Listen for changes and refresh the cache as needed.
 			</xsl:text>
@@ -67,10 +113,10 @@ namespace </xsl:text>
 			<xsl:value-of select="@ClassName"/>
 			<xsl:text>Cache.Instance.Refresh(); });
 		}
-
+		
 		/// &lt;summary&gt;This method does not perform any operation but will cause the static initializer to fire.&lt;/summary&gt;
-		public override void Touch() {}
-
+		public void Touch() {}
+		
 		/// &lt;summary&gt;Extracts the primary key from the provided </xsl:text>
 			<xsl:value-of select="@ClassName"/>
 			<xsl:text>.&lt;/summary&gt;
@@ -88,7 +134,7 @@ namespace </xsl:text>
 			<xsl:value-of select="$pkColumn/@FieldName"/>
 			<xsl:text>;
 		}
-
+		
 		/// &lt;summary&gt;Refreshes the </xsl:text>
 			<xsl:value-of select="@ClassName"/>
 			<xsl:text> cache.&lt;/summary&gt;
@@ -96,10 +142,28 @@ namespace </xsl:text>
 		{
 			this.CachedItems = </xsl:text>
 			<xsl:value-of select="@ClassName"/>
-			<xsl:text>.GetAll().ToList();
+			<xsl:text>.GetAll().ToList();</xsl:text>
+			
+			<xsl:if test="$enumColumn">
+				<xsl:for-each select="msxsl:node-set($enumColumn)//P:EnumerationValueMapping">
+					<xsl:text>
+			this.</xsl:text>
+					<xsl:value-of select="@Name"/>
+					<xsl:text> = this.All.Single(o =&gt; object.Equals(o.</xsl:text>
+					<xsl:value-of select="../../../@FieldName"/>
+					<xsl:text>, DO.</xsl:text>
+					<xsl:value-of select="../../@Name"/>
+					<xsl:text>.</xsl:text>
+					<xsl:value-of select="@Name"/>
+					<xsl:text>));</xsl:text>
+				</xsl:for-each>
+			</xsl:if>
+			
+			<xsl:text>
+			
 			DoCustomRefresh();
 		}
-
+		
 		partial void DoCustomRefresh();
 	}</xsl:text>
 			<xsl:if test="position()!=last()">

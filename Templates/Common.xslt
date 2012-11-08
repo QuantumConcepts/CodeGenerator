@@ -6,6 +6,8 @@
 	<xsl:variable name="newLine" select="'&#xD;&#xA;'"/>
 	<xsl:variable name="tab" select="'&#x9;'"/>
 	
+	<xsl:key name="Table" match="P:TableMapping" use="concat(@SchemaName, @TableName)"/>
+	
 	<xsl:template name="ToLowerCase">
 		<xsl:param name="input"/>
 		<xsl:value-of select="translate($input, $upperCaseLetters, $lowerCaseLetters)"/>
