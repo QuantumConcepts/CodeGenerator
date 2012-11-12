@@ -97,6 +97,8 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
             this.ViewMappings = new List<ViewMapping>();
             this.ForeignKeyMappings = new List<ForeignKeyMapping>();
             this.Attributes = new List<Attribute<Project>>();
+
+            Initialize();
         }
 
         public XDocument GetXDocument(out XmlNamespaceManager nsm)
@@ -121,12 +123,12 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
 
         private void Initialize()
         {
+            this.UserSettings.JoinToProject(this);
             this.DataTypeMappings.ForEach(o => o.JoinToProject(this));
             this.Templates.ForEach(o => o.JoinToProject(this));
             this.TableMappings.ForEach(o => o.JoinToProject(this));
             this.ViewMappings.ForEach(o => o.JoinToProject(this));
             this.ForeignKeyMappings.ForEach(o => o.JoinToProject(this));
-            this.UserSettings.JoinToProject(this);
         }
 
         public DataTypeMapping FindDataTypeMapping(string databaseDataType)

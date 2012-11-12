@@ -175,11 +175,9 @@ namespace </xsl:text>
 		{
 			return </xsl:text>
 			<xsl:value-of select="@ClassName"/>
-			<xsl:text>.GetByID((IQueryable&lt;</xsl:text>
+			<xsl:text>.GetByID(</xsl:text>
 			<xsl:value-of select="@ClassName"/>
-			<xsl:text>&gt;)</xsl:text>
-			<xsl:value-of select="@ClassName"/>
-			<xsl:text>Cache.Instance.All, id);
+			<xsl:text>Cache.Instance.All.AsQueryable(), id);
 		}</xsl:text>
 		
 			<xsl:for-each select="../../P:ForeignKeyMappings/P:ForeignKeyMapping[@Exclude='false' and @ParentTableMappingSchemaName=$table/@SchemaName and @ParentTableMappingName=$table/@TableName]">
@@ -210,11 +208,9 @@ namespace </xsl:text>
 				<xsl:value-of select="$parentTableMapping/@ClassName"/>
 				<xsl:text>.GetBy</xsl:text>
 				<xsl:value-of select="@FieldName"/>
-				<xsl:text>((IQueryable&lt;</xsl:text>
+				<xsl:text>(</xsl:text>
 				<xsl:value-of select="$parentTableMapping/@ClassName"/>
-				<xsl:text>&gt;)</xsl:text>
-				<xsl:value-of select="$parentTableMapping/@ClassName"/>
-				<xsl:text>Cache.Instance.All, </xsl:text>
+				<xsl:text>Cache.Instance.All.AsQueryable(), </xsl:text>
 				<xsl:call-template name="FirstCharacterToLowerCase">
 					<xsl:with-param name="input" select="$referencedColumnName"/>
 				</xsl:call-template>
@@ -284,11 +280,9 @@ namespace </xsl:text>
 						<xsl:text>And</xsl:text>
 					</xsl:if>
 				</xsl:for-each>
-				<xsl:text>((IQueryable&lt;</xsl:text>
+				<xsl:text>(</xsl:text>
 				<xsl:value-of select="../../@ClassName"/>
-				<xsl:text>&gt;)</xsl:text>
-				<xsl:value-of select="../../@ClassName"/>
-				<xsl:text>Cache.Instance.All, </xsl:text>
+				<xsl:text>Cache.Instance.All.AsQueryable(), </xsl:text>
 				<xsl:for-each select="P:ColumnNames/P:ColumnName">
 					<xsl:variable name="columnName" select="text()"/>
 					<xsl:variable name="column" select="../../../../P:ColumnMappings/P:ColumnMapping[@ColumnName=$columnName]"/>

@@ -36,7 +36,13 @@ namespace  </xsl:text>
 	[DataContract]
 	public partial class </xsl:text>
 			<xsl:value-of select="@ClassName"/>
-			<xsl:text> : IDataObject
+			<xsl:text> : IDataObject</xsl:text>
+			<xsl:if test="P:Attributes/P:Attribute[@Key='DisplayField'] or P:Attributes/P:Attribute[@Key='SortField']">
+				<xsl:text>, IComparable&lt;</xsl:text>
+				<xsl:value-of select="@ClassName"/>
+				<xsl:text>&gt;</xsl:text>
+			</xsl:if>
+			<xsl:text>
 	{</xsl:text>
 			<xsl:for-each select="P:ColumnMappings/P:ColumnMapping[@Exclude='false']">
 				<xsl:variable name="dataType" select="@DataType"/>
@@ -94,6 +100,46 @@ namespace  </xsl:text>
 					<xsl:value-of select="$newLine"/>
 				</xsl:if>
 			</xsl:for-each>
+		
+			<xsl:if test="P:Attributes/P:Attribute[@Key='DisplayField']">
+				<xsl:text>
+		
+		public override string ToString()
+		{
+			return this.</xsl:text>
+					<xsl:value-of select="P:Attributes/P:Attribute[@Key='DisplayField']/@Value"/>
+					<xsl:text>;
+		}</xsl:text>
+			</xsl:if>
+			
+			<xsl:if test="P:Attributes/P:Attribute[@Key='DisplayField'] or P:Attributes/P:Attribute[@Key='SortField']">
+				<xsl:variable name="sortField">
+					<xsl:choose>
+						<xsl:when test="P:Attributes/P:Attribute[@Key='SortField']">
+							<xsl:value-of select="P:Attributes/P:Attribute[@Key='SortField']/@Value"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="P:Attributes/P:Attribute[@Key='DisplayField']/@Value"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:variable>
+				<xsl:text>
+	
+		public int CompareTo(</xsl:text>
+				<xsl:value-of select="@ClassName"/>
+				<xsl:text> other)
+		{
+			if (other == null)
+				return -1;
+		
+			return this.</xsl:text>
+				<xsl:value-of select="$sortField"/>
+				<xsl:text>.CompareTo(other.</xsl:text>
+				<xsl:value-of select="$sortField"/>
+				<xsl:text>);
+		}</xsl:text>
+			</xsl:if>
+			
 			<xsl:text>
 	}</xsl:text>
 			<xsl:if test="position()!=last()">

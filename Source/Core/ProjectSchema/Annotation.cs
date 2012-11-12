@@ -49,7 +49,7 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
         {
             this.Type = type;
             this.Text = text;
-            this.Attributes=(attributes??new List<Attribute<Annotation<T>>>());
+            this.Attributes = (attributes ?? new List<Attribute<Annotation<T>>>());
         }
 
         public void JoinToParent(T parent)

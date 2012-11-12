@@ -57,9 +57,13 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
             }
         }
 
-        public Template() { }
+        public Template()
+        {
+            this.Attributes = new List<Attribute<Template>>();
+        }
 
         public Template(Project project, string xsltAbsolutePath, TemplateOutputMode outputMode, string outputAbsolutePath, List<TemplateOutputDefinition> outputDefinitions)
+            : this()
         {
             _project = project;
 
