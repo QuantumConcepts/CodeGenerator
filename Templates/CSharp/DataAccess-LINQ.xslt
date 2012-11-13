@@ -676,11 +676,11 @@ namespace </xsl:text>
 			<xsl:value-of select="$pkColumn/@FieldName"/>
 			<xsl:text>)
 		{
-			return items.SingleOrDefault(o => o.</xsl:text>
+			return items.SingleOrDefault(o => object.Equals(o.</xsl:text>
 			<xsl:value-of select="$pkColumn/@FieldName"/>
-			<xsl:text> == </xsl:text>
+			<xsl:text>, </xsl:text>
 			<xsl:value-of select="$pkColumn/@FieldName"/>
-			<xsl:text>);
+			<xsl:text>));
 		}
 			</xsl:text>
 	
@@ -770,13 +770,13 @@ namespace </xsl:text>
 				</xsl:call-template>
 				<xsl:text>)
 		{
-			return items.Where( o=&gt; o.</xsl:text>
+			return items.Where( o=&gt; object.Equals(o.</xsl:text>
 				<xsl:value-of select="@FieldName"/>
-				<xsl:text> == </xsl:text>
+				<xsl:text>, </xsl:text>
 				<xsl:call-template name="FirstCharacterToLowerCase">
 					<xsl:with-param name="input" select="$referencedColumnName"/>
 				</xsl:call-template>
-				<xsl:text>);
+				<xsl:text>));
 		}
 		</xsl:text>
 			</xsl:for-each>
@@ -977,12 +977,13 @@ namespace </xsl:text>
 					<xsl:variable name="columnName" select="text()"/>
 					<xsl:variable name="column" select="../../../../P:ColumnMappings/P:ColumnMapping[@ColumnName=$columnName]"/>
 	
-					<xsl:text>o.</xsl:text>
+					<xsl:text>object.Equals(o.</xsl:text>
 					<xsl:value-of select="$column/@FieldName"/>
-					<xsl:text> == </xsl:text>
+					<xsl:text>, </xsl:text>
 					<xsl:call-template name="FirstCharacterToLowerCase">
 						<xsl:with-param name="input" select="$column/@FieldName"/>
 					</xsl:call-template>
+					<xsl:text>)</xsl:text>
 	
 					<xsl:if test="position()!=last()">
 						<xsl:text> &amp;&amp; </xsl:text>
