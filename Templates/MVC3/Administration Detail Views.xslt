@@ -50,76 +50,25 @@
 		</xsl:call-template>
 		
 		<xsl:text>
-@model IndexModel
+@model </xsl:text>
+		<xsl:value-of select="$table/@ClassName"/>
+		<xsl:text>Model
 
 @{
 	this.ViewBag.Title = "</xsl:text>
-		<xsl:value-of select="$pluralDisplayName"/>
-		<xsl:text>";
+		<xsl:value-of select="$displayName"/>
+		<xsl:text> Details";
 }
+<![CDATA[
+<div class="Form Display Wide">
+	@Html.DisplayForModel()
+</div>]]>
+</xsl:text>
 
-@section Title
-{</xsl:text>
-		
-    		<xsl:if test="$table/@ReadOnly = 'false'">
-    			<xsl:text><![CDATA[
-	<a href="@Url.Action("Add")" class="Button" data-options='{ "icons": { "primary": "ui-icon-plus" } }'>New ]]></xsl:text>
-	    	<xsl:value-of select="$displayName"/>
-	    	<xsl:text><![CDATA[</a> ]]></xsl:text>
-    		</xsl:if>
-    		
-    		<xsl:text>
-	@this.ViewBag.Title
-}
-
-@using (Html.BeginForm("Index", "</xsl:text>
-		<xsl:value-of select="$table/@PluralClassName"/>
-		<xsl:text>", FormMethod.Get))
-{<![CDATA[
-	<div class="Form Inline Filter">
-		@Html.EditorForModel()
-
-		<div class="Footer">
-			<button class="Button Small" data-options='{ "icons": { "primary": "ui-icon-check" } }'>Apply</button>
-		</div>
-	</div>]]>
-}
-
-@{Html.RenderPartial("Pager", new PagerModel("Index", "</xsl:text>
-		<xsl:value-of select="$pluralClassName"/>
-		<xsl:text>", "</xsl:text>
-		<xsl:call-template name="ToLowerCase">
-			<xsl:with-param name="input" select="$displayName"/>
-		</xsl:call-template>
-		<xsl:text>", "</xsl:text>
-		<xsl:call-template name="ToLowerCase">
-			<xsl:with-param name="input" select="$pluralDisplayName"/>
-		</xsl:call-template>
-		<xsl:text>", this.Model.TotalCount, this.Model.Page, this.Model.PageCount), this.ViewData);}
-
-@{
-	SplitButtonModel splitButtonModel = new SplitButtonModel(new SplitButtonItem());
+		<xsl:text><![CDATA[
+<div class="Footer">
+	@{Html.RenderPartial("CancelLinkButton");}
+</div>]]>
 	</xsl:text>
-
-		<xsl:choose>
-    			<xsl:when test="$table/@ReadOnly = 'true'">
-    				<xsl:text>
-	splitButtonModel.DefaultButton.Text = "Details";
-	splitButtonModel.DefaultButton.Href = Url.Action("Detail", new { ID = "{ID}", ReturnUrl = this.Request.Url.ToString() });
-	splitButtonModel.DefaultButton.Options = "{ \"icons\": { \"primary\": \"ui-icon-search\" } }";</xsl:text>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:text>
-	splitButtonModel.DefaultButton.Text = "Edit";
-	splitButtonModel.DefaultButton.Href = Url.Action("Edit", new { ID = "{ID}", ReturnUrl = this.Request.Url.ToString() });
-	splitButtonModel.DefaultButton.Options = "{ \"icons\": { \"primary\": \"ui-icon-pencil\" } }";</xsl:text>
-			</xsl:otherwise>
-		</xsl:choose>
-		
-		<xsl:text>
-	
-	Html.RenderPartial("Table", new TableModel(splitButtonModel, this.Model.Items));
-}
-</xsl:text>	
 	</xsl:template>
 </xsl:stylesheet>

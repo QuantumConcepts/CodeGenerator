@@ -20,6 +20,16 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
         private TableMapping _tableOrViewMapping;
 
         public string Title { get { return (_tableOrViewMapping == null ? "Unknown Table Mapping" : _tableOrViewMapping.TableName); } }
+        
+        public int SelectedTabIndex
+        {
+            get { return tabControl.SelectedIndex; }
+            set
+            {
+                if (value < tabControl.TabPages.Count)
+                    tabControl.SelectedIndex = value;
+            }
+        }
 
         public TableOrViewOptions(TableMapping tableOrViewMapping)
         {

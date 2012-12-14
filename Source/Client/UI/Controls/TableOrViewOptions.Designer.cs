@@ -151,12 +151,12 @@
             // 
             // tablePluralClassNameTextBox
             // 
-            this.tablePluralClassNameTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.tablePluralClassNameTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tablePluralClassNameTextBox.Location = new System.Drawing.Point(107, 32);
             this.tablePluralClassNameTextBox.Name = "tablePluralClassNameTextBox";
             this.tablePluralClassNameTextBox.Size = new System.Drawing.Size(365, 20);
-            this.tablePluralClassNameTextBox.TabIndex = 49;
+            this.tablePluralClassNameTextBox.TabIndex = 1;
             this.tablePluralClassNameTextBox.TextChanged += new System.EventHandler(this.PropertyChanged);
             // 
             // label2
@@ -174,7 +174,7 @@
             this.tableReadOnlyModeOptionButton.Location = new System.Drawing.Point(194, 56);
             this.tableReadOnlyModeOptionButton.Name = "tableReadOnlyModeOptionButton";
             this.tableReadOnlyModeOptionButton.Size = new System.Drawing.Size(75, 17);
-            this.tableReadOnlyModeOptionButton.TabIndex = 45;
+            this.tableReadOnlyModeOptionButton.TabIndex = 3;
             this.tableReadOnlyModeOptionButton.TabStop = true;
             this.tableReadOnlyModeOptionButton.Text = "Read Only";
             this.tableReadOnlyModeOptionButton.UseVisualStyleBackColor = true;
@@ -182,12 +182,12 @@
             // 
             // tableClassNameTextBox
             // 
-            this.tableClassNameTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableClassNameTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tableClassNameTextBox.Location = new System.Drawing.Point(107, 6);
             this.tableClassNameTextBox.Name = "tableClassNameTextBox";
             this.tableClassNameTextBox.Size = new System.Drawing.Size(365, 20);
-            this.tableClassNameTextBox.TabIndex = 43;
+            this.tableClassNameTextBox.TabIndex = 0;
             this.tableClassNameTextBox.TextChanged += new System.EventHandler(this.PropertyChanged);
             // 
             // tableReadWriteModeOptionButton
@@ -197,7 +197,7 @@
             this.tableReadWriteModeOptionButton.Location = new System.Drawing.Point(107, 56);
             this.tableReadWriteModeOptionButton.Name = "tableReadWriteModeOptionButton";
             this.tableReadWriteModeOptionButton.Size = new System.Drawing.Size(81, 17);
-            this.tableReadWriteModeOptionButton.TabIndex = 46;
+            this.tableReadWriteModeOptionButton.TabIndex = 2;
             this.tableReadWriteModeOptionButton.TabStop = true;
             this.tableReadWriteModeOptionButton.Text = "Read/Write";
             this.tableReadWriteModeOptionButton.UseVisualStyleBackColor = true;
@@ -312,12 +312,12 @@
             this.editAttributes.AttributeRemoved += new System.EventHandler(this.PropertyChanged);
             this.editAttributes.AttributeMoved += new System.EventHandler(this.PropertyChanged);
             // 
-            // TableOptions
+            // TableOrViewOptions
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tabControl);
-            this.Name = "TableOptions";
+            this.Name = "TableOrViewOptions";
             this.Size = new System.Drawing.Size(486, 202);
             this.Load += new System.EventHandler(this.TableOptions_Load);
             this.apisToolStrip.ResumeLayout(false);

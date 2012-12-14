@@ -52,7 +52,7 @@
 		<xsl:text>
 @model </xsl:text>
 		<xsl:value-of select="$table/@ClassName"/>
-		<xsl:text>Model
+		<xsl:text>EditModel
 
 @{
 	this.ViewBag.Title = string.Format("{0} </xsl:text>
@@ -85,13 +85,19 @@
 		</xsl:if>
 
 		<xsl:text><![CDATA[
-<div id="Footer">
-	<a href="JavaScript:$('form#Edit').submit()" class="Button" data-options='{ "icons": { "primary": "ui-icon-disk" } }'>Save</a>
+<div class="Footer">
+	<a href="JavaScript:$('form#Edit').submit()" class="Button" data-options='{ "icons": { "primary": "ui-icon-disk" } }'>Save</a>]]></xsl:text>
+	
+		<xsl:if test="$table/P:Attributes/P:Attribute[@Key='MVC-Admin-Deletable']">
+			<xsl:text><![CDATA[
 	
 	@if (this.Model.ID.HasValue)
 	{
 		<a href="JavaScript:$('form#Delete').submit()" class="Button" data-options='{ "icons": { "primary": "ui-icon-trash" } }'>Delete</a>
-	}
+	}]]></xsl:text>
+		</xsl:if>
+		
+		<xsl:text><![CDATA[
 	
 	@{Html.RenderPartial("CancelLinkButton");}
 </div>]]>

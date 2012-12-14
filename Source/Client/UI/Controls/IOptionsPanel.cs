@@ -13,6 +13,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
         event SavedDelegate Saved;
 
         string Title { get; }
+        int SelectedTabIndex { get; set; }
 
         void SaveOptions();
     }

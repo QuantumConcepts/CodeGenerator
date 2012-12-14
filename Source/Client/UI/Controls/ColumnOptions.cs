@@ -19,6 +19,16 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
         private ColumnMapping ColumnMapping { get; set; }
 
         public string Title { get { return (this.ColumnMapping == null ? "Unknown Column Mapping" : this.ColumnMapping.TableMapping.TableName + " > " + this.ColumnMapping.ColumnName); } }
+        
+        public int SelectedTabIndex
+        {
+            get { return tabControl.SelectedIndex; }
+            set
+            {
+                if (value < tabControl.TabPages.Count)
+                    tabControl.SelectedIndex = value;
+            }
+        }
 
         public ColumnOptions(ColumnMapping columnMapping)
         {

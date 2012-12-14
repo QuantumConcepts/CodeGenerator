@@ -148,6 +148,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
 
         private void BindTemplateOutputDefinitions()
         {
+            templateOutputDefinitionsListBox.Items.Clear();
             templateOutputDefinitionsListBox.Items.AddRange(this.TemplateOutputDefinitions.ToArray());
         }
 

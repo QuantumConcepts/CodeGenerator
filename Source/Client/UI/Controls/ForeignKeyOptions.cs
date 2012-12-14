@@ -19,6 +19,16 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
         private ForeignKeyMapping _foreignKeyMapping;
 
         public string Title { get { return (_foreignKeyMapping == null ? "Unknown Foreign Key Mapping" : _foreignKeyMapping.ForeignKeyName); } }
+        
+        public int SelectedTabIndex
+        {
+            get { return tabControl.SelectedIndex; }
+            set
+            {
+                if (value < tabControl.TabPages.Count)
+                    tabControl.SelectedIndex = value;
+            }
+        }
 
         public ForeignKeyOptions(ForeignKeyMapping foreignKeyMapping)
         {

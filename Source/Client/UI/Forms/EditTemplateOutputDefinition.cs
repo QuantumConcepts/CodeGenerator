@@ -109,7 +109,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             {
                 this.TemplateOutputDefinition.ElementType = elementType;
                 this.TemplateOutputDefinition.FilterXPath = filterXPathTextBox.Text;
-                this.TemplateOutputDefinition.RootAbsolutePath = filterXPathTextBox.Text;
+                this.TemplateOutputDefinition.RootAbsolutePath = rootPathTextBox.Text;
                 this.TemplateOutputDefinition.FilenameXPath = filenameXPathTextBox.Text;
             }
 

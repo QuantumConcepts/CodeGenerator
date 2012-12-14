@@ -54,6 +54,29 @@ namespace </xsl:text>
 			<xsl:variable name="tableName" select="@TableName"/>
 			<xsl:variable name="className" select="@ClassName"/>
 			<xsl:variable name="pluralClassName" select="@PluralClassName"/>
+			<xsl:variable name="pkColumn" select="P:ColumnMappings/P:ColumnMapping[@PrimaryKey='true'][1]"/>
+			<xsl:variable name="displayName">
+				<xsl:choose>
+					<xsl:when test="$table/P:Attributes/P:Attribute[@Key='DisplayName']">
+						<xsl:value-of select="$table/P:Attributes/P:Attribute[@Key='DisplayName']/@Value"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="$className"/>
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:variable>
+			<xsl:variable name="pluralDisplayName">
+				<xsl:choose>
+					<xsl:when test="$table/P:Attributes/P:Attribute[@Key='PluralDisplayName']">
+						<xsl:value-of select="$table/P:Attributes/P:Attribute[@Key='PluralDisplayName']/@Value"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="$pluralClassName"/>
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:variable>
+			<xsl:variable name="parentFKs" select="/P:Project/P:ForeignKeyMappings/P:ForeignKeyMapping[@ReferencedTableMappingSchemaName=$table/@SchemaName and @ReferencedTableMappingName=$table/@TableName and @Exclude='false']"/>
+			
 			<xsl:text>
 	/// &lt;summary&gt;Contains logical functionality related to the </xsl:text>
 			<xsl:value-of select="@ClassName"/>
@@ -73,11 +96,17 @@ namespace </xsl:text>
 			<xsl:text>, or null if it does not exist.&lt;/returns&gt;
 		public static DA.</xsl:text>
 			<xsl:value-of select="@ClassName"/>
-			<xsl:text> GetByID(int id)
+			<xsl:text> GetByID(</xsl:text>
+			<xsl:value-of select="$pkColumn/@DataType"/>
+			<xsl:text> </xsl:text>
+			<xsl:value-of select="$pkColumn/@FieldName"/>
+			<xsl:text>)
 		{
 			return DA.</xsl:text>
 			<xsl:value-of select="@ClassName"/>
-			<xsl:text>.GetByID(id);
+			<xsl:text>.GetByID(</xsl:text>
+			<xsl:value-of select="$pkColumn/@FieldName"/>
+			<xsl:text>);
 		}
 		
 		/// &lt;summary&gt;Returns the </xsl:text>
@@ -94,11 +123,17 @@ namespace </xsl:text>
 			<xsl:value-of select="@ClassName"/>
 			<xsl:text> GetByID(DA.</xsl:text>
 			<xsl:value-of select="/P:Project/P:Attributes/P:Attribute[@Key='DataContextName']/@Value"/>
-			<xsl:text> context, int id)
+			<xsl:text> context, </xsl:text>
+			<xsl:value-of select="$pkColumn/@DataType"/>
+			<xsl:text> </xsl:text>
+			<xsl:value-of select="$pkColumn/@FieldName"/>
+			<xsl:text>)
 		{
 			return DA.</xsl:text>
 			<xsl:value-of select="@ClassName"/>
-			<xsl:text>.GetByID(context, id);
+			<xsl:text>.GetByID(context, </xsl:text>
+			<xsl:value-of select="$pkColumn/@FieldName"/>
+			<xsl:text>);
 		}
 		</xsl:text>
 		
@@ -830,9 +865,76 @@ namespace </xsl:text>
 			context.</xsl:text>
 			<xsl:value-of select="$pluralClassName"/>
 			<xsl:text>.DeleteOnSubmit(obj);
+			PerformPreDeleteLogic(context, obj);</xsl:text>
+		
+			<xsl:if test="$parentFKs">
+				<xsl:text>
+			CheckForDeleteConflicts(context, obj).ThrowIfNotEmpty();</xsl:text>
+			</xsl:if>
 			
-			PerformPreDeleteLogic(context, obj);
-		}
+			<xsl:text>
+		}</xsl:text>
+		
+			<xsl:if test="$parentFKs">
+				<xsl:text>
+		
+		public static DeleteConflictException CheckForDeleteConflicts(DA.</xsl:text>
+			<xsl:value-of select="/P:Project/P:Attributes/P:Attribute[@Key='DataContextName']/@Value"/>
+			<xsl:text> context, DA.</xsl:text>
+			<xsl:value-of select="@ClassName"/>
+			<xsl:text> obj)
+		{
+			DeleteConflictException ex = new DeleteConflictException("</xsl:text>
+				<xsl:value-of select="$displayName"/>
+				<xsl:text>", "</xsl:text>
+				<xsl:value-of select="$pluralDisplayName"/>
+				<xsl:text>", obj);</xsl:text>
+			
+			<xsl:for-each select="$parentFKs">
+				<xsl:variable name="fk" select="."/>
+				<xsl:variable name="fkTable" select="/P:Project/P:TableMappings/P:TableMapping[@SchemaName=$fk/@ParentTableMappingSchemaName and @TableName=$fk/@ParentTableMappingName]"/>
+				<xsl:variable name="fkDisplayName">
+					<xsl:choose>
+						<xsl:when test="$fkTable/P:Attributes/P:Attribute[@Key='DisplayName']">
+							<xsl:value-of select="$fkTable/P:Attributes/P:Attribute[@Key='DisplayName']/@Value"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="$fkTable/@ClassName"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:variable>
+				<xsl:variable name="fkPluralDisplayName">
+					<xsl:choose>
+						<xsl:when test="$fkTable/P:Attributes/P:Attribute[@Key='PluralDisplayName']">
+							<xsl:value-of select="$fkTable/P:Attributes/P:Attribute[@Key='PluralDisplayName']/@Value"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="$fkTable/@PluralClassName"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:variable>
+				
+				<xsl:text>
+			
+			if (!obj.</xsl:text>
+				<xsl:value-of select="@PluralFieldName"/>
+				<xsl:text>.IsNullOrEmpty())
+				ex.Add("</xsl:text>
+				<xsl:value-of select="$fkDisplayName"/>
+				<xsl:text>", "</xsl:text>
+				<xsl:value-of select="$fkPluralDisplayName"/>
+				<xsl:text>", obj.</xsl:text>
+				<xsl:value-of select="@PluralFieldName"/>
+				<xsl:text>);</xsl:text>
+			</xsl:for-each>
+			
+			<xsl:text>
+			
+			return ex;
+		}</xsl:text>
+			</xsl:if>
+			
+			<xsl:text>
 
 		<![CDATA[/// <summary>When implemented, validates that the object conforms to standard business rules using the supplied data context.</summary>]]>
 		static partial void Validate(DA.</xsl:text>

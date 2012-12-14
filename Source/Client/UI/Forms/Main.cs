@@ -38,7 +38,8 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
 
         private static ILog Logger = LogManager.GetLogger(typeof(Main));
 
-        private Dictionary<Template, TabPage> _templateTabPages = new Dictionary<Template, TabPage>();
+        private Dictionary<Type, int> LastShownTabPage { get; set; }
+        private Dictionary<Template, TabPage> TemplateTabPages { get; set; }
 
         private bool _unsavedChanges = false;
 
@@ -53,6 +54,9 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
 
         public Main(string projectPath)
         {
+            this.LastShownTabPage = new Dictionary<Type, int>();
+            this.TemplateTabPages = new Dictionary<Template, TabPage>();
+
             InitializeComponent();
 
             if (!string.IsNullOrEmpty(projectPath))
@@ -260,10 +264,18 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
         {
             using (new Wait())
             {
+                optionsPlaceholderPanel.SuspendLayout();
                 propertiesToolbox.HeaderText = "Properties";
 
                 while (!optionsPlaceholderPanel.Controls.IsNullOrEmpty())
+                {
+                    IOptionsPanel optionsPanel = (optionsPlaceholderPanel.Controls[0] as IOptionsPanel);
+
+                    if (optionsPanel != null)
+                        this.LastShownTabPage[optionsPanel.GetType()] = optionsPanel.SelectedTabIndex;
+
                     optionsPlaceholderPanel.Controls[0].Dispose();
+                }
 
                 if (e.Node is ProjectTreeNode)
                     ShowOptionsPanel(new ProjectOptions(((ProjectTreeNode)e.Node).Project));
@@ -277,6 +289,8 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
                     ShowOptionsPanel(new UniqueIndexOptions(((UniqueIndexTreeNode)e.Node).UniqueIndexMapping));
                 else if (e.Node is ForeignKeyTreeNode)
                     ShowOptionsPanel(new ForeignKeyOptions(((ForeignKeyTreeNode)e.Node).ForeignKeyMapping));
+
+                optionsPlaceholderPanel.ResumeLayout();
             }
         }
 
@@ -288,8 +302,8 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
                 {
                     TemplateTreeNode node = (TemplateTreeNode)e.Node;
 
-                    if (_templateTabPages.ContainsKey(node.Template))
-                        documentsTabControl.SelectedTab = _templateTabPages[node.Template];
+                    if (TemplateTabPages.ContainsKey(node.Template))
+                        documentsTabControl.SelectedTab = TemplateTabPages[node.Template];
                     else
                     {
                         TabPage tabPage = new TabPage(Path.GetFileName(node.Template.XsltHintPath));
@@ -314,7 +328,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
                         documentsTabControl.SelectedTab = tabPage;
                         documentsTabControl.Visible = true;
 
-                        _templateTabPages.Add(node.Template, tabPage);
+                        TemplateTabPages.Add(node.Template, tabPage);
                     }
                 }
             }
@@ -760,7 +774,9 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
                 progressPanel.ProgressBar.Style = ProgressBarStyle.Marquee;
                 progressPanel.BringToFront();
                 progressPanel.Visible = true;
-                TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Indeterminate);
+
+                if (TaskbarManager.IsPlatformSupported)
+                    TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Indeterminate);
 
                 try
                 {
@@ -774,7 +790,9 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
                 }
 
                 progressPanel.Visible = false;
-                TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.NoProgress);
+
+                if (TaskbarManager.IsPlatformSupported)
+                    TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.NoProgress);
 
                 LoadTreeView();
 
@@ -873,7 +891,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
                     return false;
             }
 
-            _templateTabPages.Remove(editor.Template);
+            TemplateTabPages.Remove(editor.Template);
             documentsTabControl.TabPages.Remove(tabPage);
             documentsTabControl.Visible = (documentsTabControl.TabPages.Count > 0);
 
@@ -955,11 +973,13 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
                 if (optionsPanel == null)
                     throw new ArgumentException("Provided control must be an IOptionsPanel.", "optionsPanel");
 
+                optionsPlaceholderPanel.SuspendLayout();
                 optionsPlaceholderPanel.Controls.Add(control);
                 control.Dock = DockStyle.Fill;
 
                 propertiesToolbox.HeaderText = optionsPanel.Title + " Properties";
 
+                optionsPanel.SelectedTabIndex = this.LastShownTabPage.ValueOrDefault(optionsPanel.GetType());
                 optionsPanel.Saved += new SavedDelegate(
                     delegate(object sender, EventArgs e)
                     {
@@ -967,6 +987,8 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
                         UpdateTitle();
                         RefreshSelectedNode();
                     });
+
+                optionsPlaceholderPanel.ResumeLayout();
             }
         }
 

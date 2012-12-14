@@ -20,6 +20,16 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
 
         public string Title { get { return this.UniqueIndexMapping.UniqueIndexName; } }
 
+        public int SelectedTabIndex
+        {
+            get { return tabControl.SelectedIndex; }
+            set
+            {
+                if (value < tabControl.TabPages.Count)
+                    tabControl.SelectedIndex = value;
+            }
+        }
+
         public UniqueIndexOptions(UniqueIndexMapping UniqueIndexMapping)
         {
             InitializeComponent();

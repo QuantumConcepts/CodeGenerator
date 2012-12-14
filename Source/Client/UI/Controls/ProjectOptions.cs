@@ -19,6 +19,16 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
         private Project Project { get; set; }
 
         public string Title { get { return "Project"; } }
+        
+        public int SelectedTabIndex
+        {
+            get { return tabControl.SelectedIndex; }
+            set
+            {
+                if (value < tabControl.TabPages.Count)
+                    tabControl.SelectedIndex = value;
+            }
+        }
 
         public ProjectOptions(Project project)
         {

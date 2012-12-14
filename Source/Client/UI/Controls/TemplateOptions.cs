@@ -20,6 +20,16 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
 
         public string Title { get { return this.Template.Name; } }
 
+        public int SelectedTabIndex
+        {
+            get { return tabControl.SelectedIndex; }
+            set
+            {
+                if (value < tabControl.TabPages.Count)
+                    tabControl.SelectedIndex = value;
+            }
+        }
+
         public TemplateOptions(Template Template)
         {
             InitializeComponent();

@@ -398,7 +398,7 @@ namespace </xsl:text>
 								<xsl:text>MvcExtensions.GetYesNoListItems()</xsl:text>
 							</xsl:when>
 						</xsl:choose>
-						<xsl:text>.AddEmptyListItem("(All)").ToList();
+						<xsl:text>.InsertEmptyListItem("(All)").ToList();
 		}
 		
 		<![CDATA[/// <summary>Allows for the overriding of the contents of the ]]></xsl:text>

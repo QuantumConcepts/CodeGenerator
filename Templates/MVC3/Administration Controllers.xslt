@@ -55,6 +55,7 @@ namespace </xsl:text>
 			<xsl:variable name="table" select="."/>
 			<xsl:variable name="className" select="@ClassName"/>
 			<xsl:variable name="allColumns" select="P:ColumnMappings/P:ColumnMapping[@Exclude='false' and P:Attributes/P:Attribute[@Key='MVC-Admin-Show']]"/>
+			<xsl:variable name="hasLists" select="$allColumns/P:EnumerationMapping or /P:Project/P:ForeignKeyMappings/P:ForeignKeyMapping[@Exclude='false' and @ParentTableMappingSchemaName=$table/@SchemaName and @ParentTableMappingName=$table/@TableName and @ParentColumnMappingName=$allColumns/@ColumnName]"/>
 			<xsl:variable name="modelNamespace">
 				<xsl:value-of select="/P:Project/@RootNamespace"/>
 				<xsl:text>.Web.Areas.Administration.Models.</xsl:text>
@@ -64,11 +65,17 @@ namespace </xsl:text>
 				<xsl:value-of select="$modelNamespace"/>
 				<xsl:text>.IndexModel</xsl:text>
 			</xsl:variable>
-			<xsl:variable name="modelName">
+			<xsl:variable name="detailModelName">
 				<xsl:value-of select="$modelNamespace"/>
 				<xsl:text>.</xsl:text>
 				<xsl:value-of select="$className"/>
 				<xsl:text>Model</xsl:text>
+			</xsl:variable>
+			<xsl:variable name="editModelName">
+				<xsl:value-of select="$modelNamespace"/>
+				<xsl:text>.</xsl:text>
+				<xsl:value-of select="$className"/>
+				<xsl:text>EditModel</xsl:text>
 			</xsl:variable>
 			<xsl:variable name="displayName">
 				<xsl:choose>
@@ -80,6 +87,7 @@ namespace </xsl:text>
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:variable>
+			<xsl:variable name="isReadOnly" select="@ReadOnly='true'"/>
 			
 			<xsl:text>
 	[Authorize(Roles = "Administrator")]
@@ -96,13 +104,26 @@ namespace </xsl:text>
 			return this.View(model);
 		}
 		
+		public ActionResult Detail(int id)
+		{
+			</xsl:text>
+				<xsl:value-of select="$detailModelName"/>
+				<xsl:text> model = new </xsl:text>
+				<xsl:value-of select="$detailModelName"/>
+				<xsl:text>(id);
+			
+			return this.View(model); 
+		}</xsl:text>
+		
+			<xsl:if test="not($isReadOnly)">
+				<xsl:text>
 		public ActionResult Add()
 		{
 			</xsl:text>
-			<xsl:value-of select="$modelName"/>
-			<xsl:text> model = new </xsl:text>
-			<xsl:value-of select="$modelName"/>
-			<xsl:text>();
+				<xsl:value-of select="$editModelName"/>
+				<xsl:text> model = new </xsl:text>
+				<xsl:value-of select="$editModelName"/>
+				<xsl:text>();
 			
 			model.Initialize();
 			
@@ -112,31 +133,31 @@ namespace </xsl:text>
 		public ActionResult Edit(int id)
 		{
 			</xsl:text>
-			<xsl:value-of select="$modelName"/>
-			<xsl:text> model = new </xsl:text>
-			<xsl:value-of select="$modelName"/>
-			<xsl:text>(id);
+				<xsl:value-of select="$editModelName"/>
+				<xsl:text> model = new </xsl:text>
+				<xsl:value-of select="$editModelName"/>
+				<xsl:text>(id);
 			
 			return this.View(model); 
 		}
 		
 		[HttpPost]
 		public ActionResult Edit(</xsl:text>
-			<xsl:value-of select="$modelName"/>
-			<xsl:text> model)
+				<xsl:value-of select="$editModelName"/>
+				<xsl:text> model)
 		{
 			if (this.ModelState.IsValid)
 			{
 				DA.</xsl:text>
-			<xsl:value-of select="@ClassName"/>
-			<xsl:text> instance = null;
+				<xsl:value-of select="@ClassName"/>
+				<xsl:text> instance = null;
 				bool performEdit = true;
 				ActionResult nextAction = null;
 				
 				if (model.ID.HasValue)
 					instance = </xsl:text>
-			<xsl:value-of select="@ClassName"/>
-			<xsl:text>Logic.GetByID(this.DataContext, model.ID.Value);
+				<xsl:value-of select="@ClassName"/>
+				<xsl:text>Logic.GetByID(this.DataContext, model.ID.Value);
 				
 				EditModel(model, instance, ref performEdit, ref nextAction);
 				
@@ -145,52 +166,44 @@ namespace </xsl:text>
 					if (model.ID.HasValue)
 					{</xsl:text>
 				
-			<xsl:for-each select="$allColumns[@PrimaryKey='false']">
-				<xsl:text>
+				<xsl:for-each select="$allColumns[@PrimaryKey='false']">
+					<xsl:text>
 						instance.</xsl:text>
-				<xsl:value-of select="@FieldName"/>
-				<xsl:text> = model.</xsl:text>
-				<xsl:value-of select="@FieldName"/>
-				<xsl:text>;</xsl:text>
-			</xsl:for-each>
-			
-			<xsl:if test="$table/P:Attributes/P:Attribute[@Key='Cache']">
+					<xsl:value-of select="@FieldName"/>
+					<xsl:text> = model.</xsl:text>
+					<xsl:value-of select="@FieldName"/>
+					<xsl:text>;</xsl:text>
+				</xsl:for-each>
+				
 				<xsl:text>
-
-						DA.</xsl:text>
-				<xsl:value-of select="@ClassName"/>
-				<xsl:text>.OnCacheNeedsRefresh();</xsl:text>
-			</xsl:if>
-			
-			<xsl:text>
 					}
 					else
 						instance = </xsl:text>
-			<xsl:value-of select="@ClassName"/>
-			<xsl:text>Logic.Create(this.DataContext, </xsl:text>
-			<xsl:for-each select="P:ColumnMappings/P:ColumnMapping[@Exclude='false' and @PrimaryKey='false' and not(P:Attributes/P:Attribute[@Key='ExcludeFromCreate'])]">
-				<xsl:variable name="fieldName" select="@FieldName"/>
-				
-				<xsl:choose>
-					<xsl:when test="$allColumns[@FieldName=$fieldName]">
-						<xsl:text>model.</xsl:text>
-						<xsl:value-of select="@FieldName"/>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:text>default(</xsl:text>
-						<xsl:value-of select="@DataType"/>
-						<xsl:if test="@Nullable='true'">
-							<xsl:text>?</xsl:text>
-						</xsl:if>
-						<xsl:text>)</xsl:text>
-					</xsl:otherwise>
-				</xsl:choose>
-				
-				<xsl:if test="position()!=last()">
-					<xsl:text>, </xsl:text>
-				</xsl:if>
-			</xsl:for-each>
-			<xsl:text>);
+				<xsl:value-of select="@ClassName"/>
+				<xsl:text>Logic.Create(this.DataContext, </xsl:text>
+				<xsl:for-each select="P:ColumnMappings/P:ColumnMapping[@Exclude='false' and @PrimaryKey='false' and not(P:Attributes/P:Attribute[@Key='ExcludeFromCreate'])]">
+					<xsl:variable name="fieldName" select="@FieldName"/>
+					
+					<xsl:choose>
+						<xsl:when test="$allColumns[@FieldName=$fieldName]">
+							<xsl:text>model.</xsl:text>
+							<xsl:value-of select="@FieldName"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:text>default(</xsl:text>
+							<xsl:value-of select="@DataType"/>
+							<xsl:if test="@Nullable='true'">
+								<xsl:text>?</xsl:text>
+							</xsl:if>
+							<xsl:text>)</xsl:text>
+						</xsl:otherwise>
+					</xsl:choose>
+					
+					<xsl:if test="position()!=last()">
+						<xsl:text>, </xsl:text>
+					</xsl:if>
+				</xsl:for-each>
+				<xsl:text>);
 			
 					try
 					{
@@ -200,21 +213,48 @@ namespace </xsl:text>
 					{
 						this.Logger.Error(ex);
 						this.TempData.SetMessage("An error occurred while updating the </xsl:text>
-			<xsl:value-of select="$displayName"/>
-			<xsl:text>.");
+				<xsl:value-of select="$displayName"/>
+				<xsl:text>.");</xsl:text>
+				
+				<xsl:if test="$hasLists">
+					<xsl:text>
+						
+						model.LoadLists();</xsl:text>
+				</xsl:if>
+				
+				<xsl:text>
+						
 						return this.View(model);
-					}
+					}</xsl:text>
+				
+				<xsl:if test="$table/P:Attributes/P:Attribute[@Key='Cache']">
+					<xsl:text>
+
+					DA.</xsl:text>
+					<xsl:value-of select="@ClassName"/>
+					<xsl:text>.OnCacheNeedsRefresh();</xsl:text>
+				</xsl:if>
+				
+				<xsl:text>
 	
 					this.TempData.SetMessage("The </xsl:text>
-			<xsl:value-of select="$displayName"/>
-			<xsl:text> \"{0}\" was {1} successfully.".FormatString(instance, (model.ID.HasValue ? "updated" : "created")));
+				<xsl:value-of select="$displayName"/>
+				<xsl:text> \"{0}\" was {1} successfully.".FormatString(instance, (model.ID.HasValue ? "updated" : "created")));
 				}
 				
 				if (nextAction != null)
 					return nextAction;
 				else
 					return this.RedirectToReturnUrlOrDefault(model, "Index");
-			}
+			}</xsl:text>
+			
+				<xsl:if test="$hasLists">
+					<xsl:text>
+						
+						model.LoadLists();</xsl:text>
+				</xsl:if>
+				
+				<xsl:text>
 			
 			return this.View(model);
 		}
@@ -225,13 +265,13 @@ namespace </xsl:text>
 		/// <param name="performEdit">Should be set to true if the default edit should be performed.</param>
 		/// <param name="nextAction">The next action, or null to use the default next action.</param>]]>
 		partial void EditModel(</xsl:text>
-			<xsl:value-of select="$modelName"/>
-			<xsl:text> model, DA.</xsl:text>
-			<xsl:value-of select="@ClassName"/>
-			<xsl:text> instance, ref bool performEdit, ref ActionResult nextAction);</xsl:text>
+				<xsl:value-of select="$editModelName"/>
+				<xsl:text> model, DA.</xsl:text>
+				<xsl:value-of select="@ClassName"/>
+				<xsl:text> instance, ref bool performEdit, ref ActionResult nextAction);</xsl:text>
 		
-		<xsl:if test="P:Attributes/P:Attribute[@Key='MVC-Admin-Deletable']">
-			<xsl:text>
+				<xsl:if test="P:Attributes/P:Attribute[@Key='MVC-Admin-Deletable']">
+					<xsl:text>
 
 		[HttpPost]
 		public ActionResult Delete(int id, string returnUrl)
@@ -239,10 +279,10 @@ namespace </xsl:text>
 			if (this.ModelState.IsValid)
 			{
 				DA.</xsl:text>
-				<xsl:value-of select="@ClassName"/>
-				<xsl:text> instance = </xsl:text>
-				<xsl:value-of select="@ClassName"/>
-				<xsl:text>Logic.GetByID(this.DataContext, id);
+					<xsl:value-of select="@ClassName"/>
+					<xsl:text> instance = </xsl:text>
+					<xsl:value-of select="@ClassName"/>
+					<xsl:text>Logic.GetByID(this.DataContext, id);
 				bool performDelete = true;
 				ActionResult nextAction = null;
 				
@@ -250,26 +290,40 @@ namespace </xsl:text>
 				
 				if (performDelete)
 				{
-					this.DataContext.</xsl:text>
-				<xsl:value-of select="@PluralClassName"/>
-				<xsl:text>.DeleteOnSubmit(instance);
-					
 					try
 					{
+						</xsl:text>
+						<xsl:value-of select="@ClassName"/>
+						<xsl:text>Logic.Delete(this.DataContext, instance);
 						this.DataContext.SubmitChanges();
+					}
+					catch (DeleteConflictException ex)
+					{
+						HandleDeleteConflict(ex);
+						return this.RedirectToAction("Edit", new { id = id });
 					}
 					catch (Exception ex)
 					{
 						this.Logger.Error(ex);
 						this.TempData.SetMessage("An error occurred while deleting the </xsl:text>
-				<xsl:value-of select="$displayName"/>
-				<xsl:text>.");
+					<xsl:value-of select="$displayName"/>
+					<xsl:text>.");
 						return this.RedirectToAction("Edit", new { id = id });
-					}
+					}</xsl:text>
+				
+					<xsl:if test="$table/P:Attributes/P:Attribute[@Key='Cache']">
+						<xsl:text>
+
+					DA.</xsl:text>
+						<xsl:value-of select="@ClassName"/>
+						<xsl:text>.OnCacheNeedsRefresh();</xsl:text>
+					</xsl:if>
+					
+					<xsl:text>
 	
 					this.TempData.SetMessage("The </xsl:text>
-				<xsl:value-of select="$displayName"/>
-				<xsl:text> \"{0}\" was deleted successfully.".FormatString(instance));
+					<xsl:value-of select="$displayName"/>
+					<xsl:text> \"{0}\" was deleted successfully.".FormatString(instance));
 				}
 
 				if (nextAction != null)
@@ -287,8 +341,9 @@ namespace </xsl:text>
 		/// <param name="performDelete">Should be set to true if the default delete should be performed.</param>
 		/// <param name="nextAction">The next action, or null to use the default next action.</param>]]>
 		partial void DeleteModel(int id, DA.</xsl:text>
-				<xsl:value-of select="@ClassName"/>
-				<xsl:text> instance, ref bool performDelete, ref ActionResult nextAction);</xsl:text>
+					<xsl:value-of select="@ClassName"/>
+					<xsl:text> instance, ref bool performDelete, ref ActionResult nextAction);</xsl:text>
+				</xsl:if>
 			</xsl:if>
 			
 			<xsl:text>
