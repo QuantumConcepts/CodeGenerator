@@ -58,13 +58,7 @@
         "Entry"
         {
         "MsmKey" = "8:_5BB0816628D7028E0A7C0EA320A0BA47"
-        "OwnerKey" = "8:_3F6EC835965F598544EB75805F5E30C4"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_5BB0816628D7028E0A7C0EA320A0BA47"
-        "OwnerKey" = "8:_E0275FE187ABCFE9520EDB65ED85992F"
+        "OwnerKey" = "8:_FEFFD0EE5DAF85F44095A5C91D7915B4"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -76,7 +70,13 @@
         "Entry"
         {
         "MsmKey" = "8:_5BB0816628D7028E0A7C0EA320A0BA47"
-        "OwnerKey" = "8:_FEFFD0EE5DAF85F44095A5C91D7915B4"
+        "OwnerKey" = "8:_E0275FE187ABCFE9520EDB65ED85992F"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_5BB0816628D7028E0A7C0EA320A0BA47"
+        "OwnerKey" = "8:_3F6EC835965F598544EB75805F5E30C4"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -166,55 +166,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_B8DBFD15C45973C65C4E25160ACE38CB"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_C5EBEE6BFCAB0BB3274B124701636347"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_6942920AD598169C2454E9661A4CBE30"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_E0275FE187ABCFE9520EDB65ED85992F"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_3F6EC835965F598544EB75805F5E30C4"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_FEFFD0EE5DAF85F44095A5C91D7915B4"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_43840C7EC3A57DE695E877D0AFB2DF0E"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_5BB0816628D7028E0A7C0EA320A0BA47"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_89314AA86157B5CDB85AAC2981BC71DF"
+        "OwnerKey" = "8:_73D91F3A35D2737AB75CA73EB257112E"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -226,7 +178,55 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_73D91F3A35D2737AB75CA73EB257112E"
+        "OwnerKey" = "8:_89314AA86157B5CDB85AAC2981BC71DF"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_5BB0816628D7028E0A7C0EA320A0BA47"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_43840C7EC3A57DE695E877D0AFB2DF0E"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_FEFFD0EE5DAF85F44095A5C91D7915B4"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_3F6EC835965F598544EB75805F5E30C4"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_E0275FE187ABCFE9520EDB65ED85992F"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_6942920AD598169C2454E9661A4CBE30"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_C5EBEE6BFCAB0BB3274B124701636347"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_B8DBFD15C45973C65C4E25160ACE38CB"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -274,7 +274,7 @@
         "DisplayName" = "8:Release"
         "IsDebugOnly" = "11:FALSE"
         "IsReleaseOnly" = "11:TRUE"
-        "OutputFilename" = "8:Release\\CodeGenerator Setup (x86).msi"
+        "OutputFilename" = "8:Release\\CodeGenerator (x86).msi"
         "PackageFilesAs" = "3:2"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
