@@ -394,8 +394,6 @@ namespace QuantumConcepts.CodeGenerator.Plugins.MVC3Admin.UI.Forms
                 {
                     TableMapping tableMapping = (TableMapping)item.Tag;
 
-                    RemoveAttribute(tableMapping, Key_DisplayName);
-                    RemoveAttribute(tableMapping, Key_PluralDisplayName);
                     RemoveAttribute(tableMapping, Key_MvcAdminDeletable);
 
                     if (item.Checked)
@@ -419,7 +417,6 @@ namespace QuantumConcepts.CodeGenerator.Plugins.MVC3Admin.UI.Forms
 
                     //Remove all attributes first.
                     RemoveAttribute(columnMapping, Key_MvcAdminShow);
-                    RemoveAttribute(columnMapping, Key_DisplayName);
                     RemoveAttribute(columnMapping, Key_MvcAdminIndexColumn);
                     RemoveAttribute(columnMapping, Key_MvcAdminIndexColumnOrder);
                     RemoveAttribute(columnMapping, Key_MvcAdminSortable);

@@ -15,14 +15,14 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
         [XmlAttribute]
         public string ViewName { get { return base.TableName; } set { base.TableName = value; } }
 
+        [XmlAttribute]
+        public override bool ReadOnly { get { return true; } set { } }
+
         public ViewMapping() { }
 
         public ViewMapping(string schemaName, string tableName, string className, List<ColumnMapping> columnMappings, List<UniqueIndexMapping> uniqueIndexMappings, List<Annotation<TableMapping>> annotations, List<Attribute<TableMapping>> attributes)
             : base(schemaName, tableName, className, columnMappings, uniqueIndexMappings, annotations, attributes)
         {
         }
-
-        [XmlIgnore]
-        public override bool ReadOnly { get { return false; } set { } }
     }
 }

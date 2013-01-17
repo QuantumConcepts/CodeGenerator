@@ -154,6 +154,11 @@ namespace </xsl:text>
 		[DataType("Date")]</xsl:text>
 						</xsl:when>
 					</xsl:choose>
+					<xsl:for-each select="P:Attributes/P:Attribute[@Key='MVC-Admin-Data-Annotation']">
+						<xsl:text>
+		</xsl:text>
+						<xsl:value-of select="@Value"/>
+					</xsl:for-each>
 					<xsl:if test="P:Attributes/P:Attribute[@Key='MVC-Admin-Index-Column']">
 						<xsl:text>
 		[AdditionalMetadata("ShowInTable", true)]</xsl:text>

@@ -51,8 +51,8 @@ namespace QuantumConcepts.CodeGenerator.Core.BatchEditors
             Type baseBatchEditorType = typeof(BaseBatchEditor);
             List<Type> typesAdded = new List<Type>();
 
-            files.AddRange(Directory.GetFiles(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "*.dll").ToList());
-            files.AddRange(Directory.GetFiles(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "*.exe").ToList());
+            files.AddRange(Directory.GetFiles(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "*.dll"));
+            files.AddRange(Directory.GetFiles(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "*.exe"));
 
             this.BatchEditorsByType.Clear();
 
