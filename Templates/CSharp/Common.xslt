@@ -182,9 +182,9 @@
 				<xsl:text>void</xsl:text>
 			</xsl:when>
 			<xsl:when test="$parameter/@Type = 'DataObject'">
-				<xsl:variable name="referencedTableMappingClassName" select="$parameter/@DataTypeReferencedTableMappingName"/>
+				<xsl:variable name="referencedTableMappingName" select="$parameter/@DataTypeReferencedTableMappingName"/>
 				<xsl:value-of select="$prefix"/>
-				<xsl:value-of select="/P:Project/P:TableMappings/P:TableMapping[@TableName=$referencedTableMappingClassName]/@ClassName"/>
+				<xsl:value-of select="/P:Project/P:TableMappings/P:TableMapping[@SchemaName=$parameter/@DataTypeReferencedTableMappingSchemaName and @TableName=$parameter/@DataTypeReferencedTableMappingName]/@ClassName"/>
 			</xsl:when>
 			<xsl:when test="$parameter/@Type = 'Enum'">
 				<xsl:variable name="referencedTableMapping" select="//P:TableMapping[@SchemaName=$parameter/@DataTypeReferencedTableMappingSchemaName and @TableName=$parameter/@DataTypeReferencedTableMappingName]"/>

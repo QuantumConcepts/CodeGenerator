@@ -80,7 +80,7 @@ namespace </xsl:text>
 		}
 		
 		partial void OnCreated();</xsl:text>
-		<xsl:for-each select="P:TableMappings/P:TableMapping[@Exclude='false']">
+		<xsl:for-each select="P:TableMappings/P:TableMapping[@Exclude='false'] | P:ViewMappings/P:ViewMapping[@Exclude='false']">
 			<xsl:variable name="tableMappingName" select="@TableName"/>
 			<xsl:text>
 		partial void Insert</xsl:text>
@@ -104,7 +104,7 @@ namespace </xsl:text>
 		
 		<xsl:value-of select="$newLine"/>
 		
-		<xsl:for-each select="P:TableMappings/P:TableMapping[@Exclude='false']">
+		<xsl:for-each select="P:TableMappings/P:TableMapping[@Exclude='false'] | P:ViewMappings/P:ViewMapping[@Exclude='false']">
 			<xsl:call-template name="GetTableMappingDocumentation">
 				<xsl:with-param name="spacingBefore" select="concat($tab, $tab)"/>
 			</xsl:call-template>
@@ -119,7 +119,7 @@ namespace </xsl:text>
 		
 		private void Initialize()
 		{</xsl:text>
-		<xsl:for-each select="P:TableMappings/P:TableMapping[@Exclude='false']">
+		<xsl:for-each select="P:TableMappings/P:TableMapping[@Exclude='false'] | P:ViewMappings/P:ViewMapping[@Exclude='false']">
 			<xsl:call-template name="GetTableMappingDocumentation">
 				<xsl:with-param name="spacingBefore" select="concat($tab, $tab)"/>
 			</xsl:call-template>
@@ -160,12 +160,12 @@ namespace </xsl:text>
 		}
 	}</xsl:text>
 	
-		<xsl:for-each select="P:TableMappings/P:TableMapping[@Exclude='false']">
+		<xsl:for-each select="P:TableMappings/P:TableMapping[@Exclude='false'] | P:ViewMappings/P:ViewMapping[@Exclude='false']">
 			<xsl:variable name="table" select="."/>
 			<xsl:variable name="tableName" select="@TableName"/>
 			<xsl:variable name="className" select="@ClassName"/>
 			<xsl:variable name="pluralClassName" select="@PluralClassName"/>
-			<xsl:variable name="pkColumn" select="P:ColumnMappings/P:ColumnMapping[@PrimaryKey='true'][1]"/>
+			<xsl:variable name="pkColumns" select="P:ColumnMappings/P:ColumnMapping[@PrimaryKey='true']"/>
 			
 			<xsl:value-of select="$newLine"/>
 			
@@ -203,6 +203,7 @@ namespace </xsl:text>
 				<xsl:variable name="referencedTableMapping" select="//P:TableMapping[@SchemaName=$foreignKey/@ReferencedTableMappingSchemaName and @TableName=$foreignKey/@ReferencedTableMappingName]"/>
 				<xsl:variable name="referencedTableMappingName" select="@ReferencedTableMappingName"/>
 				<xsl:variable name="parentTableMappingName" select="@ParentTableMappingName"/>
+				
 				<xsl:if test="$referencedTableMapping/@Exclude='false' and $parentTableMapping/@Exclude='false'">
 					<xsl:text>
 		private EntitySet&lt;DA.</xsl:text>
@@ -264,7 +265,11 @@ namespace </xsl:text>
 				</xsl:if>
 				<xsl:text>"</xsl:text>
 				<xsl:if test="@PrimaryKey='true'">
-					<xsl:text>, AutoSync=AutoSync.OnInsert, IsPrimaryKey=true, IsDbGenerated=true</xsl:text>
+					<xsl:text>, AutoSync=AutoSync.OnInsert, IsPrimaryKey=true</xsl:text>
+					
+					<xsl:if test="not(P:Attributes/P:Attribute[@Key='PKNotDBGenerated'])">
+						<xsl:text>, IsDbGenerated=true</xsl:text>
+					</xsl:if>
 				</xsl:if>
 				<xsl:text>)]
 		public new </xsl:text>
@@ -614,86 +619,139 @@ namespace </xsl:text>
 			return context.</xsl:text>
 			<xsl:value-of select="@PluralClassName"/>
 			<xsl:text>;
-		}
+		}</xsl:text>
+		
+			<xsl:if test="$pkColumns">
+				<xsl:text>
 
 		/// &lt;summary&gt;Returns the </xsl:text>
-			<xsl:value-of select="@ClassName"/>
-			<xsl:text> with the provided primary key value.&lt;/summary&gt;
+				<xsl:value-of select="@ClassName"/>
+				<xsl:text> with the provided primary key value.&lt;/summary&gt;
 		/// &lt;param name="id"&gt;The primary key of the </xsl:text>
-			<xsl:value-of select="@ClassName"/>
-			<xsl:text> to fetch.&lt;/param&gt;
+				<xsl:value-of select="@ClassName"/>
+				<xsl:text> to fetch.&lt;/param&gt;
 		/// &lt;returns&gt;A single </xsl:text>
-			<xsl:value-of select="@ClassName"/>
-			<xsl:text>, or null if it does not exist.&lt;/returns&gt;
+				<xsl:value-of select="@ClassName"/>
+				<xsl:text>, or null if it does not exist.&lt;/returns&gt;
 		public static DA.</xsl:text>
-			<xsl:value-of select="@ClassName"/>
-			<xsl:text> GetByID(</xsl:text>
-			<xsl:value-of select="$pkColumn/@DataType"/>
-			<xsl:text> </xsl:text>
-			<xsl:value-of select="$pkColumn/@FieldName"/>
-			<xsl:text>)
+				<xsl:value-of select="@ClassName"/>
+				<xsl:text> GetByID(</xsl:text>
+				
+				<xsl:for-each select="$pkColumns">
+					<xsl:value-of select="@DataType"/>
+					<xsl:text> </xsl:text>
+					<xsl:value-of select="@FieldName"/>
+					
+					<xsl:if test="position() != last()">
+						<xsl:text>, </xsl:text>
+					</xsl:if>
+				</xsl:for-each>
+				
+				<xsl:text>)
 		{
 			return GetByID(</xsl:text>
-			<xsl:value-of select="/P:Project/P:Attributes/P:Attribute[@Key='DataContextName']/@Value"/>
-			<xsl:text>.Create(), </xsl:text>
-			<xsl:value-of select="$pkColumn/@FieldName"/>
-			<xsl:text>);
+				<xsl:value-of select="/P:Project/P:Attributes/P:Attribute[@Key='DataContextName']/@Value"/>
+				<xsl:text>.Create(), </xsl:text>
+				
+				<xsl:for-each select="$pkColumns">
+					<xsl:value-of select="@FieldName"/>
+					
+					<xsl:if test="position() != last()">
+						<xsl:text>, </xsl:text>
+					</xsl:if>
+				</xsl:for-each>
+				
+				<xsl:text>);
 		}
 		
 		/// &lt;summary&gt;Returns the </xsl:text>
-			<xsl:value-of select="@ClassName"/>
-			<xsl:text> with the provided primary key value.&lt;/summary&gt;
+				<xsl:value-of select="@ClassName"/>
+				<xsl:text> with the provided primary key value.&lt;/summary&gt;
 		/// &lt;param name="id"&gt;The primary key of the </xsl:text>
-			<xsl:value-of select="@ClassName"/>
-			<xsl:text> to fetch.&lt;/param&gt;
+				<xsl:value-of select="@ClassName"/>
+				<xsl:text> to fetch.&lt;/param&gt;
 		/// &lt;param name="context"&gt;The data context to use.&lt;/param&gt;
 		/// &lt;returns&gt;A single </xsl:text>
-			<xsl:value-of select="@ClassName"/>
-			<xsl:text>, or null if it does not exist.&lt;/returns&gt;
+				<xsl:value-of select="@ClassName"/>
+				<xsl:text>, or null if it does not exist.&lt;/returns&gt;
 		public static DA.</xsl:text>
-			<xsl:value-of select="@ClassName"/>
-			<xsl:text> GetByID(</xsl:text>
-			<xsl:value-of select="/P:Project/P:Attributes/P:Attribute[@Key='DataContextName']/@Value"/>
-			<xsl:text> context, </xsl:text>
-			<xsl:value-of select="$pkColumn/@DataType"/>
-			<xsl:text> </xsl:text>
-			<xsl:value-of select="$pkColumn/@FieldName"/>
-			<xsl:text>)
+				<xsl:value-of select="@ClassName"/>
+				<xsl:text> GetByID(</xsl:text>
+				<xsl:value-of select="/P:Project/P:Attributes/P:Attribute[@Key='DataContextName']/@Value"/>
+				<xsl:text> context, </xsl:text>
+				
+				<xsl:for-each select="$pkColumns">
+					<xsl:value-of select="@DataType"/>
+					<xsl:text> </xsl:text>
+					<xsl:value-of select="@FieldName"/>
+					
+					<xsl:if test="position() != last()">
+						<xsl:text>, </xsl:text>
+					</xsl:if>
+				</xsl:for-each>
+				
+				<xsl:text>)
 		{
 			return GetByID(context.</xsl:text>
-			<xsl:value-of select="@PluralClassName"/>
-			<xsl:text>, </xsl:text>
-			<xsl:value-of select="$pkColumn/@FieldName"/>
-			<xsl:text>);
+				<xsl:value-of select="@PluralClassName"/>
+				<xsl:text>, </xsl:text>
+				
+				<xsl:for-each select="$pkColumns">
+					<xsl:value-of select="@FieldName"/>
+					
+					<xsl:if test="position() != last()">
+						<xsl:text>, </xsl:text>
+					</xsl:if>
+				</xsl:for-each>
+				
+				<xsl:text>);
 		}
 		
 		/// &lt;summary&gt;Returns the </xsl:text>
-			<xsl:value-of select="@ClassName"/>
-			<xsl:text> with the provided primary key value.&lt;/summary&gt;
+				<xsl:value-of select="@ClassName"/>
+				<xsl:text> with the provided primary key value.&lt;/summary&gt;
 		/// &lt;param name="id"&gt;The primary key of the </xsl:text>
-			<xsl:value-of select="@ClassName"/>
-			<xsl:text> to fetch.&lt;/param&gt;
+				<xsl:value-of select="@ClassName"/>
+				<xsl:text> to fetch.&lt;/param&gt;
 		/// &lt;param name="context"&gt;The data context to use.&lt;/param&gt;
 		/// &lt;returns&gt;A single </xsl:text>
-			<xsl:value-of select="@ClassName"/>
-			<xsl:text>, or null if it does not exist.&lt;/returns&gt;
+				<xsl:value-of select="@ClassName"/>
+				<xsl:text>, or null if it does not exist.&lt;/returns&gt;
 		public static DA.</xsl:text>
-			<xsl:value-of select="@ClassName"/>
-			<xsl:text> GetByID(IQueryable&lt;</xsl:text>
-			<xsl:value-of select="@ClassName"/>
-			<xsl:text>&gt; items, </xsl:text>
-			<xsl:value-of select="$pkColumn/@DataType"/>
-			<xsl:text> </xsl:text>
-			<xsl:value-of select="$pkColumn/@FieldName"/>
-			<xsl:text>)
+				<xsl:value-of select="@ClassName"/>
+				<xsl:text> GetByID(IQueryable&lt;</xsl:text>
+				<xsl:value-of select="@ClassName"/>
+				<xsl:text>&gt; items, </xsl:text>
+				
+				<xsl:for-each select="$pkColumns">
+					<xsl:value-of select="@DataType"/>
+					<xsl:text> </xsl:text>
+					<xsl:value-of select="@FieldName"/>
+					
+					<xsl:if test="position() != last()">
+						<xsl:text>, </xsl:text>
+					</xsl:if>
+				</xsl:for-each>
+				
+				<xsl:text>)
 		{
-			return items.SingleOrDefault(o => object.Equals(o.</xsl:text>
-			<xsl:value-of select="$pkColumn/@FieldName"/>
-			<xsl:text>, </xsl:text>
-			<xsl:value-of select="$pkColumn/@FieldName"/>
-			<xsl:text>));
-		}
-			</xsl:text>
+			return items.SingleOrDefault(o => </xsl:text>
+				
+				<xsl:for-each select="$pkColumns">
+					<xsl:text>object.Equals(o.</xsl:text>
+					<xsl:value-of select="@FieldName"/>
+					<xsl:text>, </xsl:text>
+					<xsl:value-of select="@FieldName"/>
+					<xsl:text>)</xsl:text>
+					
+					<xsl:if test="position() != last()">
+						<xsl:text> &amp;&amp; </xsl:text>
+					</xsl:if>
+				</xsl:for-each>
+				
+				<xsl:text>);
+		}</xsl:text>
+			</xsl:if>
 	
 			<xsl:for-each select="../../P:ForeignKeyMappings/P:ForeignKeyMapping[@Exclude='false' and @ParentTableMappingSchemaName=$table/@SchemaName and @ParentTableMappingName=$table/@TableName]">
 				<xsl:variable name="foreignKey" select="."/>
@@ -703,6 +761,8 @@ namespace </xsl:text>
 				<xsl:variable name="parentColumnName" select="@ParentColumnMappingName"/>
 				<xsl:variable name="referencedTableMappingName" select="@ReferencedTableMappingName"/>
 				<xsl:variable name="referencedColumnName" select="@ReferencedColumnMappingName"/>
+				
+				<xsl:value-of select="$newLine"/>
 				<xsl:call-template name="GetForeignKeyGetDocumentation">
 					<xsl:with-param name="spacingBefore" select="concat($tab, $tab)"/>
 				</xsl:call-template>
@@ -788,12 +848,12 @@ namespace </xsl:text>
 					<xsl:with-param name="input" select="$referencedColumnName"/>
 				</xsl:call-template>
 				<xsl:text>));
-		}
-		</xsl:text>
+		}</xsl:text>
 			</xsl:for-each>
 
 			<xsl:for-each select="P:UniqueIndexMappings/P:UniqueIndexMapping[@Exclude='false']">
 				<xsl:text>
+		
 		<![CDATA[/// <summary>Gets the ]]></xsl:text>
 				<xsl:value-of select="../../@ClassName"/>
 				<xsl:text><![CDATA[ matching the unique index using the passed-in values.</summary>]]>
@@ -1001,8 +1061,7 @@ namespace </xsl:text>
 					</xsl:if>
 				</xsl:for-each>
 				<xsl:text>);
-		}
-		</xsl:text>
+		}</xsl:text>
 			</xsl:for-each>
 			
 			<xsl:for-each select="../../P:ForeignKeyMappings/P:ForeignKeyMapping[@Exclude='false' and @ReferencedTableMappingSchemaName=$table/@SchemaName and @ReferencedTableMappingName=$table/@TableName]">
@@ -1013,8 +1072,10 @@ namespace </xsl:text>
 				<xsl:variable name="referencedColumnName" select="@ReferencedColumnMappingName"/>
 				<xsl:variable name="parentTableMappingName" select="@ParentTableMappingName"/>
 				<xsl:variable name="parentColumnName" select="@ParentColumnMappingName"/>
+				
 				<xsl:if test="$referencedTableMapping/@Exclude='false' and $parentTableMapping/@Exclude='false'">
 					<xsl:text>
+		
 		private void Attach</xsl:text>
 					<xsl:value-of select="@PluralPropertyName"/>
 					<xsl:text>(</xsl:text>
@@ -1037,25 +1098,25 @@ namespace </xsl:text>
 			entity.</xsl:text>
 					<xsl:value-of select="@PropertyName"/>
 					<xsl:text> = null;
-		}
-		</xsl:text>
+		}</xsl:text>
 				</xsl:if>
 			</xsl:for-each>
 			<xsl:text>
-	    /// &lt;summary&gt;
-	    ///     Creates a deep copy of this instance as its base DataObject. This is
-	    ///     useful when the object needs to be passed across a boundary where
-	    ///     the DataAccess layer should not - or cannot - be exposed.
-	    /// &lt;/summary&gt;
-	    /// &lt;returns&gt;A deep copy of this instance as its base DataObject.&lt;/returns&gt;
-	    public DO.</xsl:text>
+		
+		/// &lt;summary&gt;
+		///     Creates a deep copy of this instance as its base DataObject. This is
+		///     useful when the object needs to be passed across a boundary where
+		///     the DataAccess layer should not - or cannot - be exposed.
+		/// &lt;/summary&gt;
+		/// &lt;returns&gt;A deep copy of this instance as its base DataObject.&lt;/returns&gt;
+		public DO.</xsl:text>
 			<xsl:value-of select="@ClassName"/>
 		    <xsl:text> ToBaseDataObject()
-	    {
-	        return new DO.</xsl:text>
+		{
+			return new DO.</xsl:text>
 			<xsl:value-of select="@ClassName"/>
 		    <xsl:text>()
-	        {</xsl:text>
+			{</xsl:text>
 			<xsl:for-each select="P:ColumnMappings/P:ColumnMapping[@Exclude='false']">
 				<xsl:text>
 					</xsl:text>
@@ -1067,8 +1128,8 @@ namespace </xsl:text>
 				</xsl:if>
 			</xsl:for-each>
 			<xsl:text>
-	        };
-	    }
+			};
+		}
         
 		/// &lt;summary&gt;Raises the PropertyChanging event (as applicable).&lt;/summary&gt;
 		protected virtual void OnPropertyChanging()

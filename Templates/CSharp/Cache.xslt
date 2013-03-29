@@ -45,6 +45,21 @@ namespace </xsl:text>
 					</xsl:when>
 				</xsl:choose>
 			</xsl:variable>
+			<xsl:variable name="relatedCachedTables">
+				<xsl:for-each select="/P:Project/P:ForeignKeyMappings/P:ForeignKeyMapping[@Exclude='false' and ((@ParentTableMappingSchemaName=$table/@SchemaName and @ParentTableMappingName=$table/@TableName) or (@ReferencedTableMappingSchemaName=$table/@SchemaName and @ReferencedTableMappingName=$table/@TableName))]">
+					<xsl:variable name="relatedFK" select="."/>
+					<xsl:variable name="parentTable" select="/P:Project/P:TableMappings/P:TableMapping[@Exclude='false' and (@SchemaName!=$table/@SchemaName or @TableName!=$table/@TableName) and @SchemaName=$relatedFK/@ParentTableMappingSchemaName and @TableName=$relatedFK/@ParentTableMappingName and P:Attributes/P:Attribute[@Key='Cache']]"/>
+					<xsl:variable name="referencedTable" select="/P:Project/P:TableMappings/P:TableMapping[@Exclude='false' and (@SchemaName!=$table/@SchemaName or @TableName!=$table/@TableName) and @SchemaName=$relatedFK/@ReferencedTableMappingSchemaName and @TableName=$relatedFK/@ReferencedTableMappingName and P:Attributes/P:Attribute[@Key='Cache']]"/>
+					
+					<xsl:if test="$parentTable">
+						<xsl:copy-of select="$parentTable"/>
+					</xsl:if>
+					
+					<xsl:if test="$referencedTable">
+						<xsl:copy-of select="$referencedTable"/>
+					</xsl:if>
+				</xsl:for-each>
+			</xsl:variable>
 			
 			<xsl:text>
 	/// &lt;summary&gt;Implements caching for the </xsl:text>
@@ -93,7 +108,7 @@ namespace </xsl:text>
 			<xsl:text>Cache.Instance = new </xsl:text>
 			<xsl:value-of select="@ClassName"/>
 			<xsl:text>Cache();
-			CacheManager.Register(</xsl:text>
+			CacheManager.Instance.Register(</xsl:text>
 			<xsl:value-of select="@ClassName"/>
 			<xsl:text>Cache.Instance);
 			</xsl:text>
@@ -103,13 +118,18 @@ namespace </xsl:text>
 			// Listen for changes and refresh the cache as needed.
 			</xsl:text>
 			<xsl:value-of select="@ClassName"/>
-			<xsl:text>.CacheNeedsRefresh += new ParameterlessDelegate(delegate() { </xsl:text>
+			<xsl:text>.CacheNeedsRefresh += new ParameterlessDelegate(delegate()
+			{
+				</xsl:text>
 			<xsl:value-of select="@ClassName"/>
-			<xsl:text>Cache.Instance.Refresh(); });
+			<xsl:text>Cache.Instance.Refresh();
+				</xsl:text>
+			<xsl:value-of select="@ClassName"/>
+			<xsl:text>Cache.Instance.RefreshRelatedCaches(new List&lt;Type&gt;() { typeof(</xsl:text>
+			<xsl:value-of select="@ClassName"/>
+			<xsl:text>Cache) });
+			});
 		}
-		
-		/// &lt;summary&gt;This method does not perform any operation but will cause the static initializer to fire.&lt;/summary&gt;
-		public void Touch() {}
 		
 		/// &lt;summary&gt;Extracts the primary key from the provided </xsl:text>
 			<xsl:value-of select="@ClassName"/>
@@ -158,7 +178,43 @@ namespace </xsl:text>
 			DoCustomRefresh();
 		}
 		
-		partial void DoCustomRefresh();
+		partial void DoCustomRefresh();</xsl:text>
+		
+		<xsl:if test="msxsl:node-set($relatedCachedTables)/*">
+			<xsl:text>
+		<![CDATA[
+		/// <summary>Provides the ability for a cache to refresh other related caches.</summary>
+		/// <param name="typesToIgnore">Should contain a list of cache types that have already been refreshed.</param>]]>
+		public override void RefreshRelatedCaches(List&lt;Type&gt; typesToIgnore)
+		{
+			List&lt;ICache&gt; cachesToRefresh = new List&lt;ICache&gt;()
+			{</xsl:text>
+				
+				<xsl:for-each select="msxsl:node-set($relatedCachedTables)/*">
+					<xsl:text>
+				</xsl:text>
+					<xsl:value-of select="@ClassName"/>
+					<xsl:text>Cache.Instance</xsl:text>
+					
+					<xsl:if test="position()!=last()">
+						<xsl:text>,</xsl:text>
+					</xsl:if>
+				</xsl:for-each>
+				
+			<xsl:text>
+			}.Where(o => !typesToIgnore.Contains(o.GetType())).ToList();
+			
+			typesToIgnore.AddRange(cachesToRefresh.Select(o => o.GetType()));
+			
+			cachesToRefresh.ForEach(o =>
+			{
+				o.Refresh();
+				o.RefreshRelatedCaches(typesToIgnore);
+			});
+		}</xsl:text>
+		</xsl:if>
+		
+		<xsl:text>
 		
 		/// &lt;summary&gt;Returns the </xsl:text>
 			<xsl:value-of select="@ClassName"/>
@@ -192,6 +248,7 @@ namespace </xsl:text>
 					<xsl:with-param name="spacingBefore" select="concat($tab, $tab)"/>
 				</xsl:call-template>
 				<xsl:text>
+		
 		public static IQueryable&lt;</xsl:text>
 				<xsl:value-of select="$parentTableMapping/@ClassName"/>
 				<xsl:text>&gt; GetBy</xsl:text>
@@ -215,8 +272,7 @@ namespace </xsl:text>
 					<xsl:with-param name="input" select="$referencedColumnName"/>
 				</xsl:call-template>
 				<xsl:text>);
-		}
-		</xsl:text>
+		}</xsl:text>
 		
 				<xsl:if test="position() != last()">
 					<xsl:value-of select="$newLine"/>
@@ -225,6 +281,7 @@ namespace </xsl:text>
 
 			<xsl:for-each select="P:UniqueIndexMappings/P:UniqueIndexMapping[@Exclude='false']">
 				<xsl:text>
+		
 		<![CDATA[/// <summary>Gets the ]]></xsl:text>
 				<xsl:value-of select="../../@ClassName"/>
 				<xsl:text><![CDATA[ matching the unique index using the passed-in values.</summary>]]>
@@ -301,6 +358,7 @@ namespace </xsl:text>
 			
 			<xsl:text>
 	}</xsl:text>
+			
 			<xsl:if test="position()!=last()">
 				<xsl:value-of select="$newLine"/>
 			</xsl:if>

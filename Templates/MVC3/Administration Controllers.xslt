@@ -87,7 +87,7 @@ namespace </xsl:text>
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:variable>
-			<xsl:variable name="isReadOnly" select="@ReadOnly='true'"/>
+			<xsl:variable name="readonly" select="$table/@ReadOnly = 'true' or $table/P:Attributes/P:Attribute[@Key='MVC-Admin-Readonly']"/>
 			
 			<xsl:text>
 	[Authorize(Roles = "Administrator")]
@@ -115,7 +115,7 @@ namespace </xsl:text>
 			return this.View(model); 
 		}</xsl:text>
 		
-			<xsl:if test="not($isReadOnly)">
+			<xsl:if test="not($readonly)">
 				<xsl:text>
 		public ActionResult Add()
 		{
@@ -167,11 +167,37 @@ namespace </xsl:text>
 					{</xsl:text>
 				
 				<xsl:for-each select="$allColumns[@PrimaryKey='false']">
-					<xsl:text>
-						instance.</xsl:text>
-					<xsl:value-of select="@FieldName"/>
+					<xsl:choose>
+						<xsl:when test="@EncryptionVectorColumnName">
+							<xsl:text>
+						if (!model.</xsl:text>
+							<xsl:value-of select="@DecryptionPropertyName"/>
+							<xsl:text>.IsNullOrEmpty())
+							</xsl:text>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:text>
+						</xsl:text>
+						</xsl:otherwise>
+					</xsl:choose>
+					<xsl:text>instance.</xsl:text>
+					<xsl:choose>
+						<xsl:when test="@EncryptionVectorColumnName">
+							<xsl:value-of select="@DecryptionPropertyName"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="@FieldName"/>
+						</xsl:otherwise>
+					</xsl:choose>
 					<xsl:text> = model.</xsl:text>
-					<xsl:value-of select="@FieldName"/>
+					<xsl:choose>
+						<xsl:when test="@EncryptionVectorColumnName">
+							<xsl:value-of select="@DecryptionPropertyName"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="@FieldName"/>
+						</xsl:otherwise>
+					</xsl:choose>
 					<xsl:text>;</xsl:text>
 				</xsl:for-each>
 				
@@ -187,7 +213,14 @@ namespace </xsl:text>
 					<xsl:choose>
 						<xsl:when test="$allColumns[@FieldName=$fieldName]">
 							<xsl:text>model.</xsl:text>
-							<xsl:value-of select="@FieldName"/>
+							<xsl:choose>
+								<xsl:when test="@EncryptionVectorColumnName">
+									<xsl:value-of select="@DecryptionPropertyName"/>
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:value-of select="@FieldName"/>
+								</xsl:otherwise>
+							</xsl:choose>
 						</xsl:when>
 						<xsl:otherwise>
 							<xsl:text>default(</xsl:text>

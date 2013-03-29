@@ -51,7 +51,7 @@
 			<xsl:variable name="tableName" select="$table/@TableName"/>
 			<xsl:variable name="className" select="$table/@ClassName"/>
 			<xsl:variable name="pluralClassName" select="$table/@PluralClassName"/>
-			<xsl:variable name="allColumns" select="$table/P:ColumnMappings/P:ColumnMapping[@Exclude='false' and P:Attributes/P:Attribute[@Key='MVC-Admin-Show']]"/>
+			<xsl:variable name="allColumns" select="$table/P:ColumnMappings/P:ColumnMapping[@Exclude='false' and not(@EncryptionVectorColumnName) and P:Attributes/P:Attribute[@Key='MVC-Admin-Show']]"/>
 			<xsl:variable name="sortableColumns" select="$allColumns[P:Attributes/P:Attribute[@Key='MVC-Admin-Sortable']]"/>
 			
 			<xsl:text>
@@ -154,11 +154,6 @@ namespace </xsl:text>
 		[DataType("Date")]</xsl:text>
 						</xsl:when>
 					</xsl:choose>
-					<xsl:for-each select="P:Attributes/P:Attribute[@Key='MVC-Admin-Data-Annotation']">
-						<xsl:text>
-		</xsl:text>
-						<xsl:value-of select="@Value"/>
-					</xsl:for-each>
 					<xsl:if test="P:Attributes/P:Attribute[@Key='MVC-Admin-Index-Column']">
 						<xsl:text>
 		[AdditionalMetadata("ShowInTable", true)]</xsl:text>
@@ -220,10 +215,16 @@ namespace </xsl:text>
 						<xsl:text>
 		[AdditionalMetadata("ShowInTable", true)]</xsl:text>
 					</xsl:if>
-				<xsl:if test="$sortableColumns[@FieldName=$fieldName]">
-					<xsl:text>
+					<xsl:if test="P:Attributes/P:Attribute[@Key='MVC-Admin-Index-Column-Order']">
+						<xsl:text>
+		[AdditionalMetadata("TableColumnOrder", </xsl:text>
+						<xsl:value-of select="P:Attributes/P:Attribute[@Key='MVC-Admin-Index-Column-Order']/@Value"/>
+						<xsl:text>)]</xsl:text>
+					</xsl:if>
+					<xsl:if test="$sortableColumns[@FieldName=$fieldName]">
+						<xsl:text>
 		[AdditionalMetadata("Sortable", true)]</xsl:text>
-				</xsl:if>
+					</xsl:if>
 					<xsl:text>
 		public string </xsl:text>
 					<xsl:choose>
@@ -290,43 +291,45 @@ namespace </xsl:text>
 			{
 				this.ID = instance.ID;</xsl:text>
 				
+				<!-- Don't pull encrypted data forward, we assume it is protected and shouldn't be displayed. -->
 				<xsl:for-each select="$allColumns">
 					<xsl:variable name="columnName" select="@ColumnName"/>
 					<xsl:variable name="fieldName" select="@FieldName"/>
 					<xsl:variable name="foreignKeyParent" select="/P:Project/P:ForeignKeyMappings/P:ForeignKeyMapping[@ParentTableMappingSchemaName=$table/@SchemaName and @ParentTableMappingName=$table/@TableName and @ParentColumnMappingName=$columnName]"/>
 					
-					<xsl:if test="not(P:EnumerationMapping) and not($foreignKeyParent)">
-						<xsl:text>
+					<xsl:choose>
+						<xsl:when test="not(P:EnumerationMapping) and not($foreignKeyParent)">
+							<xsl:text>
 				this.</xsl:text>
-						<xsl:value-of select="@FieldName"/>
-						<xsl:text> = instance.</xsl:text>
-						<xsl:value-of select="@FieldName"/>
-						<xsl:text>;</xsl:text>
-					</xsl:if>
-					
-					<xsl:if test="P:EnumerationMapping or $foreignKeyParent">
-						<xsl:text>
+							<xsl:value-of select="@FieldName"/>
+							<xsl:text> = instance.</xsl:text>
+							<xsl:value-of select="@FieldName"/>
+							<xsl:text>;</xsl:text>
+						</xsl:when>
+						<xsl:when test="P:EnumerationMapping or $foreignKeyParent">
+							<xsl:text>
 				this.</xsl:text>
-						<xsl:choose>
-							<xsl:when test="P:EnumerationMapping">
-								<xsl:value-of select="@FieldName"/>
-							</xsl:when>
-							<xsl:when test="$foreignKeyParent">
-								<xsl:value-of select="$foreignKeyParent/@PropertyName"/>
-							</xsl:when>
-						</xsl:choose>
-						<xsl:text>Name =  instance.</xsl:text>
-						<xsl:choose>
-							<xsl:when test="P:EnumerationMapping">
-								<xsl:value-of select="@FieldName"/>
-								<xsl:text>.GetDescription();</xsl:text>
-							</xsl:when>
-							<xsl:when test="$foreignKeyParent">
-								<xsl:value-of select="$foreignKeyParent/@PropertyName"/>
-								<xsl:text>.ValueOrDefault(o =&gt; o.ToString());</xsl:text>
-							</xsl:when>
-						</xsl:choose>
-					</xsl:if>
+							<xsl:choose>
+								<xsl:when test="P:EnumerationMapping">
+									<xsl:value-of select="@FieldName"/>
+								</xsl:when>
+								<xsl:when test="$foreignKeyParent">
+									<xsl:value-of select="$foreignKeyParent/@PropertyName"/>
+								</xsl:when>
+							</xsl:choose>
+							<xsl:text>Name =  instance.</xsl:text>
+							<xsl:choose>
+								<xsl:when test="P:EnumerationMapping">
+									<xsl:value-of select="@FieldName"/>
+									<xsl:text>.GetDescription();</xsl:text>
+								</xsl:when>
+								<xsl:when test="$foreignKeyParent">
+									<xsl:value-of select="$foreignKeyParent/@PropertyName"/>
+									<xsl:text>.ValueOrDefault(o =&gt; o.ToString());</xsl:text>
+								</xsl:when>
+							</xsl:choose>
+						</xsl:when>
+					</xsl:choose>
 				</xsl:for-each>
 				
 				<xsl:text>

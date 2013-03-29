@@ -46,7 +46,7 @@
 			</xsl:with-param>
 		</xsl:call-template>
 		
-		<xsl:for-each select="P:TableMappings/P:TableMapping[@Exclude='false' and P:Attributes/P:Attribute[@Key='MVC-Admin']]">
+		<xsl:for-each select="P:TableMappings/P:TableMapping[@Exclude='false' and P:Attributes/P:Attribute[@Key='MVC-Admin'] and @ReadOnly='false' and not(P:Attributes/P:Attribute[@Key='MVC-Admin-Readonly'])]">
 			<xsl:variable name="table" select="."/>
 			<xsl:variable name="tableName" select="$table/@TableName"/>
 			<xsl:variable name="className" select="$table/@ClassName"/>
@@ -93,36 +93,84 @@ namespace </xsl:text>
 					</xsl:choose>
 				</xsl:variable>
 				
-				<xsl:if test="P:EnumerationMapping or $foreignKeyParent">
-					<xsl:if test="@NullableInDatabase!='true'">
+				<xsl:if test="@EncryptionVectorColumnName or P:EnumerationMapping or $foreignKeyParent">
+					<xsl:if test="@NullableInDatabase!='true' and not (@EncryptionVectorColumnName)">
 						<xsl:text>
 		[Required]</xsl:text>
-				</xsl:if>
-				<xsl:text>
+					</xsl:if>
+					<xsl:text>
 		[Display(Name = "</xsl:text>
-				<xsl:choose>
-					<xsl:when test="$foreignKeyParent">
-						<xsl:value-of select="$foreignKeyParentName"/>
-					</xsl:when>
-					<xsl:when test="P:Attributes/P:Attribute[@Key='DisplayName']/@Value != ''">
-						<xsl:value-of select="P:Attributes/P:Attribute[@Key='DisplayName']/@Value"/>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:value-of select="@FieldName"/>
-					</xsl:otherwise>
-				</xsl:choose>
-				<xsl:text>")]</xsl:text>
-				<xsl:choose>
-					<xsl:when test="P:Attributes/P:Attribute[@Key='MVC-Admin-DataType']/@Value != ''">
-						<xsl:text>
+					<xsl:choose>
+						<xsl:when test="$foreignKeyParent">
+							<xsl:value-of select="$foreignKeyParentName"/>
+						</xsl:when>
+						<xsl:when test="P:Attributes/P:Attribute[@Key='DisplayName']/@Value != ''">
+							<xsl:value-of select="P:Attributes/P:Attribute[@Key='DisplayName']/@Value"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="@FieldName"/>
+						</xsl:otherwise>
+					</xsl:choose>
+					<xsl:text>")]</xsl:text>
+					<xsl:choose>
+						<xsl:when test="@EncryptionVectorColumnName">
+							<xsl:text>
+		[DataType("Password")]</xsl:text>
+						</xsl:when>
+						<xsl:when test="P:Attributes/P:Attribute[@Key='MVC-Admin-DataType']/@Value != ''">
+							<xsl:text>
 		[DataType("</xsl:text>
-						<xsl:value-of select="P:Attributes/P:Attribute[@Key='MVC-Admin-DataType']/@Value"/>
-						<xsl:text>")]</xsl:text>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:text>
+							<xsl:value-of select="P:Attributes/P:Attribute[@Key='MVC-Admin-DataType']/@Value"/>
+							<xsl:text>")]</xsl:text>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:text>
 		[DataType("DropDownList")]
 		[AdditionalMetadata("List", "</xsl:text>
+							<xsl:choose>
+								<xsl:when test="P:EnumerationMapping">
+									<xsl:value-of select="P:EnumerationMapping/@Name"/>
+								</xsl:when>
+								<xsl:when test="$foreignKeyParent">
+									<xsl:value-of select="$foreignKeyParent/@PropertyName"/>
+								</xsl:when>
+							</xsl:choose>
+							<xsl:text>List")]</xsl:text>
+						</xsl:otherwise>
+					</xsl:choose>
+					<xsl:text>
+		public </xsl:text>
+					<xsl:choose>
+						<xsl:when test="@EncryptionVectorColumnName">
+							<xsl:text>string</xsl:text>
+						</xsl:when>
+						<xsl:when test="P:EnumerationMapping">
+							<xsl:text>DO.</xsl:text>
+							<xsl:value-of select="P:EnumerationMapping/@Name"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="@DataType"/>
+						</xsl:otherwise>
+					</xsl:choose>
+					<xsl:if test="@Nullable='true'">
+						<xsl:text>?</xsl:text>
+					</xsl:if>
+					<xsl:text> </xsl:text>
+					<xsl:choose>
+						<xsl:when test="@EncryptionVectorColumnName">
+							<xsl:value-of select="@DecryptionPropertyName"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="@FieldName"/>
+						</xsl:otherwise>
+					</xsl:choose>
+					<xsl:text> { get; set; }</xsl:text>
+		
+					<xsl:if test="P:EnumerationMapping or $foreignKeyParent">
+						<xsl:text>
+		
+		[TemplateVisibility(false, false)]
+		public List&lt;ListItem&gt; </xsl:text>
 						<xsl:choose>
 							<xsl:when test="P:EnumerationMapping">
 								<xsl:value-of select="P:EnumerationMapping/@Name"/>
@@ -131,43 +179,15 @@ namespace </xsl:text>
 								<xsl:value-of select="$foreignKeyParent/@PropertyName"/>
 							</xsl:when>
 						</xsl:choose>
-						<xsl:text>List")]</xsl:text>
-					</xsl:otherwise>
-				</xsl:choose>
-				<xsl:text>
-		public </xsl:text>
-				<xsl:choose>
-					<xsl:when test="P:EnumerationMapping">
-						<xsl:text>DO.</xsl:text>
-						<xsl:value-of select="P:EnumerationMapping/@Name"/>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:value-of select="@DataType"/>
-					</xsl:otherwise>
-				</xsl:choose>
-				<xsl:if test="@Nullable='true'">
-					<xsl:text>?</xsl:text>
-				</xsl:if>
-				<xsl:text> </xsl:text>
-				<xsl:value-of select="@FieldName"/>
-				<xsl:text> { get; set; }
-		
-		[TemplateVisibility(false, false)]
-		public List&lt;ListItem&gt; </xsl:text>
-					<xsl:choose>
-						<xsl:when test="P:EnumerationMapping">
-							<xsl:value-of select="P:EnumerationMapping/@Name"/>
-						</xsl:when>
-						<xsl:when test="$foreignKeyParent">
-							<xsl:value-of select="$foreignKeyParent/@PropertyName"/>
-						</xsl:when>
-					</xsl:choose>
-					<xsl:text>List { get; private set; }</xsl:text>
+						<xsl:text>List { get; private set; }</xsl:text>
+					</xsl:if>
+					
+					<xsl:text>
+		</xsl:text>
 				</xsl:if>
 			</xsl:for-each>
 		
 			<xsl:text>
-		
 		<![CDATA[/// <summary>Creates a new instance of this class.</summary>]]>
 		public </xsl:text>
 			<xsl:value-of select="$className"/>
@@ -197,6 +217,7 @@ namespace </xsl:text>
 			
 				<xsl:if test="$allColumns/P:EnumerationMapping or /P:Project/P:ForeignKeyMappings/P:ForeignKeyMapping[@ParentTableMappingSchemaName=$table/@SchemaName and @ParentTableMappingName=$table/@TableName and @ParentColumnMappingName=$allColumns/@ColumnName]">
 					<xsl:text>
+			
 			if (instance != null)
 			{</xsl:text>
 				
@@ -301,7 +322,9 @@ namespace </xsl:text>
 									<xsl:value-of select="$foreignKeyParent/@PropertyName"/>
 								</xsl:when>
 							</xsl:choose>
+							
 							<xsl:text>List = </xsl:text>
+							
 							<xsl:choose>
 								<xsl:when test="P:EnumerationMapping">
 									<xsl:text>EnumUtil.GetEnumValues&lt;DO.</xsl:text>
@@ -315,9 +338,11 @@ namespace </xsl:text>
 									<xsl:text>Logic.GetAll().AsEnumerable().OrderBy(o =&gt; o.ToString()).Select(o =&gt; new ListItem(o.ToString(), o.ID.ToString()))</xsl:text>
 								</xsl:when>
 							</xsl:choose>
+							
 							<xsl:if test="@Nullable='true'">
-								<xsl:text>.AddEmptyListItem()</xsl:text>
+								<xsl:text>.InsertEmptyListItem()</xsl:text>
 							</xsl:if>
+							
 							<xsl:text>.ToList();
 		}
 		

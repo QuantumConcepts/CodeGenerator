@@ -34,6 +34,7 @@
 			</xsl:choose>
 		</xsl:variable>
 		<xsl:variable name="allColumns" select="$table/P:ColumnMappings/P:ColumnMapping[@Exclude='false' and P:Attributes/P:Attribute[@Key='MVC-Admin-Show']]"/>
+		<xsl:variable name="readonly" select="$table/@ReadOnly='true' or $table/P:Attributes/P:Attribute[@Key='MVC-Admin-Readonly']"/>
 		
 		<xsl:text>@* This view has been generated, do not edit! *@
 
@@ -61,7 +62,7 @@
 @section Title
 {</xsl:text>
 		
-    		<xsl:if test="$table/@ReadOnly = 'false'">
+    		<xsl:if test="not($readonly)">
     			<xsl:text><![CDATA[
 	<a href="@Url.Action("Add")" class="Button" data-options='{ "icons": { "primary": "ui-icon-plus" } }'>New ]]></xsl:text>
 	    	<xsl:value-of select="$displayName"/>
@@ -102,7 +103,7 @@
 	</xsl:text>
 
 		<xsl:choose>
-    			<xsl:when test="$table/@ReadOnly = 'true'">
+    			<xsl:when test="$readonly">
     				<xsl:text>
 	splitButtonModel.DefaultButton.Text = "Details";
 	splitButtonModel.DefaultButton.Href = Url.Action("Detail", new { ID = "{ID}", ReturnUrl = this.Request.Url.ToString() });

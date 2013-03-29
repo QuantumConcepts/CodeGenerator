@@ -25,10 +25,12 @@ namespace  </xsl:text>
 		<xsl:value-of select="@RootNamespace"/>
 <xsl:text>.DataObjects
 {</xsl:text>
-		<xsl:for-each select="P:TableMappings/P:TableMapping[@Exclude='false']">
+		<xsl:for-each select="P:TableMappings/P:TableMapping[@Exclude='false'] | P:ViewMappings/P:ViewMapping[@Exclude='false']">
 			<xsl:variable name="currentTableName" select="@TableName"/>
 			<xsl:variable name="currentClassName" select="@ClassName"/>
 			<xsl:variable name="currentPluralClassName" select="@PluralClassName"/>
+			<xsl:variable name="pkColumn" select="P:ColumnMappings/P:ColumnMapping[@PrimaryKey='true']"/>
+			
 			<xsl:call-template name="GetTableMappingDocumentation">
 				<xsl:with-param name="spacingBefore" select="$tab"/>
 			</xsl:call-template>
@@ -36,12 +38,28 @@ namespace  </xsl:text>
 	[DataContract]
 	public partial class </xsl:text>
 			<xsl:value-of select="@ClassName"/>
-			<xsl:text> : IDataObject</xsl:text>
+			
+			<xsl:if test="$pkColumn">
+				<xsl:text> : IDataObject&lt;</xsl:text>
+				<xsl:value-of select="$pkColumn/@DataType"/>
+				<xsl:text>&gt;</xsl:text>
+			</xsl:if>
+			
 			<xsl:if test="P:Attributes/P:Attribute[@Key='DisplayField'] or P:Attributes/P:Attribute[@Key='SortField']">
-				<xsl:text>, IComparable&lt;</xsl:text>
+				<xsl:choose>
+					<xsl:when test="not($pkColumn)">
+						<xsl:text> : </xsl:text>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:text>, </xsl:text>
+					</xsl:otherwise>
+				</xsl:choose>
+				
+				<xsl:text>IComparable&lt;</xsl:text>
 				<xsl:value-of select="@ClassName"/>
 				<xsl:text>&gt;</xsl:text>
 			</xsl:if>
+			
 			<xsl:text>
 	{</xsl:text>
 			<xsl:for-each select="P:ColumnMappings/P:ColumnMapping[@Exclude='false']">
