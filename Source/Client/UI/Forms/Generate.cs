@@ -243,6 +243,13 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
                                                                                                           Outputs = g.ToList()
                                                                                                       }).ToDictionary(o => o.Template, o => o.Outputs);
 
+                if (templateOutputs.IsNullOrEmpty())
+                {
+                    MessageBox.Show("You must select one or more template you wish to generate.", "Generate", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    ToggleUI(true);
+                    return;
+                }
+
                 outputsListView.CheckedItems.Cast<ListViewItem>().ForEach(o =>
                 {
                     o.SubItems[statusColumn.Index].Text = null;

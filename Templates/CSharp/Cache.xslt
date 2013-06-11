@@ -36,14 +36,14 @@ namespace </xsl:text>
 			<xsl:variable name="table" select="."/>
 			<xsl:variable name="pkColumn" select="P:ColumnMappings/P:ColumnMapping[@PrimaryKey='true'][1]"/>
 			<xsl:variable name="enumColumn">
-				<xsl:choose>
-					<xsl:when test="count(.//P:ColumnMapping[P:EnumerationMapping and @ColumnName=../..//P:UniqueIndexMapping//P:ColumnName/text()])=1">
-						<xsl:copy-of select=".//P:ColumnMapping[P:EnumerationMapping and @ColumnName=../..//P:UniqueIndexMapping//P:ColumnName/text()]"/>
-					</xsl:when>
-					<xsl:when test="count(.//P:ColumnMappings/P:ColumnMapping[P:EnumerationMapping[//P:Attribute[@Key='Cache-ByEnum']] and @ColumnName=../..//P:UniqueIndexMapping//P:ColumnName/text()])=1">
-						<xsl:copy-of select=".//P:ColumnMappings/P:ColumnMapping[P:EnumerationMapping[//P:Attribute[@Key='Cache-ByEnum']] and @ColumnName=../..//P:UniqueIndexMapping//P:ColumnName/text()]"/>
-					</xsl:when>
-				</xsl:choose>
+				<xsl:for-each select=".//P:UniqueIndexMapping">
+					<xsl:variable name="ux" select="."/>
+					<xsl:variable name="uxEnumColumn" select="$table//P:ColumnMapping[@ColumnName=$ux//P:ColumnName/text() and P:EnumerationMapping]"/>
+					
+					<xsl:if test="count(.//P:ColumnName)=1 and $uxEnumColumn">
+						<xsl:copy-of select="$uxEnumColumn"/>
+					</xsl:if>
+				</xsl:for-each>
 			</xsl:variable>
 			<xsl:variable name="relatedCachedTables">
 				<xsl:for-each select="/P:Project/P:ForeignKeyMappings/P:ForeignKeyMapping[@Exclude='false' and ((@ParentTableMappingSchemaName=$table/@SchemaName and @ParentTableMappingName=$table/@TableName) or (@ReferencedTableMappingSchemaName=$table/@SchemaName and @ReferencedTableMappingName=$table/@TableName))]">
