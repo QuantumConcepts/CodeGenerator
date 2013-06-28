@@ -14,7 +14,7 @@ using System.Reflection;
 
 namespace QuantumConcepts.CodeGenerator.Core.Upgrade
 {
-    internal class UpgradeManager : IEnumerable<IUpgrader>
+    public class UpgradeManager : IEnumerable<IUpgrader>
     {
         private static readonly ILog Logger = LogManager.GetLogger(typeof(UpgradeManager));
 

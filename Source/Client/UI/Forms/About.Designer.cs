@@ -32,7 +32,6 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(About));
             this.splashTimer = new System.Windows.Forms.Timer(this.components);
             this.copyrightLabel = new System.Windows.Forms.Label();
-            this.registrationLabel = new System.Windows.Forms.Label();
             this.wwwLink = new System.Windows.Forms.LinkLabel();
             this.bugsLink = new System.Windows.Forms.LinkLabel();
             this.label2 = new System.Windows.Forms.Label();
@@ -45,23 +44,12 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             // 
             this.copyrightLabel.BackColor = System.Drawing.Color.Transparent;
             this.copyrightLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.copyrightLabel.Location = new System.Drawing.Point(22, 240);
+            this.copyrightLabel.Location = new System.Drawing.Point(22, 224);
             this.copyrightLabel.Name = "copyrightLabel";
             this.copyrightLabel.Size = new System.Drawing.Size(306, 20);
             this.copyrightLabel.TabIndex = 2;
             this.copyrightLabel.Text = "© {0} Quantum Concepts Corporation. All rights reserved.";
             this.copyrightLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // registrationLabel
-            // 
-            this.registrationLabel.BackColor = System.Drawing.Color.Transparent;
-            this.registrationLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.registrationLabel.Location = new System.Drawing.Point(22, 105);
-            this.registrationLabel.Name = "registrationLabel";
-            this.registrationLabel.Size = new System.Drawing.Size(306, 30);
-            this.registrationLabel.TabIndex = 3;
-            this.registrationLabel.Text = "This software is licensed to {0} for use on a single machine.";
-            this.registrationLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // wwwLink
             // 
@@ -70,7 +58,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.wwwLink.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.wwwLink.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.wwwLink.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.wwwLink.Location = new System.Drawing.Point(22, 157);
+            this.wwwLink.Location = new System.Drawing.Point(22, 141);
             this.wwwLink.Name = "wwwLink";
             this.wwwLink.Size = new System.Drawing.Size(306, 15);
             this.wwwLink.TabIndex = 4;
@@ -87,7 +75,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.bugsLink.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.bugsLink.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.bugsLink.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.bugsLink.Location = new System.Drawing.Point(22, 209);
+            this.bugsLink.Location = new System.Drawing.Point(22, 193);
             this.bugsLink.Name = "bugsLink";
             this.bugsLink.Size = new System.Drawing.Size(306, 15);
             this.bugsLink.TabIndex = 5;
@@ -101,7 +89,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             // 
             this.label2.BackColor = System.Drawing.Color.Transparent;
             this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.label2.Location = new System.Drawing.Point(22, 137);
+            this.label2.Location = new System.Drawing.Point(22, 121);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(306, 20);
             this.label2.TabIndex = 6;
@@ -112,7 +100,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             // 
             this.label3.BackColor = System.Drawing.Color.Transparent;
             this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.label3.Location = new System.Drawing.Point(22, 189);
+            this.label3.Location = new System.Drawing.Point(22, 173);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(306, 20);
             this.label3.TabIndex = 7;
@@ -159,7 +147,6 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.Controls.Add(this.label2);
             this.Controls.Add(this.bugsLink);
             this.Controls.Add(this.wwwLink);
-            this.Controls.Add(this.registrationLabel);
             this.Controls.Add(this.copyrightLabel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -176,7 +163,6 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
 
         private System.Windows.Forms.Timer splashTimer;
         private System.Windows.Forms.Label copyrightLabel;
-        private System.Windows.Forms.Label registrationLabel;
         private System.Windows.Forms.LinkLabel wwwLink;
         private System.Windows.Forms.LinkLabel bugsLink;
         private System.Windows.Forms.Label label2;

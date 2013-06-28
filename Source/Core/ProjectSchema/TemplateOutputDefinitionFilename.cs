@@ -12,7 +12,7 @@ using QuantumConcepts.CodeGenerator.Core.Utils;
 
 namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
 {
-    internal class TemplateOutputDefinitionFilename : List<IComingledXPathExpressionPart>
+    public class TemplateOutputDefinitionFilename : List<IComingledXPathExpressionPart>
     {
         public List<TemplateOutputDefinitionFilenameResult> Compute(TemplateOutputDefinition templateOutputDefinition)
         {

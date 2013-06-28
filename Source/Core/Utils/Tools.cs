@@ -7,7 +7,7 @@ using System.IO;
 
 namespace QuantumConcepts.CodeGenerator.Core.Utils
 {
-    internal static class Tools
+    public static class Tools
     {
         /// <summary>Reads through the output file(s) associated with each template and computes metrics for each one.</summary>
         /// <param name="templates">The templates whose metrics will be computed.</param>

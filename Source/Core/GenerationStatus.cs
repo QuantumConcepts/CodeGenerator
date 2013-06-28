@@ -5,7 +5,7 @@ using System.Text;
 
 namespace QuantumConcepts.CodeGenerator.Core
 {
-    internal enum GenerationStatus
+    public enum GenerationStatus
     {
         Generating,
         Error,

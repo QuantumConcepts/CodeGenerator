@@ -9,7 +9,7 @@ using System.Configuration;
 
 namespace QuantumConcepts.CodeGenerator.Core.Data
 {
-    internal class DatabaseUtil
+    public class DatabaseUtil
     {
         public delegate void ProgressUpdate(string status, int itemsProcessed, int totalItems);
 

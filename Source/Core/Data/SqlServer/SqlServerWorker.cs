@@ -8,7 +8,7 @@ using QuantumConcepts.Common.Extensions;
 
 namespace QuantumConcepts.CodeGenerator.Core.Data.SqlServer
 {
-    internal class SqlServerWorker : DatabaseWorker
+    public class SqlServerWorker : DatabaseWorker
     {
         public override string Name { get { return "SQL Server"; } }
 

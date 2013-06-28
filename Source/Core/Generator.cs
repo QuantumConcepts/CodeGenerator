@@ -10,7 +10,6 @@ using System.Xml;
 using QuantumConcepts.CodeGenerator.Core.Utils;
 using QuantumConcepts.Common.Extensions;
 using System.Text.RegularExpressions;
-using LC = QuantumConcepts.Licensing.Client;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Threading;
@@ -18,7 +17,7 @@ using log4net;
 
 namespace QuantumConcepts.CodeGenerator.Core
 {
-    internal class Generator
+    public class Generator
     {
         private static readonly ILog Logger = LogManager.GetLogger(typeof(Generator));
 
@@ -55,10 +54,6 @@ namespace QuantumConcepts.CodeGenerator.Core
 
         public void Generate()
         {
-#if (!DEBUG)
-            LC.LicenseManager.ValidateLicense();
-#endif
-
             OnGenerationStatus(GenerationStatusEventArgs.CreateGenerating());
 
             ThreadPool.QueueUserWorkItem(new WaitCallback(p =>

@@ -6,7 +6,7 @@ using QuantumConcepts.Common.Utils;
 
 namespace QuantumConcepts.CodeGenerator.Core.Utils
 {
-    internal static class Extensions
+    public static class Extensions
     {
         public static string Pad(this LogSeverity severity)
         {

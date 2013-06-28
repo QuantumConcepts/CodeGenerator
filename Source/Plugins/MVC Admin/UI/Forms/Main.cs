@@ -11,7 +11,7 @@ using QuantumConcepts.Common.Extensions;
 using QuantumConcepts.Common.Forms.UI;
 using System.Collections;
 
-namespace QuantumConcepts.CodeGenerator.Plugins.MVC3Admin.UI.Forms
+namespace QuantumConcepts.CodeGenerator.Plugins.MvcAdmin.UI.Forms
 {
     public partial class Main : Form
     {

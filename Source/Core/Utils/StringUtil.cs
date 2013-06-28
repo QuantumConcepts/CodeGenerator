@@ -4,7 +4,7 @@ using System.Text;
 
 namespace QuantumConcepts.CodeGenerator.Core.Utils
 {
-    internal static class StringUtil
+    public static class StringUtil
     {
         public static bool ToBool(string value)
         {

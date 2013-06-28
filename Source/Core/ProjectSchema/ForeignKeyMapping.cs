@@ -5,6 +5,7 @@ using System.Xml.Serialization;
 using QuantumConcepts.Common.Extensions;
 using QuantumConcepts.CodeGenerator.Core.Utils;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
 {
@@ -169,7 +170,7 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
                 if (_parentColumnMapping == null || !_parentColumnMapping.ColumnName.Equals(_parentColumnMappingName))
                     _parentColumnMapping = this.ParentTableMapping.FindColumnMapping(_parentColumnMappingName);
 
-                return _parentColumnMapping; 
+                return _parentColumnMapping;
             }
             set
             {
@@ -243,9 +244,9 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
         {
             _project = project;
             _foreignKeyName = foreignKeyName;
-            _fieldName = referencedColumnMapping.TableMapping.ClassName + "ID";
-            _pluralFieldName = parentColumnMapping.TableMapping.ClassName.Pluralize();
-            _propertyName = referencedColumnMapping.TableMapping.ClassName;
+            _fieldName = parentColumnMapping.FieldName;
+            _propertyName = FieldNameToPropertyName(_fieldName, referencedColumnMapping.TableMapping.ClassName);
+            _pluralFieldName = "{0}{1}".FormatString(_propertyName, referencedColumnMapping.TableMapping.ClassName.Pluralize());
             _pluralPropertyName = _pluralFieldName;
             _parentTableMappingSchemaName = parentColumnMapping.TableMapping.SchemaName;
             _parentTableMappingName = parentColumnMapping.TableMapping.TableName;
@@ -267,6 +268,19 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
             _project = project;
             _annotations.ForEach(a => a.JoinToParent(this));
             _attributes.ForEach(a => a.JoinToParent(this));
+        }
+
+        private string FieldNameToPropertyName(string fieldName, string referencedClassName)
+        {
+            const string propertyNameGroup = "PropertyName";
+
+            Regex regex = new Regex(@"^(?<{0}>.+)_?ID$".FormatString(propertyNameGroup), RegexOptions.IgnoreCase);
+            Match match = regex.Match(fieldName);
+
+            if (match.Success)
+                return match.Groups[propertyNameGroup].Value;
+
+            return referencedClassName;
         }
     }
 }

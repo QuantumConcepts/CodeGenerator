@@ -12,7 +12,7 @@ using System.Collections;
 
 namespace QuantumConcepts.CodeGenerator.Core.Utils
 {
-    internal static class XmlUtil
+    public static class XmlUtil
     {
         public static XmlNamespaceManager GetXmlNamespaceManager(XmlDocument document)
         {

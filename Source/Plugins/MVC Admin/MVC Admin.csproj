@@ -35,10 +35,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>QuantumConcepts.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -118,7 +119,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MVC3AdminPlugin.cs" />
+    <Compile Include="MVCAdminPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\Forms\EditColumn.cs">
       <SubType>Form</SubType>
@@ -167,9 +168,6 @@
     <EmbeddedResource Include="UI\Forms\Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="QuantumConcepts.pfx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Icon.ico" />

@@ -29,7 +29,7 @@ namespace QuantumConcepts.CodeGenerator.Core.PackageSchema
             return System.IO.Path.Combine(this.OutputPath, relativePath);
         }
 
-        internal InputResult GetInputResultByID(string id)
+        public InputResult GetInputResultByID(string id)
         {
             return this.InputResults.ValueOrDefault(l => l.SingleOrDefault(i => string.Equals(i.Input.ID, id)));
         }

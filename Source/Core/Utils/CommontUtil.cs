@@ -8,7 +8,7 @@ using System.Reflection;
 
 namespace QuantumConcepts.CodeGenerator.Core.Utils
 {
-    internal class CommonUtil
+    public class CommonUtil
     {
         public static WindowsIdentity GetWindowsIdentity()
         {

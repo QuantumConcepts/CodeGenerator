@@ -143,10 +143,11 @@
   </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>QuantumConcepts.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ICSharpCode.AvalonEdit, Version=4.0.0.5897, Culture=neutral, PublicKeyToken=9cc39be672370310, processorArchitecture=MSIL">
@@ -498,7 +499,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings1.Designer.cs</LastGenOutput>
     </None>
-    <None Include="QuantumConcepts.pfx" />
     <None Include="Resources\Properties.ico" />
     <Content Include="Resources\Package.ico" />
     <Content Include="Resources\Package.png" />
@@ -578,14 +578,6 @@
     <ProjectReference Include="..\..\..\..\Common\Common\Common-2010.csproj">
       <Project>{8807828D-DB88-462A-875E-647240D48668}</Project>
       <Name>Common-2010</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\Licensing\Source\Client\Client.csproj">
-      <Project>{68B4B135-962E-4F6E-B0B3-0D5CBF361203}</Project>
-      <Name>Client %28Quantum Concepts\Licensing\Client%29</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\Licensing\Source\Common\Common.csproj">
-      <Project>{7926B660-8A5D-46C6-9A0F-4F6726E88561}</Project>
-      <Name>Common %28Quantum Concepts\Licensing\Common%29</Name>
     </ProjectReference>
     <ProjectReference Include="..\Core\Core.csproj">
       <Project>{FD273A49-441A-426E-9367-BF26A675F2E7}</Project>

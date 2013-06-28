@@ -9,11 +9,11 @@ using QuantumConcepts.Common;
 
 namespace QuantumConcepts.CodeGenerator.Core.PackageSchema
 {
-    internal class ProjectFactory : IReportsProgress
+    public class ProjectFactory : IReportsProgress
     {
         public event ReportProgressEventHandler ReportProgress;
 
-        internal Project CreateProject(PackageContext packageContext)
+        public Project CreateProject(PackageContext packageContext)
         {
             ManifestItem projectFileManifestItem = null;
             string projectFilePath = null;

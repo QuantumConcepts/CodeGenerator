@@ -5,7 +5,7 @@ using System.Text;
 namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
 {
     /// <summary>Compares two ForeignKeyMapping instances.</summary>
-    internal class ForeignKeyMappingComparer : IComparer<ForeignKeyMapping>
+    public class ForeignKeyMappingComparer : IComparer<ForeignKeyMapping>
     {
         /// <summary>Determines if two ForeignKeyMappings are equal.</summary>
         /// <param name="a">A ForeignKeyMapping to compare with.</param>

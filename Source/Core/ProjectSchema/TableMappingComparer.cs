@@ -4,7 +4,7 @@ using System.Text;
 
 namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
 {
-    internal class TableMappingComparer : IComparer<TableMapping>
+    public class TableMappingComparer : IComparer<TableMapping>
     {
         public int Compare(TableMapping x, TableMapping y)
         {

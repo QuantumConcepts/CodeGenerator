@@ -10,7 +10,7 @@ using System.Collections;
 
 namespace QuantumConcepts.CodeGenerator.Core.Data
 {
-    internal class DatabaseWorkerManager : IEnumerable<DatabaseWorker>
+    public class DatabaseWorkerManager : IEnumerable<DatabaseWorker>
     {
         private static readonly ILog Logger = LogManager.GetLogger(typeof(DatabaseWorkerManager));
 

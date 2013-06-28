@@ -9,7 +9,7 @@ using QuantumConcepts.Common.Extensions;
 
 namespace QuantumConcepts.CodeGenerator.Core.Data.MySql
 {
-    internal class MySqlWorker : DatabaseWorker
+    public class MySqlWorker : DatabaseWorker
     {
         private const string Parameter_SchemasToShow = "Schemas to Show";
 

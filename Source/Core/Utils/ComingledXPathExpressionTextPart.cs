@@ -6,7 +6,7 @@ using System.Xml.Linq;
 
 namespace QuantumConcepts.CodeGenerator.Core.Utils
 {
-    internal class ComingledXPathExpressionTextPart : IComingledXPathExpressionPart
+    public class ComingledXPathExpressionTextPart : IComingledXPathExpressionPart
     {
         public string RawValue { get; private set; }
 

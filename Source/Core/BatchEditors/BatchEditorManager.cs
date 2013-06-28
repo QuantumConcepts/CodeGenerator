@@ -12,7 +12,7 @@ using System.Collections;
 
 namespace QuantumConcepts.CodeGenerator.Core.BatchEditors
 {
-    internal class BatchEditorManager : IEnumerable<BaseBatchEditor>
+    public class BatchEditorManager : IEnumerable<BaseBatchEditor>
     {
         private static readonly ILog Logger = LogManager.GetLogger(typeof(BatchEditorManager));
 

@@ -11,11 +11,7 @@ using log4net.Config;
 using System.IO;
 using QuantumConcepts.Common;
 using System.ServiceModel;
-using QuantumConcepts.Licensing.Client.Utils;
-using QuantumConcepts.Licensing.Client;
-using QuantumConcepts.Licensing.Client.UI.Forms;
 using QuantumConcepts.Common.Forms.UI.Forms;
-using QuantumConcepts.Licensing.Common.DataObjects;
 
 namespace QuantumConcepts.CodeGenerator.Client
 {
@@ -27,38 +23,6 @@ namespace QuantumConcepts.CodeGenerator.Client
         {
             Program.Initialize("CodeGenerator", "http://www.quantumconceptscorp.com/Products/CodeGenerator.aspx", null);
             XmlConfigurator.Configure();
-        }
-
-        internal static bool ValidateLicense()
-        {
-            try
-            {
-                LicenseActivationData activationData = LicenseManager.ValidateLicense();
-
-                if (activationData.IsTrial && activationData.IsExpired)
-                {
-                    using (Trial dialog = new Trial())
-                    {
-                        if (dialog.ShowDialog() != DialogResult.OK)
-                            Application.Exit();
-                    }
-                }
-
-                return true;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("{0} must be activated before you may proceed.".FormatString(Program.ApplicationTitle), "Activation Required", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                Program.Logger.Info(ex);
-            }
-
-            using (Activation dialog = new Activation())
-            {
-                if (dialog.ShowDialog() == DialogResult.OK)
-                    return true;
-            }
-
-            return false;
         }
 
         [STAThread]
@@ -89,12 +53,6 @@ namespace QuantumConcepts.CodeGenerator.Client
             using (Splash splash = new Splash(main, projectPath))
             {
                 splash.ShowDialog();
-
-                if (!splash.LicenseValidationSucceeded)
-                {
-                    Application.Exit();
-                    return;
-                }
             }
 
             //Show the main form.

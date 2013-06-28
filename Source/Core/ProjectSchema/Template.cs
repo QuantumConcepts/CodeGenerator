@@ -80,7 +80,7 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
             this.TemplateOutputDefinitions.ForEach(od => od.JoinToTemplate(this));
         }
 
-        internal List<TemplateOutputDefinitionFilenameResult> GetOutputFilenames()
+        public List<TemplateOutputDefinitionFilenameResult> GetOutputFilenames()
         {
             List<TemplateOutputDefinitionFilenameResult> outputFilenames = new List<TemplateOutputDefinitionFilenameResult>();
 

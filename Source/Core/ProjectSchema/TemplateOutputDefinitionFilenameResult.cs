@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
 {
-    internal class TemplateOutputDefinitionFilenameResult : ComingledXPathExpressionResult
+    public class TemplateOutputDefinitionFilenameResult : ComingledXPathExpressionResult
     {
         public const string Param_ElementName = "elementName";
 

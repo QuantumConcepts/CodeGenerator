@@ -8,7 +8,7 @@ using QuantumConcepts.Common.Utils;
 
 namespace QuantumConcepts.CodeGenerator.Core.BatchEditors
 {
-    internal class RenameBatchEditor : BaseBatchEditor
+    public class RenameBatchEditor : BaseBatchEditor
     {
         private const string Field_NewNameXPath = "New Name XPath";
 

@@ -12,7 +12,7 @@ using QuantumConcepts.Common.Utils;
 
 namespace QuantumConcepts.CodeGenerator.Core.Upgrade
 {
-    internal class Upgrader_1_5_0_1 : IUpgrader
+    public class Upgrader_1_5_0_1 : IUpgrader
     {
         private static readonly string[] ElementNames = 
         {

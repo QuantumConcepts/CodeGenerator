@@ -20,7 +20,6 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
 
         public Main Main { get; private set; }
         public string ProjectPath { get; private set; }
-        public bool LicenseValidationSucceeded { get; private set; }
 
         public Splash()
         {
@@ -44,14 +43,6 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             else
             {
                 splashTimer.Stop();
-
-                statusLabel.Text = "Validating license...";
-#if(!DEBUG)
-                this.LicenseValidationSucceeded = Program.ValidateLicense();
-#else
-                this.LicenseValidationSucceeded = true;
-#endif
-
                 statusLabel.Text = "Loading database workers...";
 
                 try

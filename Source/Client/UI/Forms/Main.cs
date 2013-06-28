@@ -22,9 +22,7 @@ using QuantumConcepts.Common.Forms.Utils;
 using QuantumConcepts.CodeGenerator.Core.Upgrade;
 using log4net;
 using QuantumConcepts.Common.Forms.UI.Controls;
-using QuantumConcepts.Licensing.Client;
 using QuantumConcepts.Common.Forms.UI.Forms;
-using QuantumConcepts.Licensing.Client.UI.Forms;
 using System.Reflection;
 using System.Diagnostics;
 using QuantumConcepts.CodeGenerator.Client.Plugins;
@@ -67,8 +65,6 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
         {
             using (new Wait())
             {
-                trialInfoMenuItem.Visible = Program.IsTrial;
-
                 if (!string.IsNullOrEmpty(this.ProjectPath))
                     OpenProject(this.ProjectPath, false);
             }
@@ -223,17 +219,6 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
         private void samplesMenuItem_Click(object sender, EventArgs e)
         {
             Process.Start(@"{0}\Samples\".FormatString(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)));
-        }
-
-        private void trialInfoMenuItem_Click(object sender, EventArgs e)
-        {
-            using (Trial dialog = new Trial())
-            {
-                dialog.ShowDialog();
-
-                if (!Program.IsTrial)
-                    helpMenuItem.DropDownItems.Remove(trialInfoMenuItem);
-            }
         }
 
         private void aboutMenuItem_Click(object sender, EventArgs e)

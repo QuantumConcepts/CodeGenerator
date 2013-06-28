@@ -8,7 +8,7 @@ using System.Xml.XPath;
 
 namespace QuantumConcepts.CodeGenerator.Core.Utils
 {
-    internal class ComingledXPathExpressionXPathPart : IComingledXPathExpressionPart
+    public class ComingledXPathExpressionXPathPart : IComingledXPathExpressionPart
     {
         public string RawValue { get; private set; }
 

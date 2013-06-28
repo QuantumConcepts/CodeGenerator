@@ -6,7 +6,7 @@ using QuantumConcepts.CodeGenerator.Core.ProjectSchema;
 
 namespace QuantumConcepts.CodeGenerator.Core
 {
-    internal class GenerationStatusEventArgs : EventArgs
+    public class GenerationStatusEventArgs : EventArgs
     {
         public GenerationStatus Status { get; protected set; }
         public Exception Error { get; protected set; }

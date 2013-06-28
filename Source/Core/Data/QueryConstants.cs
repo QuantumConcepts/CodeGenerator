@@ -4,15 +4,15 @@ using System.Text;
 
 namespace QuantumConcepts.CodeGenerator.Core.Data
 {
-    internal static class QueryConstants
+    public static class QueryConstants
     {
-        internal static class TableOrView
+        public static class TableOrView
         {
             public const string SchemaName = "SchemaName";
             public const string Name = "TableOrViewName";
         }
 
-        internal static class Column
+        public static class Column
         {
             public const string For = "For";
             public const string ForTable = "Table";
@@ -26,7 +26,7 @@ namespace QuantumConcepts.CodeGenerator.Core.Data
             public const string PrimaryKey = "ColumnPrimaryKey";
         }
 
-        internal static class ForeignKey
+        public static class ForeignKey
         {
             public const string Name = "ForeignKeyName";
             public const string ParentTableSchemaName = "ParentTableSchemaName";
@@ -37,7 +37,7 @@ namespace QuantumConcepts.CodeGenerator.Core.Data
             public const string ReferencedColumnName = "ReferencedColumnName";
         }
 
-        internal static class Index
+        public static class Index
         {
             public const string Name = "IndexName";
         }

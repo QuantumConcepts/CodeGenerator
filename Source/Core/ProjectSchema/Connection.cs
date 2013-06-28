@@ -39,7 +39,7 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
             this.Attributes = new List<Attribute<Connection>>();
         }
 
-        internal void JoinToParent(UserSettings userSettings)
+        public void JoinToParent(UserSettings userSettings)
         {
             this.ContainingUserSettings = userSettings;
             this.Attributes.ForEach(o => o.JoinToParent(this));

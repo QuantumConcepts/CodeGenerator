@@ -8,7 +8,7 @@ using QuantumConcepts.CodeGenerator.Core.ProjectSchema;
 
 namespace QuantumConcepts.CodeGenerator.Core.Upgrade
 {
-    internal interface IUpgrader
+    public interface IUpgrader
     {
         Version Version { get; }
 

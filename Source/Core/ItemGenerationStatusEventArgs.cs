@@ -6,7 +6,7 @@ using QuantumConcepts.CodeGenerator.Core.ProjectSchema;
 
 namespace QuantumConcepts.CodeGenerator.Core
 {
-    internal class ItemGenerationStatusEventArgs : TemplateGenerationStatusEventArgs
+    public class ItemGenerationStatusEventArgs : TemplateGenerationStatusEventArgs
     {
         public TemplateOutputDefinitionFilenameResult Result { get; protected set; }
 

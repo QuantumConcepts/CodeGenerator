@@ -77,7 +77,6 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.helpMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.feedbackMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.trialInfoMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.samplesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip = new System.Windows.Forms.ToolStrip();
@@ -500,7 +499,6 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.helpMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.feedbackMenuItem,
             this.toolStripSeparator3,
-            this.trialInfoMenuItem,
             this.samplesMenuItem,
             this.aboutMenuItem});
             this.helpMenuItem.Name = "helpMenuItem";
@@ -518,13 +516,6 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(130, 6);
-            // 
-            // trialInfoMenuItem
-            // 
-            this.trialInfoMenuItem.Name = "trialInfoMenuItem";
-            this.trialInfoMenuItem.Size = new System.Drawing.Size(133, 22);
-            this.trialInfoMenuItem.Text = "&Trial Info...";
-            this.trialInfoMenuItem.Click += new System.EventHandler(this.trialInfoMenuItem_Click);
             // 
             // samplesMenuItem
             // 
@@ -879,7 +870,6 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
         private System.Windows.Forms.ToolStripMenuItem addDefaultUniqueIndexAnnotationMenuItem;
         private System.Windows.Forms.ToolStripMenuItem feedbackMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-        private System.Windows.Forms.ToolStripMenuItem trialInfoMenuItem;
         private Common.Forms.UI.Controls.Toolbox projectToolbox;
         private Common.Forms.UI.Controls.Toolbox propertiesToolbox;
         private System.Windows.Forms.ToolStripMenuItem samplesMenuItem;

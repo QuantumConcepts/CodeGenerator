@@ -8,7 +8,7 @@ using QuantumConcepts.Common.Extensions;
 
 namespace QuantumConcepts.CodeGenerator.Core.Utils
 {
-    internal class TemplateMetrics
+    public class TemplateMetrics
     {
         public Template Template { get; private set; }
         public long FileCount { get; private set; }

@@ -1,4 +1,4 @@
-﻿namespace QuantumConcepts.CodeGenerator.Plugins.MVC3Admin.UI.Forms
+﻿namespace QuantumConcepts.CodeGenerator.Plugins.MvcAdmin.UI.Forms
 {
     partial class Main
     {
@@ -170,7 +170,7 @@
             this.label3.Size = new System.Drawing.Size(900, 20);
             this.label3.TabIndex = 5;
             this.label3.Text = "Choose the tables and columns which should be exposed in administrative controlle" +
-    "rs, models and views. The MVC3 Admin templates must also be included in the proj" +
+    "rs, models and views. The MVC Admin templates must also be included in the proj" +
     "ect.";
             // 
             // tabControl
@@ -405,7 +405,7 @@
             this.Name = "Main";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "MVC3 Admin";
+            this.Text = "MVC Admin";
             this.Load += new System.EventHandler(this.MVC3Admin_Load);
             this.panel1.ResumeLayout(false);
             this.columnsContextMenu.ResumeLayout(false);

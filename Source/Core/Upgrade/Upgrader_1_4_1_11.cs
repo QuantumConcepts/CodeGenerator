@@ -11,7 +11,7 @@ using QuantumConcepts.CodeGenerator.Core.ProjectSchema;
 
 namespace QuantumConcepts.CodeGenerator.Core.Upgrade
 {
-    internal class Upgrader_1_4_1_11 : IUpgrader
+    public class Upgrader_1_4_1_11 : IUpgrader
     {
         public Version Version { get { return new Version(1, 4, 1, 11); } }
 
