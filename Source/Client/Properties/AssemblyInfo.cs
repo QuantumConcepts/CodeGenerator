@@ -8,6 +8,6 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyProduct("CodeGenerator")]
 [assembly: AssemblyCopyright("© Quantum Concepts Corporation")]
 [assembly: AssemblyTrademark("© Quantum Concepts Corporation")]
-[assembly: AssemblyVersion("1.7.2.0")]
-[assembly: AssemblyFileVersion("1.7.2.0")]
+[assembly: AssemblyVersion("1.7.3.0")]
+[assembly: AssemblyFileVersion("1.7.3.0")]
 [assembly: ComVisibleAttribute(false)]

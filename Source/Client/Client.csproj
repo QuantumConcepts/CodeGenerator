@@ -149,6 +149,64 @@
     <AssemblyOriginatorKeyFile>
     </AssemblyOriginatorKeyFile>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug %28x64%29|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug %28x64%29\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug %28x64%29|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug %28x64%29\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug %28x64%29|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug %28x64%29\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release %28x64%29|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Release %28x64%29\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release %28x64%29|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Release %28x64%29\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release %28x64%29|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Release %28x64%29\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="ICSharpCode.AvalonEdit, Version=4.0.0.5897, Culture=neutral, PublicKeyToken=9cc39be672370310, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -503,9 +561,12 @@
     <Content Include="Resources\Package.ico" />
     <Content Include="Resources\Package.png" />
     <Content Include="Resources\Watermark.png" />
-    <Content Include="Samples\Samples-CS.zip">
+    <None Include="Samples\Sample-CS-EF.zip">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    </None>
+    <None Include="Samples\Sample-CS-LINQ.zip">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Open.ico" />
@@ -521,7 +582,9 @@
     <Content Include="Resources\About.png" />
     <Content Include="Resources\Generate.png" />
     <Content Include="Resources\Help.ico" />
-    <Content Include="Resources\Icon.ico" />
+    <Content Include="Resources\Icon.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\New.png" />
     <Content Include="Resources\Open.png" />
     <Content Include="Resources\Properties.png" />
@@ -571,13 +634,13 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Common\CommonForms\CommonForms.csproj">
-      <Project>{2B26F338-F6E8-4A24-9E2B-7B2DACCFB892}</Project>
-      <Name>CommonForms</Name>
+    <ProjectReference Include="..\..\..\..\Common\CommonForms\QCCommonForms.csproj">
+      <Project>{2b26f338-f6e8-4a24-9e2b-7b2daccfb892}</Project>
+      <Name>QCCommonForms</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\Common\Common\Common-2010.csproj">
-      <Project>{8807828D-DB88-462A-875E-647240D48668}</Project>
-      <Name>Common-2010</Name>
+    <ProjectReference Include="..\..\..\..\Common\Common\QCCommon.csproj">
+      <Project>{8807828d-db88-462a-875e-647240d48668}</Project>
+      <Name>QCCommon</Name>
     </ProjectReference>
     <ProjectReference Include="..\Core\Core.csproj">
       <Project>{FD273A49-441A-426E-9367-BF26A675F2E7}</Project>
@@ -602,8 +665,14 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="AfterBuild">
     <ItemGroup>
-      <Sample-CS Include="..\Samples\**\*" Exclude="..\Samples\**\bin\**;..\Samples\**\obj\**;..\Samples\**\*.user;..\Samples\**\*.suo;..\Samples\**\.svn\**;..\Samples\**\*.dgen;..\Samples\**\*.dbmdl;..\Samples\**\*.schemaview;..\Samples\**\sql\**;..\Samples\**\*.xpr;" />
+      <Sample-CS-EF Include="..\Samples\Sample-CS-EF\**\*" Exclude="..\Samples\Sample-CS-EF\**\bin\**;..\Samples\Sample-CS-EF\**\obj\**;..\Samples\Sample-CS-EF\**\*.user;..\Samples\Sample-CS-EF\**\*.suo;..\Samples\Sample-CS-EF\**\.svn\**;..\Samples\Sample-CS-EF\**\*.dgen;..\Samples\Sample-CS-EF\**\*.dbmdl;..\Samples\Sample-CS-EF\**\*.schemaview;..\Samples\Sample-CS-EF\**\sql\**;..\Samples\Sample-CS-EF\**\*.xpr;" />
+      <Sample-CS-LINQ Include="..\Samples\Sample-CS-LINQ\**\*" Exclude="..\Samples\Sample-CS-LINQ\**\bin\**;..\Samples\Sample-CS-LINQ\**\obj\**;..\Samples\Sample-CS-LINQ\**\*.user;..\Samples\Sample-CS-LINQ\**\*.suo;..\Samples\Sample-CS-LINQ\**\.svn\**;..\Samples\Sample-CS-LINQ\**\*.dgen;..\Samples\Sample-CS-LINQ\**\*.dbmdl;..\Samples\Sample-CS-LINQ\**\*.schemaview;..\Samples\Sample-CS-LINQ\**\sql\**;..\Samples\Sample-CS-LINQ\**\*.xpr;" />
     </ItemGroup>
-    <Zip ZipFileName="Samples\Samples-CS.zip" ZipLevel="9" Files="@(Sample-CS)" WorkingDirectory="..\Samples\" />
+    <Zip ZipFileName="Samples\Sample-CS-EF.zip" ZipLevel="9" Files="@(Sample-CS-EF)" WorkingDirectory="..\Samples\" />
+    <Zip ZipFileName="Samples\Sample-CS-LINQ.zip" ZipLevel="9" Files="@(Sample-CS-LINQ)" WorkingDirectory="..\Samples\" />
   </Target>
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
 </Project>

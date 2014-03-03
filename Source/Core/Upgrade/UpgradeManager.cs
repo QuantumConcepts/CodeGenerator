@@ -147,6 +147,16 @@ namespace QuantumConcepts.CodeGenerator.Core.Upgrade
             return attribute;
         }
 
+        public static bool IsVersionCompatible(Version projectVersion)
+        {
+            return !UpgradeManager.Instance.GetUpgradersForVersion(projectVersion).Any();
+        }
+
+        public static bool CanUpgrade(Version projectVersion)
+        {
+            return UpgradeManager.Instance.GetUpgradersForVersion(projectVersion).Any();
+        }
+
         public static void Upgrade(string projectPath, string userSettingsPath)
         {
             XmlNamespaceManager nsm = null;

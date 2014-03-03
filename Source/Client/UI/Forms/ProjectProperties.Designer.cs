@@ -484,7 +484,6 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
         private System.Windows.Forms.TabControl propertiesTabControl;
         private System.Windows.Forms.TextBox rootNamespaceTextBox;
         private System.Windows.Forms.Label label2;
-        private Controls.EditProjectAttributes editAttributes;
         private System.Windows.Forms.ToolStrip dataTypesToolStrip;
         private System.Windows.Forms.ToolStripDropDownButton resetToDefaultDataTypesButton;
         private System.Windows.Forms.ToolStripButton clearDataTypesButton;

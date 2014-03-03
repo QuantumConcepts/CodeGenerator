@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <?if $(var.Platform)="x64" ?>
+  <?define PlatformProgramFilesFolder="ProgramFiles64Folder" ?>
+  <?define IsWin64="yes" ?>
+  <?define TargetConfigurationPath="bin\x64\Release" ?>
+  <?else ?>
+  <?define PlatformProgramFilesFolder="ProgramFilesFolder" ?>
+  <?define IsWin64="no" ?>
+  <?define TargetConfigurationPath="bin\x86\Release" ?>
+  <?endif ?>
+
+  <Product Id="*" Manufacturer="Quantum Concepts" Name="CodeGenerator ($(var.Platform))" Version="1.7.3.0" Language="1033" UpgradeCode="CD3E2D8B-D0A0-441D-B015-A92C7B8EA70A">
+    <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" Platform="x64"/>
+    <Media Id="1" Cabinet="1" CompressionLevel="high"/>
+    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed."/>
+
+    <Property Id="RegKey" Value="Software\Quantum Concepts\CodeGenerator"/>
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="$(var.PlatformProgramFilesFolder)">
+        <Directory Id="QCProgramFilesFolder" Name="Quantum Concepts">
+          <Directory Id="INSTALLDIR" Name="CodeGenerator">
+            <Directory Id="CGLogFolder" Name="Logs"/>
+            <Directory Id="CGResourcesFolder" Name="Resources">
+              <Directory Id="CGResourcesTemplatesFolder" Name="Templates"/>
+            </Directory>
+            <Directory Id="CGSamplesFolder" Name="Samples"/>
+          </Directory>
+        </Directory>
+      </Directory>
+
+      <Directory Id="ProgramMenuFolder" Name="Programs">
+        <Directory Id="QCProgramMenuFolder" Name="Quantum Concepts">
+          <Directory Id="CGProgramMenuFolder" Name="CodeGenerator">
+            <Directory Id="CGProgramMenuSamplesFolder" Name="Samples"/>
+          </Directory>
+        </Directory>
+      </Directory>
+    </Directory>
+
+    <ComponentGroup Id="CodeGeneratorComponents" Directory="INSTALLDIR">
+      <Component Id="RegInstallDir" Guid="*" Win64="$(var.IsWin64)">
+        <RegistryValue Root="HKMU" Key="[RegKey]" Type="string" Name="Location" Value="[INSTALLDIR]" KeyPath="yes"/>
+      </Component>
+
+      <Component Id="CodeGenerator.exe" Guid="85d4efae-53f6-4c89-8be3-4a78e9027358" Win64="$(var.IsWin64)">
+        <RegistryValue Root="HKMU" Key="[RegKey]" Type="string" Value="" KeyPath="yes"/>
+        <File Id="CodeGenerator.exe" Source="$(var.Client.TargetDir)\CodeGenerator.exe" Checksum="yes">
+          <Shortcut Id="CodeGeneratorEXEStartMenuShortcut" Directory="CGProgramMenuFolder" Name="CodeGenerator" Icon="Icon.ico"/>
+        </File>
+      </Component>
+
+      <Component Id="CodeGenerator.exe.config" Guid="*" Win64="$(var.IsWin64)">
+        <File Id="filEEE33AC8DFB0D6C96CD0E8411C0FA8C7" KeyPath="yes" Source="$(var.Client.TargetDir)\CodeGenerator.exe.config" />
+      </Component>
+
+      <Component Id="ICSharpCode.AvalonEdit.dll" Guid="*" Win64="$(var.IsWin64)">
+        <File Id="ICSharpCode.AvalonEdit.dll" KeyPath="yes" Source="$(var.Client.TargetDir)\ICSharpCode.AvalonEdit.dll" />
+      </Component>
+
+      <Component Id="ICSharpCode.SharpZipLib.dll" Guid="*" Win64="$(var.IsWin64)">
+        <File Id="ICSharpCode.SharpZipLib.dll" KeyPath="yes" Source="$(var.Client.TargetDir)\ICSharpCode.SharpZipLib.dll" />
+      </Component>
+
+      <Component Id="log4net.dll" Guid="*" Win64="$(var.IsWin64)">
+        <File Id="log4net.dll" KeyPath="yes" Source="$(var.Client.TargetDir)\log4net.dll" />
+      </Component>
+
+      <Component Id="Logging.config" Guid="*" Win64="$(var.IsWin64)">
+        <File Id="Logging.config" KeyPath="yes" Source="$(var.Client.TargetDir)\Logging.config" />
+      </Component>
+
+      <Component Id="Microsoft.WindowsAPICodePack.dll" Guid="*" Win64="$(var.IsWin64)">
+        <File Id="Microsoft.WindowsAPICodePack.dll" KeyPath="yes" Source="$(var.Client.TargetDir)\Microsoft.WindowsAPICodePack.dll" />
+      </Component>
+
+      <Component Id="Microsoft.WindowsAPICodePack.Shell.dll" Guid="*" Win64="$(var.IsWin64)">
+        <File Id="Microsoft.WindowsAPICodePack.Shell.dll" KeyPath="yes" Source="$(var.Client.TargetDir)\Microsoft.WindowsAPICodePack.Shell.dll" />
+      </Component>
+
+      <Component Id="QuantumConcepts.CodeGenerator.Core.dll" Guid="*" Win64="$(var.IsWin64)">
+        <File Id="QuantumConcepts.CodeGenerator.Core.dll" KeyPath="yes" Source="$(var.Client.TargetDir)\QuantumConcepts.CodeGenerator.Core.dll" />
+      </Component>
+
+      <Component Id="QuantumConcepts.Common.dll" Guid="*" Win64="$(var.IsWin64)">
+        <File Id="QuantumConcepts.Common.dll" KeyPath="yes" Source="$(var.Client.TargetDir)\QuantumConcepts.Common.dll" />
+      </Component>
+
+      <Component Id="QuantumConcepts.Common.Forms.dll" Guid="*" Win64="$(var.IsWin64)">
+        <File Id="QuantumConcepts.Common.Forms.dll" KeyPath="yes" Source="$(var.Client.TargetDir)\QuantumConcepts.Common.Forms.dll" />
+      </Component>
+    </ComponentGroup>
+
+    <ComponentGroup Id="CGFileExtensions" Directory="INSTALLDIR">
+      <Component Id="CGFileExtensionProg.CGP" Guid="a5c41843-9543-4ac7-8657-5c0daa1dc5eb" Win64="$(var.IsWin64)">
+        <CreateFolder/>
+        <ProgId Id="CGFileExtensionProg.CGP" Description="CodeGenerator Project" Icon="Icon.ico">
+          <Extension Id="cgp" ContentType="application/vnd.quantumconcepts.codegenerator.cgp">
+            <Verb Id="Open" Command="Open" TargetFile="CodeGenerator.exe" Argument="&quot;%1&quot;"/>
+          </Extension>
+        </ProgId>
+      </Component>
+
+      <Component Id="CGFileExtensionProg.CGPU" Guid="fa9e9d0e-30c6-4237-ab9c-962baf99adfc" Win64="$(var.IsWin64)">
+        <CreateFolder/>
+        <ProgId Id="CGFileExtensionProg.CGPU" Description="CodeGenerator Project User Settings" Icon="Icon.ico">
+          <Extension Id="cgpu" ContentType="application/vnd.quantumconcepts.codegenerator.cgpu">
+            <Verb Id="Open" Command="Open" TargetFile="CodeGenerator.exe" Argument="&quot;%1&quot;"/>
+          </Extension>
+        </ProgId>
+      </Component>
+
+      <Component Id="CGFileExtensionIcon.CGP" Guid="*" Win64="$(var.IsWin64)">
+        <RegistryValue Root="HKCR" Key=".cgp" Type="string" Value="[INSTALLDIR]Resources\Icon.ico" KeyPath="yes"/>
+      </Component>
+
+      <Component Id="CGFileExtensionIcon.CGPU" Guid="*" Win64="$(var.IsWin64)">
+        <RegistryValue Root="HKCR" Key=".cgpu" Type="string" Value="[INSTALLDIR]Resources\Icon.ico" KeyPath="yes"/>
+      </Component>
+    </ComponentGroup>
+
+    <DirectoryRef Id="CGLogFolder">
+      <Component Id="CGLogFolder" Guid="409a10a5-80b6-49cf-95d9-295fb9981cd1">
+        <RemoveFolder Id="RemoveCGLogFolder" On="uninstall"/>
+        <RegistryValue Root="HKMU" Key="[RegKey]" Type="string" Value="" KeyPath="yes"/>
+      </Component>
+    </DirectoryRef>
+
+    <ComponentGroup Id="CGResources" Directory="CGResourcesFolder">
+      <Component Id="Icon.ico" Guid="*" Win64="$(var.IsWin64)">
+        <File Id="Icon.ico" KeyPath="yes" Source="$(var.Client.TargetDir)\Resources\Icon.ico" />
+      </Component>
+    </ComponentGroup>
+
+    <DirectoryRef Id="CGResourcesTemplatesFolder">
+      <Component Id="CGTemplates" Guid="*" Win64="$(var.IsWin64)">
+        <File Id="NewTemplate.xslt" Source="$(var.Client.TargetDir)\Resources\Templates\NewTemplate.xslt" KeyPath="yes"/>
+      </Component>
+    </DirectoryRef>
+
+    <ComponentGroup Id="CGSamples" Directory="CGSamplesFolder">
+      <Component Id="SampleCSEF.zip" Guid="9092528b-f718-4d2f-94c5-03ebf93cb413" Win64="$(var.IsWin64)">
+        <RegistryValue Root="HKMU" Key="[RegKey]" Type="string" Value="" KeyPath="yes"/>
+        <File Id="SampleCSEF.zip" Source="$(var.Client.TargetDir)\Samples\Sample-CS-EF.zip">
+          <Shortcut Id="CGSamplesSampleCSEFShortcut" Directory="CGProgramMenuSamplesFolder" Name="C# EF" Icon="Zip.ico"/>
+        </File>
+      </Component>
+
+      <Component Id="SampleCSLINQ.zip" Guid="adf38a9c-23ec-4088-816d-c7725857e050" Win64="$(var.IsWin64)">
+        <RegistryValue Root="HKMU" Key="[RegKey]" Type="string" Value="" KeyPath="yes"/>
+        <File Id="SampleCSLINQ.zip" Source="$(var.Client.TargetDir)\Samples\Sample-CS-LINQ.zip">
+          <Shortcut Id="CGSamplesSampleCSLINQShortcut" Directory="CGProgramMenuSamplesFolder" Name="C# LINQ" Icon="Zip.ico"/>
+        </File>
+      </Component>
+    </ComponentGroup>
+
+    <DirectoryRef Id="QCProgramMenuFolder">
+      <Component Id="QCProgramMenuFolder" Guid="54cdb1d6-7463-4439-8933-8ca39f13c81d" Win64="$(var.IsWin64)">
+        <RemoveFolder Id="QCProgramMenuFolder" On="uninstall"/>
+        <RegistryValue Root="HKMU" Key="[RegKey]" Type="string" Value="" KeyPath="yes"/>
+      </Component>
+    </DirectoryRef>
+
+    <DirectoryRef Id="CGProgramMenuFolder">
+      <Component Id="CGProgramMenuFolder" Guid="04e226b3-4462-4e4b-a11a-75046d6c1b7a" Win64="$(var.IsWin64)">
+        <RemoveFolder Id="CGProgramMenuFolder" On="uninstall"/>
+        <RegistryValue Root="HKMU" Key="[RegKey]" Type="string" Value="" KeyPath="yes"/>
+      </Component>
+    </DirectoryRef>
+
+    <DirectoryRef Id="CGProgramMenuSamplesFolder">
+      <Component Id="CGProgramMenuSamplesFolder" Guid="71f17011-6e93-499d-bc00-8dca9802331e" Win64="$(var.IsWin64)">
+        <RemoveFolder Id="CGProgramMenuSamplesFolder" On="uninstall"/>
+        <RegistryValue Root="HKMU" Key="[RegKey]" Type="string" Value="" KeyPath="yes"/>
+      </Component>
+    </DirectoryRef>
+
+    <Feature Id="Complete" Title="CodeGenerator" Level="1" Display="expand" ConfigurableDirectory="INSTALLDIR" InstallDefault="local" AllowAdvertise="no">
+      <ComponentGroupRef Id="CodeGeneratorComponents" Primary="yes"/>
+      <ComponentRef Id="CGLogFolder"/>
+      <ComponentGroupRef Id="CGResources"/>
+      <ComponentRef Id="CGTemplates"/>
+      <ComponentGroupRef Id="CGSamples"/>
+      <ComponentRef Id="QCProgramMenuFolder"/>
+      <ComponentRef Id="CGProgramMenuFolder"/>
+      <ComponentRef Id="CGProgramMenuSamplesFolder"/>
+      <ComponentGroupRef Id="CGFileExtensions"/>
+    </Feature>
+
+    <Icon Id="Icon.ico" SourceFile="$(var.ProjectDir)Resources\Icon.ico"/>
+    <Icon Id="Zip.ico" SourceFile="$(var.ProjectDir)Resources\Zip.ico"/>
+
+    <UIRef Id="WixUI_InstallDir"/>
+    <UIRef Id="WixUI_ErrorProgressText"/>
+    <Property Id="ARPPRODUCTICON" Value="Icon.ico"/>
+    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLDIR"/>
+    <WixVariable Id="WixUIBannerBmp" Value="$(var.ProjectDir)Resources\Banner.bmp"/>
+    <WixVariable Id="WixUIDialogBmp" Value="$(var.ProjectDir)Resources\Dialog.bmp"/>
+    <!--<WixVariable Id="WixUILicenseRtf" Value=""/>-->
+  </Product>
+</Wix>

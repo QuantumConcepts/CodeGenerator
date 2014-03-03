@@ -61,15 +61,6 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
                 this.ProjectPath = projectPath;
         }
 
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-            using (new Wait())
-            {
-                if (!string.IsNullOrEmpty(this.ProjectPath))
-                    OpenProject(this.ProjectPath, false);
-            }
-        }
-
         private void new_Click(object sender, EventArgs e)
         {
             New();
@@ -581,27 +572,37 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
                 {
                     Logger.Info("Project is from newer version of CodeGenerator (v{0}).".FormatString(projectVersion));
 
-                    MessageBox.Show("The project you are opening is from a newer version of CodeGenerator and therefore cannot be opened.");
-                    return;
+                    //Just because the project is from a newer version does not mean that the schema changed and the project can't be opened.
+                    if (!UpgradeManager.IsVersionCompatible(projectVersion))
+                    {
+                        MessageBox.Show("The project you are opening is from a newer version of CodeGenerator and therefore cannot be opened.");
+                        return;
+                    }
                 }
                 else if (productVersion > projectVersion)
                 {
                     Logger.Info("Project is from older version of CodeGenerator (v{0}).".FormatString(projectVersion));
 
-                    if (MessageBox.Show("The project you are opening is from an older version of CodeGenerator and therefore must be upgraded. Would you like to upgrade the project now?", "Upgrade Required", MessageBoxButtons.YesNo) != DialogResult.Yes)
-                        return;
-
-                    Logger.Info("Project is being upgraded.");
-
-                    try
+                    //Don't try to upgrade the project unless there is an actual upgrade to apply.
+                    if (UpgradeManager.CanUpgrade(projectVersion))
                     {
-                        UpgradeManager.Upgrade(projectPath, userSettingsPath);
-                    }
-                    catch (Exception ex)
-                    {
-                        Logger.Error(ex);
-                        MessageBox.Show("An error occurred while upgrading the project: {0}".FormatString(ex.Message), "Upgrade Failed", MessageBoxButtons.OK);
-                        return;
+                        if (MessageBox.Show("The project you are opening is from an older version of CodeGenerator and therefore must be upgraded. Would you like to upgrade the project now?", "Upgrade Required", MessageBoxButtons.YesNo) != DialogResult.Yes)
+                            return;
+
+                        Logger.Info("Project is being upgraded.");
+
+                        try
+                        {
+                            UpgradeManager.Upgrade(projectPath, userSettingsPath);
+                        }
+                        catch (Exception ex)
+                        {
+                            Logger.Error(ex);
+                            MessageBox.Show("An error occurred while upgrading the project: {0}".FormatString(ex.Message), "Upgrade Failed", MessageBoxButtons.OK);
+                            return;
+                        }
+
+                        MarkAsUnsaved();
                     }
                 }
 
