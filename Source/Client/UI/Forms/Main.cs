@@ -551,7 +551,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             using (new Wait())
             {
                 Project project = null;
-                Regex userSettingsFileCheckRegex = new Regex(@"(\.d[f|g]p)u$");
+                Regex userSettingsFileCheckRegex = new Regex(@"(\.(?:dfp|cgp))u$", RegexOptions.IgnoreCase);
                 string projectPath = path;
                 string userSettingsPath = null;
                 Version productVersion = new Version(Application.ProductVersion);
