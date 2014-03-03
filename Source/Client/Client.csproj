@@ -561,10 +561,10 @@
     <Content Include="Resources\Package.ico" />
     <Content Include="Resources\Package.png" />
     <Content Include="Resources\Watermark.png" />
-    <None Include="Samples\Sample-CS-EF.zip">
+    <None Include="Samples\NET4, C#, LINQ, WebForms.zip">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Samples\Sample-CS-LINQ.zip">
+    <None Include="Samples\Sample-CS-EF.zip">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -666,10 +666,10 @@
   <Target Name="AfterBuild">
     <ItemGroup>
       <Sample-CS-EF Include="..\Samples\Sample-CS-EF\**\*" Exclude="..\Samples\Sample-CS-EF\**\bin\**;..\Samples\Sample-CS-EF\**\obj\**;..\Samples\Sample-CS-EF\**\*.user;..\Samples\Sample-CS-EF\**\*.suo;..\Samples\Sample-CS-EF\**\.svn\**;..\Samples\Sample-CS-EF\**\*.dgen;..\Samples\Sample-CS-EF\**\*.dbmdl;..\Samples\Sample-CS-EF\**\*.schemaview;..\Samples\Sample-CS-EF\**\sql\**;..\Samples\Sample-CS-EF\**\*.xpr;" />
-      <Sample-CS-LINQ Include="..\Samples\Sample-CS-LINQ\**\*" Exclude="..\Samples\Sample-CS-LINQ\**\bin\**;..\Samples\Sample-CS-LINQ\**\obj\**;..\Samples\Sample-CS-LINQ\**\*.user;..\Samples\Sample-CS-LINQ\**\*.suo;..\Samples\Sample-CS-LINQ\**\.svn\**;..\Samples\Sample-CS-LINQ\**\*.dgen;..\Samples\Sample-CS-LINQ\**\*.dbmdl;..\Samples\Sample-CS-LINQ\**\*.schemaview;..\Samples\Sample-CS-LINQ\**\sql\**;..\Samples\Sample-CS-LINQ\**\*.xpr;" />
+      <Sample-NET4-CS-LINQ-WebForms Include="..\Samples\NET4, C#, LINQ, WebForms\**\*" Exclude="..\Samples\NET4, C#, LINQ, WebForms\**\bin\**;..\Samples\NET4, C#, LINQ, WebForms\**\obj\**;..\Samples\NET4, C#, LINQ, WebForms\**\*.user;..\Samples\NET4, C#, LINQ, WebForms\**\*.suo;..\Samples\NET4, C#, LINQ, WebForms\**\.svn\**;..\Samples\NET4, C#, LINQ, WebForms\**\*.dgen;..\Samples\NET4, C#, LINQ, WebForms\**\*.dbmdl;..\Samples\NET4, C#, LINQ, WebForms\**\*.schemaview;..\Samples\NET4, C#, LINQ, WebForms\**\sql\**;..\Samples\NET4, C#, LINQ, WebForms\**\*.xpr;" />
     </ItemGroup>
     <Zip ZipFileName="Samples\Sample-CS-EF.zip" ZipLevel="9" Files="@(Sample-CS-EF)" WorkingDirectory="..\Samples\" />
-    <Zip ZipFileName="Samples\Sample-CS-LINQ.zip" ZipLevel="9" Files="@(Sample-CS-LINQ)" WorkingDirectory="..\Samples\" />
+    <Zip ZipFileName="Samples\NET4, C#, LINQ, WebForms.zip" ZipLevel="9" Files="@(Sample-NET4-CS-LINQ-WebForms)" WorkingDirectory="..\Samples\" />
   </Target>
   <PropertyGroup>
     <PreBuildEvent>

@@ -149,8 +149,8 @@
 
       <Component Id="SampleCSLINQ.zip" Guid="adf38a9c-23ec-4088-816d-c7725857e050" Win64="$(var.IsWin64)">
         <RegistryValue Root="HKMU" Key="[RegKey]" Type="string" Value="" KeyPath="yes"/>
-        <File Id="SampleCSLINQ.zip" Source="$(var.Client.TargetDir)\Samples\Sample-CS-LINQ.zip">
-          <Shortcut Id="CGSamplesSampleCSLINQShortcut" Directory="CGProgramMenuSamplesFolder" Name="C# LINQ" Icon="Zip.ico"/>
+        <File Id="SampleCSLINQ.zip" Source="$(var.Client.TargetDir)Samples\NET4, C#, LINQ, WebForms.zip">
+          <Shortcut Id="CGSamplesSampleCSLINQShortcut" Directory="CGProgramMenuSamplesFolder" Name=".NET 4, C#, LINQ, WebForms" Icon="Zip.ico"/>
         </File>
       </Component>
     </ComponentGroup>
@@ -197,6 +197,6 @@
     <Property Id="WIXUI_INSTALLDIR" Value="INSTALLDIR"/>
     <WixVariable Id="WixUIBannerBmp" Value="$(var.ProjectDir)Resources\Banner.bmp"/>
     <WixVariable Id="WixUIDialogBmp" Value="$(var.ProjectDir)Resources\Dialog.bmp"/>
-    <!--<WixVariable Id="WixUILicenseRtf" Value=""/>-->
+    <WixVariable Id="WixUILicenseRtf" Value="$(var.ProjectDir)Resources\License.rtf"/>
   </Product>
 </Wix>
