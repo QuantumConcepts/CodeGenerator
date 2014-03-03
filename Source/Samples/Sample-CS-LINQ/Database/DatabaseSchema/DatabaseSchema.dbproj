@@ -40,8 +40,8 @@
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <OutputPath>.\sql\debug\</OutputPath>
     <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
-    <TargetConnectionString>Data Source=localhost\SQL2008;Integrated Security=True;Pooling=False</TargetConnectionString>
-    <TargetDatabase>EnrollmentDemo</TargetDatabase>
+    <TargetConnectionString>Data Source=.\SQL2008;Integrated Security=True;Pooling=False</TargetConnectionString>
+    <TargetDatabase>CodeGeneratorSample</TargetDatabase>
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
     <SuppressWarnings>
     </SuppressWarnings>
@@ -58,9 +58,6 @@
     <Folder Include="Schema Objects\Schemas\dbo\" />
     <Folder Include="Schema Objects\Schemas\dbo\Tables\" />
     <Folder Include="Schema Objects\Schemas\dbo\Views\" />
-    <Folder Include="Schema Objects\Database Level Objects\" />
-    <Folder Include="Schema Objects\Database Level Objects\Security\" />
-    <Folder Include="Schema Objects\Database Level Objects\Security\Users\" />
     <Folder Include="Data Generation Plans" />
   </ItemGroup>
   <ItemGroup>
@@ -78,17 +75,6 @@
     <BuildContributorArgument Include="OutDir=$(OutDir)" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DatabaseServer\DatabaseServer.dbproj">
-      <Name>DatabaseServer</Name>
-      <Project>{67cbc824-a49e-4e9b-a947-360f3dfe65c3}</Project>
-      <Private>True</Private>
-      <DatabaseVariableLiteralValue>master</DatabaseVariableLiteralValue>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Build Include="Schema Objects\Database Level Objects\Security\Users\CGSample.user.sql">
-      <SubType>Code</SubType>
-    </Build>
     <Build Include="Schema Objects\Schemas\dbo\Tables\Student.table.sql">
       <SubType>Code</SubType>
     </Build>
