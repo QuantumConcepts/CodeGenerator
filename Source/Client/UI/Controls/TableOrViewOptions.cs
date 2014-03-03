@@ -154,7 +154,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
         {
             transferAPIToolStripDropDownButton.DropDownItems.Clear();
 
-            foreach (TableMapping tm in _tableOrViewMapping.ContainingProject.TableMappings)
+            foreach (TableMapping tm in _tableOrViewMapping.ContainingProject.IncludedTableMappings)
             {
                 ToolStripMenuItem transferAPIToTableToolStripMenuItem = new ToolStripMenuItem(tm.ToString());
 

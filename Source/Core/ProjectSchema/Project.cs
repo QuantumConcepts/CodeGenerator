@@ -44,6 +44,9 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
         [XmlArrayItem]
         public List<TableMapping> TableMappings { get; set; }
 
+        [XmlIgnore]
+        public IEnumerable<TableMapping> IncludedTableMappings { get { return this.TableMappings.Where(o => !o.Exclude); } }
+
         [XmlArray]
         [XmlArrayItem]
         public List<ViewMapping> ViewMappings { get; set; }

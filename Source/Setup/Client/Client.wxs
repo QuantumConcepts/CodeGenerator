@@ -140,12 +140,12 @@
     </DirectoryRef>
 
     <ComponentGroup Id="CGSamples" Directory="CGSamplesFolder">
-      <Component Id="SampleCSEF.zip" Guid="9092528b-f718-4d2f-94c5-03ebf93cb413" Win64="$(var.IsWin64)">
+      <!--<Component Id="SampleCSEF.zip" Guid="9092528b-f718-4d2f-94c5-03ebf93cb413" Win64="$(var.IsWin64)">
         <RegistryValue Root="HKMU" Key="[RegKey]" Type="string" Value="" KeyPath="yes"/>
         <File Id="SampleCSEF.zip" Source="$(var.Client.TargetDir)\Samples\Sample-CS-EF.zip">
           <Shortcut Id="CGSamplesSampleCSEFShortcut" Directory="CGProgramMenuSamplesFolder" Name="C# EF" Icon="Zip.ico"/>
         </File>
-      </Component>
+      </Component>-->
 
       <Component Id="SampleCSLINQ.zip" Guid="adf38a9c-23ec-4088-816d-c7725857e050" Win64="$(var.IsWin64)">
         <RegistryValue Root="HKMU" Key="[RegKey]" Type="string" Value="" KeyPath="yes"/>
