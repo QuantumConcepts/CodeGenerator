@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <?if $(var.Platform)="x64" ?>
-  <?define PlatformProgramFilesFolder="ProgramFiles64Folder" ?>
-  <?define IsWin64="yes" ?>
-  <?define TargetConfigurationPath="bin\x64\Release" ?>
-  <?else ?>
-  <?define PlatformProgramFilesFolder="ProgramFilesFolder" ?>
-  <?define IsWin64="no" ?>
-  <?define TargetConfigurationPath="bin\x86\Release" ?>
-  <?endif ?>
 
-  <Product Id="*" Manufacturer="Quantum Concepts" Name="CodeGenerator ($(var.Platform))" Version="1.7.3.0" Language="1033" UpgradeCode="CD3E2D8B-D0A0-441D-B015-A92C7B8EA70A">
-    <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" Platform="x64"/>
+<?if $(var.Platform)="x64" ?>
+<?define Platform="x64"?>
+<?define PlatformProgramFilesFolder="ProgramFiles64Folder" ?>
+<?define IsWin64="yes" ?>
+<?define TargetConfigurationPath="bin\x64\Release" ?>
+<?define UpgradeCode="CD3E2D8B-D0A0-441D-B015-A92C7B8EA70A"?>
+<?else ?>
+<?define Platform="x86"?>
+<?define PlatformProgramFilesFolder="ProgramFilesFolder" ?>
+<?define IsWin64="no" ?>
+<?define TargetConfigurationPath="bin\x86\Release" ?>
+<?define UpgradeCode="DDD95CEC-D471-40AD-9047-CA6613274A3B"?>
+<?endif ?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="*" Manufacturer="Quantum Concepts" Name="CodeGenerator ($(var.Platform))" Version="1.7.3.0" Language="1033" UpgradeCode="$(var.UpgradeCode)">
+    <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" Platform="$(var.Platform)"/>
     <Media Id="1" Cabinet="1" CompressionLevel="high"/>
     <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed."/>
 
