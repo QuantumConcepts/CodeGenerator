@@ -181,6 +181,8 @@ namespace QuantumConcepts.CodeGenerator.Core.Data.SqlServer
         {
             using (SqlConnection connection = new SqlConnection(project.UserSettings.Connection.ConnectionString))
             {
+                connection.Open();
+
                 using (SqlDataAdapter adapter = new SqlDataAdapter(sql, connection))
                 {
                     DataTable dataTable = new DataTable();
@@ -188,6 +190,7 @@ namespace QuantumConcepts.CodeGenerator.Core.Data.SqlServer
                     if (parameters != null)
                         adapter.SelectCommand.Parameters.AddRange(parameters);
 
+                    adapter.SelectCommand.CommandTimeout = connection.ConnectionTimeout;
                     adapter.Fill(dataTable);
 
                     return dataTable;
