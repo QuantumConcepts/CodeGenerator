@@ -6,12 +6,18 @@ using System.Data;
 using QuantumConcepts.CodeGenerator.Core.ProjectSchema;
 using MySql.Data.MySqlClient;
 using QuantumConcepts.Common.Extensions;
+using System.Text.RegularExpressions;
 
 namespace QuantumConcepts.CodeGenerator.Core.Data.MySql
 {
     public class MySqlWorker : DatabaseWorker
     {
         private const string Parameter_SchemasToShow = "Schemas to Show";
+
+        private static readonly Dictionary<string, string> ParameterNameMap = new Dictionary<string, string>()
+        {
+            {MySqlWorker.Parameter_SchemasToShow, Regex.Replace(MySqlWorker.Parameter_SchemasToShow, @"\s", "_")}
+        };
 
         public override string Name { get { return "MySQL"; } }
 
@@ -44,7 +50,7 @@ namespace QuantumConcepts.CodeGenerator.Core.Data.MySql
                     "t.table_name AS " + QueryConstants.TableOrView.Name + " " +
                 "FROM information_schema.tables t " +
                 "WHERE " +
-                    "FIND_IN_SET(t.table_schema, @SchemasToShow) != 0 " +
+                    "FIND_IN_SET(t.table_schema, @{0}) != 0 ".FormatString(MySqlWorker.ParameterNameMap[MySqlWorker.Parameter_SchemasToShow]) +
                     "AND t.table_type = \"" + tableType + "\"", GetCommonParameters(project));
         }
 
@@ -69,7 +75,7 @@ namespace QuantumConcepts.CodeGenerator.Core.Data.MySql
                     "information_schema.columns c " +
                     "JOIN information_schema.tables t ON t.table_schema = c.table_schema AND t.table_name = c.table_name " +
                 "WHERE " +
-                    "FIND_IN_SET(t.table_schema, @SchemasToShow) != 0 " +
+                    "FIND_IN_SET(t.table_schema, @{0}) != 0 ".FormatString(MySqlWorker.ParameterNameMap[MySqlWorker.Parameter_SchemasToShow]) +
                     "AND t.table_type IN (\"BASE TABLE\", \"VIEW\")", GetCommonParameters(project));
 
             return dataTable;
@@ -90,7 +96,7 @@ namespace QuantumConcepts.CodeGenerator.Core.Data.MySql
                     "information_schema.table_constraints fk " +
                     "JOIN information_schema.key_column_usage ic ON ic.constraint_name = fk.constraint_name AND ic.table_schema = fk.table_schema AND ic.table_name = fk.table_name " +
                 "WHERE " +
-                    "FIND_IN_SET(fk.table_schema, @SchemasToShow) != 0 " +
+                    "FIND_IN_SET(fk.table_schema, @{0}) != 0 ".FormatString(MySqlWorker.ParameterNameMap[MySqlWorker.Parameter_SchemasToShow]) +
                     "AND fk.constraint_type = \"FOREIGN KEY\"", GetCommonParameters(project));
         }
 
@@ -106,7 +112,7 @@ namespace QuantumConcepts.CodeGenerator.Core.Data.MySql
                     "information_schema.table_constraints i " +
                     "JOIN information_schema.key_column_usage ic ON ic.constraint_name = i.constraint_name AND ic.table_schema = i.table_schema AND ic.table_name = i.table_name " +
                 "WHERE " +
-                    "FIND_IN_SET(i.table_schema, @SchemasToShow) != 0 " +
+                    "FIND_IN_SET(i.table_schema, @{0}) != 0 ".FormatString(MySqlWorker.ParameterNameMap[MySqlWorker.Parameter_SchemasToShow]) +
                     "AND i.constraint_type = \"UNIQUE\"", GetCommonParameters(project));
         }
 
@@ -136,9 +142,9 @@ namespace QuantumConcepts.CodeGenerator.Core.Data.MySql
 
         private MySqlParameter[] GetCommonParameters(Project project)
         {
-            string value = project.UserSettings.Connection.Attributes.SingleOrDefault(o => o.Key.Equals(Parameter_SchemasToShow)).ValueOrDefault(o => o.Value);
+            string value = project.UserSettings.Connection.Attributes.SingleOrDefault(o => o.Key.Equals(MySqlWorker.Parameter_SchemasToShow)).ValueOrDefault(o => o.Value);
 
-            return new MySqlParameter[] { new MySqlParameter("SchemasToShow", value) };
+            return new MySqlParameter[] { new MySqlParameter(MySqlWorker.ParameterNameMap[MySqlWorker.Parameter_SchemasToShow], value) };
         }
 
         private DataTable ExecuteQuery(Project project, string sql, MySqlParameter[] parameters)

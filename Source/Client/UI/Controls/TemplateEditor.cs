@@ -37,6 +37,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
             this.Editor.ShowLineNumbers = true;
             this.Editor.Load(this.Template.XsltAbsolutePath);
             this.Editor.SyntaxHighlighting = HighlightingManager.Instance.GetDefinition("XML");
+            this.Editor.FontFamily = new System.Windows.Media.FontFamily("Courier New");
             this.Editor.TextChanged += new EventHandler(Editor_TextChanged);
         }
 

@@ -634,11 +634,11 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Common\CommonForms\QCCommonForms.csproj">
+    <ProjectReference Include="..\..\..\..\Common\CommonForms\QC Common Forms.csproj">
       <Project>{2b26f338-f6e8-4a24-9e2b-7b2daccfb892}</Project>
       <Name>QCCommonForms</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\Common\Common\QCCommon.csproj">
+    <ProjectReference Include="..\..\..\..\Common\Common\QC Common.csproj">
       <Project>{8807828d-db88-462a-875e-647240d48668}</Project>
       <Name>QCCommon</Name>
     </ProjectReference>

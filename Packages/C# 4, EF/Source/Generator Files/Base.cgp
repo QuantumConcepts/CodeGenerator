@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<Project xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Version="1.7.0.0" RootNamespace="{RootNamespace}" xmlns="http://Schemas.QuantumConceptsCorp.com/CodeGenerator/Project.xsd">
+  <DataTypeMappings />
+  <Templates>
+    <Template Name="Cache.xslt" XsltHintPath="C#\Cache.xslt" OutputMode="SingleFile" OutputHintPath="..\DataAccess\Cache\Cache.Generated.cs">
+      <TemplateOutputDefinitions />
+      <Attributes>
+        <Attribute Key="Using" Value="{RootNamespace}.Common" />
+      </Attributes>
+    </Template>
+    <Template Name="DataAccess-EF.xslt" XsltHintPath="C#\DataAccess-EF.xslt" OutputMode="SingleFile" OutputHintPath="..\DataAccess\DataAccess.Generated.cs">
+      <TemplateOutputDefinitions />
+      <Attributes>
+        <Attribute Key="Using" Value="{RootNamespace}.Common" />
+      </Attributes>
+    </Template>
+    <Template Name="Enumerations.xslt" XsltHintPath="C#\Enumerations.xslt" OutputMode="SingleFile" OutputHintPath="..\DataAccess\Enumerations.Generated.cs">
+      <TemplateOutputDefinitions />
+      <Attributes />
+    </Template>
+    <Template Name="Logic.xslt" XsltHintPath="C#\Logic.xslt" OutputMode="SingleFile" OutputHintPath="..\Logic\Logic.Generated.cs">
+      <TemplateOutputDefinitions />
+      <Attributes />
+    </Template>
+    <Template Name="DataAccess-EF-EDMX.xslt" XsltHintPath="C#\DataAccess-EF-EDMX.xslt" OutputMode="SingleFile" OutputHintPath="..\DataAccess\DataAccess.Generated.edmx">
+      <TemplateOutputDefinitions />
+      <Attributes />
+    </Template>
+  </Templates>
+  <TableMappings />
+  <ViewMappings />
+  <ForeignKeyMappings />
+  <Attributes>
+    <Attribute Key="DataContextName" Value="{ProjectShortName}ObjectContext" />
+  </Attributes>
+</Project>

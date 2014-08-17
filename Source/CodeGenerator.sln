@@ -16,9 +16,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Client\Client.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{FD273A49-441A-426E-9367-BF26A675F2E7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QCCommon", "..\..\..\Common\Common\QCCommon.csproj", "{8807828D-DB88-462A-875E-647240D48668}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QC Common", "..\..\..\Common\Common\QC Common.csproj", "{8807828D-DB88-462A-875E-647240D48668}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QCCommonForms", "..\..\..\Common\CommonForms\QCCommonForms.csproj", "{2B26F338-F6E8-4A24-9E2B-7B2DACCFB892}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QC Common Forms", "..\..\..\Common\CommonForms\QC Common Forms.csproj", "{2B26F338-F6E8-4A24-9E2B-7B2DACCFB892}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "Web\Web\Web.csproj", "{0D529E7F-C4BD-4123-A96D-482E8B411B8D}"
 EndProject

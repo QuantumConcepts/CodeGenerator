@@ -1,0 +1,33 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{CEB519ED-E49D-44A2-B88A-5513A7096E68}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logic", "Logic\Logic.csproj", "{B0A336F4-D904-4040-A0BE-09A620026728}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Generator Files", "Generator Files", "{31FCD577-4BD9-47B1-B385-353FA29301AC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{CC0554CB-5F68-4C07-9696-10910BDBDAB1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CEB519ED-E49D-44A2-B88A-5513A7096E68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CEB519ED-E49D-44A2-B88A-5513A7096E68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CEB519ED-E49D-44A2-B88A-5513A7096E68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CEB519ED-E49D-44A2-B88A-5513A7096E68}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0A336F4-D904-4040-A0BE-09A620026728}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0A336F4-D904-4040-A0BE-09A620026728}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0A336F4-D904-4040-A0BE-09A620026728}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0A336F4-D904-4040-A0BE-09A620026728}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC0554CB-5F68-4C07-9696-10910BDBDAB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC0554CB-5F68-4C07-9696-10910BDBDAB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC0554CB-5F68-4C07-9696-10910BDBDAB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC0554CB-5F68-4C07-9696-10910BDBDAB1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

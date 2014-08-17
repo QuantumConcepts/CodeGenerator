@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Package Name="C# 4, EF" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Version="1.7.0.0" xmlns="http://Schemas.QuantumConceptsCorp.com/CodeGenerator/Package.xsd">
+	<Description>This package provides the basic solution required to access data stored in a SQL Server or MySQL database. The following modules are included: Database Project, Database Schema, Common, Data Access, Logic &amp; Test.</Description>
+	<Manifest Automatic="true" ProjectFileManifestItemID="CGP">
+		<Item ID="CGP" Type="File" RelativePath="Source\Generator Files\Base.cgp"/>
+		<Item ID="SLN" Type="File" RelativePath="Source\Base.sln"/>
+	</Manifest>
+	<Inputs>
+		<Input ID="Company" Label="Company/Client" DataType="String" Required="true"/>
+		<Input ID="ProjectName" Label="Project Name" DataType="String" Required="true"/>
+		<Input ID="ProjectShortName" Label="Project Short Name" DataType="String" Required="true"/>
+		<Input ID="RootNamespace" Label="Root Namespace" DataType="String" Required="true"/>
+		<Input ID="DataContextName" Label="Data Context Name" DataType="String" Required="true"/>
+		<Input ID="EncryptionKey" Label="Encryption Key" DataType="String" Required="true" Validation="^\w{32}$"/>
+	</Inputs>
+	<Actions>
+		<CopyAll/>
+		<Rename ManifestItemID="CGP" NewName="{ProjectShortName}.cgp"/>
+		<Rename ManifestItemID="SLN" NewName="{ProjectShortName}.sln"/>
+		<ApplyAllInputReplacements/>
+	</Actions>
+</Package>
