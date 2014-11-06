@@ -231,8 +231,8 @@
 
 	<xsl:template name="GetSummaryDocumentation">
 		<xsl:param name="spacingBefore"/>
-		<xsl:param name="element"/>
-		<xsl:if test="$element/P:Annotations/P:Annotation[@Type='summary']">
+		<xsl:param name="element" select="."/>
+		<xsl:if test="$element//P:Annotation[@Type='summary']">
 			<xsl:value-of select="$newLine"/>
 			<xsl:value-of select="$spacingBefore"/>
 			<xsl:text>/// &lt;summary&gt;</xsl:text>

@@ -88,18 +88,29 @@ namespace QuantumConcepts.CodeGenerator.Core
                 Parallel.ForEach(this.TemplateOutputs.Keys, parallelOptions, o =>
                 {
                     XslCompiledTransform xslTransform = new XslCompiledTransform();
+                    XmlReaderSettings xmlReaderSettings = new XmlReaderSettings()
+                    {
+                        DtdProcessing = DtdProcessing.Parse
+                    };
 
                     OnTemplateGenerationStatus(TemplateGenerationStatusEventArgs.CreateGenerating(o));
 
-                    try
+                    using (XmlReader xmlReader = XmlReader.Create(o.XsltAbsolutePath, xmlReaderSettings))
                     {
-                        xslTransform.Load(o.XsltAbsolutePath, new XsltSettings(true, true), new XmlUrlResolver());
-                    }
-                    catch (Exception ex)
-                    {
-                        Generator.Logger.Error(ex);
-                        OnTemplateGenerationStatus(TemplateGenerationStatusEventArgs.CreateError(o, new ApplicationException("Unable to load XSLT.", ex)));
-                        return;
+                        try
+                        {
+                            xslTransform.Load(xmlReader, new XsltSettings()
+                            {
+                                EnableDocumentFunction = true,
+                                EnableScript = true
+                            }, new XmlUrlResolver());
+                        }
+                        catch (Exception ex)
+                        {
+                            Generator.Logger.Error(ex);
+                            OnTemplateGenerationStatus(TemplateGenerationStatusEventArgs.CreateError(o, new ApplicationException("Unable to load XSLT.", ex)));
+                            return;
+                        }
                     }
 
                     lock (this.TemplateXslts)
@@ -163,7 +174,12 @@ namespace QuantumConcepts.CodeGenerator.Core
                 {
                     using (StringReader stringReader = new StringReader(projectXml))
                     {
-                        using (XmlReader xmlReader = XmlReader.Create(stringReader))
+                        XmlReaderSettings xmlReaderSettings = new XmlReaderSettings()
+                        {
+                            DtdProcessing = DtdProcessing.Parse
+                        };
+
+                        using (XmlReader xmlReader = XmlReader.Create(stringReader, xmlReaderSettings))
                         {
                             XsltArgumentList arguments = new XsltArgumentList();
 

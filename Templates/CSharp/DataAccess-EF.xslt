@@ -3,17 +3,17 @@
 <xsl:stylesheet version="1.0" xmlns:P="http://Schemas.QuantumConceptsCorp.com/CodeGenerator/Project.xsd" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:msxsl="urn:schemas-microsoft-com:xslt" exclude-result-prefixes="msxsl">
 	<xsl:output method="text" version="1.0" encoding="UTF-8" indent="no"/>
 	
-	<xsl:include href="XSLTCommon-CS.xslt"/>
+	<xsl:include href="Common.xslt"/>
 	
 	<xsl:param name="templateName"/>
 	
 	<xsl:template match="P:Project">
 		<xsl:call-template name="Using-System-All"/>
 		<xsl:call-template name="Using">
-			<xsl:with-param name="namespace" select="'System.Data.Objects'"/>
+			<xsl:with-param name="namespace" select="'System.Data.Entity.Core.Objects'"/>
 		</xsl:call-template>
 		<xsl:call-template name="Using">
-			<xsl:with-param name="namespace" select="'System.Data.Objects.DataClasses'"/>
+			<xsl:with-param name="namespace" select="'System.Data.Entity.Core.Objects.DataClasses'"/>
 		</xsl:call-template>
 		<xsl:call-template name="Using">
 			<xsl:with-param name="namespace" select="'System.Data.EntityClient'"/>
