@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?if $(var.Platform)="x64" ?>
+<?define PlatformProgramFilesFolder="ProgramFiles64Folder" ?>
+<?define IsWin64="yes" ?>
+<?define TargetConfigurationPath="bin\x64\Release" ?>
+<?define UpgradeCode="CD3E2D8B-D0A0-441D-B015-A92C7B8EA70A"?>
+<?else ?>
+<?define Platform="x86"?>
+<?define PlatformProgramFilesFolder="ProgramFilesFolder" ?>
+<?define IsWin64="no" ?>
+<?define TargetConfigurationPath="bin\x86\Release" ?>
+<?define UpgradeCode="DDD95CEC-D471-40AD-9047-CA6613274A3B"?>
+<?endif ?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Product Id="*" Manufacturer="Quantum Concepts" Name="CodeGenerator MVC Admin ($(var.Platform))" Version="1.0.4.0" Language="1033" UpgradeCode="95f5e0b7-83f5-4782-a4ab-46ca307496b1">
+        <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" Platform="$(var.Platform)"/>
+        <MediaTemplate EmbedCab="yes" CompressionLevel="high" CabinetTemplate="_{0}.cab"/>
+        <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed."/>
+
+        <Property Id="RegKey" Value="SOFTWARE\Quantum Concepts\CodeGenerator\MVC Admin"/>
+        <Property Id="CGINSTALLDIR" Secure="yes">
+            <RegistrySearch Id="CGInstallDirRegSearch32" Root="HKLM" Key="SOFTWARE\Quantum Concepts\CodeGenerator" Name="Location" Type="directory" Win64="$(var.IsWin64)"/>
+        </Property>
+        
+        <Condition Message="Please install CodeGenerator ($(var.Platform)) v1.7.3.1 or later before installing this plugin.">
+            <![CDATA[CGINSTALLDIR]]>
+        </Condition>
+
+        <CustomAction Id="SetInstallDir" Execute="firstSequence" Property="INSTALLDIR" Value="[CGINSTALLDIR]" />
+
+        <Directory Id="TARGETDIR" Name="SourceDir">
+            <Directory Id="INSTALLDIR"/>
+        </Directory>
+
+        <ComponentGroup Id="Components" Directory="INSTALLDIR">
+            <Component Id="RegInstallDir" Guid="*" Win64="$(var.IsWin64)">
+                <RegistryValue Root="HKLM" Key="[RegKey]" Type="string" Name="Location" Value="[INSTALLDIR]" KeyPath="yes"/>
+            </Component>
+
+            <Component Id="QuantumConcepts.CodeGenerator.Plugins.MVCAdmin.dll" Guid="9C086C1A-B991-471E-BD3F-6189018D51C0" Win64="$(var.IsWin64)">
+                <RegistryValue Root="HKLM" Key="[RegKey]" Type="string" Value="" KeyPath="yes"/>
+                <File Id="QuantumConcepts.CodeGenerator.Plugins.MVCAdmin.dll" Source="$(var.MVC Admin.TargetDir)\QuantumConcepts.CodeGenerator.Plugins.MVCAdmin.dll" />
+            </Component>
+        </ComponentGroup>
+
+        <Feature Id="Complete" Title="MVC Admin" Level="1" Display="expand" InstallDefault="local" AllowAdvertise="no">
+            <ComponentGroupRef Id="Components" Primary="yes"/>
+        </Feature>
+
+        <InstallExecuteSequence>
+            <Custom Action="SetInstallDir" After="FileCost"/>
+        </InstallExecuteSequence>
+
+        <InstallUISequence>
+            <Custom Action="SetInstallDir" After="FileCost"/>
+        </InstallUISequence>
+    </Product>
+</Wix>

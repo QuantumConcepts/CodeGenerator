@@ -12,8 +12,8 @@
     <ProjectGuid>{EBF717A5-FBCF-479F-B4F0-B3FE4BF28AD0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>QuantumConcepts.CodeGenerator.Plugins.MVC3Admin</RootNamespace>
-    <AssemblyName>QuantumConcepts.CodeGenerator.Plugins.MVC3Admin</AssemblyName>
+    <RootNamespace>QuantumConcepts.CodeGenerator.Plugins.MVCAdmin</RootNamespace>
+    <AssemblyName>QuantumConcepts.CodeGenerator.Plugins.MVCAdmin</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
