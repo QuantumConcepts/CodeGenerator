@@ -8,5 +8,5 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyProduct("Quantum Concepts CodeGenerator Core")]
 [assembly: AssemblyCopyright("© Quantum Concepts Corporation")]
 [assembly: AssemblyTrademark("© Quantum Concepts Corporation")]
-[assembly: AssemblyVersion("1.7.3.1")]
-[assembly: AssemblyFileVersion("1.7.3.1")]
+[assembly: AssemblyVersion("1.7.3.2")]
+[assembly: AssemblyFileVersion("1.7.3.2")]

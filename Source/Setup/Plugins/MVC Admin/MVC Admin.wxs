@@ -24,7 +24,7 @@
             <RegistrySearch Id="CGInstallDirRegSearch32" Root="HKLM" Key="SOFTWARE\Quantum Concepts\CodeGenerator" Name="Location" Type="directory" Win64="$(var.IsWin64)"/>
         </Property>
         
-        <Condition Message="Please install CodeGenerator ($(var.Platform)) v1.7.3.1 or later before installing this plugin.">
+        <Condition Message="Please install CodeGenerator ($(var.Platform)) v1.7.3.2 or later before installing this plugin.">
             <![CDATA[CGINSTALLDIR]]>
         </Condition>
 

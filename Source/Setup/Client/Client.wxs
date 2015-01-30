@@ -14,7 +14,7 @@
 <?endif ?>
 
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-    <Product Id="*" Manufacturer="Quantum Concepts" Name="CodeGenerator ($(var.Platform))" Version="1.7.3.1" Language="1033" UpgradeCode="$(var.UpgradeCode)">
+    <Product Id="*" Manufacturer="Quantum Concepts" Name="CodeGenerator ($(var.Platform))" Version="1.7.3.2" Language="1033" UpgradeCode="$(var.UpgradeCode)">
         <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" Platform="$(var.Platform)"/>
         <MediaTemplate EmbedCab="yes" CompressionLevel="high" CabinetTemplate="_{0}.cab"/>
         <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed."/>
@@ -62,7 +62,7 @@
             </Component>
 
             <Component Id="CodeGenerator.exe" Guid="85d4efae-53f6-4c89-8be3-4a78e9027358" Win64="$(var.IsWin64)">
-                <RegistryValue Root="HKLM" Key="[RegKey]" Type="string" Value="" KeyPath="yes"/>
+                <RegistryValue Root="HKMU" Key="[RegKey]" Type="string" Value="" KeyPath="yes"/>
                 <File Id="CodeGenerator.exe" Source="$(var.Client.TargetDir)\CodeGenerator.exe" Checksum="yes">
                     <Shortcut Id="CodeGeneratorEXEStartMenuShortcut" Directory="CGProgramMenuFolder" Name="CodeGenerator ($(var.Platform))" Icon="Icon.ico"/>
                 </File>
@@ -165,7 +165,7 @@
             </Component>-->
 
             <Component Id="SampleCSLINQ.zip" Guid="adf38a9c-23ec-4088-816d-c7725857e050" Win64="$(var.IsWin64)">
-                <RegistryValue Root="HKLM" Key="[RegKey]" Type="string" Value="" KeyPath="yes"/>
+                <RegistryValue Root="HKMU" Key="[RegKey]" Type="string" Value="" KeyPath="yes"/>
                 <File Id="SampleCSLINQ.zip" Source="$(var.Client.TargetDir)Samples\NET4, C#, LINQ, WebForms.zip">
                     <Shortcut Id="CGSamplesSampleCSLINQShortcut" Directory="SamplesFolder" Name=".NET 4, C#, LINQ, WebForms" Icon="Zip.ico"/>
                 </File>
@@ -175,21 +175,21 @@
         <DirectoryRef Id="QCProgramMenuFolder">
             <Component Id="QCProgramMenuFolder" Guid="54cdb1d6-7463-4439-8933-8ca39f13c81d" Win64="$(var.IsWin64)">
                 <RemoveFolder Id="QCProgramMenuFolder" On="uninstall"/>
-                <RegistryValue Root="HKLM" Key="[RegKey]" Type="string" Value="" KeyPath="yes"/>
+                <RegistryValue Root="HKMU" Key="[RegKey]" Type="string" Value="" KeyPath="yes"/>
             </Component>
         </DirectoryRef>
 
         <DirectoryRef Id="CGProgramMenuFolder">
             <Component Id="CGProgramMenuFolder" Guid="04e226b3-4462-4e4b-a11a-75046d6c1b7a" Win64="$(var.IsWin64)">
                 <RemoveFolder Id="CGProgramMenuFolder" On="uninstall"/>
-                <RegistryValue Root="HKLM" Key="[RegKey]" Type="string" Value="" KeyPath="yes"/>
+                <RegistryValue Root="HKMU" Key="[RegKey]" Type="string" Value="" KeyPath="yes"/>
             </Component>
         </DirectoryRef>
 
         <DirectoryRef Id="SamplesFolder">
             <Component Id="SamplesFolder" Guid="71f17011-6e93-499d-bc00-8dca9802331e" Win64="$(var.IsWin64)">
                 <RemoveFolder Id="SamplesFolder" On="uninstall"/>
-                <RegistryValue Root="HKLM" Key="[RegKey]" Type="string" Value="" KeyPath="yes"/>
+                <RegistryValue Root="HKMU" Key="[RegKey]" Type="string" Value="" KeyPath="yes"/>
             </Component>
         </DirectoryRef>
 
