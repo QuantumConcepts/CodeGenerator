@@ -13,25 +13,22 @@ using QuantumConcepts.CodeGenerator.Core.Data;
 using QuantumConcepts.Common.Forms.UI;
 using QuantumConcepts.Common.Extensions;
 using QuantumConcepts.Common.Utils;
+using QuantumConcepts.CodeGenerator.Core.Exceptions;
 
-namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
-{
-    internal partial class ProjectProperties : Form
-    {
+namespace QuantumConcepts.CodeGenerator.Client.UI.Forms {
+    internal partial class ProjectProperties : Form {
         public Project Project { get; private set; }
 
         public ProjectProperties() : this(new Project()) { }
 
-        public ProjectProperties(Project project)
-        {
+        public ProjectProperties(Project project) {
             this.Project = project;
 
             InitializeComponent();
             InitializeUI();
         }
 
-        void InitializeUI()
-        {
+        void InitializeUI() {
             //General tab
             rootNamespaceTextBox.DataBindings.Clear();
             rootNamespaceTextBox.DataBindings.Add("Text", this.Project, "RootNamespace");
@@ -49,14 +46,12 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             InitializeDataTypesTab();
         }
 
-        private void InitializeDataTypesTab()
-        {
+        private void InitializeDataTypesTab() {
             InitializeResetToDefaultDataTypes();
 
             dataTypesListView.Items.Clear();
 
-            foreach (DataTypeMapping dataType in this.Project.DataTypeMappings)
-            {
+            foreach (DataTypeMapping dataType in this.Project.DataTypeMappings) {
                 ListViewItem item = new ListViewItem(dataType.DatabaseDataType);
 
                 item.Tag = dataType;
@@ -66,20 +61,17 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             }
         }
 
-        private void InitializeDatabaseParameters()
-        {
+        private void InitializeDatabaseParameters() {
             DatabaseWorker worker = this.Project.UserSettings.Connection.GetDatabaseWorker();
 
             databaseParametersGridView.Rows.Clear();
 
-            if (worker != null && !worker.Parameters.IsNullOrEmpty())
-            {
+            if (worker != null && !worker.Parameters.IsNullOrEmpty()) {
                 string[] allParameterNames = worker.Parameters.Select(o => o.Name).ToArray();
 
                 this.Project.UserSettings.Connection.Attributes.RemoveAll(o => !allParameterNames.Contains(o.Key));
 
-                foreach (DatabaseParameter parameter in worker.Parameters)
-                {
+                foreach (DatabaseParameter parameter in worker.Parameters) {
                     DataGridViewRow row = new DataGridViewRow();
                     string value = this.Project.UserSettings.Connection.Attributes.SingleOrDefault(o => o.Key.Equals(parameter.Name)).ValueOrDefault(o => o.Value);
 
@@ -93,22 +85,17 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
                 this.Project.UserSettings.Connection.Attributes.Clear();
         }
 
-        private void InitializeResetToDefaultDataTypes()
-        {
+        private void InitializeResetToDefaultDataTypes() {
             DatabaseWorker worker = this.Project.UserSettings.Connection.GetDatabaseWorker();
 
             resetToDefaultDataTypesButton.DropDownItems.Clear();
 
-            if (worker != null)
-            {
+            if (worker != null) {
                 IEnumerable<DataTypeMappingConfiguration> mappings = worker.GetDataTypeMappingConfigurations();
 
-                if (!mappings.IsNullOrEmpty())
-                {
-                    foreach (DataTypeMappingConfiguration config in mappings)
-                    {
-                        ToolStripMenuItem button = new ToolStripMenuItem(config.Language, null, resetToDefaultDataTypesButton_Click)
-                        {
+                if (!mappings.IsNullOrEmpty()) {
+                    foreach (DataTypeMappingConfiguration config in mappings) {
+                        ToolStripMenuItem button = new ToolStripMenuItem(config.Language, null, resetToDefaultDataTypesButton_Click) {
                             DisplayStyle = ToolStripItemDisplayStyle.Text,
                             Tag = config.Language
                         };
@@ -121,25 +108,21 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             }
         }
 
-        private void databaseType_SelectedIndexChanged(object sender, EventArgs e)
-        {
+        private void databaseType_SelectedIndexChanged(object sender, EventArgs e) {
             this.Project.UserSettings.Connection.DatabaseType = ((DatabaseWorker)databaseTypeComboBox.SelectedItem).Name;
 
             InitializeDatabaseParameters();
             InitializeResetToDefaultDataTypes();
         }
 
-        private void databaseParametersGridView_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0)
-            {
+        private void databaseParametersGridView_CellValueChanged(object sender, DataGridViewCellEventArgs e) {
+            if (e.RowIndex >= 0) {
                 DataGridViewRow row = databaseParametersGridView.Rows[e.RowIndex];
                 string name = (string)(row.Cells[databaseParametersNameColumn.Index].Value);
                 string value = (string)(row.Cells[databaseParametersValueColumn.Index].Value);
                 Attribute<Connection> parameter = this.Project.UserSettings.Connection.Attributes.SingleOrDefault(o => o.Key.Equals(name));
 
-                if (parameter == null)
-                {
+                if (parameter == null) {
                     parameter = new Attribute<Connection>(name, value);
                     this.Project.UserSettings.Connection.Attributes.Add(parameter);
                 }
@@ -148,8 +131,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             }
         }
 
-        private void dataTypesListView_SelectedIndexChanged(object sender, EventArgs e)
-        {
+        private void dataTypesListView_SelectedIndexChanged(object sender, EventArgs e) {
             if (dataTypesListView.SelectedItems.Count == 0)
                 return;
 
@@ -160,25 +142,21 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             addDataTypeNullableCheckBox.Checked = dataType.Nullable;
         }
 
-        private void deleteDataTypeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
+        private void deleteDataTypeToolStripMenuItem_Click(object sender, EventArgs e) {
             foreach (ListViewItem item in dataTypesListView.SelectedItems)
                 this.Project.DataTypeMappings.Remove((DataTypeMapping)item.Tag);
 
             InitializeDataTypesTab();
         }
 
-        private void resetToDefaultDataTypesButton_Click(object sender, EventArgs e)
-        {
+        private void resetToDefaultDataTypesButton_Click(object sender, EventArgs e) {
             DatabaseWorker worker = this.Project.UserSettings.Connection.GetDatabaseWorker();
 
-            if (worker != null)
-            {
+            if (worker != null) {
                 string language = (((ToolStripItem)sender).Tag as string);
                 DataTypeMappingConfiguration config = worker.GetDataTypeMappingConfigurations().SingleOrDefault(o => string.Equals(o.Language, language) && string.Equals(o.DatabaseType, this.Project.UserSettings.Connection.DatabaseType));
 
-                if (config == null)
-                {
+                if (config == null) {
                     MessageBox.Show("No default data type mappings exist for the language and database type you have selected.");
                     return;
                 }
@@ -190,38 +168,32 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             }
         }
 
-        private void clearDataTypesButton_Click(object sender, EventArgs e)
-        {
+        private void clearDataTypesButton_Click(object sender, EventArgs e) {
             dataTypesListView.Items.Clear();
             this.Project.DataTypeMappings.Clear();
             InitializeDataTypesTab();
         }
 
-        private void addDataTypeSaveButton_Click(object sender, EventArgs e)
-        {
+        private void addDataTypeSaveButton_Click(object sender, EventArgs e) {
             DataTypeMapping dataType = null;
 
-            if (string.IsNullOrEmpty(addDataTypeDatabaseDataTypeTextBox.Text))
-            {
+            if (string.IsNullOrEmpty(addDataTypeDatabaseDataTypeTextBox.Text)) {
                 MessageBox.Show("Please enter the database data type for this mapping.");
                 return;
             }
 
-            if (string.IsNullOrEmpty(addDataTypeApplicationDataTypeTextBox.Text))
-            {
+            if (string.IsNullOrEmpty(addDataTypeApplicationDataTypeTextBox.Text)) {
                 MessageBox.Show("Please enter the application data type for this mapping.");
                 return;
             }
 
-            if (dataTypesListView.SelectedItems.Count == 1)
-            {
+            if (dataTypesListView.SelectedItems.Count == 1) {
                 dataType = (DataTypeMapping)dataTypesListView.SelectedItems[0].Tag;
                 dataType.DatabaseDataType = addDataTypeDatabaseDataTypeTextBox.Text;
                 dataType.ApplicationDataType = addDataTypeApplicationDataTypeTextBox.Text;
                 dataType.Nullable = addDataTypeNullableCheckBox.Checked;
             }
-            else
-            {
+            else {
                 dataType = new DataTypeMapping(addDataTypeDatabaseDataTypeTextBox.Text, addDataTypeApplicationDataTypeTextBox.Text, addDataTypeNullableCheckBox.Checked);
                 this.Project.DataTypeMappings.Add(dataType);
             }
@@ -232,23 +204,40 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             InitializeDataTypesTab();
         }
 
-        private void closeButton_Click(object sender, EventArgs e)
-        {
-            using (new Wait())
-            {
-                try
-                {
+        private void closeButton_Click(object sender, EventArgs e) {
+            bool close = true;
+            bool focusOnDatabaseType = false;
+
+            using (new Wait()) {
+                try {
                     this.Project.UserSettings.Connection.Validate();
                 }
-                catch (Exception ex)
-                {
+                catch (EmptyDatabaseWorkerSpecifiedException) {
+                    if (MessageBox.Show("No Database Type was selected on the Database tab.\n\nWould you like to continue anyway?", "Connection Failed", MessageBoxButtons.YesNo) == DialogResult.No) {
+                        close = false;
+                        focusOnDatabaseType = true;
+                    }
+                }
+                catch (NonExistentDatabaseWorkerSpecifiedException) {
+                    if (MessageBox.Show("Could not locate a database worker for the selected Database Type.\n\nWould you like to continue anyway?", "Connection Failed", MessageBoxButtons.YesNo) == DialogResult.No) {
+                        close = false;
+                        focusOnDatabaseType = true;
+                    }
+                }
+                catch (Exception ex) {
                     //Warn that the connection could not be made.
                     if (MessageBox.Show("The connection to the data source could not be established. The following error was returned:{0}\n\nWould you like to continue anyway?".FormatString(TextUtil.GetExceptionText(ex)), "Connection Failed", MessageBoxButtons.YesNo) == DialogResult.No)
-                        return;
+                        close = false;
                 }
 
-                this.DialogResult = DialogResult.OK;
-                this.Close();
+                if (close) {
+                    this.DialogResult = DialogResult.OK;
+                    this.Close();
+                }
+                else if (focusOnDatabaseType) {
+                    propertiesTabControl.SelectedTab = databaseTabPage;
+                    databaseTypeComboBox.Focus();
+                }
             }
         }
     }

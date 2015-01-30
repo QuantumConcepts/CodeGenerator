@@ -6,6 +6,7 @@ using System.Data;
 using System.Data.SqlClient;
 using QuantumConcepts.Common.Extensions;
 using QuantumConcepts.CodeGenerator.Core.Data;
+using QuantumConcepts.CodeGenerator.Core.Exceptions;
 
 namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
 {
@@ -45,15 +46,17 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
             this.Attributes.ForEach(o => o.JoinToParent(this));
         }
 
-        public void Validate()
-        {
+        public void Validate() {
+            if (this.DatabaseType.IsNullOrEmpty())
+                throw new EmptyDatabaseWorkerSpecifiedException();
+            else {
+                DatabaseWorker worker = DatabaseWorkerManager.Instance[this.DatabaseType];
 
-            DatabaseWorker worker = DatabaseWorkerManager.Instance[this.DatabaseType];
+                if (worker == null)
+                    throw new NonExistentDatabaseWorkerSpecifiedException("Could not locate database worker named: {0}.".FormatString(this.DatabaseType));
 
-            if (worker == null)
-                throw new ApplicationException("Could not locate database worker named: {0}.".FormatString(this.DatabaseType));
-
-            worker.ValidateConnection(this.ContainingProject);
+                worker.ValidateConnection(this.ContainingProject);
+            }
         }
 
         public DatabaseWorker GetDatabaseWorker()
