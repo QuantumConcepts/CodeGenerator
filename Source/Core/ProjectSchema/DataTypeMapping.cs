@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Xml.Serialization;
+using QuantumConcepts.Common.Extensions;
 
 namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
 {
@@ -49,6 +50,13 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
             _databaseDataType = databaseDataType;
             _applicationDataType = applicationDataType;
             _nullable = nullable;
+        }
+
+        public Type GetApplicationDataTypeReference() {
+            if (this.ApplicationDataType.IsNullOrEmpty())
+                return null;
+
+            return Type.GetType(this.ApplicationDataType);
         }
 
         public void JoinToProject(Project project)
