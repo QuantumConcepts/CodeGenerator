@@ -246,7 +246,12 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
             _foreignKeyName = foreignKeyName;
             _fieldName = parentColumnMapping.FieldName;
             _propertyName = FieldNameToPropertyName(_fieldName, referencedColumnMapping.TableMapping.ClassName);
-            _pluralFieldName = "{0}{1}".FormatString(_propertyName, referencedColumnMapping.TableMapping.ClassName.Pluralize());
+
+            if (parentColumnMapping.TableMapping == referencedColumnMapping.TableMapping)
+                _pluralFieldName = "Child{0}".FormatString(parentColumnMapping.TableMapping.ClassName.Pluralize());
+            else
+                _pluralFieldName = parentColumnMapping.TableMapping.ClassName.Pluralize();
+
             _pluralPropertyName = _pluralFieldName;
             _parentTableMappingSchemaName = parentColumnMapping.TableMapping.SchemaName;
             _parentTableMappingName = parentColumnMapping.TableMapping.TableName;
