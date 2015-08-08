@@ -93,7 +93,10 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
             }
         }
 
-        public API() { }
+        public API() {
+            this.Annotations = new List<Annotation<API>>();
+            this.Attributes = new List<Attribute<API>>();
+        }
 
         public API(string name, Parameter<API> returnParameter)
             : this(APIType.Custom, name, returnParameter, null, null, null)

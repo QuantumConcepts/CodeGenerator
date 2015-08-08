@@ -164,7 +164,10 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
             }
         }
 
-        public TableMapping() { }
+        public TableMapping() {
+            this.Annotations = new List<Annotation<TableMapping>>();
+            this.Attributes = new List<Attribute<TableMapping>>();
+        }
 
         public TableMapping(string schemaName, string tableName, string className, List<ColumnMapping> columnMappings, List<UniqueIndexMapping> uniqueIndexMappings, List<Annotation<TableMapping>> annotations, List<Attribute<TableMapping>> attributes)
         {

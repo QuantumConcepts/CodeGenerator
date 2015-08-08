@@ -111,7 +111,10 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
             }
         }
 
-        public ColumnMapping() { }
+        public ColumnMapping() {
+            this.Annotations = new List<Annotation<ColumnMapping>>();
+            this.Attributes = new List<Attribute<ColumnMapping>>();
+        }
 
         public ColumnMapping(TableMapping tableMapping, string columnName, decimal sequence, string dataType, string databaseDataType, decimal length, string defaultValue, bool nullable, bool nullableInDatabase, bool primaryKey, List<Annotation<ColumnMapping>> annotations, List<Attribute<ColumnMapping>> attributes)
         {
