@@ -40,9 +40,7 @@ namespace  </xsl:text>
 			<xsl:value-of select="@ClassName"/>
 			
 			<xsl:if test="$pkColumn">
-				<xsl:text> : IDataObject&lt;</xsl:text>
-				<xsl:value-of select="$pkColumn/@DataType"/>
-				<xsl:text>&gt;</xsl:text>
+				<xsl:text> : IDataObject</xsl:text>
 			</xsl:if>
 			
 			<xsl:if test="P:Attributes/P:Attribute[@Key='DisplayField'] or P:Attributes/P:Attribute[@Key='SortField']">
@@ -82,12 +80,13 @@ namespace  </xsl:text>
 				</xsl:if>
 				<xsl:text> _</xsl:text>
 				<xsl:value-of select="@FieldName"/>
-				<xsl:text>;
-			</xsl:text>
+				<xsl:text>;</xsl:text>
 			</xsl:for-each>
+			
 			<xsl:for-each select="P:ColumnMappings/P:ColumnMapping[@Exclude='false']">
 				<xsl:variable name="dataType" select="@DataType"/>
 				<xsl:text>
+
 		<![CDATA[/// <summary>The ]]></xsl:text>
 				<xsl:value-of select="@FieldName"/>
 				<xsl:text> Property maps to the </xsl:text>
@@ -118,6 +117,64 @@ namespace  </xsl:text>
 					<xsl:value-of select="$newLine"/>
 				</xsl:if>
 			</xsl:for-each>
+			
+			<xsl:if test="$pkColumn[@FieldName] != 'ID'">
+				<xsl:text>
+		
+		/// &lt;summary&gt;Implements IDataObject (difference in case of Id/ID property).&lt;/summary&gt;
+		[IgnoreDataMember]
+		public </xsl:text>
+				<xsl:value-of select="$pkColumn/@DataType"/>
+				<xsl:text> ID { get { return this.</xsl:text>
+				<xsl:value-of select="$pkColumn/@FieldName"/>
+				<xsl:text>; } }</xsl:text>
+			</xsl:if>
+			
+			<xsl:text>
+		
+		/// &lt;summary&gt;Clones this instance into a new instance.&lt;/summary&gt;
+		public virtual </xsl:text>
+			<xsl:value-of select="@ClassName"/>
+			<xsl:text> Clone(bool includePrimaryKey = false, bool includeCreatedAndModifiedDates = false) {
+			</xsl:text>
+			<xsl:value-of select="@ClassName"/>
+			<xsl:text> target = new </xsl:text>
+			<xsl:value-of select="@ClassName"/>
+			<xsl:text>();
+			
+			CloneInto(target, includePrimaryKey, includeCreatedAndModifiedDates);
+			
+			return target;
+		}
+		
+		/// &lt;summary&gt;Clones this instance into the provided instance.&lt;/summary&gt;
+		public virtual void CloneInto(</xsl:text>
+			<xsl:value-of select="@ClassName"/>
+			<xsl:text> target, bool includePrimaryKey = false, bool includeCreatedAndModifiedDates = false) {
+			if (includePrimaryKey)
+			    target.</xsl:text>
+				<xsl:value-of select="$pkColumn/@FieldName"/>
+				<xsl:text> = this.</xsl:text>
+				<xsl:value-of select="$pkColumn/@FieldName"/>
+				<xsl:text>;
+				
+			if (includeCreatedAndModifiedDates) {
+			    target.Created = this.Created;
+			    target.Modified = this.Modified;
+		    }
+			</xsl:text>
+			
+			<xsl:for-each select="P:ColumnMappings/P:ColumnMapping[@Exclude='false']">
+				<xsl:text>
+			target.</xsl:text>
+				<xsl:value-of select="@FieldName"/>
+				<xsl:text> = this.</xsl:text>
+				<xsl:value-of select="@FieldName"/>
+				<xsl:text>;</xsl:text>
+			</xsl:for-each>
+			
+			<xsl:text>
+		}</xsl:text>
 		
 			<xsl:if test="P:Attributes/P:Attribute[@Key='DisplayField']">
 				<xsl:text>

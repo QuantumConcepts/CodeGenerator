@@ -166,8 +166,9 @@ namespace </xsl:text>
 			<xsl:variable name="className" select="@ClassName"/>
 			<xsl:variable name="pluralClassName" select="@PluralClassName"/>
 			<xsl:variable name="pkColumns" select="P:ColumnMappings/P:ColumnMapping[@PrimaryKey='true']"/>
-			
-			<xsl:value-of select="$newLine"/>
+      <xsl:variable name="parentFKs" select="/P:Project/P:ForeignKeyMappings/P:ForeignKeyMapping[@ReferencedTableMappingSchemaName=$table/@SchemaName and @ReferencedTableMappingName=$table/@TableName and @Exclude='false']"/>
+
+      <xsl:value-of select="$newLine"/>
 			
 			<xsl:call-template name="GetTableMappingDocumentation">
 				<xsl:with-param name="spacingBefore" select="$tab"/>
@@ -183,7 +184,7 @@ namespace </xsl:text>
 			<xsl:value-of select="@ClassName"/>
 			<xsl:text> : DO.</xsl:text>
 			<xsl:value-of select="@ClassName"/>
-			<xsl:text>, INotifyPropertyChanging, INotifyPropertyChanged
+			<xsl:text>, IDataAccessObject, INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
@@ -554,7 +555,7 @@ namespace </xsl:text>
 				<xsl:variable name="parentTableMappingName" select="@ParentTableMappingName"/>
 				<xsl:if test="$referencedTableMapping/@Exclude='false' and $parentTableMapping/@Exclude='false'">
 					<xsl:text>
-			_</xsl:text>
+			this._</xsl:text>
 					<xsl:value-of select="@PluralPropertyName"/>
 					<xsl:text>= new EntitySet&lt;DA.</xsl:text>
 					<xsl:value-of select="$parentTableMapping/@ClassName"/>
@@ -577,13 +578,21 @@ namespace </xsl:text>
 				<xsl:variable name="parentTableMappingName" select="@ParentTableMappingName"/>
 				<xsl:if test="$parentTableMapping/@Exclude='false' and $referencedTableMapping/@Exclude='false'">
 					<xsl:text>
-			_</xsl:text>
+			this._</xsl:text>
 					<xsl:value-of select="@PropertyName"/>
 					<xsl:text> = default(EntityRef&lt;DA.</xsl:text>
 					<xsl:value-of select="$referencedTableMapping/@ClassName"/>
 					<xsl:text>&gt;);</xsl:text>
 				</xsl:if>
 			</xsl:for-each>
+			
+			<xsl:for-each select=".//P:ColumnMapping[@EncryptionVectorColumnName]">
+				<xsl:text>
+			this.</xsl:text>
+				<xsl:value-of select="@EncryptionVectorColumnName"/>
+				<xsl:text> = EncryptionUtil.GenerateEncryptionVector();</xsl:text>
+			</xsl:for-each>
+			
 			<xsl:text>
 		
 			OnCreated();
@@ -635,7 +644,14 @@ namespace </xsl:text>
 				<xsl:text>, or null if it does not exist.&lt;/returns&gt;
 		public static DA.</xsl:text>
 				<xsl:value-of select="@ClassName"/>
-				<xsl:text> GetByID(</xsl:text>
+				<xsl:text> GetBy</xsl:text>
+				<xsl:for-each select="$pkColumns">
+					<xsl:value-of select="@FieldName"/>
+					<xsl:if test="position() != last()">
+						<xsl:text>And</xsl:text>
+					</xsl:if>
+				</xsl:for-each>
+				<xsl:text>(</xsl:text>
 				
 				<xsl:for-each select="$pkColumns">
 					<xsl:value-of select="@DataType"/>
@@ -649,7 +665,14 @@ namespace </xsl:text>
 				
 				<xsl:text>)
 		{
-			return GetByID(</xsl:text>
+			return GetBy</xsl:text>
+				<xsl:for-each select="$pkColumns">
+					<xsl:value-of select="@FieldName"/>
+					<xsl:if test="position() != last()">
+						<xsl:text>And</xsl:text>
+					</xsl:if>
+				</xsl:for-each>
+				<xsl:text>(</xsl:text>
 				<xsl:value-of select="/P:Project/P:Attributes/P:Attribute[@Key='DataContextName']/@Value"/>
 				<xsl:text>.Create(), </xsl:text>
 				
@@ -676,7 +699,14 @@ namespace </xsl:text>
 				<xsl:text>, or null if it does not exist.&lt;/returns&gt;
 		public static DA.</xsl:text>
 				<xsl:value-of select="@ClassName"/>
-				<xsl:text> GetByID(</xsl:text>
+				<xsl:text> GetBy</xsl:text>
+				<xsl:for-each select="$pkColumns">
+					<xsl:value-of select="@FieldName"/>
+					<xsl:if test="position() != last()">
+						<xsl:text>And</xsl:text>
+					</xsl:if>
+				</xsl:for-each>
+				<xsl:text>(</xsl:text>
 				<xsl:value-of select="/P:Project/P:Attributes/P:Attribute[@Key='DataContextName']/@Value"/>
 				<xsl:text> context, </xsl:text>
 				
@@ -692,7 +722,14 @@ namespace </xsl:text>
 				
 				<xsl:text>)
 		{
-			return GetByID(context.</xsl:text>
+			return GetBy</xsl:text>
+				<xsl:for-each select="$pkColumns">
+					<xsl:value-of select="@FieldName"/>
+					<xsl:if test="position() != last()">
+						<xsl:text>And</xsl:text>
+					</xsl:if>
+				</xsl:for-each>
+				<xsl:text>(context.</xsl:text>
 				<xsl:value-of select="@PluralClassName"/>
 				<xsl:text>, </xsl:text>
 				
@@ -719,7 +756,14 @@ namespace </xsl:text>
 				<xsl:text>, or null if it does not exist.&lt;/returns&gt;
 		public static DA.</xsl:text>
 				<xsl:value-of select="@ClassName"/>
-				<xsl:text> GetByID(IQueryable&lt;</xsl:text>
+				<xsl:text> GetBy</xsl:text>
+				<xsl:for-each select="$pkColumns">
+					<xsl:value-of select="@FieldName"/>
+					<xsl:if test="position() != last()">
+						<xsl:text>And</xsl:text>
+					</xsl:if>
+				</xsl:for-each>
+				<xsl:text>(IQueryable&lt;</xsl:text>
 				<xsl:value-of select="@ClassName"/>
 				<xsl:text>&gt; items, </xsl:text>
 				
@@ -1101,7 +1145,86 @@ namespace </xsl:text>
 		}</xsl:text>
 				</xsl:if>
 			</xsl:for-each>
-			<xsl:text>
+
+      <xsl:text>
+
+		public IEnumerable&lt;DeleteConflict&gt; GetDeleteConflicts(DA.</xsl:text>
+      <xsl:value-of select="/P:Project/P:Attributes/P:Attribute[@Key='DataContextName']/@Value"/>
+      <xsl:text> context)
+		{</xsl:text>
+
+      <xsl:choose>
+        <xsl:when test="$parentFKs">
+          <xsl:for-each select="$parentFKs">
+            <xsl:variable name="fk" select="."/>
+            <xsl:variable name="fkTable" select="/P:Project/P:TableMappings/P:TableMapping[@Exclude='false' and @SchemaName=$fk/@ParentTableMappingSchemaName and @TableName=$fk/@ParentTableMappingName]"/>
+            <xsl:variable name="fkDisplayNameOverride" select="$fkTable/P:Attributes/P:Attribute[@Key='DisplayName']/@Value"/>
+            <xsl:variable name="fkPluralDisplayNameOverride" select="$fkTable/P:Attributes/P:Attribute[@Key='PluralDisplayName']/@Value"/>
+
+            <xsl:if test="$fkTable">
+              <xsl:text>
+			if (!this.</xsl:text>
+              <xsl:value-of select="@PluralFieldName"/>
+              <xsl:text>.IsNullOrEmpty())
+				yield return new DeleteConflict(typeof(</xsl:text>
+              <xsl:value-of select="$fkTable/@ClassName"/>
+              <xsl:text>), "</xsl:text>
+				 <xsl:choose>
+				 	<xsl:when test="$fkDisplayNameOverride">
+              		<xsl:value-of select="$fkDisplayNameOverride"/>
+          		</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="$fkTable/@ClassName"/>
+					</xsl:otherwise>
+              </xsl:choose>
+              <xsl:text>", "</xsl:text>
+				 <xsl:choose>
+				 	<xsl:when test="$fkPluralDisplayNameOverride">
+              		<xsl:value-of select="$fkPluralDisplayNameOverride"/>
+          		</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="$fkTable/@PluralClassName"/>
+					</xsl:otherwise>
+              </xsl:choose>
+              <xsl:text>", this.</xsl:text>
+              <xsl:value-of select="@PluralFieldName"/>
+              <xsl:text>);
+		  </xsl:text>
+            </xsl:if>
+          </xsl:for-each>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:text>
+			yield break;</xsl:text>
+        </xsl:otherwise>
+      </xsl:choose>
+
+      <xsl:text>
+		}</xsl:text>
+			
+		<xsl:text>
+		
+		/// &lt;summary&gt;Clones this instance into a new instance.&lt;/summary&gt;
+		public new </xsl:text>
+		<xsl:value-of select="@ClassName"/>
+		<xsl:text> Clone(bool includePrimaryKey = false, bool includeCreatedAndModifiedDates = false) {
+			</xsl:text>
+			<xsl:value-of select="@ClassName"/>
+			<xsl:text> target = new </xsl:text>
+			<xsl:value-of select="@ClassName"/>
+			<xsl:text>();
+			
+			CloneInto(target, includePrimaryKey, includeCreatedAndModifiedDates);
+			
+			return target;
+		}
+		
+		/// &lt;summary&gt;Clones this instance into the provided instance.&lt;/summary&gt;
+		public void CloneInto(</xsl:text>
+		<xsl:value-of select="@ClassName"/>
+		<xsl:text> target, bool includePrimaryKey = false, bool includeCreatedAndModifiedDates = false) {
+			base.CloneInto(target, includePrimaryKey, includeCreatedAndModifiedDates);
+		}
 		
 		/// &lt;summary&gt;
 		///     Creates a deep copy of this instance as its base DataObject. This is
