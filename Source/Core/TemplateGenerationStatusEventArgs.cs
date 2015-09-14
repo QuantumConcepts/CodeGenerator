@@ -16,12 +16,12 @@ namespace QuantumConcepts.CodeGenerator.Core
             this.Template = template;
         }
 
-        public static TemplateGenerationStatusEventArgs CreateGenerating(Template template)
+        public static TemplateGenerationStatusEventArgs CreateCompiling(Template template)
         {
             if (template == null)
                 throw new ArgumentNullException("template");
 
-            return new TemplateGenerationStatusEventArgs(template, GenerationStatus.Generating);
+            return new TemplateGenerationStatusEventArgs(template, GenerationStatus.Compiling);
         }
 
         public static TemplateGenerationStatusEventArgs CreateError(Template template, Exception error)
@@ -33,6 +33,14 @@ namespace QuantumConcepts.CodeGenerator.Core
                 throw new ArgumentNullException("error");
 
             return new TemplateGenerationStatusEventArgs(template, GenerationStatus.Error, error);
+        }
+
+        public static TemplateGenerationStatusEventArgs CreateWaiting(Template template)
+        {
+            if (template == null)
+                throw new ArgumentNullException("template");
+
+            return new TemplateGenerationStatusEventArgs(template, GenerationStatus.Waiting);
         }
 
         public static TemplateGenerationStatusEventArgs CreateComplete(Template template)

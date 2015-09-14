@@ -7,6 +7,8 @@ namespace QuantumConcepts.CodeGenerator.Core
 {
     public enum GenerationStatus
     {
+        Compiling,
+        Waiting,
         Generating,
         Error,
         Complete

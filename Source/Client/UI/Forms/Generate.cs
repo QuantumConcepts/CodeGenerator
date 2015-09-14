@@ -51,7 +51,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
         private void Generate_Load(object sender, EventArgs e)
         {
             if (this.AutoGenerate)
-                GenerateSelection();
+                GenerateSelectionAsync();
         }
 
         private void outputsListView_ItemChecked(object sender, ItemCheckedEventArgs e)
@@ -97,7 +97,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
 
         private void generateButton_Click(object sender, EventArgs e)
         {
-            GenerateSelection();
+            GenerateSelectionAsync();
         }
 
         private void generateAllButton_Click(object sender, EventArgs e)
@@ -226,10 +226,10 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
         {
             outputsListView.Items.Cast<ListViewItem>().ForEach(o => o.Checked = true);
 
-            GenerateSelection();
+            GenerateSelectionAsync();
         }
 
-        private void GenerateSelection()
+        private async void GenerateSelectionAsync()
         {
             ToggleUI(false);
 
@@ -264,7 +264,8 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
                 this.Generator.GenerationStatus += new Generator.GenerationStatusEventHandler(Generator_GenerationStatus);
                 this.Generator.TemplateGenerationStatus += new Generator.TemplateGenerationStatusEventHandler(Generator_TemplateGenerationStatus);
                 this.Generator.ItemGenerationStatus += new Generator.ItemGenerationStatusEventHandler(Generator_ItemGenerationStatus);
-                this.Generator.Generate();
+
+                await this.Generator.GenerateAsync();
             }
         }
 
