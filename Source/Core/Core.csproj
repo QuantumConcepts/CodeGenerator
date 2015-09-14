@@ -194,7 +194,9 @@
       <HintPath>..\packages\MySql.ConnectorNET.Data.6.8.3.2\lib\net40\MySql.Data.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -202,6 +204,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\..\..\..\..\..\DataObjects_Test.cs">
+      <Link>Templates\DataObjects_Test.cs</Link>
+    </None>
     <Compile Include="BatchEditors\BatchEditorField.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -240,6 +245,8 @@
     <Compile Include="PackageSchema\ReplaceTextAction.cs" />
     <Compile Include="PackageSchema\ProjectFactory.cs" />
     <Compile Include="Plugins\PluginConfig.cs" />
+    <Compile Include="Templates\DataObjects.cs" />
+    <Compile Include="Templates\BaseCodeDomTemplate.cs" />
     <Compile Include="Upgrade\Upgrader_1_6_2_0.cs" />
     <Compile Include="Upgrade\Upgrader_1_6_3_0.cs" />
     <Compile Include="Utils\ComingledXPathExpressionResult.cs" />
