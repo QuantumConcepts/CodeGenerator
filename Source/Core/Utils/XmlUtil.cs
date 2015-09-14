@@ -80,18 +80,19 @@ namespace QuantumConcepts.CodeGenerator.Core.Utils
             XmlNamespaceManager nsm = null;
             XDocument projectDocument = project.GetXDocument(out nsm);
             string baseXPath = GetBaseXPathForElementType(elementType);
-            IEnumerable<XElement> elements = projectDocument.XPathSelectElements(baseXPath, nsm);
+            IEnumerable<XElement> elements = null;
             List<ComingledXPathExpressionResult> results = new List<ComingledXPathExpressionResult>();
 
             //If a filter was supplied, further filter the elements.
-            if (!filterXPath.IsNullOrEmpty())
+            if (filterXPath.IsNullOrEmpty())
+                elements = projectDocument.XPathSelectElements(baseXPath, nsm);
+            else
             {
                 try
                 {
                     string xPath = "{0}[{1}]".FormatString(baseXPath, filterXPath);
-                    IEnumerable<XElement> filteredElements = projectDocument.XPathSelectElements(xPath, nsm);
-
-                    elements = elements.Intersect(filteredElements);
+                    
+                    elements = projectDocument.XPathSelectElements(xPath, nsm);
                 }
                 catch (XPathException ex)
                 {
