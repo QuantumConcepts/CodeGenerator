@@ -4,27 +4,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using QuantumConcepts.Common.Extensions;
+using System.CodeDom.Compiler;
+using Microsoft.CSharp;
+using System.IO;
 
 namespace QuantumConcepts.CodeGenerator.Core.Templates {
-    public abstract class BaseCodeDomTemplate {
-        public Project Project { get; private set; }
+    public abstract class BaseCodeDomTemplate : BaseCodeTemplate {
+        public BaseCodeDomTemplate(Project project) : base(project) { }
 
-        public BaseCodeDomTemplate(Project project) {
-            this.Project = project;
+        public override void Render(Template template) {
+            CodeCompileUnit code = GetCodeCompileUnit(template);
+            CodeDomProvider provider = new CSharpCodeProvider();
+            CodeGeneratorOptions options = new CodeGeneratorOptions() {
+                VerbatimOrder = true
+            };
+
+            using (StreamWriter writer = new StreamWriter("DataObjects_CodeDom_Test.cs"))
+                provider.GenerateCodeFromCompileUnit(code, writer, options);
         }
 
-        public abstract CodeCompileUnit Render(Template template);
+        protected abstract CodeCompileUnit GetCodeCompileUnit(Template template);
 
-        protected CodeNamespace GetNamespace(Template template, string name) {
-            Attribute<Template> attr = template.Attributes.SingleOrDefault(o => "Namespace".Equals(o.Key));
-            string namespaceName = (
-                attr != null
-                    ? attr.Value
-                    : (!this.Project.RootNamespace.IsNullOrEmpty()
-                        ? "{0}.{1}".FormatString(this.Project.RootNamespace, name)
-                        : name));
-
-            return new CodeNamespace(namespaceName);
+        protected new CodeNamespace GetNamespace(Template template, string name) {
+            return new CodeNamespace(base.GetNamespace(template, name));
         }
     }
 }

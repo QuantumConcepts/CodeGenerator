@@ -245,6 +245,7 @@
     <Compile Include="PackageSchema\ReplaceTextAction.cs" />
     <Compile Include="PackageSchema\ProjectFactory.cs" />
     <Compile Include="Plugins\PluginConfig.cs" />
+    <Compile Include="Templates\BaseCodeTemplate.cs" />
     <Compile Include="Templates\DataObjects.cs" />
     <Compile Include="Templates\BaseCodeDomTemplate.cs" />
     <Compile Include="Upgrade\Upgrader_1_6_2_0.cs" />

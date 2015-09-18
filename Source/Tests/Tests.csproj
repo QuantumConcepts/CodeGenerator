@@ -65,6 +65,10 @@
       <Project>{fd273a49-441a-426e-9367-bf26a675f2e7}</Project>
       <Name>Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Templates\RoslynTemplates\RoslynTemplates.csproj">
+      <Project>{99ae2b58-7258-45cd-be05-15389411f940}</Project>
+      <Name>RoslynTemplates</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

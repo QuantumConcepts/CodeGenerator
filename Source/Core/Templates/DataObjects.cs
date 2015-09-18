@@ -10,7 +10,7 @@ namespace QuantumConcepts.CodeGenerator.Core.Templates {
     public class DataObjects : BaseCodeDomTemplate {
         public DataObjects(Project project) : base(project) { }
 
-        public override CodeCompileUnit Render(Template template) {
+        protected override CodeCompileUnit GetCodeCompileUnit(Template template) {
             CodeCompileUnit code = new CodeCompileUnit();
             CodeNamespace ns = GetNamespace(template, "DataObjects");
 
@@ -38,8 +38,6 @@ namespace QuantumConcepts.CodeGenerator.Core.Templates {
         private void CreateClass(Template template, TableMapping table, CodeNamespace ns) {
             CodeTypeDeclaration cls = new CodeTypeDeclaration(table.ClassName);
             IEnumerable<ColumnMapping> columns = table.ColumnMappings.Where(o => !o.Exclude);
-            Dictionary<ColumnMapping, CodeMemberField> fields = new Dictionary<ColumnMapping, CodeMemberField>();
-            Dictionary<ColumnMapping, CodeMemberProperty> properties = new Dictionary<ColumnMapping, CodeMemberProperty>();
 
             // Create the class.
             cls.IsClass = true;
@@ -56,7 +54,6 @@ namespace QuantumConcepts.CodeGenerator.Core.Templates {
                 field.Name = "_{0}".FormatString(column.FieldName);
 
                 cls.Members.Add(field);
-                fields.Add(column, field);
 
                 // Create the property.
                 CreateComments(column, property.Comments);
@@ -68,7 +65,6 @@ namespace QuantumConcepts.CodeGenerator.Core.Templates {
                 property.SetStatements.Add(new CodeAssignStatement(new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), field.Name), new CodePropertySetValueReferenceExpression()));
 
                 cls.Members.Add(property);
-                properties.Add(column, property);
             }
 
             ns.Types.Add(cls);
