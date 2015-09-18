@@ -50,11 +50,13 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="RoslynTests.cs" />
+    <Compile Include="CodeDomTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestHelper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Common\Common\QC Common.csproj">
+    <ProjectReference Include="..\..\..\Common\Common\QC Common.csproj">
       <Project>{8807828d-db88-462a-875e-647240d48668}</Project>
       <Name>QC Common</Name>
     </ProjectReference>
