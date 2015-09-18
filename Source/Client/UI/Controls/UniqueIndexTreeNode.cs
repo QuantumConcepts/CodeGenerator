@@ -9,14 +9,14 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
 {
     internal sealed class UniqueIndexTreeNode : ProjectSchemaTreeNode
     {
-        private UniqueIndexMapping _uniqueIndexMapping;
+        private UniqueConstraint _uniqueIndexMapping;
 
-        public UniqueIndexMapping UniqueIndexMapping
+        public UniqueConstraint UniqueIndexMapping
         {
             get { return _uniqueIndexMapping; }
         }
 
-        public UniqueIndexTreeNode(UniqueIndexMapping uniqueIndexMapping)
+        public UniqueIndexTreeNode(UniqueConstraint uniqueIndexMapping)
         {
             _uniqueIndexMapping = uniqueIndexMapping;
 
@@ -37,8 +37,8 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
         {
             this.Text = _uniqueIndexMapping.UniqueIndexName + " (";
 
-            foreach (ColumnMapping cm in _uniqueIndexMapping.ColumnMappings)
-                this.Text += cm.FieldName + (cm == _uniqueIndexMapping.ColumnMappings[_uniqueIndexMapping.ColumnMappings.Count - 1] ? "" : ", ");
+            foreach (Property cm in _uniqueIndexMapping.Properties)
+                this.Text += cm.FieldName + (cm == _uniqueIndexMapping.Properties[_uniqueIndexMapping.Properties.Count - 1] ? "" : ", ");
 
             this.Text += ")";
             this.ForeColor = (_uniqueIndexMapping.Exclude ? Color.LightGray : Color.Black);

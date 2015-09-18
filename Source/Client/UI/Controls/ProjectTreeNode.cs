@@ -125,11 +125,11 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
         {
             _tablesNode.Nodes.Clear();
 
-            foreach (var schemaName in _project.TableMappings.Select(o => o.SchemaName).Distinct().OrderBy(o => o))
+            foreach (var schemaName in _project.Entities.Select(o => o.SchemaName).Distinct().OrderBy(o => o))
             {
                 SchemaTreeNode schemaNode = new SchemaTreeNode(schemaName);
 
-                foreach (TableMapping tableMapping in _project.TableMappings.Where(o => string.Equals(o.SchemaName, schemaName)))
+                foreach (Entity tableMapping in _project.Entities.Where(o => string.Equals(o.SchemaName, schemaName)))
                     schemaNode.Nodes.Add(new TableOrViewTreeNode(tableMapping));
 
                 _tablesNode.Nodes.Add(schemaNode);
@@ -146,7 +146,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
             {
                 SchemaTreeNode schemaNode = new SchemaTreeNode(schemaName);
 
-                foreach (ViewMapping viewMapping in _project.ViewMappings.Where(o => string.Equals(o.SchemaName, schemaName)))
+                foreach (ViewEntity viewMapping in _project.ViewMappings.Where(o => string.Equals(o.SchemaName, schemaName)))
                     schemaNode.Nodes.Add(new TableOrViewTreeNode(viewMapping));
 
                 _viewsNode.Nodes.Add(schemaNode);

@@ -1,19 +1,14 @@
-using System;
+using QuantumConcepts.CodeGenerator.Core.ProjectSchema;
 using System.Collections.Generic;
-using System.Text;
 using System.Data;
 using System.Data.SqlClient;
-using QuantumConcepts.CodeGenerator.Core.ProjectSchema;
-using QuantumConcepts.Common.Extensions;
 
-namespace QuantumConcepts.CodeGenerator.Core.Data.SqlServer
-{
-    public class SqlServerWorker : DatabaseWorker
-    {
+namespace QuantumConcepts.CodeGenerator.Core.Data.SqlServer {
+
+    public class SqlServerWorker : DatabaseWorker {
         public override string Name { get { return "SQL Server"; } }
 
-        protected override DataTable GetTables(Project project)
-        {
+        protected override DataTable GetTables(Project project) {
             return ExecuteQuery(project,
                 "SELECT " +
                     "s.name AS " + QueryConstants.TableOrView.SchemaName + ", " +
@@ -24,8 +19,7 @@ namespace QuantumConcepts.CodeGenerator.Core.Data.SqlServer
                 "WHERE t.type = 'U'");
         }
 
-        protected override DataTable GetViews(Project project)
-        {
+        protected override DataTable GetViews(Project project) {
             return ExecuteQuery(project,
                 "SELECT " +
                     "s.name AS " + QueryConstants.TableOrView.SchemaName + ", " +
@@ -35,8 +29,7 @@ namespace QuantumConcepts.CodeGenerator.Core.Data.SqlServer
                     "JOIN sys.schemas s ON s.schema_id = v.schema_id");
         }
 
-        protected override DataTable GetColumns(Project project)
-        {
+        protected override DataTable GetColumns(Project project) {
             return ExecuteQuery(project,
                 "( " +
                     "SELECT " +
@@ -127,8 +120,7 @@ namespace QuantumConcepts.CodeGenerator.Core.Data.SqlServer
                 ")");
         }
 
-        protected override DataTable GetForeignKeys(Project project)
-        {
+        protected override DataTable GetForeignKeys(Project project) {
             return ExecuteQuery(project,
                 "SELECT DISTINCT " +
                     "fk.name AS " + QueryConstants.ForeignKey.Name + ", " +
@@ -151,8 +143,7 @@ namespace QuantumConcepts.CodeGenerator.Core.Data.SqlServer
                     "JOIN sys.columns c2 ON c2.object_id = t2.object_id AND c2.column_id = fkc.referenced_column_id");
         }
 
-        protected override DataTable GetUniqueIndices(Project project)
-        {
+        protected override DataTable GetUniqueIndices(Project project) {
             return ExecuteQuery(project,
                 "SELECT DISTINCT " +
                     "i.name AS " + QueryConstants.Index.Name + ", " +
@@ -172,19 +163,15 @@ namespace QuantumConcepts.CodeGenerator.Core.Data.SqlServer
                     "AND i.is_disabled = 0");
         }
 
-        private DataTable ExecuteQuery(Project project, string sql)
-        {
+        private DataTable ExecuteQuery(Project project, string sql) {
             return ExecuteQuery(project, sql, null);
         }
 
-        private DataTable ExecuteQuery(Project project, string sql, SqlParameter[] parameters)
-        {
-            using (SqlConnection connection = new SqlConnection(project.UserSettings.Connection.ConnectionString))
-            {
+        private DataTable ExecuteQuery(Project project, string sql, SqlParameter[] parameters) {
+            using (SqlConnection connection = new SqlConnection(project.UserSettings.Connection.ConnectionString)) {
                 connection.Open();
 
-                using (SqlDataAdapter adapter = new SqlDataAdapter(sql, connection))
-                {
+                using (SqlDataAdapter adapter = new SqlDataAdapter(sql, connection)) {
                     DataTable dataTable = new DataTable();
 
                     if (parameters != null)
@@ -198,18 +185,14 @@ namespace QuantumConcepts.CodeGenerator.Core.Data.SqlServer
             }
         }
 
-        public override void ValidateConnection(Project project)
-        {
-            using (SqlConnection connection = new SqlConnection(project.UserSettings.Connection.ConnectionString))
-            {
+        public override void ValidateConnection(Project project) {
+            using (SqlConnection connection = new SqlConnection(project.UserSettings.Connection.ConnectionString)) {
                 connection.Open();
             }
         }
 
-        public override IEnumerable<DataTypeMappingConfiguration> GetDataTypeMappingConfigurations()
-        {
-            yield return new DataTypeMappingConfiguration()
-            {
+        public override IEnumerable<DataTypeMappingConfiguration> GetDataTypeMappingConfigurations() {
+            yield return new DataTypeMappingConfiguration() {
                 DatabaseType = this.Name,
                 Language = "CSharp",
                 DataTypeMappings = new List<DataTypeMapping>()

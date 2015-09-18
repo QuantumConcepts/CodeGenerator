@@ -135,7 +135,7 @@ namespace QuantumConcepts.CodeGenerator.Plugins.MvcAdmin.UI.Forms
                 tablesListView.BeginUpdate();
                 columnsListView.BeginUpdate();
 
-                ProjectContext.Project.TableMappings.Where(t => !t.Exclude).OrderBy(t => t.ToString()).ForEach(t =>
+                ProjectContext.Project.Entities.Where(t => !t.Exclude).OrderBy(t => t.ToString()).ForEach(t =>
                 {
                     bool showTable = t.Attributes.Any(a => Key_MvcAdmin.EqualsIgnoreCase(a.Key));
                     string tableDisplayName = t.Attributes.SingleOrDefault(a => Key_DisplayName.EqualsIgnoreCase(a.Key)).ValueOrDefault(a => a.Value);
@@ -160,7 +160,7 @@ namespace QuantumConcepts.CodeGenerator.Plugins.MvcAdmin.UI.Forms
 
         private void RefreshColumns(ListViewItem item)
         {
-            TableMapping tableMapping = (item.Tag as TableMapping);
+            Entity tableMapping = (item.Tag as Entity);
 
             if (tableMapping != null)
             {
@@ -188,7 +188,7 @@ namespace QuantumConcepts.CodeGenerator.Plugins.MvcAdmin.UI.Forms
                     columnsListView.Groups.Add(group);
                 }
 
-                tableMapping.ColumnMappings.Where(c => !c.Exclude).OrderBy(c => c.ToString()).ForEach(c =>
+                tableMapping.Properties.Where(c => !c.Exclude).OrderBy(c => c.ToString()).ForEach(c =>
                 {
                     bool showColumn = c.Attributes.Any(a => Key_MvcAdminShow.EqualsIgnoreCase(a.Key));
                     string columnDisplayName = c.Attributes.SingleOrDefault(a => Key_DisplayName.EqualsIgnoreCase(a.Key)).ValueOrDefault(a => a.Value);
@@ -392,7 +392,7 @@ namespace QuantumConcepts.CodeGenerator.Plugins.MvcAdmin.UI.Forms
             {
                 foreach (ListViewItem item in tablesListView.Items)
                 {
-                    TableMapping tableMapping = (TableMapping)item.Tag;
+                    Entity tableMapping = (Entity)item.Tag;
 
                     RemoveAttribute(tableMapping, Key_MvcAdminDeletable);
 
@@ -413,7 +413,7 @@ namespace QuantumConcepts.CodeGenerator.Plugins.MvcAdmin.UI.Forms
 
                 foreach (ListViewItem item in columnsListView.Items)
                 {
-                    ColumnMapping columnMapping = (ColumnMapping)item.Tag;
+                    Property columnMapping = (Property)item.Tag;
 
                     //Remove all attributes first.
                     RemoveAttribute(columnMapping, Key_MvcAdminShow);
@@ -493,8 +493,8 @@ namespace QuantumConcepts.CodeGenerator.Plugins.MvcAdmin.UI.Forms
                 }
                 else
                 {
-                    ColumnMapping xCM = (ColumnMapping)x.Tag;
-                    ColumnMapping yCM = (ColumnMapping)y.Tag;
+                    Property xCM = (Property)x.Tag;
+                    Property yCM = (Property)y.Tag;
 
                     return xCM.Sequence.CompareTo(yCM.Sequence);
                 }

@@ -1,19 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
+namespace QuantumConcepts.CodeGenerator.Core.Data {
 
-namespace QuantumConcepts.CodeGenerator.Core.Data
-{
-    public static class QueryConstants
-    {
-        public static class TableOrView
-        {
+    public static class QueryConstants {
+
+        public static class TableOrView {
             public const string SchemaName = "SchemaName";
             public const string Name = "TableOrViewName";
         }
 
-        public static class Column
-        {
+        public static class Column {
             public const string For = "For";
             public const string ForTable = "Table";
             public const string ForView = "View";
@@ -26,8 +20,7 @@ namespace QuantumConcepts.CodeGenerator.Core.Data
             public const string PrimaryKey = "ColumnPrimaryKey";
         }
 
-        public static class ForeignKey
-        {
+        public static class ForeignKey {
             public const string Name = "ForeignKeyName";
             public const string ParentTableSchemaName = "ParentTableSchemaName";
             public const string ParentTableName = "ParentTableName";
@@ -37,8 +30,7 @@ namespace QuantumConcepts.CodeGenerator.Core.Data
             public const string ReferencedColumnName = "ReferencedColumnName";
         }
 
-        public static class Index
-        {
+        public static class Index {
             public const string Name = "IndexName";
         }
     }

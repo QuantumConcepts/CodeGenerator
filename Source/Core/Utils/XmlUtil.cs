@@ -193,7 +193,7 @@ namespace QuantumConcepts.CodeGenerator.Core.Utils
             if (parentElement == null)
                 throw new ApplicationException("Could not determine parent element for element of type \"{0}.\"".FormatString(elementType));
 
-            if (TableMapping.ElementName.Equals(parentElement.Name))
+            if (Entity.ElementName.Equals(parentElement.Name))
                 parentElementType = ElementType.Table;
             else
                 throw new ApplicationException("Could not determine parent element type for element of type \"{0}.\"".FormatString(elementType));
@@ -212,7 +212,7 @@ namespace QuantumConcepts.CodeGenerator.Core.Utils
                 return project.FindForeignKeyMapping(elementName);
             else
             {
-                TableMapping tableMapping = project.FindTableMapping(((XAttribute)element.XPathEvaluate("ancestor::TableMapping/@SchemaName")).Value, parentElementName);
+                Entity tableMapping = project.FindTableMapping(((XAttribute)element.XPathEvaluate("ancestor::TableMapping/@SchemaName")).Value, parentElementName);
 
                 if (elementType == ElementType.Column)
                     return tableMapping.FindColumnMapping(elementName);

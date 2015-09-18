@@ -9,7 +9,7 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
     [XmlRoot]
     public class EnumerationMapping : IProjectSchemaElement, IHasAnnotations<EnumerationMapping>, IHasAttributes<EnumerationMapping>
     {
-        private ColumnMapping _columnMapping;
+        private Property _columnMapping;
         private string _name;
         private bool _isReference = false;
         private string _referencedTableMappingSchemaName;
@@ -26,7 +26,7 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
         }
 
         [XmlIgnore]
-        public ColumnMapping ColumnMapping
+        public Property ColumnMapping
         {
             get { return _columnMapping; }
             set { _columnMapping = value; }
@@ -127,7 +127,7 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
             UpdateReference(reference);
         }
 
-        public void JoinToColumnMapping(ColumnMapping columnMapping)
+        public void JoinToColumnMapping(Property columnMapping)
         {
             if (_columnMapping != null)
                 throw new ApplicationException("Already joined to a column mapping.");
@@ -156,9 +156,9 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
         {
             _name = reference.Name;
             _isReference = true;
-            _referencedTableMappingSchemaName = reference.ColumnMapping.TableMapping.SchemaName;
-            _referencedTableMappingName = reference.ColumnMapping.TableMapping.TableName;
-            _referencedColumnName = reference.ColumnMapping.ColumnName;
+            _referencedTableMappingSchemaName = reference.ColumnMapping.Entity.SchemaName;
+            _referencedTableMappingName = reference.ColumnMapping.Entity.Name;
+            _referencedColumnName = reference.ColumnMapping.Name;
             _values = null;
             _annotations = null;
             _attributes = null;
@@ -166,7 +166,7 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
 
         public bool References(EnumerationMapping reference)
         {
-            return (object.Equals(reference.Name, _name) && object.Equals(reference.ColumnMapping.TableMapping.TableName, _referencedTableMappingName) && object.Equals(reference.ColumnMapping.ColumnName, _referencedColumnName));
+            return (object.Equals(reference.Name, _name) && object.Equals(reference.ColumnMapping.Entity.Name, _referencedTableMappingName) && object.Equals(reference.ColumnMapping.Name, _referencedColumnName));
         }
 
         public override string ToString()

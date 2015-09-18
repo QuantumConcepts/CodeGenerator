@@ -1,16 +1,13 @@
-﻿using System;
+﻿using QuantumConcepts.Common.Extensions;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Xml.Serialization;
-using QuantumConcepts.Common.Extensions;
 
-namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
-{
+namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema {
+
     [XmlRoot]
     public class Annotation<T> : IProjectSchemaElement, IAnnotation, IHasAttributes<Annotation<T>>
-        where T : IProjectSchemaElement
-    {
+        where T : IProjectSchemaElement {
         private T _parent;
 
         [XmlAttribute]
@@ -30,30 +27,25 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
         public IEnumerable<IAnnotation> AllAnnotations { get { yield break; } }
 
         [XmlIgnore]
-        public IEnumerable<IAttribute> AllAttributes
-        {
-            get
-            {
+        public IEnumerable<IAttribute> AllAttributes {
+            get {
                 foreach (IAttribute attribute in this.Attributes)
                     yield return attribute;
             }
         }
 
-        public Annotation()
-        {
+        public Annotation() {
             this.Attributes = new List<Attribute<Annotation<T>>>();
         }
 
         public Annotation(string type, string text, List<Attribute<Annotation<T>>> attributes)
-            : this()
-        {
+            : this() {
             this.Type = type;
             this.Text = text;
             this.Attributes = (attributes ?? new List<Attribute<Annotation<T>>>());
         }
 
-        public void JoinToParent(T parent)
-        {
+        public void JoinToParent(T parent) {
             if (_parent != null)
                 throw new ApplicationException("Already joined to a parent.");
 
@@ -61,8 +53,7 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
             this.Attributes.ForEach(a => a.JoinToParent(this));
         }
 
-        public override string ToString()
-        {
+        public override string ToString() {
             return "{0}: {1}".FormatString(this.Type, this.Text);
         }
     }

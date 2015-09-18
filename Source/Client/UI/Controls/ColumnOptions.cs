@@ -16,9 +16,9 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
         public event SavedDelegate Saved;
 
         private bool IsLoaded { get; set; }
-        private ColumnMapping ColumnMapping { get; set; }
+        private Property ColumnMapping { get; set; }
 
-        public string Title { get { return (this.ColumnMapping == null ? "Unknown Column Mapping" : this.ColumnMapping.TableMapping.TableName + " > " + this.ColumnMapping.ColumnName); } }
+        public string Title { get { return (this.ColumnMapping == null ? "Unknown Column Mapping" : this.ColumnMapping.Entity.Name + " > " + this.ColumnMapping.Name); } }
         
         public int SelectedTabIndex
         {
@@ -30,7 +30,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
             }
         }
 
-        public ColumnOptions(ColumnMapping columnMapping)
+        public ColumnOptions(Property columnMapping)
         {
             InitializeComponent();
 
@@ -48,7 +48,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
             if (this.ColumnMapping.DataType.Equals(this.ColumnMapping.ContainingProject.FindDataTypeMapping("binary").ApplicationDataType) ||
                 this.ColumnMapping.DataType.Equals(this.ColumnMapping.ContainingProject.FindDataTypeMapping("varbinary").ApplicationDataType))
             {
-                foreach (ColumnMapping cm in this.ColumnMapping.TableMapping.ColumnMappings)
+                foreach (Property cm in this.ColumnMapping.Entity.Properties)
                 {
                     if (cm.DataType.Equals(this.ColumnMapping.ContainingProject.FindDataTypeMapping("binary").ApplicationDataType) ||
                         cm.DataType.Equals(this.ColumnMapping.ContainingProject.FindDataTypeMapping("varbinary").ApplicationDataType))
@@ -59,7 +59,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
 
                 if (!string.IsNullOrEmpty(this.ColumnMapping.EncryptionVectorColumnName))
                 {
-                    ColumnMapping encryptionVectorColumn = this.ColumnMapping.TableMapping.FindColumnMapping(this.ColumnMapping.EncryptionVectorColumnName);
+                    Property encryptionVectorColumn = this.ColumnMapping.Entity.FindColumnMapping(this.ColumnMapping.EncryptionVectorColumnName);
 
                     encryptionPropertyNameTextBox.Text = this.ColumnMapping.DecryptionPropertyName;
 
@@ -78,8 +78,8 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
             else
                 encryptionCheckBox.Enabled = false;
 
-            foreach (TableMapping tm in this.ColumnMapping.ContainingProject.TableMappings)
-                foreach (ColumnMapping cm in tm.ColumnMappings)
+            foreach (Entity tm in this.ColumnMapping.ContainingProject.Entities)
+                foreach (Property cm in tm.Properties)
                     if (cm.EnumerationMapping != null)
                         referencedEnumerationComboBox.Items.Add(cm.EnumerationMapping);
 
@@ -205,7 +205,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
 
         private void editAnnotationsButton_Click(object sender, EventArgs e)
         {
-            using (Forms.EditAnnotations<ColumnMapping> dialog = new Forms.EditAnnotations<ColumnMapping>(ColumnMapping))
+            using (Forms.EditAnnotations<Property> dialog = new Forms.EditAnnotations<Property>(ColumnMapping))
             {
                 dialog.ShowDialog();
             }
@@ -213,7 +213,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
 
         private void attributesButton_Click(object sender, EventArgs e)
         {
-            using (Forms.EditAttributes<ColumnMapping> dialog = new Forms.EditAttributes<ColumnMapping>(this.ColumnMapping))
+            using (Forms.EditAttributes<Property> dialog = new Forms.EditAttributes<Property>(this.ColumnMapping))
             {
                 dialog.ShowDialog();
             }
@@ -233,7 +233,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
             if (encryptionCheckBox.Checked && !string.IsNullOrEmpty(encryptionPropertyNameTextBox.Text) && encryptionVectorColumnComboBox.SelectedItem != null)
             {
                 this.ColumnMapping.DecryptionPropertyName = encryptionPropertyNameTextBox.Text;
-                this.ColumnMapping.EncryptionVectorColumnName = ((ColumnMapping)encryptionVectorColumnComboBox.SelectedItem).ColumnName;
+                this.ColumnMapping.EncryptionVectorColumnName = ((Property)encryptionVectorColumnComboBox.SelectedItem).Name;
             }
             else
             {
@@ -260,8 +260,8 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
                     this.ColumnMapping.EnumerationMapping.JoinToColumnMapping(this.ColumnMapping);
 
                     //Update any referenced enumerations.
-                    foreach (TableMapping tm in this.ColumnMapping.ContainingProject.TableMappings)
-                        foreach (ColumnMapping cm in tm.ColumnMappings)
+                    foreach (Entity tm in this.ColumnMapping.ContainingProject.Entities)
+                        foreach (Property cm in tm.Properties)
                             if (cm.EnumerationMapping != null && cm.EnumerationMapping.References(this.ColumnMapping.EnumerationMapping))
                                 cm.EnumerationMapping.UpdateReference(this.ColumnMapping.EnumerationMapping);
                 }
@@ -269,8 +269,8 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
             else
                 this.ColumnMapping.EnumerationMapping = null;
 
-            this.ColumnMapping.Annotations = new List<Annotation<ColumnMapping>>(editAnnotations.Annotations);
-            this.ColumnMapping.Attributes = new List<Attribute<ColumnMapping>>(editAttributes.Attributes);
+            this.ColumnMapping.Annotations = new List<Annotation<Property>>(editAnnotations.Annotations);
+            this.ColumnMapping.Attributes = new List<Attribute<Property>>(editAttributes.Attributes);
 
             OnSaved();
         }

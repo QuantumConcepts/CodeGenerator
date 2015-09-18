@@ -1,22 +1,26 @@
+using QuantumConcepts.CodeGenerator.Core.Exceptions;
+using QuantumConcepts.CodeGenerator.Core.ProjectSchema;
+using QuantumConcepts.Common.Extensions;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Data;
-using QuantumConcepts.CodeGenerator.Core.ProjectSchema;
-using QuantumConcepts.CodeGenerator.Core.Utils;
 using System.Linq;
-using QuantumConcepts.Common.Extensions;
-using QuantumConcepts.CodeGenerator.Core.Exceptions;
+using System.Text;
 
 namespace QuantumConcepts.CodeGenerator.Core.Data {
+
     public abstract class DatabaseWorker {
         public abstract string Name { get; }
         public virtual IList<DatabaseParameter> Parameters { get { return null; } }
 
         protected abstract DataTable GetTables(Project project);
+
         protected abstract DataTable GetViews(Project project);
+
         protected abstract DataTable GetColumns(Project project);
+
         protected abstract DataTable GetForeignKeys(Project project);
+
         protected abstract DataTable GetUniqueIndices(Project project);
 
         protected virtual void ExtractTableInfo(DataRow dr, out string schemaName, out string name) {
@@ -59,6 +63,7 @@ namespace QuantumConcepts.CodeGenerator.Core.Data {
         }
 
         public abstract void ValidateConnection(Project project);
+
         public abstract IEnumerable<DataTypeMappingConfiguration> GetDataTypeMappingConfigurations();
 
         public void Refresh(Project project) {
@@ -76,15 +81,15 @@ namespace QuantumConcepts.CodeGenerator.Core.Data {
             foreach (DataRow dr in dataTable.Rows) {
                 string schemaName;
                 string name;
-                TableMapping tm;
+                Entity tm;
 
                 ExtractTableInfo(dr, out schemaName, out name);
                 tm = project.FindTableMapping(schemaName, name);
 
                 if (tm == null) {
-                    tm = new TableMapping(schemaName, name, name, null, null, null, null);
+                    tm = new Entity(schemaName, name, name, null, null, null, null);
                     tm.JoinToProject(project);
-                    project.TableMappings.Add(tm);
+                    project.Entities.Add(tm);
                 }
                 else if (!string.Equals(tm.SchemaName, schemaName))
                     tm.SchemaName = schemaName;
@@ -99,19 +104,19 @@ namespace QuantumConcepts.CodeGenerator.Core.Data {
             }
 
             //Check for tables which are no longer in the database
-            if (project.TableMappings.Count != dataTable.Rows.Count) {
-                List<TableMapping> remove = new List<TableMapping>();
+            if (project.Entities.Count != dataTable.Rows.Count) {
+                List<Entity> remove = new List<Entity>();
 
-                foreach (TableMapping tm in project.TableMappings) {
-                    DataRow match = dataTable.Rows.Find(new[] { tm.SchemaName, tm.TableName });
+                foreach (Entity tm in project.Entities) {
+                    DataRow match = dataTable.Rows.Find(new[] { tm.SchemaName, tm.Name });
 
                     //Find() is not case sensitive so ensure the case matches otherwise we could end up with duplicate items.
-                    if (match == null || (!match[QueryConstants.TableOrView.SchemaName].Equals(tm.SchemaName) && !match[QueryConstants.TableOrView.Name].Equals(tm.TableName)))
+                    if (match == null || (!match[QueryConstants.TableOrView.SchemaName].Equals(tm.SchemaName) && !match[QueryConstants.TableOrView.Name].Equals(tm.Name)))
                         remove.Add(tm);
                 }
 
-                foreach (TableMapping tm in remove)
-                    project.TableMappings.Remove(tm);
+                foreach (Entity tm in remove)
+                    project.Entities.Remove(tm);
             }
         }
 
@@ -122,13 +127,13 @@ namespace QuantumConcepts.CodeGenerator.Core.Data {
             foreach (DataRow dr in dataTable.Rows) {
                 string schemaName;
                 string name;
-                ViewMapping vm;
+                ViewEntity vm;
 
                 ExtractTableInfo(dr, out schemaName, out name);
                 vm = project.FindViewMapping(schemaName, name);
 
                 if (vm == null) {
-                    vm = new ViewMapping(schemaName, name, name, null, null, null, null);
+                    vm = new ViewEntity(schemaName, name, name, null, null, null, null);
                     vm.JoinToProject(project);
                     project.ViewMappings.Add(vm);
                 }
@@ -146,24 +151,24 @@ namespace QuantumConcepts.CodeGenerator.Core.Data {
 
             //Check for tables which are no longer in the database
             if (project.ViewMappings.Count != dataTable.Rows.Count) {
-                List<ViewMapping> remove = new List<ViewMapping>();
+                List<ViewEntity> remove = new List<ViewEntity>();
 
-                foreach (ViewMapping vm in project.ViewMappings) {
-                    DataRow match = dataTable.Rows.Find(new[] { vm.SchemaName, vm.TableName });
+                foreach (ViewEntity vm in project.ViewMappings) {
+                    DataRow match = dataTable.Rows.Find(new[] { vm.SchemaName, vm.Name });
 
                     //Find() is not case sensitive so ensure the case matches otherwise we could end up with duplicate items.
                     if (match == null || (!match[QueryConstants.TableOrView.SchemaName].Equals(vm.SchemaName) && !match[QueryConstants.TableOrView.Name].Equals(vm.ViewName)))
                         remove.Add(vm);
                 }
 
-                foreach (ViewMapping vm in remove)
+                foreach (ViewEntity vm in remove)
                     project.ViewMappings.Remove(vm);
             }
         }
 
         private void RefreshColumns(Project project) {
             DataTable dataTable = GetColumns(project);
-            TableMapping currentTableOrViewMapping = null;
+            Entity currentTableOrViewMapping = null;
 
             foreach (DataRow dr in dataTable.Rows) {
                 string forParent;
@@ -177,7 +182,7 @@ namespace QuantumConcepts.CodeGenerator.Core.Data {
                 bool nullable;
                 bool primaryKey;
                 DataTypeMapping dataTypeMapping;
-                ColumnMapping cm;
+                Property cm;
                 bool nullableInDatabase;
                 string dataType = null;
 
@@ -185,7 +190,7 @@ namespace QuantumConcepts.CodeGenerator.Core.Data {
                 dataTypeMapping = project.FindDataTypeMapping(databaseDataType);
                 nullableInDatabase = nullable;
 
-                if (currentTableOrViewMapping == null || !currentTableOrViewMapping.TableName.Equals(tableName)) {
+                if (currentTableOrViewMapping == null || !currentTableOrViewMapping.Name.Equals(tableName)) {
                     if (QueryConstants.Column.ForTable.Equals(forParent))
                         currentTableOrViewMapping = project.FindTableMapping(schemaName, tableName);
                     else if (QueryConstants.Column.ForView.Equals(forParent))
@@ -202,8 +207,8 @@ namespace QuantumConcepts.CodeGenerator.Core.Data {
                 }
 
                 if (cm == null) {
-                    cm = new ColumnMapping(currentTableOrViewMapping, name, sequence, dataType, databaseDataType, length, defaultValue, nullable, nullableInDatabase, primaryKey, null, null);
-                    currentTableOrViewMapping.ColumnMappings.Add(cm);
+                    cm = new Property(currentTableOrViewMapping, name, sequence, dataType, databaseDataType, length, defaultValue, nullable, nullableInDatabase, primaryKey, null, null);
+                    currentTableOrViewMapping.Properties.Add(cm);
                 }
                 else {
                     cm.Sequence = sequence;
@@ -213,7 +218,7 @@ namespace QuantumConcepts.CodeGenerator.Core.Data {
                     cm.DefaultValue = defaultValue;
                     cm.Nullable = nullable;
                     cm.NullableInDatabase = nullableInDatabase;
-                    cm.PrimaryKey = primaryKey;
+                    cm.IsKey = primaryKey;
                 }
             }
 
@@ -226,20 +231,20 @@ namespace QuantumConcepts.CodeGenerator.Core.Data {
             }
 
             //Check for columns which are no longer in the table
-            foreach (TableMapping tm in project.TableMappings) {
-                if (tm.ColumnMappings.Count != dataTable.Rows.Count) {
-                    List<ColumnMapping> remove = new List<ColumnMapping>();
+            foreach (Entity tm in project.Entities) {
+                if (tm.Properties.Count != dataTable.Rows.Count) {
+                    List<Property> remove = new List<Property>();
 
-                    foreach (ColumnMapping cm in tm.ColumnMappings) {
-                        DataRow match = dataTable.Rows.Find(new string[] { tm.SchemaName, tm.TableName, cm.ColumnName });
+                    foreach (Property cm in tm.Properties) {
+                        DataRow match = dataTable.Rows.Find(new string[] { tm.SchemaName, tm.Name, cm.Name });
 
                         //Find() is not case sensitive so ensure the case matches otherwise we could end up with duplicate items.
-                        if (match == null || (!match[QueryConstants.TableOrView.SchemaName].Equals(tm.SchemaName) && !match[QueryConstants.TableOrView.Name].Equals(tm.TableName) && !match[QueryConstants.Column.Name].Equals(cm.ColumnName)))
+                        if (match == null || (!match[QueryConstants.TableOrView.SchemaName].Equals(tm.SchemaName) && !match[QueryConstants.TableOrView.Name].Equals(tm.Name) && !match[QueryConstants.Column.Name].Equals(cm.Name)))
                             remove.Add(cm);
                     }
 
-                    foreach (ColumnMapping cm in remove)
-                        tm.ColumnMappings.Remove(cm);
+                    foreach (Property cm in remove)
+                        tm.Properties.Remove(cm);
                 }
             }
         }
@@ -255,9 +260,9 @@ namespace QuantumConcepts.CodeGenerator.Core.Data {
                 string referencedTableSchemaName;
                 string referencedTableName;
                 string referencedColumnName;
-                ForeignKeyMapping fkm;
-                ColumnMapping parentColumnMapping;
-                ColumnMapping referencedColumnMapping;
+                EntityRelationship fkm;
+                Property parentColumnMapping;
+                Property referencedColumnMapping;
 
                 ExtractForeignKeyInfo(dr, out name, out parentTableSchemaName, out parentTableName, out parentColumnName, out referencedTableSchemaName, out referencedTableName, out referencedColumnName);
                 fkm = project.FindForeignKeyMapping(name);
@@ -265,7 +270,7 @@ namespace QuantumConcepts.CodeGenerator.Core.Data {
                 referencedColumnMapping = project.FindTableMapping(referencedTableSchemaName, referencedTableName).FindColumnMapping(referencedColumnName);
 
                 if (fkm == null) {
-                    fkm = new ForeignKeyMapping(project, name, parentColumnMapping, referencedColumnMapping, null, null);
+                    fkm = new EntityRelationship(project, name, parentColumnMapping, referencedColumnMapping, null, null);
                     project.ForeignKeyMappings.Add(fkm);
                 }
                 else {
@@ -284,46 +289,46 @@ namespace QuantumConcepts.CodeGenerator.Core.Data {
 
             //Check for foreign keys which are no longer in the table
             if (project.ForeignKeyMappings.Count != dataTable.Rows.Count) {
-                List<ForeignKeyMapping> remove = new List<ForeignKeyMapping>();
+                List<EntityRelationship> remove = new List<EntityRelationship>();
 
-                foreach (ForeignKeyMapping fk in project.ForeignKeyMappings) {
-                    DataRow match = dataTable.Rows.Find(fk.ForeignKeyName);
+                foreach (EntityRelationship fk in project.ForeignKeyMappings) {
+                    DataRow match = dataTable.Rows.Find(fk.Name);
 
                     //Find() is not case sensitive so ensure the case matches otherwise we could end up with duplicate items.
-                    if (match == null || !match[QueryConstants.ForeignKey.Name].Equals(fk.ForeignKeyName))
+                    if (match == null || !match[QueryConstants.ForeignKey.Name].Equals(fk.Name))
                         remove.Add(fk);
                 }
 
-                foreach (ForeignKeyMapping fk in remove)
+                foreach (EntityRelationship fk in remove)
                     project.ForeignKeyMappings.Remove(fk);
             }
         }
 
         private void RefreshUniqueIndices(Project project) {
             DataTable dataTable = GetUniqueIndices(project);
-            UniqueIndexMapping currentUniqueIndexMapping = null;
+            ProjectSchema.UniqueConstraint currentUniqueIndexMapping = null;
 
             foreach (DataRow dr in dataTable.Rows) {
                 string name;
                 string schemaName;
                 string tableName;
                 string columnName;
-                ColumnMapping cm = null;
+                Property cm = null;
 
                 ExtractUniqueIndexInfo(dr, out name, out schemaName, out tableName, out columnName);
                 cm = project.FindTableMapping(schemaName, tableName).FindColumnMapping(columnName);
 
                 if (currentUniqueIndexMapping == null || !currentUniqueIndexMapping.UniqueIndexName.Equals(name)) {
-                    currentUniqueIndexMapping = cm.TableMapping.FindUniqueIndexMapping(name);
+                    currentUniqueIndexMapping = cm.Entity.FindUniqueIndexMapping(name);
 
                     if (currentUniqueIndexMapping == null) {
-                        currentUniqueIndexMapping = new UniqueIndexMapping(name, null, null);
-                        cm.TableMapping.UniqueIndexMappings.Add(currentUniqueIndexMapping);
+                        currentUniqueIndexMapping = new ProjectSchema.UniqueConstraint(name, null, null);
+                        cm.Entity.UniqueConstraints.Add(currentUniqueIndexMapping);
                     }
                 }
 
-                if (!currentUniqueIndexMapping.ColumnMappings.Contains(cm))
-                    currentUniqueIndexMapping.ColumnMappings.Add(cm);
+                if (!currentUniqueIndexMapping.Properties.Contains(cm))
+                    currentUniqueIndexMapping.Properties.Add(cm);
             }
 
             try {
@@ -335,40 +340,40 @@ namespace QuantumConcepts.CodeGenerator.Core.Data {
             }
 
             //Check for unique indices which are no longer in the table
-            foreach (TableMapping tm in project.TableMappings) {
-                if (tm.UniqueIndexMappings.Count != dataTable.Rows.Count) {
-                    List<UniqueIndexMapping> removeUniqueIndexMappings = new List<UniqueIndexMapping>();
+            foreach (Entity tm in project.Entities) {
+                if (tm.UniqueConstraints.Count != dataTable.Rows.Count) {
+                    List<ProjectSchema.UniqueConstraint> removeUniqueIndexMappings = new List<ProjectSchema.UniqueConstraint>();
 
-                    foreach (UniqueIndexMapping uim in tm.UniqueIndexMappings) {
-                        List<ColumnMapping> removeColumnMappings = new List<ColumnMapping>();
+                    foreach (ProjectSchema.UniqueConstraint uim in tm.UniqueConstraints) {
+                        List<Property> removeColumnMappings = new List<Property>();
 
-                        foreach (ColumnMapping cm in uim.ColumnMappings)
-                            if (dataTable.Rows.Find(new string[] { uim.UniqueIndexName, tm.TableName, cm.ColumnName }) == null)
+                        foreach (Property cm in uim.Properties)
+                            if (dataTable.Rows.Find(new string[] { uim.UniqueIndexName, tm.Name, cm.Name }) == null)
                                 removeColumnMappings.Add(cm);
 
                         //If all columns are being removed then the unique index no longer exists.
-                        if (removeColumnMappings.Count == uim.ColumnMappings.Count)
+                        if (removeColumnMappings.Count == uim.Properties.Count)
                             removeUniqueIndexMappings.Add(uim);
                         else {
-                            foreach (ColumnMapping cm in removeColumnMappings)
-                                uim.ColumnMappings.Remove(cm);
+                            foreach (Property cm in removeColumnMappings)
+                                uim.Properties.Remove(cm);
                         }
                     }
 
-                    foreach (UniqueIndexMapping uim in removeUniqueIndexMappings)
-                        tm.UniqueIndexMappings.Remove(uim);
+                    foreach (ProjectSchema.UniqueConstraint uim in removeUniqueIndexMappings)
+                        tm.UniqueConstraints.Remove(uim);
                 }
             }
 
             //Exlude duplicate unique indices.
-            foreach (TableMapping tm in project.TableMappings) {
-                foreach (UniqueIndexMapping uim in tm.UniqueIndexMappings.Where(o => !o.Exclude)) {
-                    foreach (UniqueIndexMapping uim2 in tm.UniqueIndexMappings.Where(o => !o.Exclude && !o.UniqueIndexName.Equals(uim.UniqueIndexName))) {
-                        if (uim.ColumnMappings.Count == uim2.ColumnMappings.Count) {
+            foreach (Entity tm in project.Entities) {
+                foreach (ProjectSchema.UniqueConstraint uim in tm.UniqueConstraints.Where(o => !o.Exclude)) {
+                    foreach (ProjectSchema.UniqueConstraint uim2 in tm.UniqueConstraints.Where(o => !o.Exclude && !o.UniqueIndexName.Equals(uim.UniqueIndexName))) {
+                        if (uim.Properties.Count == uim2.Properties.Count) {
                             bool duplicate = true;
 
-                            foreach (ColumnMapping cm in uim.ColumnMappings) {
-                                if (!uim2.ColumnMappings.Contains(cm)) {
+                            foreach (Property cm in uim.Properties) {
+                                if (!uim2.Properties.Contains(cm)) {
                                     duplicate = false;
                                     break;
                                 }

@@ -1,20 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Data;
 using QuantumConcepts.CodeGenerator.Core.ProjectSchema;
-using System.ComponentModel;
-using System.Data.SqlClient;
-using System.Configuration;
 
-namespace QuantumConcepts.CodeGenerator.Core.Data
-{
-    public class DatabaseUtil
-    {
+namespace QuantumConcepts.CodeGenerator.Core.Data {
+
+    public class DatabaseUtil {
+
         public delegate void ProgressUpdate(string status, int itemsProcessed, int totalItems);
 
-        public static void RefreshMappings(Project project, ProgressUpdate progressUpdate)
-        {
+        public static void RefreshMappings(Project project, ProgressUpdate progressUpdate) {
             DatabaseWorker worker = DatabaseWorker.GetInstance(project);
 
             if (progressUpdate != null)

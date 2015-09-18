@@ -9,14 +9,14 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
 {
     internal sealed class ColumnTreeNode : ProjectSchemaTreeNode
     {
-        private ColumnMapping _columnMapping;
+        private Property _columnMapping;
 
-        public ColumnMapping ColumnMapping
+        public Property ColumnMapping
         {
             get { return _columnMapping; }
         }
 
-        public ColumnTreeNode(ColumnMapping columnMapping)
+        public ColumnTreeNode(Property columnMapping)
         {
             _columnMapping = columnMapping;
 
@@ -40,9 +40,9 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
 
         public override void UpdateNode()
         {
-            this.Text = _columnMapping.ColumnName;
+            this.Text = _columnMapping.Name;
 
-            if (!String.IsNullOrEmpty(_columnMapping.FieldName) && !_columnMapping.ColumnName.Equals(_columnMapping.FieldName))
+            if (!String.IsNullOrEmpty(_columnMapping.FieldName) && !_columnMapping.Name.Equals(_columnMapping.FieldName))
                 this.Text += " (" + _columnMapping.FieldName + ")";
 
             this.ForeColor = (_columnMapping.Exclude ? Color.LightGray : Color.Black);

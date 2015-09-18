@@ -16,7 +16,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
 
         private bool _isLoaded = false;
 
-        private UniqueIndexMapping UniqueIndexMapping { get; set; }
+        private UniqueConstraint UniqueIndexMapping { get; set; }
 
         public string Title { get { return this.UniqueIndexMapping.UniqueIndexName; } }
 
@@ -30,7 +30,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
             }
         }
 
-        public UniqueIndexOptions(UniqueIndexMapping UniqueIndexMapping)
+        public UniqueIndexOptions(Core.ProjectSchema.UniqueConstraint UniqueIndexMapping)
         {
             InitializeComponent();
 

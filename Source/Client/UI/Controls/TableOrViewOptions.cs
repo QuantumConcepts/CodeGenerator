@@ -17,9 +17,9 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
 
         private bool _isLoaded = false;
 
-        private TableMapping _tableOrViewMapping;
+        private Entity _tableOrViewMapping;
 
-        public string Title { get { return (_tableOrViewMapping == null ? "Unknown Table Mapping" : _tableOrViewMapping.TableName); } }
+        public string Title { get { return (_tableOrViewMapping == null ? "Unknown Table Mapping" : _tableOrViewMapping.Name); } }
         
         public int SelectedTabIndex
         {
@@ -31,7 +31,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
             }
         }
 
-        public TableOrViewOptions(TableMapping tableOrViewMapping)
+        public TableOrViewOptions(Entity tableOrViewMapping)
         {
             InitializeComponent();
 
@@ -41,11 +41,11 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
         private void TableOptions_Load(object sender, EventArgs e)
         {
             tableClassNameTextBox.Text = _tableOrViewMapping.ClassName;
-            tablePluralClassNameTextBox.Text = _tableOrViewMapping.PluralClassName;
-            tableReadWriteModeOptionButton.Checked = (!(_tableOrViewMapping is ViewMapping) && !_tableOrViewMapping.ReadOnly);
-            tableReadWriteModeOptionButton.Enabled = (!(_tableOrViewMapping is ViewMapping));
-            tableReadOnlyModeOptionButton.Checked = (_tableOrViewMapping is ViewMapping || _tableOrViewMapping.ReadOnly);
-            tableReadOnlyModeOptionButton.Enabled = (!(_tableOrViewMapping is ViewMapping));
+            tablePluralClassNameTextBox.Text = _tableOrViewMapping.PluralName;
+            tableReadWriteModeOptionButton.Checked = (!(_tableOrViewMapping is ViewEntity) && !_tableOrViewMapping.ReadOnly);
+            tableReadWriteModeOptionButton.Enabled = (!(_tableOrViewMapping is ViewEntity));
+            tableReadOnlyModeOptionButton.Checked = (_tableOrViewMapping is ViewEntity || _tableOrViewMapping.ReadOnly);
+            tableReadOnlyModeOptionButton.Enabled = (!(_tableOrViewMapping is ViewEntity));
 
             foreach (API thisAPI in _tableOrViewMapping.APIs)
                 AddAPI(thisAPI);
@@ -113,7 +113,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
             if (result == DialogResult.Cancel)
                 return;
 
-            TableMapping tableMapping = (TableMapping)((ToolStripMenuItem)sender).Tag;
+            Entity tableMapping = (Entity)((ToolStripMenuItem)sender).Tag;
 
             foreach (object item in apisListBox.SelectedItems)
             {
@@ -154,7 +154,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
         {
             transferAPIToolStripDropDownButton.DropDownItems.Clear();
 
-            foreach (TableMapping tm in _tableOrViewMapping.ContainingProject.IncludedTableMappings)
+            foreach (Entity tm in _tableOrViewMapping.ContainingProject.IncludedEntities)
             {
                 ToolStripMenuItem transferAPIToTableToolStripMenuItem = new ToolStripMenuItem(tm.ToString());
 
@@ -193,7 +193,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
                 return;
 
             _tableOrViewMapping.ClassName = tableClassNameTextBox.Text;
-            _tableOrViewMapping.PluralClassName = tablePluralClassNameTextBox.Text;
+            _tableOrViewMapping.PluralName = tablePluralClassNameTextBox.Text;
             _tableOrViewMapping.ReadOnly = tableReadOnlyModeOptionButton.Checked;
 
             _tableOrViewMapping.APIs.Clear();
@@ -201,8 +201,8 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
             foreach (object item in apisListBox.Items)
                 _tableOrViewMapping.APIs.Add((API)item);
 
-            _tableOrViewMapping.Annotations = new List<Annotation<TableMapping>>(editAnnotations.Annotations);
-            _tableOrViewMapping.Attributes = new List<Attribute<TableMapping>>(editAttributes.Attributes);
+            _tableOrViewMapping.Annotations = new List<Annotation<Entity>>(editAnnotations.Annotations);
+            _tableOrViewMapping.Attributes = new List<Attribute<Entity>>(editAttributes.Attributes);
 
             OnSaved();
         }

@@ -10,19 +10,19 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
 {
     internal sealed class TableOrViewTreeNode : ProjectSchemaTreeNode
     {
-        private TableMapping _tableOrViewMapping;
+        private Entity _tableOrViewMapping;
 
-        public TableMapping TableMapping
+        public Entity TableMapping
         {
             get { return _tableOrViewMapping; }
         }
 
-        public ViewMapping ViewMapping
+        public ViewEntity ViewMapping
         {
-            get { return (_tableOrViewMapping as ViewMapping); }
+            get { return (_tableOrViewMapping as ViewEntity); }
         }
 
-        public TableOrViewTreeNode(TableMapping tableOrViewMapping)
+        public TableOrViewTreeNode(Entity tableOrViewMapping)
         {
             _tableOrViewMapping = tableOrViewMapping;
 
@@ -35,23 +35,23 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
 
             this.Nodes.Add(columnsNode);
 
-            for (int i = 0; i < _tableOrViewMapping.ColumnMappings.Count; i++)
+            for (int i = 0; i < _tableOrViewMapping.Properties.Count; i++)
             {
-                ColumnTreeNode node = new ColumnTreeNode(_tableOrViewMapping.ColumnMappings[i]);
+                ColumnTreeNode node = new ColumnTreeNode(_tableOrViewMapping.Properties[i]);
 
                 columnsNode.Nodes.Add(node);
                 Application.DoEvents();
             }
 
-            if (_tableOrViewMapping.UniqueIndexMappings.Count > 0)
+            if (_tableOrViewMapping.UniqueConstraints.Count > 0)
             {
                 TreeNode uniqueIndicesNode = new TreeNode("Unique Indices");
 
                 this.Nodes.Add(uniqueIndicesNode);
 
-                for (int i = 0; i < _tableOrViewMapping.UniqueIndexMappings.Count; i++)
+                for (int i = 0; i < _tableOrViewMapping.UniqueConstraints.Count; i++)
                 {
-                    UniqueIndexTreeNode node = new UniqueIndexTreeNode(_tableOrViewMapping.UniqueIndexMappings[i]);
+                    UniqueIndexTreeNode node = new UniqueIndexTreeNode(_tableOrViewMapping.UniqueConstraints[i]);
 
                     uniqueIndicesNode.Nodes.Add(node);
                     Application.DoEvents();
@@ -68,9 +68,9 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
 
         public override void UpdateNode()
         {
-            this.Text = _tableOrViewMapping.TableName;
+            this.Text = _tableOrViewMapping.Name;
 
-            if (!string.IsNullOrEmpty(_tableOrViewMapping.ClassName) && !_tableOrViewMapping.TableName.Equals(_tableOrViewMapping.ClassName))
+            if (!string.IsNullOrEmpty(_tableOrViewMapping.ClassName) && !_tableOrViewMapping.Name.Equals(_tableOrViewMapping.ClassName))
                 this.Text += " (" + _tableOrViewMapping.ClassName + ")";
 
             this.ForeColor = (_tableOrViewMapping.Exclude ? Color.LightGray : Color.Black);

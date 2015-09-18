@@ -34,30 +34,20 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
 
         [XmlArray]
         [XmlArrayItem]
-        public List<DataTypeMapping> DataTypeMappings { get; set; }
+        public List<Template> Templates { get; set; } = new List<Template>();
 
         [XmlArray]
-        [XmlArrayItem]
-        public List<Template> Templates { get; set; }
-
+        [XmlArrayItem(ElementName = "DatabaseModel", Type = typeof(DatabaseModel))]
+        [XmlArrayItem(ElementName = "ConceptualModel", Type = typeof(Model))]
+        public List<Model> Models { get; set; } = new List<Model>();
+        
         [XmlArray]
         [XmlArrayItem]
-        public List<TableMapping> TableMappings { get; set; }
-
-        [XmlIgnore]
-        public IEnumerable<TableMapping> IncludedTableMappings { get { return this.TableMappings.Where(o => !o.Exclude); } }
-
-        [XmlArray]
-        [XmlArrayItem]
-        public List<ViewMapping> ViewMappings { get; set; }
-
-        [XmlArray]
-        [XmlArrayItem]
-        public List<ForeignKeyMapping> ForeignKeyMappings { get; set; }
+        public List<EntityRelationship> ForeignKeyMappings { get; set; } = new List<EntityRelationship>();
 
         [XmlArray]
         [XmlArrayItem("Attribute")]
-        public List<Attribute<Project>> Attributes { get; set; }
+        public List<Attribute<Project>> Attributes { get; set; } = new List<Attribute<Project>>();
 
         [XmlIgnore]
         public Project ContainingProject
@@ -70,7 +60,7 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
         {
             get
             {
-                foreach (IAnnotation annotation in this.DataTypeMappings.SelectMany(o => o.AllAnnotations).Union(this.TableMappings.SelectMany(o => o.AllAnnotations)).Union(this.ForeignKeyMappings.SelectMany(o => o.AllAnnotations)))
+                foreach (IAnnotation annotation in this.DataTypeMappings.SelectMany(o => o.AllAnnotations).Union(this.Entities.SelectMany(o => o.AllAnnotations)).Union(this.ForeignKeyMappings.SelectMany(o => o.AllAnnotations)))
                     yield return annotation;
             }
         }
@@ -83,7 +73,7 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
                 foreach (IAttribute attribute in this.Attributes
                     .Union(this.DataTypeMappings.SelectMany(o => o.AllAttributes))
                     .Union(this.Templates.SelectMany(o => o.AllAttributes))
-                    .Union(this.TableMappings.SelectMany(o => o.AllAttributes))
+                    .Union(this.Entities.SelectMany(o => o.AllAttributes))
                     .Union(this.ForeignKeyMappings.SelectMany(o => o.AllAttributes)))
                 {
                     yield return attribute;
@@ -96,9 +86,9 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
             this.UserSettings = new UserSettings();
             this.DataTypeMappings = new List<DataTypeMapping>();
             this.Templates = new List<Template>();
-            this.TableMappings = new List<TableMapping>();
-            this.ViewMappings = new List<ViewMapping>();
-            this.ForeignKeyMappings = new List<ForeignKeyMapping>();
+            this.Entities = new List<Entity>();
+            this.ViewMappings = new List<ViewEntity>();
+            this.ForeignKeyMappings = new List<EntityRelationship>();
             this.Attributes = new List<Attribute<Project>>();
 
             Initialize();
@@ -129,9 +119,9 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
             this.UserSettings.JoinToProject(this);
             this.DataTypeMappings.ForEach(o => o.JoinToProject(this));
             this.Templates.ForEach(o => o.JoinToProject(this));
-            this.TableMappings.ForEach(o => o.JoinToProject(this));
+            this.Entities.ForEach(o => o.JoinToProject(this));
             this.ViewMappings.ForEach(o => o.JoinToProject(this));
-            this.ForeignKeyMappings.ForEach(o => o.JoinToProject(this));
+            this.ForeignKeyMappings.ForEach(o => o.JoinToModel(this));
         }
 
         public DataTypeMapping FindDataTypeMapping(string databaseDataType)
@@ -139,9 +129,9 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
             return this.DataTypeMappings.SingleOrDefault(o => o.DatabaseDataType.EqualsIgnoreCase(databaseDataType));
         }
 
-        public TableMapping FindTableMapping(string schemaName, string name)
+        public Entity FindTableMapping(string schemaName, string name)
         {
-            return this.TableMappings.SingleOrDefault(o => o.SchemaName.EqualsIgnoreCase(schemaName) && o.TableName.EqualsIgnoreCase(name));
+            return this.Entities.SingleOrDefault(o => o.SchemaName.EqualsIgnoreCase(schemaName) && o.Name.EqualsIgnoreCase(name));
         }
 
         public Template FindTemplate(string xsltAbsolutePath)
@@ -149,28 +139,28 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
             return this.Templates.SingleOrDefault(o => o.XsltAbsolutePath.EqualsIgnoreCase(xsltAbsolutePath));
         }
 
-        public ViewMapping FindViewMapping(string schemaName, string name)
+        public ViewEntity FindViewMapping(string schemaName, string name)
         {
-            return this.ViewMappings.SingleOrDefault(vm => vm.SchemaName.EqualsIgnoreCase(schemaName) && vm.TableName.EqualsIgnoreCase(name));
+            return this.ViewMappings.SingleOrDefault(vm => vm.SchemaName.EqualsIgnoreCase(schemaName) && vm.Name.EqualsIgnoreCase(name));
         }
 
-        public ForeignKeyMapping FindForeignKeyMapping(string name)
+        public EntityRelationship FindForeignKeyMapping(string name)
         {
-            return this.ForeignKeyMappings.SingleOrDefault(o => o.ForeignKeyName.EqualsIgnoreCase(name));
+            return this.ForeignKeyMappings.SingleOrDefault(o => o.Name.EqualsIgnoreCase(name));
         }
 
-        public ForeignKeyMapping FindForeignKeyMappingForParentColumn(ColumnMapping parentColumn)
+        public EntityRelationship FindForeignKeyMappingForParentColumn(Property parentColumn)
         {
             return this.ForeignKeyMappings.SingleOrDefault(o => o.ParentColumnMapping.Equals(parentColumn));
         }
 
         public void SortAll()
         {
-            this.TableMappings.Sort(new TableMappingComparer());
-            this.ForeignKeyMappings.Sort(new ForeignKeyMappingComparer());
+            this.Entities.Sort(new EntityComparer());
+            this.ForeignKeyMappings.Sort(new EntityRelationshipComparer());
 
-            foreach (TableMapping tm in this.TableMappings)
-                tm.ColumnMappings.Sort(new ColumnMappingComparer());
+            foreach (Entity tm in this.Entities)
+                tm.Properties.Sort(new PropertyComparer());
         }
 
         public void Save()

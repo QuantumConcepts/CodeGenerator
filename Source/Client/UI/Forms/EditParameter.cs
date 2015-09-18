@@ -34,8 +34,8 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
         {
             modifierGroupBox.Enabled = !_isReturnParameter;
             voidDataTypeRadioButton.Enabled = _isReturnParameter;
-            tablesComboBox.DataSource = _project.TableMappings;
-            enumTableComboBox.DataSource = (from tm in _project.TableMappings
+            tablesComboBox.DataSource = _project.Entities;
+            enumTableComboBox.DataSource = (from tm in _project.Entities
                                             where tm.ContainsEnumeration()
                                             select tm).ToList();
 
@@ -57,7 +57,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
 
                 if (this.Parameter.Type == Parameter<T>.ParameterType.DataObject)
                 {
-                    TableMapping selectedTableMapping = this.Parameter.DataTypeReferencedTableMapping;
+                    Entity selectedTableMapping = this.Parameter.DataTypeReferencedTableMapping;
 
                     dataObjectDataTypeRadioButton.Checked = true;
 
@@ -66,8 +66,8 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
                 }
                 else if (Parameter.Type == Parameter<T>.ParameterType.Enum)
                 {
-                    TableMapping selectedTableMapping = Parameter.DataTypeReferencedTableMapping;
-                    ColumnMapping selectedColumnMapping = Parameter.DataTypeReferencedEnumColumnMapping;
+                    Entity selectedTableMapping = Parameter.DataTypeReferencedTableMapping;
+                    Property selectedColumnMapping = Parameter.DataTypeReferencedEnumColumnMapping;
 
                     enumDataTypeRadioButton.Checked = true;
 
@@ -254,14 +254,14 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             throw new ApplicationException("Unknown or no Type selected.");
         }
 
-        private TableMapping GetSelectedTableMapping()
+        private Entity GetSelectedTableMapping()
         {
-            return (TableMapping)tablesComboBox.SelectedItem;
+            return (Entity)tablesComboBox.SelectedItem;
         }
 
-        private TableMapping GetSelectedEnumTableMapping()
+        private Entity GetSelectedEnumTableMapping()
         {
-            return (TableMapping)enumTableComboBox.SelectedItem;
+            return (Entity)enumTableComboBox.SelectedItem;
         }
 
         private EnumerationMapping GetSelectedEnumerationMapping()
@@ -273,7 +273,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
         {
             if (enumTableComboBox.SelectedItem != null)
             {
-                enumTypeComboBox.DataSource = (from cm in ((TableMapping)enumTableComboBox.SelectedItem).ColumnMappings
+                enumTypeComboBox.DataSource = (from cm in ((Entity)enumTableComboBox.SelectedItem).Properties
                                                where cm.EnumerationMapping != null
                                                select cm.EnumerationMapping).ToList();
             }

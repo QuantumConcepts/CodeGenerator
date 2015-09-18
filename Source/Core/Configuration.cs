@@ -1,21 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using QuantumConcepts.CodeGenerator.Client.Plugins;
 using QuantumConcepts.CodeGenerator.Core.ProjectSchema;
-using System.Xml.Serialization;
-using System.Reflection;
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.IsolatedStorage;
-using QuantumConcepts.Common.Extensions;
-using QuantumConcepts.CodeGenerator.Client.Plugins;
-using QuantumConcepts.CodeGenerator.Core.Data;
+using System.Linq;
+using System.Reflection;
+using System.Xml.Serialization;
 
-namespace QuantumConcepts.CodeGenerator.Core
-{
+namespace QuantumConcepts.CodeGenerator.Core {
+
     [XmlRoot]
-    public class Configuration
-    {
+    public class Configuration {
         private const string FileName = "Configuration.xml";
 
         [XmlIgnore]
@@ -33,15 +29,13 @@ namespace QuantumConcepts.CodeGenerator.Core
         [XmlArray]
         public List<PluginConfig> Plugins { get; set; }
 
-        public Configuration()
-        {
+        public Configuration() {
             this.RecentProjects = new List<string>();
             this.LoadedPackages = new List<string>();
             this.Plugins = new List<PluginConfig>();
         }
 
-        public string AddRecentProject(string path)
-        {
+        public string AddRecentProject(string path) {
             AddFileToList(this.RecentProjects, path);
 
             if (this.RecentProjects.Count > 10)
@@ -50,15 +44,13 @@ namespace QuantumConcepts.CodeGenerator.Core
             return path;
         }
 
-        public string AddLoadedPackage(string path)
-        {
+        public string AddLoadedPackage(string path) {
             AddFileToList(this.LoadedPackages, path);
 
             return path;
         }
 
-        private void AddFileToList(List<string> list, string path)
-        {
+        private void AddFileToList(List<string> list, string path) {
             if (list == null)
                 list = new List<string>();
 
@@ -70,22 +62,19 @@ namespace QuantumConcepts.CodeGenerator.Core
             CleanFileList(list);
         }
 
-        private void CleanFileList(List<string> list)
-        {
+        private void CleanFileList(List<string> list) {
             for (int i = (list.Count - 1); i >= 0; i--)
                 if (!File.Exists(list[i]))
                     list.RemoveAt(i);
         }
 
-        private static IsolatedStorageFileStream GetFileStream(FileMode mode, FileAccess access)
-        {
+        private static IsolatedStorageFileStream GetFileStream(FileMode mode, FileAccess access) {
             bool existsIgnored;
 
             return GetFileStream(mode, access, out existsIgnored);
         }
 
-        private static IsolatedStorageFileStream GetFileStream(FileMode mode, FileAccess access, out bool exists)
-        {
+        private static IsolatedStorageFileStream GetFileStream(FileMode mode, FileAccess access, out bool exists) {
             IsolatedStorageFile file = IsolatedStorageFile.GetUserStoreForAssembly();
 
             if (!(exists = file.FileExists(Configuration.FileName)))
@@ -94,27 +83,21 @@ namespace QuantumConcepts.CodeGenerator.Core
             return file.OpenFile(Configuration.FileName, mode, access);
         }
 
-        public void Save()
-        {
+        public void Save() {
             XmlSerializer serializer = new XmlSerializer(typeof(Configuration));
 
-            using (Stream stream = GetFileStream(FileMode.Create, FileAccess.Write))
-            {
+            using (Stream stream = GetFileStream(FileMode.Create, FileAccess.Write)) {
                 serializer.Serialize(stream, this);
             }
         }
 
-        static Configuration()
-        {
+        static Configuration() {
             bool exists = false;
             XmlSerializer serializer = new XmlSerializer(typeof(Configuration));
 
-            using (IsolatedStorageFileStream stream = GetFileStream(FileMode.Open, FileAccess.Read, out exists))
-            {
-                if (exists)
-                {
-                    try
-                    {
+            using (IsolatedStorageFileStream stream = GetFileStream(FileMode.Open, FileAccess.Read, out exists)) {
+                if (exists) {
+                    try {
                         Configuration.Instance = (Configuration)serializer.Deserialize(stream);
                     }
                     catch { }
@@ -122,19 +105,18 @@ namespace QuantumConcepts.CodeGenerator.Core
             }
 
             //Create a new configuration file if one couldn't be loaded.
-            if (Configuration.Instance == null)
-            {
+            if (Configuration.Instance == null) {
                 Configuration.Instance = new Configuration();
                 Configuration.Instance.Save();
             }
         }
 
-        public static void Initialize() { }
+        public static void Initialize() {
+        }
     }
 
     [XmlRoot]
-    public class DataTypeMappingConfiguration
-    {
+    public class DataTypeMappingConfiguration {
         public string DatabaseType { get; set; }
         public string Language { get; set; }
         public List<DataTypeMapping> DataTypeMappings { get; set; }

@@ -113,27 +113,27 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
 
         private void addDefaultClassAnnotationMenuItem_Click(object sender, EventArgs e)
         {
-            AddDefaultAnnotationToAll<TableMapping>(ProjectContext.Project.TableMappings, (o => "Maps to the {0} table in the database.".FormatString(o.ClassName)));
+            AddDefaultAnnotationToAll<Entity>(ProjectContext.Project.Entities, (o => "Maps to the {0} table in the database.".FormatString(o.ClassName)));
         }
 
         private void addClassAttributeMenuItem_Click(object sender, EventArgs e)
         {
-            AddAttributeToAll<TableMapping>(ProjectContext.Project.TableMappings);
+            AddAttributeToAll<Entity>(ProjectContext.Project.Entities);
         }
 
         private void removeDefaultClassAnnotationMenuItem_Click(object sender, EventArgs e)
         {
-            RemoveDefaultAnnotationFromAll<TableMapping>(ProjectContext.Project.TableMappings);
+            RemoveDefaultAnnotationFromAll<Entity>(ProjectContext.Project.Entities);
         }
 
         private void addDefaultPropertyAnnotationMenuItem_Click(object sender, EventArgs e)
         {
-            AddDefaultAnnotationToAll<ColumnMapping>(ProjectContext.Project.TableMappings.SelectMany(o => o.ColumnMappings), (o => "Maps to the {0} column.".FormatString(o.ColumnName)));
+            AddDefaultAnnotationToAll<Property>(ProjectContext.Project.Entities.SelectMany(o => o.ColumnMappings), (o => "Maps to the {0} column.".FormatString(o.Name)));
         }
 
         private void removeDefaultPropertyAnnotationToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            RemoveDefaultAnnotationFromAll<ColumnMapping>(ProjectContext.Project.TableMappings.SelectMany(o => o.ColumnMappings));
+            RemoveDefaultAnnotationFromAll<Property>(ProjectContext.Project.Entities.SelectMany(o => o.ColumnMappings));
         }
 
         private void addDefaultForeignKeyAnnotationMenuItem_Click(object sender, EventArgs e)
@@ -154,7 +154,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
 
         private void addDefaultUniqueIndexAnnotationMenuItem_Click(object sender, EventArgs e)
         {
-            AddDefaultAnnotationToAll<UniqueIndexMapping>(ProjectContext.Project.TableMappings.SelectMany(o => o.UniqueIndexMappings), (o => "Maps to the {0} foreign key in the database.".FormatString(o.UniqueIndexName)));
+            AddDefaultAnnotationToAll<Core.ProjectSchema.UniqueConstraint>(ProjectContext.Project.Entities.SelectMany((object o) => o.UniqueIndexMappings), (o => "Maps to the {0} foreign key in the database.".FormatString(o.UniqueIndexName)));
         }
 
         private void addCreateAPIMenuItem_Click(object sender, EventArgs e)
@@ -175,7 +175,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
 
         private void addAPIAttributeMenuItem_Click(object sender, EventArgs e)
         {
-            AddAttributeToAll<API>(ProjectContext.Project.TableMappings.SelectMany(tm => tm.APIs));
+            AddAttributeToAll<API>(ProjectContext.Project.Entities.SelectMany(tm => tm.APIs));
             this.UnsavedChanges = true;
         }
 
@@ -886,7 +886,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
 
         private void AddGeneratedAPIs(API.APIType apiType)
         {
-            foreach (TableMapping tm in ProjectContext.Project.TableMappings.Where(o => !o.Exclude && !o.APIs.Any(a => a.Type == apiType)))
+            foreach (Entity tm in ProjectContext.Project.Entities.Where(o => !o.Exclude && !o.APIs.Any(a => a.Type == apiType)))
             {
                 API api = (apiType == API.APIType.Create ? API.CreateValueTypeCreateAPI(tm) : API.CreateDeleteAPI(tm));
 
@@ -908,7 +908,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
         {
             using (new Wait())
             {
-                foreach (TableMapping tm in ProjectContext.Project.TableMappings)
+                foreach (Entity tm in ProjectContext.Project.Entities)
                 {
                     List<API> apisToRemove = new List<API>();
 

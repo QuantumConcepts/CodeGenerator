@@ -27,38 +27,38 @@ namespace Tests {
             project.DataTypeMappings = (new SqlServerWorker()).GetDataTypeMappingConfigurations().Single(o => o.Language == "CSharp").DataTypeMappings;
 
             for (int i = 0; i < tableCount; i++)
-                project.TableMappings.Add(CreateTableMapping(project));
+                project.Entities.Add(CreateTableMapping(project));
 
             return project;
         }
 
-        public TableMapping CreateTableMapping(Project project) {
+        public Entity CreateTableMapping(Project project) {
             string random = this.Random.Next().ToString();
             string tableName = "Table{0}".FormatString(random);
             string className = "Class{0}".FormatString(random);
-            TableMapping table = new TableMapping() {
+            Entity table = new Entity() {
                 ClassName = className,
                 SchemaName = "dbo",
-                TableName = tableName
+                Name = tableName
             };
 
             for (int i = 0; i < this.Random.Next(1, 25); i++)
-                table.ColumnMappings.Add(CreateColumnMapping(table));
+                table.Properties.Add(CreateColumnMapping(table));
 
-            table.ColumnMappings.First().PrimaryKey = true;
+            table.Properties.First().PrimaryKey = true;
             table.JoinToProject(project);
 
             return table;
         }
 
-        public ColumnMapping CreateColumnMapping(TableMapping table) {
+        public Property CreateColumnMapping(Entity table) {
             string random = this.Random.Next().ToString();
             string columnName = "Column{0}".FormatString(random);
             string fieldName = "Field{0}".FormatString(random);
             DataTypeMapping dataType = table.ContainingProject.DataTypeMappings.Random(this.Random);
             bool nullable = (dataType.Nullable ? this.Random.NextBool() : false);
-            ColumnMapping column = new ColumnMapping() {
-                ColumnName = columnName,
+            Property column = new PropertyMapping() {
+                Name = columnName,
                 DatabaseDataType = dataType.DatabaseDataType,
                 DataType = dataType.ApplicationDataType,
                 FieldName = fieldName,

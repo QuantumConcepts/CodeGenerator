@@ -12,9 +12,9 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
 {
     internal sealed class ConnectionTreeNode : ProjectSchemaTreeNode
     {
-        public Connection Connection { get; private set; }
+        public DatabaseConnection Connection { get; private set; }
 
-        public ConnectionTreeNode(Connection connection)
+        public ConnectionTreeNode(DatabaseConnection connection)
         {
             this.Connection = connection;
 

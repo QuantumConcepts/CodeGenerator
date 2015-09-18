@@ -13,7 +13,7 @@ namespace QuantumConcepts.CodeGenerator.Plugins.MvcAdmin.UI.Forms
 {
     public partial class EditColumn : Form
     {
-        public ColumnMapping ColumnMapping { get; set; }
+        public Property ColumnMapping { get; set; }
 
         public bool Visible
         {

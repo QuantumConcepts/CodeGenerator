@@ -155,10 +155,10 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
 
     internal class EditAPIAnnotations : EditAnnotations<API> { }
     internal class EditAPIParameterAnnotations : EditAnnotations<Parameter<API>> { }
-    internal class EditColumnMappingAnnotations : EditAnnotations<ColumnMapping> { }
+    internal class EditColumnMappingAnnotations : EditAnnotations<Property> { }
     internal class EditEnumerationMappingAnnotations : EditAnnotations<EnumerationMapping> { }
     internal class EditEnumerationValueMappingAnnotations : EditAnnotations<EnumerationValueMapping> { }
     internal class EditForeignKeyMappingAnnotations : EditAnnotations<ForeignKeyMapping> { }
-    internal class EditTableMappingAnnotations : EditAnnotations<TableMapping> { }
-    internal class EditUniqueIndexMappingAnnotations : EditAnnotations<UniqueIndexMapping> { }
+    internal class EditTableMappingAnnotations : EditAnnotations<Entity> { }
+    internal class EditUniqueIndexMappingAnnotations : EditAnnotations<Core.ProjectSchema.UniqueConstraint> { }
 }

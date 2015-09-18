@@ -120,10 +120,10 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms {
                 DataGridViewRow row = databaseParametersGridView.Rows[e.RowIndex];
                 string name = (string)(row.Cells[databaseParametersNameColumn.Index].Value);
                 string value = (string)(row.Cells[databaseParametersValueColumn.Index].Value);
-                Attribute<Connection> parameter = this.Project.UserSettings.Connection.Attributes.SingleOrDefault(o => o.Key.Equals(name));
+                Attribute<DatabaseConnection> parameter = this.Project.UserSettings.Connection.Attributes.SingleOrDefault(o => o.Key.Equals(name));
 
                 if (parameter == null) {
-                    parameter = new Attribute<Connection>(name, value);
+                    parameter = new Attribute<DatabaseConnection>(name, value);
                     this.Project.UserSettings.Connection.Attributes.Add(parameter);
                 }
                 else

@@ -15,7 +15,7 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
         public Project ContainingProject { get; private set; }
 
         [XmlElement]
-        public Connection Connection { get; set; }
+        public DatabaseConnection Connection { get; set; }
 
         [XmlIgnore]
         public IEnumerable<IAnnotation> AllAnnotations { get { return null; } }
@@ -25,7 +25,7 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
 
         public UserSettings()
         {
-            this.Connection = new Connection();
+            this.Connection = new DatabaseConnection();
         }
 
         public void JoinToProject(Project project)
