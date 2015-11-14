@@ -110,3 +110,4 @@ UpgradeLog*.XML
 Source/Client-WPF
 Source/Setup
 .vs
+Source/Client/Samples/*
