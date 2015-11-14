@@ -1,30 +1,20 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows.Forms;
 using QuantumConcepts.CodeGenerator.Core.ProjectSchema;
+using System;
 using System.Drawing;
-using QuantumConcepts.Common.Extensions;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
 {
     internal sealed class TableOrViewTreeNode : ProjectSchemaTreeNode
     {
-        private TableMapping _tableOrViewMapping;
+        public TableMapping TableMapping { get; private set; }
+        public ViewMapping ViewMapping { get { return (this.TableMapping as ViewMapping); } }
 
-        public TableMapping TableMapping
+        public TableOrViewTreeNode(ProjectSchemaTreeNode parent, TableMapping tableOrViewMapping)
+            : base(parent)
         {
-            get { return _tableOrViewMapping; }
-        }
-
-        public ViewMapping ViewMapping
-        {
-            get { return (_tableOrViewMapping as ViewMapping); }
-        }
-
-        public TableOrViewTreeNode(TableMapping tableOrViewMapping)
-        {
-            _tableOrViewMapping = tableOrViewMapping;
+            this.TableMapping = tableOrViewMapping;
 
             Initialize();
         }
@@ -32,35 +22,42 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
         private void Initialize()
         {
             TreeNode columnsNode = new TreeNode("Columns");
+            bool showExcludedItems = this.ProjectNode.Project.UserSettings.ShowExcludedItems;
 
             this.Nodes.Add(columnsNode);
 
-            for (int i = 0; i < _tableOrViewMapping.ColumnMappings.Count; i++)
+            foreach (var columnMapping in this.TableMapping.ColumnMappings)
             {
-                ColumnTreeNode node = new ColumnTreeNode(_tableOrViewMapping.ColumnMappings[i]);
+                if (!columnMapping.Exclude || showExcludedItems)
+                {
+                    ColumnTreeNode node = new ColumnTreeNode(this, columnMapping);
 
-                columnsNode.Nodes.Add(node);
-                Application.DoEvents();
+                    columnsNode.Nodes.Add(node);
+                    Application.DoEvents();
+                }
             }
 
-            if (_tableOrViewMapping.UniqueIndexMappings.Count > 0)
+            if (this.TableMapping.UniqueIndexMappings.Count > 0)
             {
                 TreeNode uniqueIndicesNode = new TreeNode("Unique Indices");
 
                 this.Nodes.Add(uniqueIndicesNode);
 
-                for (int i = 0; i < _tableOrViewMapping.UniqueIndexMappings.Count; i++)
+                foreach (var uniqueIndexMapping in this.TableMapping.UniqueIndexMappings)
                 {
-                    UniqueIndexTreeNode node = new UniqueIndexTreeNode(_tableOrViewMapping.UniqueIndexMappings[i]);
+                    if (!uniqueIndexMapping.Exclude || showExcludedItems)
+                    {
+                        UniqueIndexTreeNode node = new UniqueIndexTreeNode(this, uniqueIndexMapping);
 
-                    uniqueIndicesNode.Nodes.Add(node);
-                    Application.DoEvents();
+                        uniqueIndicesNode.Nodes.Add(node);
+                        Application.DoEvents();
+                    }
                 }
             }
 
             this.ContextMenu = new ContextMenu();
             this.ContextMenu.MenuItems.Add(new MenuItem("Exclude From Project"));
-            this.ContextMenu.MenuItems[0].Checked = _tableOrViewMapping.Exclude;
+            this.ContextMenu.MenuItems[0].Checked = this.TableMapping.Exclude;
             this.ContextMenu.MenuItems[0].Click += new EventHandler(ExcludeFromProjectMenuItem_Click);
 
             UpdateNode();
@@ -68,12 +65,17 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
 
         public override void UpdateNode()
         {
-            this.Text = _tableOrViewMapping.TableName;
+            if (this.TableMapping.Exclude && !this.ProjectNode.Project.UserSettings.ShowExcludedItems)
+                Remove();
+            else
+            {
+                this.Text = this.TableMapping.TableName;
 
-            if (!string.IsNullOrEmpty(_tableOrViewMapping.ClassName) && !_tableOrViewMapping.TableName.Equals(_tableOrViewMapping.ClassName))
-                this.Text += " (" + _tableOrViewMapping.ClassName + ")";
+                if (!string.IsNullOrEmpty(this.TableMapping.ClassName) && !this.TableMapping.TableName.Equals(this.TableMapping.ClassName))
+                    this.Text += " (" + this.TableMapping.ClassName + ")";
 
-            this.ForeColor = (_tableOrViewMapping.Exclude ? Color.LightGray : Color.Black);
+                this.ForeColor = (this.TableMapping.Exclude ? Color.LightGray : Color.Black);
+            }
         }
 
         void ExcludeFromProjectMenuItem_Click(object sender, EventArgs e)
@@ -81,7 +83,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
             MenuItem menuItem = (MenuItem)sender;
 
             menuItem.Checked = !menuItem.Checked;
-            _tableOrViewMapping.Exclude = menuItem.Checked;
+            this.TableMapping.Exclude = menuItem.Checked;
 
             UpdateNode();
         }

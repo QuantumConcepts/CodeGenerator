@@ -17,6 +17,9 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
         [XmlElement]
         public Connection Connection { get; set; }
 
+        [XmlAttribute]
+        public bool ShowExcludedItems { get; set; }
+
         [XmlIgnore]
         public IEnumerable<IAnnotation> AllAnnotations { get { return null; } }
 

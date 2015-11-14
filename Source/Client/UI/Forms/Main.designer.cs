@@ -477,7 +477,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.batchEditMenuItem});
             this.toolsMenuItem.Enabled = false;
             this.toolsMenuItem.Name = "toolsMenuItem";
-            this.toolsMenuItem.Size = new System.Drawing.Size(48, 20);
+            this.toolsMenuItem.Size = new System.Drawing.Size(47, 20);
             this.toolsMenuItem.Text = "&Tools";
             // 
             // metricsMenuItem
@@ -688,6 +688,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.projectTreeview.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.projectTreeview.FullRowSelect = true;
             this.projectTreeview.Location = new System.Drawing.Point(0, 20);
             this.projectTreeview.Name = "projectTreeview";
             this.projectTreeview.Size = new System.Drawing.Size(300, 234);

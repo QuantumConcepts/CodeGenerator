@@ -62,6 +62,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.label9 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.generalTabPage = new System.Windows.Forms.TabPage();
+            this.showExcludedItemsCheckBox = new System.Windows.Forms.CheckBox();
             this.rootNamespaceTextBox = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.propertiesTabControl = new System.Windows.Forms.TabControl();
@@ -382,6 +383,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             // 
             // generalTabPage
             // 
+            this.generalTabPage.Controls.Add(this.showExcludedItemsCheckBox);
             this.generalTabPage.Controls.Add(this.rootNamespaceTextBox);
             this.generalTabPage.Controls.Add(this.label2);
             this.generalTabPage.Location = new System.Drawing.Point(4, 22);
@@ -391,6 +393,16 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.generalTabPage.TabIndex = 3;
             this.generalTabPage.Text = "General";
             this.generalTabPage.UseVisualStyleBackColor = true;
+            // 
+            // showExcludedItemsCheckBox
+            // 
+            this.showExcludedItemsCheckBox.AutoSize = true;
+            this.showExcludedItemsCheckBox.Location = new System.Drawing.Point(107, 32);
+            this.showExcludedItemsCheckBox.Name = "showExcludedItemsCheckBox";
+            this.showExcludedItemsCheckBox.Size = new System.Drawing.Size(193, 17);
+            this.showExcludedItemsCheckBox.TabIndex = 24;
+            this.showExcludedItemsCheckBox.Text = "&Show excluded items in project tree";
+            this.showExcludedItemsCheckBox.UseVisualStyleBackColor = true;
             // 
             // rootNamespaceTextBox
             // 
@@ -491,5 +503,6 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DataGridViewTextBoxColumn databaseParametersNameColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn databaseParametersValueColumn;
+        private System.Windows.Forms.CheckBox showExcludedItemsCheckBox;
     }
 }

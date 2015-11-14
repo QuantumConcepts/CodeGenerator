@@ -9,17 +9,12 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
 {
     internal sealed class ForeignKeyTreeNode : ProjectSchemaTreeNode
     {
-        private ForeignKeyMapping _foreignKeyMapping;
+        public ForeignKeyMapping ForeignKeyMapping { get; private set; }
 
-        public ForeignKeyMapping ForeignKeyMapping
+        public ForeignKeyTreeNode(ProjectSchemaTreeNode parent, ForeignKeyMapping foreignKeyMapping)
+            : base(parent)
         {
-            get { return _foreignKeyMapping; }
-            set { _foreignKeyMapping = value; }
-        }
-
-        public ForeignKeyTreeNode(ForeignKeyMapping foreignKeyMapping)
-        {
-            _foreignKeyMapping = foreignKeyMapping;
+            this.ForeignKeyMapping = foreignKeyMapping;
 
             Initialize();
         }
@@ -28,7 +23,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
         {
             this.ContextMenu = new ContextMenu();
             this.ContextMenu.MenuItems.Add(new MenuItem("Exclude From Project"));
-            this.ContextMenu.MenuItems[0].Checked = _foreignKeyMapping.Exclude;
+            this.ContextMenu.MenuItems[0].Checked = this.ForeignKeyMapping.Exclude;
             this.ContextMenu.MenuItems[0].Click += new EventHandler(ExcludeFromProjectMenuItem_Click);
 
             UpdateNode();
@@ -36,12 +31,17 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
 
         public override void UpdateNode()
         {
-            this.Text = _foreignKeyMapping.ForeignKeyName;
+            if (this.ForeignKeyMapping.Exclude && !this.ProjectNode.Project.UserSettings.ShowExcludedItems)
+                Remove();
+            else
+            {
+                this.Text = this.ForeignKeyMapping.ForeignKeyName;
 
-            if (!string.IsNullOrEmpty(_foreignKeyMapping.FieldName))
-                this.Text += " (" + _foreignKeyMapping.FieldName + ")";
+                if (!string.IsNullOrEmpty(this.ForeignKeyMapping.FieldName))
+                    this.Text += " (" + this.ForeignKeyMapping.FieldName + ")";
 
-            this.ForeColor = (_foreignKeyMapping.Exclude ? Color.LightGray : Color.Black);
+                this.ForeColor = (this.ForeignKeyMapping.Exclude ? Color.LightGray : Color.Black);
+            }
         }
 
         void ExcludeFromProjectMenuItem_Click(object sender, EventArgs e)
@@ -49,7 +49,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
             MenuItem menuItem = (MenuItem)sender;
 
             menuItem.Checked = !menuItem.Checked;
-            _foreignKeyMapping.Exclude = menuItem.Checked;
+            this.ForeignKeyMapping.Exclude = menuItem.Checked;
 
             UpdateNode();
         }

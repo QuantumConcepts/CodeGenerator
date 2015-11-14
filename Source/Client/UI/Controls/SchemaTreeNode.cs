@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
+﻿namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
 {
     internal class SchemaTreeNode : ProjectSchemaTreeNode
     {
         private string SchemaName { get; set; }
 
-        public SchemaTreeNode(string schemaName)
+        public SchemaTreeNode(ProjectSchemaTreeNode parent, string schemaName)
+            : base(parent)
         {
             this.SchemaName = schemaName;
 

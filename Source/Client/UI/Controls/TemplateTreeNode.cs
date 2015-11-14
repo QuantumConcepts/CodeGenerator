@@ -16,7 +16,8 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
 
         public Template Template { get; private set; }
 
-        public TemplateTreeNode(Template template)
+        public TemplateTreeNode(ProjectSchemaTreeNode parent, Template template)
+            : base(parent)
         {
             this.Template = template;
 

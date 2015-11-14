@@ -705,6 +705,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             using (ProjectProperties dialog = new ProjectProperties(ProjectContext.Project))
             {
                 dialog.ShowDialog();
+                LoadTreeView();
             }
         }
 

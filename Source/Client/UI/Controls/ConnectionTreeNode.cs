@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
+﻿using QuantumConcepts.CodeGenerator.Core.ProjectSchema;
 using QuantumConcepts.Common.Utils;
-using QuantumConcepts.CodeGenerator.Core.ProjectSchema;
-using QuantumConcepts.CodeGenerator.Core.Data;
-using QuantumConcepts.CodeGenerator.Core.Utils;
+using System;
+using System.Windows.Forms;
 
 namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
 {
@@ -14,7 +9,8 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
     {
         public Connection Connection { get; private set; }
 
-        public ConnectionTreeNode(Connection connection)
+        public ConnectionTreeNode(ProjectSchemaTreeNode parent, Connection connection)
+            : base(parent)
         {
             this.Connection = connection;
 
