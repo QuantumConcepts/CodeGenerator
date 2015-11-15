@@ -147,13 +147,18 @@ namespace QuantumConcepts.CodeGenerator.Core {
             // Report status and do sanity checks upfront.
             OnItemGenerationStatus(ItemGenerationStatusEventArgs.CreateGenerating(template, output));
 
-            try {
-                File.Delete(output.Value);
-            }
-            catch (Exception ex) {
-                Generator.Logger.Error(ex);
-                OnItemGenerationStatus(ItemGenerationStatusEventArgs.CreateError(template, output, new ApplicationException("Unable to delete existing file.", ex)));
-                return Task.CompletedTask;
+            if (File.Exists(output.Value))
+            {
+                try
+                {
+                    File.Delete(output.Value);
+                }
+                catch (Exception ex)
+                {
+                    Generator.Logger.Error(ex);
+                    OnItemGenerationStatus(ItemGenerationStatusEventArgs.CreateError(template, output, new ApplicationException("Unable to delete existing file.", ex)));
+                    return Task.CompletedTask;
+                }
             }
 
             try {
