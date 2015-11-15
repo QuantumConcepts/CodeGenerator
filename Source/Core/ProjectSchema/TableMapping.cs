@@ -198,7 +198,7 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
         public ColumnMapping FindColumnMapping(string name)
         {
             foreach (ColumnMapping cm in _columnMappings)
-                if (cm.ColumnName.Equals(name))
+                if (cm.ColumnName.EqualsIgnoreCase(name))
                     return cm;
 
             return null;
@@ -207,7 +207,7 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
         public UniqueIndexMapping FindUniqueIndexMapping(string name)
         {
             foreach (UniqueIndexMapping uim in _uniqueIndexMappings)
-                if (uim.UniqueIndexName.Equals(name))
+                if (uim.UniqueIndexName.EqualsIgnoreCase(name))
                     return uim;
 
             return null;
