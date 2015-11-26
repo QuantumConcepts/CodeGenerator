@@ -1,11 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Data;
 using QuantumConcepts.CodeGenerator.Core.ProjectSchema;
-using System.ComponentModel;
-using System.Data.SqlClient;
-using System.Configuration;
 
 namespace QuantumConcepts.CodeGenerator.Core.Data
 {
@@ -15,20 +8,25 @@ namespace QuantumConcepts.CodeGenerator.Core.Data
 
         public static void RefreshMappings(Project project, ProgressUpdate progressUpdate)
         {
-            DatabaseWorker worker = DatabaseWorker.GetInstance(project);
+            int currentItem = -1;
+            int totalItems = (2 * project.UserSettings.Connections.Count);
 
-            if (progressUpdate != null)
-                progressUpdate("Refreshing mappings....", 0, 0);
+            foreach (var connection in project.UserSettings.Connections){
+                string description = connection.GetDescription();
+                DatabaseWorker worker = DatabaseWorker.GetInstance(connection);
 
-            worker.Refresh(project);
+                if (progressUpdate != null)
+                    progressUpdate($"{description}: Refreshing mappings....", ++currentItem, totalItems);
 
-            if (progressUpdate != null)
-                progressUpdate("Sorting....", 0, 0);
+                worker.Refresh(project, connection);
 
-            project.SortAll();
+                if (progressUpdate != null)
+                    progressUpdate($"{description}: Sorting....", ++currentItem, totalItems);
 
-            if (progressUpdate != null)
-                progressUpdate("Refresh complete.", 0, 0);
-        }
+                project.SortAll();
+
+                if (progressUpdate != null)
+                    progressUpdate($"{description}: Refresh complete.", ++currentItem, totalItems);
+            } }
     }
 }

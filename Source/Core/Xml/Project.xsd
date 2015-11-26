@@ -4,6 +4,17 @@
 	<xs:element name="Project">
 		<xs:complexType>
 			<xs:sequence minOccurs="1" maxOccurs="1">
+                <xs:element name="Connections" minOccurs="1" maxOccurs="1" nillable="false">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="ConnectionInfo" minOccurs="1" maxOccurs="unbounded" nillable="false">
+                                <xs:complexType>
+                                    <xs:attribute name="Name" type="xs:string" use="required"/>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
 				<xs:element name="DataTypeMappings" minOccurs="1" maxOccurs="1" nillable="false">
 					<xs:complexType>
 						<xs:sequence>

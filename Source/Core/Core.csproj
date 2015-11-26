@@ -221,6 +221,7 @@
     <Compile Include="Data\MySql\MySqlWorker.cs" />
     <Compile Include="Exceptions\NonExistentDatabaseWorkerSpecifiedException.cs" />
     <Compile Include="Exceptions\EmptyDatabaseWorkerSpecifiedException.cs" />
+    <Compile Include="ProjectSchema\ConnectionInfo.cs" />
     <Compile Include="TemplateGenerationStatusEventArgs.cs" />
     <Compile Include="GenerationStatusEventArgs.cs" />
     <Compile Include="ItemGenerationStatusEventArgs.cs" />

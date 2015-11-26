@@ -20,8 +20,8 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
 
         public ViewMapping() { }
 
-        public ViewMapping(string schemaName, string tableName, string className, List<ColumnMapping> columnMappings, List<UniqueIndexMapping> uniqueIndexMappings, List<Annotation<TableMapping>> annotations, List<Attribute<TableMapping>> attributes)
-            : base(schemaName, tableName, className, columnMappings, uniqueIndexMappings, annotations, attributes)
+        public ViewMapping(string connectionName, string schemaName, string tableName, string className, List<ColumnMapping> columnMappings, List<UniqueIndexMapping> uniqueIndexMappings, List<Annotation<TableMapping>> annotations, List<Attribute<TableMapping>> attributes)
+            : base(connectionName, schemaName, tableName, className, columnMappings, uniqueIndexMappings, annotations, attributes)
         {
         }
     }

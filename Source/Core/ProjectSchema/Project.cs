@@ -30,34 +30,38 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
         public string RootNamespace { get; set; }
 
         [XmlIgnore]
-        public UserSettings UserSettings { get; set; }
+        public UserSettings UserSettings { get; set; } = new UserSettings();
 
         [XmlArray]
         [XmlArrayItem]
-        public List<DataTypeMapping> DataTypeMappings { get; set; }
+        public List<ConnectionInfo> Connections { get; set; } = new List<ConnectionInfo>();
 
         [XmlArray]
         [XmlArrayItem]
-        public List<Template> Templates { get; set; }
+        public List<DataTypeMapping> DataTypeMappings { get; set; } = new List<DataTypeMapping>();
 
         [XmlArray]
         [XmlArrayItem]
-        public List<TableMapping> TableMappings { get; set; }
+        public List<Template> Templates { get; set; } = new List<Template>();
+
+        [XmlArray]
+        [XmlArrayItem]
+        public List<TableMapping> TableMappings { get; set; } = new List<TableMapping>();
 
         [XmlIgnore]
         public IEnumerable<TableMapping> IncludedTableMappings { get { return this.TableMappings.Where(o => !o.Exclude); } }
 
         [XmlArray]
         [XmlArrayItem]
-        public List<ViewMapping> ViewMappings { get; set; }
+        public List<ViewMapping> ViewMappings { get; set; } = new List<ViewMapping>();
 
         [XmlArray]
         [XmlArrayItem]
-        public List<ForeignKeyMapping> ForeignKeyMappings { get; set; }
+        public List<ForeignKeyMapping> ForeignKeyMappings { get; set; } = new List<ForeignKeyMapping>();
 
         [XmlArray]
         [XmlArrayItem("Attribute")]
-        public List<Attribute<Project>> Attributes { get; set; }
+        public List<Attribute<Project>> Attributes { get; set; } = new List<Attribute<Project>>();
 
         [XmlIgnore]
         public Project ContainingProject
@@ -93,14 +97,6 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
 
         public Project()
         {
-            this.UserSettings = new UserSettings();
-            this.DataTypeMappings = new List<DataTypeMapping>();
-            this.Templates = new List<Template>();
-            this.TableMappings = new List<TableMapping>();
-            this.ViewMappings = new List<ViewMapping>();
-            this.ForeignKeyMappings = new List<ForeignKeyMapping>();
-            this.Attributes = new List<Attribute<Project>>();
-
             Initialize();
         }
 
@@ -139,9 +135,12 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
             return this.DataTypeMappings.SingleOrDefault(o => o.DatabaseDataType.EqualsIgnoreCase(databaseDataType));
         }
 
-        public TableMapping FindTableMapping(string schemaName, string name)
+        public TableMapping FindTableMapping(string connectionName, string schemaName, string name)
         {
-            return this.TableMappings.SingleOrDefault(o => o.SchemaName.EqualsIgnoreCase(schemaName) && o.TableName.EqualsIgnoreCase(name));
+            return this.TableMappings.SingleOrDefault(o =>
+                o.ConnectionName.EqualsIgnoreCase(connectionName)
+                && o.SchemaName.EqualsIgnoreCase(schemaName) 
+                && o.TableName.EqualsIgnoreCase(name));
         }
 
         public Template FindTemplate(string xsltAbsolutePath)
@@ -149,14 +148,19 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
             return this.Templates.SingleOrDefault(o => o.XsltAbsolutePath.EqualsIgnoreCase(xsltAbsolutePath));
         }
 
-        public ViewMapping FindViewMapping(string schemaName, string name)
+        public ViewMapping FindViewMapping(string connectionName, string schemaName, string name)
         {
-            return this.ViewMappings.SingleOrDefault(vm => vm.SchemaName.EqualsIgnoreCase(schemaName) && vm.TableName.EqualsIgnoreCase(name));
+            return this.ViewMappings.SingleOrDefault(o => 
+                o.ConnectionName.EqualsIgnoreCase(connectionName)
+                && o.SchemaName.EqualsIgnoreCase(schemaName) 
+                && o.TableName.EqualsIgnoreCase(name));
         }
 
-        public ForeignKeyMapping FindForeignKeyMapping(string name)
+        public ForeignKeyMapping FindForeignKeyMapping(string connectionName, string name)
         {
-            return this.ForeignKeyMappings.SingleOrDefault(o => o.ForeignKeyName.EqualsIgnoreCase(name));
+            return this.ForeignKeyMappings.SingleOrDefault(o =>
+                o.ConnectionName.EqualsIgnoreCase(connectionName)
+                && o.ForeignKeyName.EqualsIgnoreCase(name));
         }
 
         public ForeignKeyMapping FindForeignKeyMappingForParentColumn(ColumnMapping parentColumn)

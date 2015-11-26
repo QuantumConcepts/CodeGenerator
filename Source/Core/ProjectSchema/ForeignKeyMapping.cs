@@ -45,6 +45,9 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
         }
 
         [XmlAttribute]
+        public string ConnectionName { get; set; }
+
+        [XmlAttribute]
         public string ForeignKeyName
         {
             get { return _foreignKeyName; }
@@ -153,7 +156,10 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
                     throw new ApplicationException("Parent Table Mapping Schema and/or Name is not known.");
 
                 if (_parentTableMapping == null || !_parentTableMapping.SchemaName.Equals(_parentTableMappingSchemaName) || !_parentTableMapping.TableName.Equals(_parentTableMappingName))
-                    _parentTableMapping = _project.FindTableMapping(_parentTableMappingSchemaName, _parentTableMappingName);
+                    _parentTableMapping = _project.FindTableMapping(this.ConnectionName, _parentTableMappingSchemaName, _parentTableMappingName);
+
+                if (_parentTableMapping == null)
+                    throw new InvalidOperationException($"Could not locate parent table mapping ({_parentTableMappingSchemaName}.{_parentTableMappingName} for foreign key \"{this.ForeignKeyName}\".");
 
                 return _parentTableMapping;
             }
@@ -190,7 +196,7 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
                     throw new ApplicationException("Referenced Table Mapping Name is not known.");
 
                 if (_referencedTableMapping == null || !_referencedTableMapping.TableName.Equals(_referencedTableMappingName))
-                    _referencedTableMapping = _project.FindTableMapping(_referencedTableMappingSchemaName, _referencedTableMappingName);
+                    _referencedTableMapping = _project.FindTableMapping(this.ConnectionName, _referencedTableMappingSchemaName, _referencedTableMappingName);
 
                 return _referencedTableMapping;
             }
@@ -240,9 +246,10 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
 
         public ForeignKeyMapping() { }
 
-        public ForeignKeyMapping(Project project, string foreignKeyName, ColumnMapping parentColumnMapping, ColumnMapping referencedColumnMapping, List<Annotation<ForeignKeyMapping>> annotations, List<Attribute<ForeignKeyMapping>> attributes)
+        public ForeignKeyMapping(Project project, string connectionName, string foreignKeyName, ColumnMapping parentColumnMapping, ColumnMapping referencedColumnMapping, List<Annotation<ForeignKeyMapping>> annotations, List<Attribute<ForeignKeyMapping>> attributes)
         {
             _project = project;
+            this.ConnectionName = connectionName;
             _foreignKeyName = foreignKeyName;
             _fieldName = parentColumnMapping.FieldName;
             _propertyName = FieldNameToPropertyName(_fieldName, referencedColumnMapping.TableMapping.ClassName);

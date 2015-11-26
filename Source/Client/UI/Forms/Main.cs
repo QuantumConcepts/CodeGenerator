@@ -601,8 +601,6 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
                             MessageBox.Show("An error occurred while upgrading the project: {0}".FormatString(ex.Message), "Upgrade Failed", MessageBoxButtons.OK);
                             return;
                         }
-
-                        MarkAsUnsaved();
                     }
                 }
 

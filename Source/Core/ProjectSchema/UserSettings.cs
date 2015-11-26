@@ -14,8 +14,9 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
         [XmlIgnore]
         public Project ContainingProject { get; private set; }
 
-        [XmlElement]
-        public Connection Connection { get; set; }
+        [XmlArray]
+        [XmlArrayItem]
+        public List<Connection> Connections { get; set; } = new List<Connection>();
 
         [XmlAttribute]
         public bool ShowExcludedItems { get; set; }
@@ -25,16 +26,11 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
 
         [XmlIgnore]
         public IEnumerable<IAttribute> AllAttributes { get { return null; } }
-
-        public UserSettings()
-        {
-            this.Connection = new Connection();
-        }
-
+        
         public void JoinToProject(Project project)
         {
             this.ContainingProject = project;
-            this.Connection.JoinToParent(this);
+            this.Connections.ForEach(o => o.JoinToParent(this));
         }
     }
 }

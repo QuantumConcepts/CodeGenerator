@@ -32,31 +32,31 @@ namespace QuantumConcepts.CodeGenerator.Core.Data.MySql
             }
         }
 
-        protected override DataTable GetTables(Project project)
+        protected override DataTable GetTables(Project project, Connection connection)
         {
-            return GetTablesOrViews(project, "BASE TABLE");
+            return GetTablesOrViews(project, connection, "BASE TABLE");
         }
 
-        protected override DataTable GetViews(Project project)
+        protected override DataTable GetViews(Project project, Connection connection)
         {
-            return GetTablesOrViews(project, "VIEW");
+            return GetTablesOrViews(project, connection, "VIEW");
         }
 
-        private DataTable GetTablesOrViews(Project project, string tableType)
+        private DataTable GetTablesOrViews(Project project, Connection connection, string tableType)
         {
-            return ExecuteQuery(project,
+            return ExecuteQuery(connection,
                 "SELECT " +
                     "t.table_schema AS " + QueryConstants.TableOrView.SchemaName + ", " +
                     "t.table_name AS " + QueryConstants.TableOrView.Name + " " +
                 "FROM information_schema.tables t " +
                 "WHERE " +
                     "FIND_IN_SET(t.table_schema, @{0}) != 0 ".FormatString(MySqlWorker.ParameterNameMap[MySqlWorker.Parameter_SchemasToShow]) +
-                    "AND t.table_type = \"" + tableType + "\"", GetCommonParameters(project));
+                    "AND t.table_type = \"" + tableType + "\"", GetCommonParameters(connection));
         }
 
-        protected override DataTable GetColumns(Project project)
+        protected override DataTable GetColumns(Project project, Connection connection)
         {
-            DataTable dataTable = ExecuteQuery(project,
+            DataTable dataTable = ExecuteQuery(connection,
                 "SELECT " +
                     "CASE t.table_type " +
                         "WHEN \"BASE TABLE\" THEN \"" + QueryConstants.Column.ForTable + "\" " +
@@ -76,14 +76,14 @@ namespace QuantumConcepts.CodeGenerator.Core.Data.MySql
                     "JOIN information_schema.tables t ON t.table_schema = c.table_schema AND t.table_name = c.table_name " +
                 "WHERE " +
                     "FIND_IN_SET(t.table_schema, @{0}) != 0 ".FormatString(MySqlWorker.ParameterNameMap[MySqlWorker.Parameter_SchemasToShow]) +
-                    "AND t.table_type IN (\"BASE TABLE\", \"VIEW\")", GetCommonParameters(project));
+                    "AND t.table_type IN (\"BASE TABLE\", \"VIEW\")", GetCommonParameters(connection));
 
             return dataTable;
         }
 
-        protected override DataTable GetForeignKeys(Project project)
+        protected override DataTable GetForeignKeys(Project project, Connection connection)
         {
-            return ExecuteQuery(project,
+            return ExecuteQuery(connection,
                 "SELECT DISTINCT " +
                     "fk.constraint_name AS " + QueryConstants.ForeignKey.Name + ", " +
                     "ic.table_schema AS " + QueryConstants.ForeignKey.ParentTableSchemaName + ", " +
@@ -97,12 +97,12 @@ namespace QuantumConcepts.CodeGenerator.Core.Data.MySql
                     "JOIN information_schema.key_column_usage ic ON ic.constraint_name = fk.constraint_name AND ic.table_schema = fk.table_schema AND ic.table_name = fk.table_name " +
                 "WHERE " +
                     "FIND_IN_SET(fk.table_schema, @{0}) != 0 ".FormatString(MySqlWorker.ParameterNameMap[MySqlWorker.Parameter_SchemasToShow]) +
-                    "AND fk.constraint_type = \"FOREIGN KEY\"", GetCommonParameters(project));
+                    "AND fk.constraint_type = \"FOREIGN KEY\"", GetCommonParameters(connection));
         }
 
-        protected override DataTable GetUniqueIndices(Project project)
+        protected override DataTable GetUniqueIndices(Project project, Connection connection)
         {
-            return ExecuteQuery(project,
+            return ExecuteQuery(connection,
                 "SELECT DISTINCT " +
                     "i.constraint_name AS " + QueryConstants.Index.Name + ", " +
                     "ic.table_schema AS " + QueryConstants.TableOrView.SchemaName + ", " +
@@ -113,7 +113,7 @@ namespace QuantumConcepts.CodeGenerator.Core.Data.MySql
                     "JOIN information_schema.key_column_usage ic ON ic.constraint_name = i.constraint_name AND ic.table_schema = i.table_schema AND ic.table_name = i.table_name " +
                 "WHERE " +
                     "FIND_IN_SET(i.table_schema, @{0}) != 0 ".FormatString(MySqlWorker.ParameterNameMap[MySqlWorker.Parameter_SchemasToShow]) +
-                    "AND i.constraint_type = \"UNIQUE\"", GetCommonParameters(project));
+                    "AND i.constraint_type = \"UNIQUE\"", GetCommonParameters(connection));
         }
 
         protected override void ExtractColumnInfo(DataRow dr, out string forParent, out string name, out string schemaName, out string tableName, out decimal sequence, out string databaseDataType, out decimal length, out string defaultValue, out bool nullable, out bool primaryKey)
@@ -135,23 +135,23 @@ namespace QuantumConcepts.CodeGenerator.Core.Data.MySql
             return "YES".Equals(value);
         }
 
-        private DataTable ExecuteQuery(Project project, string sql)
+        private DataTable ExecuteQuery(Connection connection, string sql)
         {
-            return ExecuteQuery(project, sql, null);
+            return ExecuteQuery(connection, sql, null);
         }
 
-        private MySqlParameter[] GetCommonParameters(Project project)
+        private MySqlParameter[] GetCommonParameters(Connection connection)
         {
-            string value = project.UserSettings.Connection.Attributes.SingleOrDefault(o => o.Key.Equals(MySqlWorker.Parameter_SchemasToShow)).ValueOrDefault(o => o.Value);
+            string value = connection.Attributes.SingleOrDefault(o => o.Key.Equals(MySqlWorker.Parameter_SchemasToShow)).ValueOrDefault(o => o.Value);
 
             return new MySqlParameter[] { new MySqlParameter(MySqlWorker.ParameterNameMap[MySqlWorker.Parameter_SchemasToShow], value) };
         }
 
-        private DataTable ExecuteQuery(Project project, string sql, MySqlParameter[] parameters)
+        private DataTable ExecuteQuery(Connection connection, string sql, MySqlParameter[] parameters)
         {
-            using (MySqlConnection connection = new MySqlConnection(project.UserSettings.Connection.ConnectionString))
+            using (MySqlConnection mySqlConnection = new MySqlConnection(connection.ConnectionString))
             {
-                using (MySqlDataAdapter adapter = new MySqlDataAdapter(sql, connection))
+                using (MySqlDataAdapter adapter = new MySqlDataAdapter(sql, mySqlConnection))
                 {
                     DataTable dataTable = new DataTable();
 
@@ -165,11 +165,11 @@ namespace QuantumConcepts.CodeGenerator.Core.Data.MySql
             }
         }
 
-        public override void ValidateConnection(Project project)
+        public override void ValidateConnection(Connection connection)
         {
-            using (MySqlConnection connection = new MySqlConnection(project.UserSettings.Connection.ConnectionString))
+            using (MySqlConnection mySqlConnection = new MySqlConnection(connection.ConnectionString))
             {
-                connection.Open();
+                mySqlConnection.Open();
             }
         }
 

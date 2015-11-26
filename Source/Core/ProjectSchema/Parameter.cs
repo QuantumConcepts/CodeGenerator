@@ -83,6 +83,9 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
         }
 
         [XmlAttribute]
+        public string DataTypeReferencedTableMappingConnectionName { get; set; }
+
+        [XmlAttribute]
         public string DataTypeReferencedTableMappingSchemaName
         {
             get { return _dataTypeReferencedTableMappingSchemaName; }
@@ -142,7 +145,7 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
                     throw new ApplicationException("Data Type Schema or Table Name is not known.");
 
                 if (_dataTypeReferencedTableMapping == null || !_dataTypeReferencedTableMapping.SchemaName.Equals(_dataTypeReferencedTableMappingSchemaName) || !_dataTypeReferencedTableMapping.TableName.Equals(_dataTypeReferencedTableMappingName))
-                    _dataTypeReferencedTableMapping = ContainingProject.FindTableMapping(_dataTypeReferencedTableMappingSchemaName, _dataTypeReferencedTableMappingName);
+                    _dataTypeReferencedTableMapping = this.ContainingProject.FindTableMapping(this.DataTypeReferencedTableMappingConnectionName, _dataTypeReferencedTableMappingSchemaName, _dataTypeReferencedTableMappingName);
 
                 return _dataTypeReferencedTableMapping;
             }
@@ -197,13 +200,14 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
 
         public Parameter() { }
 
-        private Parameter(string name, bool isReturnParameter, ParameterModifier modifier, ParameterQuantifier quantifier, ParameterType dataType, string dataTypeReferencedTableMappingSchemaName, string dataTypeReferencedTableMappingName, string dataTypeReferencedEnumColumnMappingName, string otherDataType, bool nullable, List<Annotation<Parameter<T>>> annotations, List<Attribute<Parameter<T>>> attributes)
+        private Parameter(string name, bool isReturnParameter, ParameterModifier modifier, ParameterQuantifier quantifier, ParameterType dataType, string dataTypeReferencedTableMappingConnectionName, string dataTypeReferencedTableMappingSchemaName, string dataTypeReferencedTableMappingName, string dataTypeReferencedEnumColumnMappingName, string otherDataType, bool nullable, List<Annotation<Parameter<T>>> annotations, List<Attribute<Parameter<T>>> attributes)
         {
             _name = name;
             _isReturnParameter = isReturnParameter;
             _modifier = modifier;
             _quantifier = quantifier;
             _type = dataType;
+            this.DataTypeReferencedTableMappingConnectionName = dataTypeReferencedTableMappingConnectionName;
             _dataTypeReferencedTableMappingSchemaName = dataTypeReferencedTableMappingSchemaName;
             _dataTypeReferencedTableMappingName = dataTypeReferencedTableMappingName;
             _dataTypeReferencedEnumColumnMappingName = dataTypeReferencedEnumColumnMappingName;
@@ -275,37 +279,37 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
 
         public static Parameter<T> CreateVoidReturnParameter(List<Annotation<Parameter<T>>> annotations, List<Attribute<Parameter<T>>> attributes)
         {
-            return new Parameter<T>(null, true, Parameter<T>.ParameterModifier.None, Parameter<T>.ParameterQuantifier.Single, Parameter<T>.ParameterType.Void, null, null, null, null, false, annotations, attributes);
+            return new Parameter<T>(null, true, Parameter<T>.ParameterModifier.None, Parameter<T>.ParameterQuantifier.Single, Parameter<T>.ParameterType.Void, null, null, null, null, null, false, annotations, attributes);
         }
 
         public static Parameter<T> CreateDataObjectReturnParameter(TableMapping dataTypeReferencedTableMapping, ParameterQuantifier quantifier, List<Annotation<Parameter<T>>> annotations, List<Attribute<Parameter<T>>> attributes)
         {
-            return new Parameter<T>(null, true, Parameter<T>.ParameterModifier.None, quantifier, Parameter<T>.ParameterType.DataObject, dataTypeReferencedTableMapping.SchemaName, dataTypeReferencedTableMapping.TableName, null, null, false, annotations, attributes);
+            return new Parameter<T>(null, true, Parameter<T>.ParameterModifier.None, quantifier, Parameter<T>.ParameterType.DataObject, dataTypeReferencedTableMapping.ConnectionName, dataTypeReferencedTableMapping.SchemaName, dataTypeReferencedTableMapping.TableName, null, null, false, annotations, attributes);
         }
 
         public static Parameter<T> CreateEnumReturnParameter(ColumnMapping dataTypeReferencedColumnMapping, bool isNullable, List<Annotation<Parameter<T>>> annotations, List<Attribute<Parameter<T>>> attributes)
         {
-            return new Parameter<T>(null, true, Parameter<T>.ParameterModifier.None, Parameter<T>.ParameterQuantifier.Single, Parameter<T>.ParameterType.Enum, dataTypeReferencedColumnMapping.TableMapping.SchemaName, dataTypeReferencedColumnMapping.TableMapping.TableName, dataTypeReferencedColumnMapping.ColumnName, null, isNullable, annotations, attributes);
+            return new Parameter<T>(null, true, Parameter<T>.ParameterModifier.None, Parameter<T>.ParameterQuantifier.Single, Parameter<T>.ParameterType.Enum, dataTypeReferencedColumnMapping.TableMapping.ConnectionName, dataTypeReferencedColumnMapping.TableMapping.SchemaName, dataTypeReferencedColumnMapping.TableMapping.TableName, dataTypeReferencedColumnMapping.ColumnName, null, isNullable, annotations, attributes);
         }
 
         public static Parameter<T> CreateOtherReturnParameter(string dataType, ParameterQuantifier quantifier, bool isNullable, List<Annotation<Parameter<T>>> annotations, List<Attribute<Parameter<T>>> attributes)
         {
-            return new Parameter<T>(null, true, Parameter<T>.ParameterModifier.None, quantifier, Parameter<T>.ParameterType.Other, null, null, null, dataType, isNullable, annotations, attributes);
+            return new Parameter<T>(null, true, Parameter<T>.ParameterModifier.None, quantifier, Parameter<T>.ParameterType.Other, null, null, null, null, dataType, isNullable, annotations, attributes);
         }
 
         public static Parameter<T> CreateDataObjectParameter(string name, Parameter<T>.ParameterModifier modifier, ParameterQuantifier quantifier, TableMapping dataTypeReferencedTableMapping, List<Annotation<Parameter<T>>> annotations, List<Attribute<Parameter<T>>> attributes)
         {
-            return new Parameter<T>(name, false, modifier, quantifier, Parameter<T>.ParameterType.DataObject, dataTypeReferencedTableMapping.SchemaName, dataTypeReferencedTableMapping.TableName, null, null, false, annotations, attributes);
+            return new Parameter<T>(name, false, modifier, quantifier, Parameter<T>.ParameterType.DataObject, dataTypeReferencedTableMapping.ConnectionName, dataTypeReferencedTableMapping.SchemaName, dataTypeReferencedTableMapping.TableName, null, null, false, annotations, attributes);
         }
 
         public static Parameter<T> CreateEnumParameter(string name, Parameter<T>.ParameterModifier modifier, ColumnMapping dataTypeReferencedColumnMapping, bool nullable, List<Annotation<Parameter<T>>> annotations, List<Attribute<Parameter<T>>> attributes)
         {
-            return new Parameter<T>(name, false, modifier, Parameter<T>.ParameterQuantifier.Single, Parameter<T>.ParameterType.Enum, dataTypeReferencedColumnMapping.TableMapping.SchemaName, dataTypeReferencedColumnMapping.TableMapping.TableName, dataTypeReferencedColumnMapping.ColumnName, null, nullable, annotations, attributes);
+            return new Parameter<T>(name, false, modifier, Parameter<T>.ParameterQuantifier.Single, Parameter<T>.ParameterType.Enum, dataTypeReferencedColumnMapping.TableMapping.ConnectionName, dataTypeReferencedColumnMapping.TableMapping.SchemaName, dataTypeReferencedColumnMapping.TableMapping.TableName, dataTypeReferencedColumnMapping.ColumnName, null, nullable, annotations, attributes);
         }
 
         public static Parameter<T> CreateOtherParameter(string name, Parameter<T>.ParameterModifier modifier, ParameterQuantifier quantifier, string dataType, bool nullable, List<Annotation<Parameter<T>>> annotations, List<Attribute<Parameter<T>>> attributes)
         {
-            return new Parameter<T>(name, false, modifier, quantifier, Parameter<T>.ParameterType.Other, null, null, null, dataType, nullable, annotations, attributes);
+            return new Parameter<T>(name, false, modifier, quantifier, Parameter<T>.ParameterType.Other, null, null, null, null, dataType, nullable, annotations, attributes);
         }
     }
 }

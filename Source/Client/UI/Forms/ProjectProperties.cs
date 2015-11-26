@@ -30,15 +30,16 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
         {
             //General tab
             rootNamespaceTextBox.DataBindings.Clear();
-            rootNamespaceTextBox.DataBindings.Add(nameof(TextBox.Text), this.Project, nameof(this.Project.RootNamespace));
+            rootNamespaceTextBox.DataBindings.Add(nameof(TextBox.Text), this.Project, nameof(Project.RootNamespace));
             showExcludedItemsCheckBox.DataBindings.Clear();
-            showExcludedItemsCheckBox.DataBindings.Add(nameof(CheckBox.Checked), this.Project.UserSettings, nameof(this.Project.UserSettings.ShowExcludedItems));
+            showExcludedItemsCheckBox.DataBindings.Add(nameof(CheckBox.Checked), this.Project.UserSettings, nameof(UserSettings.ShowExcludedItems));
 
             //Database tab
+            //TODO Support multiple connections.
             databaseTypeComboBox.Items.AddRange(DatabaseWorkerManager.Instance.OrderBy(o => o.Name).ToArray());
-            databaseTypeComboBox.SelectedItem = DatabaseWorkerManager.Instance[this.Project.UserSettings.Connection.DatabaseType];
+            databaseTypeComboBox.SelectedItem = DatabaseWorkerManager.Instance[this.Project.UserSettings.Connections.First().DatabaseType];
             databaseConnectionStringTextBox.DataBindings.Clear();
-            databaseConnectionStringTextBox.DataBindings.Add(nameof(TextBox.Text), this.Project.UserSettings.Connection, nameof(this.Project.UserSettings.Connection.ConnectionString));
+            databaseConnectionStringTextBox.DataBindings.Add(nameof(TextBox.Text), this.Project.UserSettings.Connections.First(), nameof(Connection.ConnectionString));
             //TODO
             //editAttributes.DataBindings.Clear();
             //editAttributes.DataBindings.Add("Attributes", this.Project, "Attributes");
@@ -66,7 +67,8 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
 
         private void InitializeDatabaseParameters()
         {
-            DatabaseWorker worker = this.Project.UserSettings.Connection.GetDatabaseWorker();
+            Connection connection = this.Project.UserSettings.Connections.First();
+            DatabaseWorker worker = connection.GetDatabaseWorker();
 
             databaseParametersGridView.Rows.Clear();
 
@@ -74,12 +76,12 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             {
                 string[] allParameterNames = worker.Parameters.Select(o => o.Name).ToArray();
 
-                this.Project.UserSettings.Connection.Attributes.RemoveAll(o => !allParameterNames.Contains(o.Key));
+                connection.Attributes.RemoveAll(o => !allParameterNames.Contains(o.Key));
 
                 foreach (DatabaseParameter parameter in worker.Parameters)
                 {
                     DataGridViewRow row = new DataGridViewRow();
-                    string value = this.Project.UserSettings.Connection.Attributes.SingleOrDefault(o => o.Key.Equals(parameter.Name)).ValueOrDefault(o => o.Value);
+                    string value = connection.Attributes.SingleOrDefault(o => o.Key.Equals(parameter.Name)).ValueOrDefault(o => o.Value);
 
                     row.CreateCells(databaseParametersGridView, parameter.Name, value);
                     row.Cells[databaseParametersNameColumn.Index].ToolTipText = parameter.Description;
@@ -88,12 +90,13 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
                 }
             }
             else
-                this.Project.UserSettings.Connection.Attributes.Clear();
+                connection.Attributes.Clear();
         }
 
         private void InitializeResetToDefaultDataTypes()
         {
-            DatabaseWorker worker = this.Project.UserSettings.Connection.GetDatabaseWorker();
+            Connection connection = this.Project.UserSettings.Connections.First();
+            DatabaseWorker worker = connection.GetDatabaseWorker();
 
             resetToDefaultDataTypesButton.DropDownItems.Clear();
 
@@ -121,7 +124,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
 
         private void databaseType_SelectedIndexChanged(object sender, EventArgs e)
         {
-            this.Project.UserSettings.Connection.DatabaseType = ((DatabaseWorker)databaseTypeComboBox.SelectedItem).Name;
+            this.Project.UserSettings.Connections.First().DatabaseType = ((DatabaseWorker)databaseTypeComboBox.SelectedItem).Name;
 
             InitializeDatabaseParameters();
             InitializeResetToDefaultDataTypes();
@@ -131,15 +134,16 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
         {
             if (e.RowIndex >= 0)
             {
+                Connection connection = this.Project.UserSettings.Connections.First();
                 DataGridViewRow row = databaseParametersGridView.Rows[e.RowIndex];
                 string name = (string)(row.Cells[databaseParametersNameColumn.Index].Value);
                 string value = (string)(row.Cells[databaseParametersValueColumn.Index].Value);
-                Attribute<Connection> parameter = this.Project.UserSettings.Connection.Attributes.SingleOrDefault(o => o.Key.Equals(name));
+                Attribute<Connection> parameter = connection.Attributes.SingleOrDefault(o => o.Key.Equals(name));
 
                 if (parameter == null)
                 {
                     parameter = new Attribute<Connection>(name, value);
-                    this.Project.UserSettings.Connection.Attributes.Add(parameter);
+                    connection.Attributes.Add(parameter);
                 }
                 else
                     parameter.Value = value;
@@ -168,12 +172,13 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
 
         private void resetToDefaultDataTypesButton_Click(object sender, EventArgs e)
         {
-            DatabaseWorker worker = this.Project.UserSettings.Connection.GetDatabaseWorker();
+            Connection connection = this.Project.UserSettings.Connections.First();
+            DatabaseWorker worker = connection.GetDatabaseWorker();
 
             if (worker != null)
             {
                 string language = (((ToolStripItem)sender).Tag as string);
-                DataTypeMappingConfiguration config = worker.GetDataTypeMappingConfigurations().SingleOrDefault(o => string.Equals(o.Language, language) && string.Equals(o.DatabaseType, this.Project.UserSettings.Connection.DatabaseType));
+                DataTypeMappingConfiguration config = worker.GetDataTypeMappingConfigurations().SingleOrDefault(o => string.Equals(o.Language, language) && string.Equals(o.DatabaseType, connection.DatabaseType));
 
                 if (config == null)
                 {
@@ -239,7 +244,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             {
                 try
                 {
-                    this.Project.UserSettings.Connection.Validate();
+                    this.Project.UserSettings.Connections.First().Validate();
                 }
                 catch (EmptyDatabaseWorkerSpecifiedException)
                 {

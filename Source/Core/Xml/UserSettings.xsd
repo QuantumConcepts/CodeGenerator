@@ -3,21 +3,22 @@
 <xs:schema id="UserSettings" elementFormDefault="qualified" targetNamespace="http://Schemas.QuantumConceptsCorp.com/CodeGenerator/UserSettings.xsd" version="1.5.0.0" xmlns="http://Schemas.QuantumConceptsCorp.com/CodeGenerator/UserSettings.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 	<xs:element name="UserSettings">
 		<xs:complexType>
-			<xs:choice minOccurs="1" maxOccurs="1">
-				<xs:element name="Connection" minOccurs="1" maxOccurs="1" nillable="false">
-					<xs:complexType>
-						<xs:sequence minOccurs="1" maxOccurs="1">
-							<xs:element name="DatabaseType" minOccurs="0" maxOccurs="1" nillable="true" type="ConnectionDatabaseType"/>
-							<xs:element name="Host" minOccurs="0" maxOccurs="1" nillable="true" type="xs:string"/>
-							<xs:element name="Port" minOccurs="0" maxOccurs="1" nillable="true" type="xs:int"/>
-							<xs:element name="Database" minOccurs="0" maxOccurs="1" nillable="true" type="xs:string"/>
-							<xs:element name="ServiceName" minOccurs="0" maxOccurs="1" nillable="true" type="xs:string"/>
-							<xs:element name="UserId" minOccurs="0" maxOccurs="1" nillable="true" type="xs:string"/>
-							<xs:element name="Password" minOccurs="0" maxOccurs="1" nillable="true" type="xs:string"/>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
-			</xs:choice>	
+            <xs:sequence minOccurs="1" maxOccurs="1">
+                <xs:element name="Connections" minOccurs="1" maxOccurs="1" nillable="false">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="Connection" minOccurs="1" maxOccurs="unbounded" nillable="false">
+                                <xs:complexType>
+                                    <xs:sequence minOccurs="1" maxOccurs="1">
+                                        <xs:element name="Name" minOccurs="1" maxOccurs="1" nillable="true" type="xs:string"/>
+                                        <xs:element name="DatabaseType" minOccurs="0" maxOccurs="1" nillable="true" type="ConnectionDatabaseType"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>  
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
 		</xs:complexType>
 	</xs:element>
 	

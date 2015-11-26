@@ -18,8 +18,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
 
         private TreeNode SettingsNode { get; set; }
         private TreeNode TemplatesNode { get; set; }
-        private TreeNode TablesNode { get; set; }
-        private TreeNode ViewsNode { get; set; }
+        private TreeNode ConnectionsNode { get; set; }
 
         public Project Project { get; private set; }
 
@@ -42,13 +41,10 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
 
             SettingsNode = new TreeNode("Settings");
             TemplatesNode = new TreeNode("Templates");
-            TablesNode = new TreeNode("Tables");
-            ViewsNode = new TreeNode("Views");
+            ConnectionsNode = new TreeNode("Connections");
 
             UpdateNode();
             Rebuild();
-
-            this.Expand();
         }
 
         public override void UpdateNode()
@@ -63,10 +59,11 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
         {
             RefreshSettingsNode();
             RefreshTemplatesNode();
-            RefreshTablesNode();
-            RefreshViewsNode();
+            RefreshConnectionsNode();
 
             RebuildTree();
+
+            this.Expand();
         }
 
         public void RebuildTree()
@@ -74,32 +71,20 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
             this.Nodes.Clear();
             this.Nodes.Add(SettingsNode);
             this.Nodes.Add(TemplatesNode);
-
-            if (TablesNode.Nodes.Count > 0)
-                this.Nodes.Add(TablesNode);
-
-            if (ViewsNode.Nodes.Count > 0)
-                this.Nodes.Add(ViewsNode);
+            this.Nodes.Add(ConnectionsNode);
         }
 
         public void RefreshSettingsNode()
         {
-            TreeNode connectionsNode = null;
             TreeNode dataTypesNode = null;
 
             SettingsNode.Nodes.Clear();
-
-            connectionsNode = new TreeNode("Connections");
-
-            if (this.Project.UserSettings.Connection != null)
-                connectionsNode.Nodes.Add(new ConnectionTreeNode(this, this.Project.UserSettings.Connection));
 
             dataTypesNode = new TreeNode("Data Types");
 
             foreach (DataTypeMapping dataTypeMapping in this.Project.DataTypeMappings)
                 dataTypesNode.Nodes.Add(new DataTypeTreeNode(this, dataTypeMapping));
-
-            SettingsNode.Nodes.Add(connectionsNode);
+            
             SettingsNode.Nodes.Add(dataTypesNode);
         }
 
@@ -127,58 +112,25 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
             }
         }
 
-        public void RefreshTablesNode()
+        public void RefreshConnectionsNode()
         {
-            TablesNode.Nodes.Clear();
-
-            foreach (var schemaName in this.Project.TableMappings.Select(o => o.SchemaName).Distinct().OrderBy(o => o))
+            ConnectionsNode.Nodes.Clear();
+            ConnectionsNode.ContextMenu = new ContextMenu(new MenuItem[]
             {
-                SchemaTreeNode schemaNode = new SchemaTreeNode(this, schemaName);
-                bool anyVisible = false;
+                new MenuItem("New Connection....",  new EventHandler(NewConnectionMenuItem_Click))
+            });
 
-                foreach (TableMapping tableMapping in this.Project.TableMappings
-                    .Where(o => string.Equals(o.SchemaName, schemaName))
-                    .OrderBy(o => o.ClassName))
+            if (!this.Project.Connections.IsNullOrEmpty())
+            {
+                foreach (var connectionName in this.Project.Connections.OrderBy(o => o.Name))
                 {
-                    if (!tableMapping.Exclude || this.Project.UserSettings.ShowExcludedItems)
-                    {
-                        schemaNode.Nodes.Add(new TableOrViewTreeNode(this, tableMapping));
-                        anyVisible = true;
-                    }
-                }
+                    ConnectionTreeNode node = new ConnectionTreeNode(this, connectionName);
 
-                if (anyVisible)
-                    TablesNode.Nodes.Add(schemaNode);
+                    ConnectionsNode.Nodes.Add(node);
+                }
             }
 
-            TablesNode.Expand();
-        }
-
-        public void RefreshViewsNode()
-        {
-            ViewsNode.Nodes.Clear();
-
-            foreach (var schemaName in this.Project.ViewMappings.Select(o => o.SchemaName).Distinct().OrderBy(o => o))
-            {
-                SchemaTreeNode schemaNode = new SchemaTreeNode(this, schemaName);
-                bool anyVisible = false;
-
-                foreach (ViewMapping viewMapping in this.Project.ViewMappings
-                    .Where(o => string.Equals(o.SchemaName, schemaName))
-                    .OrderBy(o => o.ClassName))
-                {
-                    if (!viewMapping.Exclude || this.Project.UserSettings.ShowExcludedItems)
-                    {
-                        schemaNode.Nodes.Add(new TableOrViewTreeNode(this, viewMapping));
-                        anyVisible = true;
-                    }
-                }
-
-                if (anyVisible)
-                    ViewsNode.Nodes.Add(schemaNode);
-            }
-
-            ViewsNode.Expand();
+            ConnectionsNode.Expand();
         }
 
         private void PropertiesMenuItem_Click(object sender, EventArgs e)
@@ -221,6 +173,10 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
                     RefreshTemplatesNode();
                 }
             }
+        }
+
+        private void NewConnectionMenuItem_Click(object sender, EventArgs e)
+        {
         }
     }
 }
