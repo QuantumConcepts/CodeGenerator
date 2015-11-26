@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
+﻿using QuantumConcepts.CodeGenerator.Core.ProjectSchema;
 using QuantumConcepts.CodeGenerator.Core.Utils;
-using QuantumConcepts.CodeGenerator.Core.ProjectSchema;
+using System.Collections.Generic;
+using System.Xml;
+using System.Xml.Linq;
 
 namespace QuantumConcepts.CodeGenerator.Core.BatchEditors
 {
@@ -21,9 +19,9 @@ namespace QuantumConcepts.CodeGenerator.Core.BatchEditors
             this.XPathParts = XmlUtil.ParseComingledXPathExpression(this.XPath);
         }
 
-        public ComingledXPathExpressionResult GetValue(XElement element, ElementType elementType)
+        public ComingledXPathExpressionResult GetValue(XElement element, XmlNamespaceManager nsm, ElementType elementType)
         {
-            return XmlUtil.ComputeComingledXPathExpression(element, elementType, this.XPathParts);
+            return XmlUtil.ComputeComingledXPathExpression(element, nsm, elementType, this.XPathParts);
         }
     }
 }

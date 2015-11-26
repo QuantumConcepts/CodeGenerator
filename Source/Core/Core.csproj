@@ -302,6 +302,9 @@
     <Compile Include="Upgrade\UpgradeManager.cs" />
     <Compile Include="Upgrade\Upgrader_1_4_1_11.cs" />
     <Compile Include="Utils\XmlUtil.cs" />
+    <Compile Include="Utils\XPathContext.cs" />
+    <Compile Include="Utils\XPathContextFunction.cs" />
+    <Compile Include="Utils\XPathContextVariable.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
