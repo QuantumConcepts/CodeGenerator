@@ -244,6 +244,7 @@
     <Compile Include="PackageSchema\ProjectFactory.cs" />
     <Compile Include="Plugins\PluginConfig.cs" />
     <Compile Include="Upgrade\Upgrader_1_6_2_0.cs" />
+    <Compile Include="Upgrade\Upgrader_1_7_4_0.cs" />
     <Compile Include="Upgrade\Upgrader_1_6_3_0.cs" />
     <Compile Include="Utils\ComingledXPathExpressionResult.cs" />
     <Compile Include="Configuration.cs" />
