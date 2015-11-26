@@ -1,6 +1,4 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("Quantum Concepts CodeGenerator Core")]
 [assembly: AssemblyDescription("Quantum Concepts CodeGenerator Core")]
@@ -8,5 +6,5 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyProduct("Quantum Concepts CodeGenerator Core")]
 [assembly: AssemblyCopyright("© Quantum Concepts Corporation")]
 [assembly: AssemblyTrademark("© Quantum Concepts Corporation")]
-[assembly: AssemblyVersion("1.7.3.2")]
-[assembly: AssemblyFileVersion("1.7.3.2")]
+[assembly: AssemblyVersion("1.7.4.0")]
+[assembly: AssemblyFileVersion("1.7.4.0")]
