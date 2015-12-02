@@ -40,9 +40,19 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             : this(project)
         {
             if (template != null)
-                outputsListView.Groups.Cast<ListViewGroup>().Single(o => o.Tag == template).Items.Cast<ListViewItem>().ForEach(o => o.Checked = true);
+            {
+                outputsListView
+                    .Groups.Cast<ListViewGroup>()
+                    .Single(o => o.Tag == template)
+                    .Items.Cast<ListViewItem>()
+                    .ForEach(o => o.Checked = true);
+            }
             else
-                outputsListView.Items.Cast<ListViewItem>().ForEach(o => o.Checked = true);
+            {
+                outputsListView
+                    .Items.Cast<ListViewItem>()
+                    .ForEach(o => o.Checked = ((Template)o.Group.Tag).GenerateByDefault);
+            }
 
             this.AutoGenerate = autoGenerate;
             autoCloseCheckBox.Checked = autoClose;

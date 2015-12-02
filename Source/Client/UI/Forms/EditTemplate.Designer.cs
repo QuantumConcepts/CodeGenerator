@@ -45,6 +45,7 @@
             this.singleFileRadioButton = new System.Windows.Forms.RadioButton();
             this.cancelButton = new System.Windows.Forms.Button();
             this.okButton = new System.Windows.Forms.Button();
+            this.generateByDefaultCheckBox = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.multipleFilesPanel.SuspendLayout();
             this.multipleFilesToolStrip.SuspendLayout();
@@ -105,6 +106,7 @@
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.generateByDefaultCheckBox);
             this.groupBox1.Controls.Add(this.multipleFilesPanel);
             this.groupBox1.Controls.Add(this.multipleFilesRadioButton);
             this.groupBox1.Controls.Add(this.singleFilePanel);
@@ -126,7 +128,7 @@
             this.multipleFilesPanel.Enabled = false;
             this.multipleFilesPanel.Location = new System.Drawing.Point(42, 100);
             this.multipleFilesPanel.Name = "multipleFilesPanel";
-            this.multipleFilesPanel.Size = new System.Drawing.Size(443, 225);
+            this.multipleFilesPanel.Size = new System.Drawing.Size(443, 202);
             this.multipleFilesPanel.TabIndex = 3;
             // 
             // templateOutputDefinitionsListBox
@@ -136,7 +138,7 @@
             this.templateOutputDefinitionsListBox.FormattingEnabled = true;
             this.templateOutputDefinitionsListBox.Location = new System.Drawing.Point(0, 25);
             this.templateOutputDefinitionsListBox.Name = "templateOutputDefinitionsListBox";
-            this.templateOutputDefinitionsListBox.Size = new System.Drawing.Size(443, 199);
+            this.templateOutputDefinitionsListBox.Size = new System.Drawing.Size(443, 173);
             this.templateOutputDefinitionsListBox.TabIndex = 2;
             this.templateOutputDefinitionsListBox.SelectedIndexChanged += new System.EventHandler(this.outputDefinitionsListBox_SelectedIndexChanged);
             // 
@@ -242,6 +244,16 @@
             this.okButton.UseVisualStyleBackColor = true;
             this.okButton.Click += new System.EventHandler(this.okButton_Click);
             // 
+            // generateByDefaultCheckBox
+            // 
+            this.generateByDefaultCheckBox.AutoSize = true;
+            this.generateByDefaultCheckBox.Location = new System.Drawing.Point(6, 308);
+            this.generateByDefaultCheckBox.Name = "generateByDefaultCheckBox";
+            this.generateByDefaultCheckBox.Size = new System.Drawing.Size(125, 17);
+            this.generateByDefaultCheckBox.TabIndex = 4;
+            this.generateByDefaultCheckBox.Text = "Generate by default?";
+            this.generateByDefaultCheckBox.UseVisualStyleBackColor = true;
+            // 
             // EditTemplate
             // 
             this.AcceptButton = this.okButton;
@@ -293,5 +305,6 @@
         private System.Windows.Forms.Button okButton;
         private System.Windows.Forms.ToolStripButton editButton;
         private System.Windows.Forms.ListBox templateOutputDefinitionsListBox;
+        private System.Windows.Forms.CheckBox generateByDefaultCheckBox;
     }
 }
