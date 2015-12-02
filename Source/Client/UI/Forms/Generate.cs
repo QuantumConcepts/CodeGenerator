@@ -206,14 +206,14 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             outputsListView.Items.Clear();
             outputsListView.BeginUpdate();
 
-            foreach (Template template in ProjectContext.Project.Templates)
+            foreach (Template template in ProjectContext.Project.Templates.OrderBy(o => o.Name))
             {
                 ListViewGroup group = new ListViewGroup(template.Name)
                 {
                     Tag = template
                 };
 
-                foreach (TemplateOutputDefinitionFilenameResult output in template.GetOutputFilenames())
+                foreach (TemplateOutputDefinitionFilenameResult output in template.GetOutputFilenames().OrderBy(o => o.ElementName))
                 {
                     ListViewItem item = new ListViewItem(new[] { output.Value, (template.OutputMode == TemplateOutputMode.SingleFile ? null : output.ElementName), null, null })
                     {
