@@ -379,7 +379,7 @@ namespace QuantumConcepts.CodeGenerator.Core.Data
 
             dataTable.PrimaryKey = new DataColumn[] { dataTable.Columns[QueryConstants.ForeignKey.Name] };
 
-            foreach (ForeignKeyMapping fk in project.ForeignKeyMappings)
+            foreach (ForeignKeyMapping fk in toConsider)
             {
                 DataRow match = dataTable.Rows.Find(fk.ForeignKeyName);
 
