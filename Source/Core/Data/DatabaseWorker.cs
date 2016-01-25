@@ -284,14 +284,18 @@ namespace QuantumConcepts.CodeGenerator.Core.Data
                 }
                 else
                 {
+                    bool isCustomDataType = !project.DataTypeMappings.Any(o => string.Equals(o.ApplicationDataType, cm.DataType, StringComparison.InvariantCultureIgnoreCase));
+
                     cm.Sequence = sequence;
-                    cm.DataType = dataType;
                     cm.DatabaseDataType = databaseDataType;
                     cm.Length = length;
                     cm.DefaultValue = defaultValue;
                     cm.Nullable = nullable;
                     cm.NullableInDatabase = nullableInDatabase;
                     cm.PrimaryKey = primaryKey;
+
+                    if (!isCustomDataType)
+                        cm.DataType = dataType;
                 }
             }
 
