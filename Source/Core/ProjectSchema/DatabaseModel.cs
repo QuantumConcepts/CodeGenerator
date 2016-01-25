@@ -4,11 +4,11 @@ using System.Xml.Serialization;
 
 namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema {
 
-    public class DatabaseModel : Model<TableEntity>, IProjectSchemaElement, IHasAnnotations<DatabaseModel>, IHasAttributes<DatabaseModel> {
+    public class DatabaseModel : Model<Table>, IProjectSchemaElement, IHasAnnotations<DatabaseModel>, IHasAttributes<DatabaseModel> {
 
         [XmlArray]
         [XmlArrayItem("Table")]
-        public List<TableEntity> Tables { get { return this.Entities; } set { this.Entities = value; } }
+        public List<Table> Tables { get { return this.Entities; } set { this.Entities = value; } }
 
         [XmlArray]
         [XmlArrayItem("View")]

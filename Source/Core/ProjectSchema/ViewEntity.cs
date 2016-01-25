@@ -7,7 +7,7 @@ using System.Xml.Serialization;
 namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
 {
     [XmlRoot(ViewEntity.ElementName)]
-    public class ViewEntity : TableEntity {
+    public class ViewEntity : Table {
         public new const string ElementName = "View";
 
         [XmlAttribute]

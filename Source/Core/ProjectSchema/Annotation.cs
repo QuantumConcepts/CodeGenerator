@@ -6,7 +6,7 @@ using System.Xml.Serialization;
 namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema {
 
     [XmlRoot]
-    public class Annotation<T> : IProjectSchemaElement, IAnnotation, IHasAttributes<Annotation<T>>
+    public class Annotation<T> : BaseProjectSchemaElement, IAnnotation, IHasAttributes<Annotation<T>>
         where T : IProjectSchemaElement {
         private T _parent;
 
@@ -43,6 +43,10 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema {
             this.Type = type;
             this.Text = text;
             this.Attributes = (attributes ?? new List<Attribute<Annotation<T>>>());
+        }
+
+        public void Rename(string newName) {
+            this.Type = newName;
         }
 
         public void JoinToParent(T parent) {

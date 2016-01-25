@@ -43,7 +43,7 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
         
         [XmlArray]
         [XmlArrayItem]
-        public List<EntityRelationship> ForeignKeyMappings { get; set; } = new List<EntityRelationship>();
+        public List<EntityRelationship> EntityRelationships { get; set; } = new List<EntityRelationship>();
 
         [XmlArray]
         [XmlArrayItem("Attribute")]
@@ -60,7 +60,7 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
         {
             get
             {
-                foreach (IAnnotation annotation in this.DataTypeMappings.SelectMany(o => o.AllAnnotations).Union(this.Entities.SelectMany(o => o.AllAnnotations)).Union(this.ForeignKeyMappings.SelectMany(o => o.AllAnnotations)))
+                foreach (IAnnotation annotation in this.DataTypeMappings.SelectMany(o => o.AllAnnotations).Union(this.Entities.SelectMany(o => o.AllAnnotations)).Union(this.EntityRelationships.SelectMany(o => o.AllAnnotations)))
                     yield return annotation;
             }
         }
@@ -74,7 +74,7 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
                     .Union(this.DataTypeMappings.SelectMany(o => o.AllAttributes))
                     .Union(this.Templates.SelectMany(o => o.AllAttributes))
                     .Union(this.Entities.SelectMany(o => o.AllAttributes))
-                    .Union(this.ForeignKeyMappings.SelectMany(o => o.AllAttributes)))
+                    .Union(this.EntityRelationships.SelectMany(o => o.AllAttributes)))
                 {
                     yield return attribute;
                 }
@@ -88,7 +88,7 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
             this.Templates = new List<Template>();
             this.Entities = new List<Entity>();
             this.ViewMappings = new List<ViewEntity>();
-            this.ForeignKeyMappings = new List<EntityRelationship>();
+            this.EntityRelationships = new List<EntityRelationship>();
             this.Attributes = new List<Attribute<Project>>();
 
             Initialize();
@@ -121,7 +121,7 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
             this.Templates.ForEach(o => o.JoinToProject(this));
             this.Entities.ForEach(o => o.JoinToProject(this));
             this.ViewMappings.ForEach(o => o.JoinToProject(this));
-            this.ForeignKeyMappings.ForEach(o => o.JoinToModel(this));
+            this.EntityRelationships.ForEach(o => o.JoinToModel(this));
         }
 
         public DataTypeMapping FindDataTypeMapping(string databaseDataType)
@@ -146,18 +146,18 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
 
         public EntityRelationship FindForeignKeyMapping(string name)
         {
-            return this.ForeignKeyMappings.SingleOrDefault(o => o.Name.EqualsIgnoreCase(name));
+            return this.EntityRelationships.SingleOrDefault(o => o.Name.EqualsIgnoreCase(name));
         }
 
         public EntityRelationship FindForeignKeyMappingForParentColumn(Property parentColumn)
         {
-            return this.ForeignKeyMappings.SingleOrDefault(o => o.ParentColumnMapping.Equals(parentColumn));
+            return this.EntityRelationships.SingleOrDefault(o => o.ParentColumnMapping.Equals(parentColumn));
         }
 
         public void SortAll()
         {
             this.Entities.Sort(new EntityComparer());
-            this.ForeignKeyMappings.Sort(new EntityRelationshipComparer());
+            this.EntityRelationships.Sort(new EntityRelationshipComparer());
 
             foreach (Entity tm in this.Entities)
                 tm.Properties.Sort(new PropertyComparer());

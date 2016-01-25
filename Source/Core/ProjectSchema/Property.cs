@@ -5,7 +5,7 @@ using System.Xml.Serialization;
 
 namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema {
 
-    public class Property : IProjectSchemaElement, IHasAnnotations<Property>, IHasAttributes<Property> {
+    public class Property : IProjectSchemaElement, IHasAnnotations<Property>, IHasAttributes<Property>, IRenameable {
 
         [XmlIgnore]
         public Project ContainingProject { get { return this.Entity?.ContainingProject; } }
@@ -104,6 +104,10 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema {
             this.Nullable = nullable;
             this.Annotations = (annotations ?? new List<Annotation<Property>>());
             this.Attributes = (attributes ?? new List<Attribute<Property>>());
+        }
+
+        public void Rename(string newName) {
+            this.Name = newName;
         }
 
         public void JoinToTableMapping(Entity tableMapping) {

@@ -12,22 +12,15 @@ namespace QuantumConcepts.CodeGenerator.Core.BatchEditors {
         public override string[] Fields { get { return new[] { Field_NewNameXPath }; } }
 
         public override bool Apply(IProjectSchemaElement element, string newValue) {
-            if (element is IAnnotation)
-                ((IAnnotation)element).Type = newValue;
-            else if (element is API)
-                ((API)element).Name = newValue;
-            else if (element is IAttribute)
-                ((IAttribute)element).Key = newValue;
-            else if (element is Property)
-                ((Property)element).FieldName = newValue;
-            else if (element is Entity)
-                ((Entity)element).ClassName = newValue;
-            else if (element is IParameter)
-                ((IParameter)element).Name = newValue;
-            else
-                throw new ApplicationException("This action is not supported for elements of type \"{0}.\"".FormatString(element.GetType()));
+            IRenameable renameable = (element as IRenameable);
 
-            return true;
+            if (renameable != null) {
+                renameable.Rename(newValue);
+
+                return true;
+            }
+
+            return false;
         }
     }
 }

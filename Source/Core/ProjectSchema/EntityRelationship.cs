@@ -34,11 +34,11 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema {
 
         [XmlArray]
         [XmlArrayItem("Annotation")]
-        public List<Annotation<EntityRelationship>> Annotations = new List<Annotation<EntityRelationship>>();
+        public List<Annotation<EntityRelationship>> Annotations { get; set; } = new List<Annotation<EntityRelationship>>();
 
         [XmlArray]
         [XmlArrayItem("Attribute")]
-        public List<Attribute<EntityRelationship>> Attributes = new List<Attribute<EntityRelationship>>();
+        public List<Attribute<EntityRelationship>> Attributes { get; set; } = new List<Attribute<EntityRelationship>>();
 
         [XmlIgnore]
         public IEnumerable<IAnnotation> AllAnnotations {

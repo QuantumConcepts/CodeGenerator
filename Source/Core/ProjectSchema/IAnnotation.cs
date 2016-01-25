@@ -5,7 +5,7 @@ using System.Text;
 
 namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
 {
-    public interface IAnnotation
+    public interface IAnnotation : IRenameable
     {
         string Type { get; set; }
         string Text { get; set; }

@@ -271,7 +271,7 @@ namespace QuantumConcepts.CodeGenerator.Core.Data {
 
                 if (fkm == null) {
                     fkm = new EntityRelationship(project, name, parentColumnMapping, referencedColumnMapping, null, null);
-                    project.ForeignKeyMappings.Add(fkm);
+                    project.EntityRelationships.Add(fkm);
                 }
                 else {
                     fkm.ParentColumnMapping = parentColumnMapping;
@@ -288,10 +288,10 @@ namespace QuantumConcepts.CodeGenerator.Core.Data {
             }
 
             //Check for foreign keys which are no longer in the table
-            if (project.ForeignKeyMappings.Count != dataTable.Rows.Count) {
+            if (project.EntityRelationships.Count != dataTable.Rows.Count) {
                 List<EntityRelationship> remove = new List<EntityRelationship>();
 
-                foreach (EntityRelationship fk in project.ForeignKeyMappings) {
+                foreach (EntityRelationship fk in project.EntityRelationships) {
                     DataRow match = dataTable.Rows.Find(fk.Name);
 
                     //Find() is not case sensitive so ensure the case matches otherwise we could end up with duplicate items.
@@ -300,7 +300,7 @@ namespace QuantumConcepts.CodeGenerator.Core.Data {
                 }
 
                 foreach (EntityRelationship fk in remove)
-                    project.ForeignKeyMappings.Remove(fk);
+                    project.EntityRelationships.Remove(fk);
             }
         }
 

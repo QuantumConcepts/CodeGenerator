@@ -7,11 +7,8 @@ using System.Xml.Serialization;
 namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema {
 
     [XmlRoot(Entity.ElementName)]
-    public class Entity : IProjectSchemaElement, IHasAnnotations<Entity>, IHasAttributes<Entity> {
-        public const string ElementName = "Entity";
-
-        [XmlIgnore]
-        public Project ContainingProject { get; protected set; }
+    public class Entity : BaseProjectSchemaElement, IHasAnnotations<Entity>, IHasAttributes<Entity>, IRenameable {
+        public const string ElementName = nameof(Entity);
 
         [XmlAttribute]
         public virtual string Name { get; set; }
@@ -46,33 +43,21 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema {
         public List<Attribute<Entity>> Attributes { get; set; } = new List<Attribute<Entity>>();
 
         [XmlIgnore]
-        public List<Property> PrimaryKeyColumnMappings {
+        public IEnumerable<Property> IdentityProperties {
             get {
-                List<Property> primaryKeyColumnMappings = new List<Property>();
-
-                foreach (Property cm in this.Properties)
-                    if (cm.IsKey)
-                        primaryKeyColumnMappings.Add(cm);
-
-                return primaryKeyColumnMappings;
+                return this.Properties?.Where(o => o.IsKey);
             }
         }
 
         [XmlIgnore]
-        public List<Property> NonPrimaryKeyColumnMappings {
+        public IEnumerable<Property> NonIdentityProperties {
             get {
-                List<Property> nonPrimaryKeyColumnMappings = new List<Property>();
-
-                foreach (Property cm in this.Properties)
-                    if (!cm.IsKey)
-                        nonPrimaryKeyColumnMappings.Add(cm);
-
-                return nonPrimaryKeyColumnMappings;
+                return this.Properties?.Except(this.IdentityProperties);
             }
         }
 
         [XmlIgnore]
-        public IEnumerable<IAnnotation> AllAnnotations {
+        public override IEnumerable<IAnnotation> AllAnnotations {
             get {
                 foreach (IAnnotation annotation in this.Annotations.Union(this.Properties.SelectMany(o => o.AllAnnotations)).Union(this.UniqueConstraints.SelectMany(o => o.AllAnnotations)).Union(this.APIs.SelectMany(o => o.AllAnnotations)))
                     yield return annotation;
@@ -80,15 +65,14 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema {
         }
 
         [XmlIgnore]
-        public IEnumerable<IAttribute> AllAttributes {
+        public override IEnumerable<IAttribute> AllAttributes {
             get {
                 foreach (IAttribute attribute in this.Attributes.Union(this.Properties.SelectMany(o => o.AllAttributes)).Union(this.UniqueConstraints.SelectMany(o => o.AllAttributes)).Union(this.Annotations.SelectMany(o => o.AllAttributes)).Union(this.APIs.SelectMany(o => o.AllAttributes)))
                     yield return attribute;
             }
         }
 
-        public Entity() {
-        }
+        public Entity() { }
 
         public Entity(string name, List<Property> columnMappings, List<UniqueConstraint> uniqueIndexMappings, List<Annotation<Entity>> annotations, List<Attribute<Entity>> attributes) {
             this.Name = name;
@@ -97,6 +81,11 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema {
             this.UniqueConstraints = (uniqueIndexMappings ?? new List<UniqueConstraint>());
             this.Annotations = (annotations ?? new List<Annotation<Entity>>());
             this.Attributes = (attributes ?? new List<Attribute<Entity>>());
+        }
+
+        public void Rename(string newName) {
+            this.Name = newName;
+            this.PluralName = newName.Pluralize();
         }
 
         public void JoinToProject(Project project) {

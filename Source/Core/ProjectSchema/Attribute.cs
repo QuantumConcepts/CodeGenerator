@@ -33,6 +33,10 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema {
             this.Value = value;
         }
 
+        public void Rename(string newName) {
+            this.Key = newName;
+        }
+
         public void JoinToParent(T parent) {
             if (_parent != null)
                 throw new ApplicationException("Already joined to a parent.");
