@@ -73,7 +73,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
 
         public override void UpdateNode()
         {
-            this.Text = Path.GetFileNameWithoutExtension(this.Template.XsltAbsolutePath);
+            this.Text = this.Template.XsltHintPath;
         }
 
         private void OnGenerateClick()

@@ -98,7 +98,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
 
             if (!this.Project.Templates.IsNullOrEmpty())
             {
-                foreach (Template template in this.Project.Templates.OrderBy(o => o.Name))
+                foreach (Template template in this.Project.Templates.OrderBy(o => o.XsltHintPath))
                 {
                     TemplateTreeNode node = new TemplateTreeNode(this, template);
 
