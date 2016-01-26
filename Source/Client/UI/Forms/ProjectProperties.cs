@@ -34,18 +34,25 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             showExcludedItemsCheckBox.DataBindings.Clear();
             showExcludedItemsCheckBox.DataBindings.Add(nameof(CheckBox.Checked), this.Project.UserSettings, nameof(UserSettings.ShowExcludedItems));
 
-            //Database tab
+            InitializeDatabaseTab();
+            InitializeDataTypesTab();
+        }
+
+        private void InitializeDatabaseTab() {
             //TODO Support multiple connections.
+            var connection = this.Project.UserSettings.Connections.FirstOrDefault();
+
             databaseTypeComboBox.Items.AddRange(DatabaseWorkerManager.Instance.OrderBy(o => o.Name).ToArray());
-            databaseTypeComboBox.SelectedItem = DatabaseWorkerManager.Instance[this.Project.UserSettings.Connections.First().DatabaseType];
             databaseConnectionStringTextBox.DataBindings.Clear();
-            databaseConnectionStringTextBox.DataBindings.Add(nameof(TextBox.Text), this.Project.UserSettings.Connections.First(), nameof(Connection.ConnectionString));
+
+            if (connection != null) {
+                databaseTypeComboBox.SelectedItem = DatabaseWorkerManager.Instance[connection.DatabaseType];
+                databaseConnectionStringTextBox.DataBindings.Add(nameof(TextBox.Text), connection, nameof(Connection.ConnectionString));
+            }
+            
             //TODO
             //editAttributes.DataBindings.Clear();
             //editAttributes.DataBindings.Add("Attributes", this.Project, "Attributes");
-
-            //Data Types tab
-            InitializeDataTypesTab();
         }
 
         private void InitializeDataTypesTab()
@@ -95,35 +102,37 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
 
         private void InitializeResetToDefaultDataTypes()
         {
-            Connection connection = this.Project.UserSettings.Connections.First();
-            DatabaseWorker worker = connection.GetDatabaseWorker();
+            Connection connection = this.Project.UserSettings.Connections.FirstOrDefault();
 
-            resetToDefaultDataTypesButton.DropDownItems.Clear();
+            if (connection != null) {
+                DatabaseWorker worker = connection.GetDatabaseWorker();
 
-            if (worker != null)
-            {
-                IEnumerable<DataTypeMappingConfiguration> mappings = worker.GetDataTypeMappingConfigurations();
+                resetToDefaultDataTypesButton.DropDownItems.Clear();
 
-                if (!mappings.IsNullOrEmpty())
-                {
-                    foreach (DataTypeMappingConfiguration config in mappings)
-                    {
-                        ToolStripMenuItem button = new ToolStripMenuItem(config.Language, null, resetToDefaultDataTypesButton_Click)
-                        {
-                            DisplayStyle = ToolStripItemDisplayStyle.Text,
-                            Tag = config.Language
-                        };
+                if (worker != null) {
+                    IEnumerable<DataTypeMappingConfiguration> mappings = worker.GetDataTypeMappingConfigurations();
 
-                        resetToDefaultDataTypesButton.DropDownItems.Add(button);
+                    if (!mappings.IsNullOrEmpty()) {
+                        foreach (DataTypeMappingConfiguration config in mappings) {
+                            ToolStripMenuItem button = new ToolStripMenuItem(config.Language, null, resetToDefaultDataTypesButton_Click) {
+                                DisplayStyle = ToolStripItemDisplayStyle.Text,
+                                Tag = config.Language
+                            };
+
+                            resetToDefaultDataTypesButton.DropDownItems.Add(button);
+                        }
                     }
+                    else
+                        resetToDefaultDataTypesButton.Enabled = false;
                 }
-                else
-                    resetToDefaultDataTypesButton.Enabled = false;
             }
         }
 
         private void databaseType_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (this.Project.UserSettings.Connections.Count == 0)
+                this.Project.UserSettings.Connections.Add(new Connection());
+
             this.Project.UserSettings.Connections.First().DatabaseType = ((DatabaseWorker)databaseTypeComboBox.SelectedItem).Name;
 
             InitializeDatabaseParameters();
