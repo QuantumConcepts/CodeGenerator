@@ -723,9 +723,9 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             }
         }
 
-        private void GenerateTemplate(Template template)
+        private void GenerateTemplate(Template template, bool autoGenerate = true)
         {
-            using (Generate dialog = new Generate(ProjectContext.Project, template, true, true))
+            using (Generate dialog = new Generate(ProjectContext.Project, template, autoGenerate, autoGenerate))
             {
                 dialog.ShowDialog();
             }
@@ -794,7 +794,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
                 ProjectTreeNode projectNode = new ProjectTreeNode(ProjectContext.Project);
 
                 projectTreeview.Nodes.Clear();
-                projectNode.TemplateGenerateClick += new EventHandler((s, e) => GenerateTemplate(((TemplateTreeNode)s).Template));
+                projectNode.TemplateGenerateClick += new TemplateTreeNode.ClickEventHandler((s, e) => GenerateTemplate(((TemplateTreeNode)s).Template, e.AutoGenerate));
                 projectTreeview.Nodes.Add(projectNode);
 
                 ToggleUI(true);

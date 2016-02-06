@@ -14,7 +14,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
 {
     internal sealed class ProjectTreeNode : ProjectSchemaTreeNode
     {
-        public event EventHandler TemplateGenerateClick;
+        public event TemplateTreeNode.ClickEventHandler TemplateGenerateClick;
 
         private TreeNode SettingsNode { get; set; }
         private TreeNode TemplatesNode { get; set; }
@@ -102,7 +102,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
                 {
                     TemplateTreeNode node = new TemplateTreeNode(this, template);
 
-                    node.GenerateClick += new EventHandler((s, e) =>
+                    node.GenerateClick += new TemplateTreeNode.ClickEventHandler((s, e) =>
                     {
                         if (TemplateGenerateClick != null)
                             TemplateGenerateClick(s, e);
