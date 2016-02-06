@@ -86,7 +86,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
 
         public override void UpdateNode()
         {
-            this.Text = this.Template.XsltHintPath;
+            this.Text = $"{this.Template.XsltHintPath} ({(this.Template.GenerateByDefault ? "auto" : "manual")})";
         }
 
         private void OnGenerateClick(bool autoGenerate)
