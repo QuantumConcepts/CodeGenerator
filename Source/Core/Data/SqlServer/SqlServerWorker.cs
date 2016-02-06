@@ -12,9 +12,9 @@ namespace QuantumConcepts.CodeGenerator.Core.Data.SqlServer
     {
         public override string Name { get { return "SQL Server"; } }
 
-        protected override DataTable GetTables(Project project)
+        protected override DataTable GetTables(Project project, Connection connection)
         {
-            return ExecuteQuery(project,
+            return ExecuteQuery(connection,
                 "SELECT " +
                     "s.name AS " + QueryConstants.TableOrView.SchemaName + ", " +
                     "t.name AS " + QueryConstants.TableOrView.Name + " " +
@@ -24,9 +24,9 @@ namespace QuantumConcepts.CodeGenerator.Core.Data.SqlServer
                 "WHERE t.type = 'U'");
         }
 
-        protected override DataTable GetViews(Project project)
+        protected override DataTable GetViews(Project project, Connection connection)
         {
-            return ExecuteQuery(project,
+            return ExecuteQuery(connection,
                 "SELECT " +
                     "s.name AS " + QueryConstants.TableOrView.SchemaName + ", " +
                     "v.name AS " + QueryConstants.TableOrView.Name + " " +
@@ -35,9 +35,9 @@ namespace QuantumConcepts.CodeGenerator.Core.Data.SqlServer
                     "JOIN sys.schemas s ON s.schema_id = v.schema_id");
         }
 
-        protected override DataTable GetColumns(Project project)
+        protected override DataTable GetColumns(Project project, Connection connection)
         {
-            return ExecuteQuery(project,
+            return ExecuteQuery(connection,
                 "( " +
                     "SELECT " +
                         "'" + QueryConstants.Column.ForTable + "' AS [" + QueryConstants.Column.For + "], " +
@@ -127,9 +127,9 @@ namespace QuantumConcepts.CodeGenerator.Core.Data.SqlServer
                 ")");
         }
 
-        protected override DataTable GetForeignKeys(Project project)
+        protected override DataTable GetForeignKeys(Project project, Connection connection)
         {
-            return ExecuteQuery(project,
+            return ExecuteQuery(connection,
                 "SELECT DISTINCT " +
                     "fk.name AS " + QueryConstants.ForeignKey.Name + ", " +
                     "s.name AS " + QueryConstants.ForeignKey.ParentTableSchemaName + ", " +
@@ -151,9 +151,9 @@ namespace QuantumConcepts.CodeGenerator.Core.Data.SqlServer
                     "JOIN sys.columns c2 ON c2.object_id = t2.object_id AND c2.column_id = fkc.referenced_column_id");
         }
 
-        protected override DataTable GetUniqueIndices(Project project)
+        protected override DataTable GetUniqueIndices(Project project, Connection connection)
         {
-            return ExecuteQuery(project,
+            return ExecuteQuery(connection,
                 "SELECT DISTINCT " +
                     "i.name AS " + QueryConstants.Index.Name + ", " +
                     "s.name AS " + QueryConstants.TableOrView.SchemaName + ", " +
@@ -172,25 +172,25 @@ namespace QuantumConcepts.CodeGenerator.Core.Data.SqlServer
                     "AND i.is_disabled = 0");
         }
 
-        private DataTable ExecuteQuery(Project project, string sql)
+        private DataTable ExecuteQuery(Connection connection, string sql)
         {
-            return ExecuteQuery(project, sql, null);
+            return ExecuteQuery(connection, sql, null);
         }
 
-        private DataTable ExecuteQuery(Project project, string sql, SqlParameter[] parameters)
+        private DataTable ExecuteQuery(Connection connection, string sql, SqlParameter[] parameters)
         {
-            using (SqlConnection connection = new SqlConnection(project.UserSettings.Connection.ConnectionString))
+            using (SqlConnection sqlConnection = new SqlConnection(connection.ConnectionString))
             {
-                connection.Open();
+                sqlConnection.Open();
 
-                using (SqlDataAdapter adapter = new SqlDataAdapter(sql, connection))
+                using (SqlDataAdapter adapter = new SqlDataAdapter(sql, sqlConnection))
                 {
                     DataTable dataTable = new DataTable();
 
                     if (parameters != null)
                         adapter.SelectCommand.Parameters.AddRange(parameters);
 
-                    adapter.SelectCommand.CommandTimeout = connection.ConnectionTimeout;
+                    adapter.SelectCommand.CommandTimeout = sqlConnection.ConnectionTimeout;
                     adapter.Fill(dataTable);
 
                     return dataTable;
@@ -198,11 +198,11 @@ namespace QuantumConcepts.CodeGenerator.Core.Data.SqlServer
             }
         }
 
-        public override void ValidateConnection(Project project)
+        public override void ValidateConnection(Connection connection)
         {
-            using (SqlConnection connection = new SqlConnection(project.UserSettings.Connection.ConnectionString))
+            using (SqlConnection sqlConnection = new SqlConnection(connection.ConnectionString))
             {
-                connection.Open();
+                sqlConnection.Open();
             }
         }
 

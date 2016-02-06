@@ -1,5 +1,10 @@
-﻿<?xml version="1.0"?>
-<Project xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Version="1.6.3.0" RootNamespace="QuantumConcepts.CodeGenerator.Sample" xmlns="http://Schemas.QuantumConceptsCorp.com/CodeGenerator/Project.xsd">
+<?xml version="1.0"?>
+<Project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="1.7.4.0" RootNamespace="QuantumConcepts.CodeGenerator.Sample" xmlns="http://Schemas.QuantumConceptsCorp.com/CodeGenerator/Project.xsd">
+  <Connections>
+    <ConnectionInfo Name="Default">
+      <Attributes />
+    </ConnectionInfo>
+  </Connections>
   <DataTypeMappings>
     <DataTypeMapping DatabaseDataType="BIGINT" ApplicationDataType="Int64" Nullable="true" />
     <DataTypeMapping DatabaseDataType="BINARY" ApplicationDataType="byte[]" Nullable="false" />
@@ -29,124 +34,125 @@
     <DataTypeMapping DatabaseDataType="NCHAR" ApplicationDataType="string" Nullable="false" />
   </DataTypeMappings>
   <Templates>
-    <Template XsltHintPath="Cache.xslt" OutputMode="SingleFile" OutputHintPath="..\DataAccess\Cache\Cache.Generated.cs">
+    <Template Name="Cache.xslt" XsltHintPath="Cache.xslt" OutputMode="SingleFile" OutputHintPath="..\DataAccess\Cache\Cache.Generated.cs" GenerateByDefault="true">
       <TemplateOutputDefinitions />
       <Attributes>
         <Attribute Key="Using" Value="QuantumConcepts.CodeGenerator.Sample.Common" />
       </Attributes>
     </Template>
-    <Template XsltHintPath="DataAccess-EF.xslt" OutputMode="SingleFile" OutputHintPath="..\DataAccess\DataAccess.Generated.cs">
+    <Template Name="DataAccess-EF.xslt" XsltHintPath="DataAccess-EF.xslt" OutputMode="SingleFile" OutputHintPath="..\DataAccess\DataAccess.Generated.cs" GenerateByDefault="true">
       <TemplateOutputDefinitions />
       <Attributes>
         <Attribute Key="Using" Value="QuantumConcepts.CodeGenerator.Sample.Common" />
       </Attributes>
     </Template>
-    <Template XsltHintPath="Enumerations.xslt" OutputMode="SingleFile" OutputHintPath="..\DataAccess\Enumerations.Generated.cs">
+    <Template Name="Enumerations.xslt" XsltHintPath="Enumerations.xslt" OutputMode="SingleFile" OutputHintPath="..\DataAccess\Enumerations.Generated.cs" GenerateByDefault="true">
       <TemplateOutputDefinitions />
       <Attributes />
     </Template>
-    <Template XsltHintPath="Logic.xslt" OutputMode="SingleFile" OutputHintPath="..\Logic\Logic.Generated.cs">
+    <Template Name="Logic.xslt" XsltHintPath="Logic.xslt" OutputMode="SingleFile" OutputHintPath="..\Logic\Logic.Generated.cs" GenerateByDefault="true">
       <TemplateOutputDefinitions />
       <Attributes />
     </Template>
-    <Template XsltHintPath="Web-EditControls-ASCX.xslt" OutputMode="MultipleFile">
+    <Template Name="Web-EditControls-ASCX.xslt" XsltHintPath="Web-EditControls-ASCX.xslt" OutputMode="MultipleFile" GenerateByDefault="true">
       <TemplateOutputDefinitions>
         <TemplateOutputDefinition ElementType="Table" FilterXPath="@Exclude='false'" RootHintPath="..\Web\WebControls" FilenameXPath="Edit{@ClassName}.ascx" />
       </TemplateOutputDefinitions>
       <Attributes />
     </Template>
-    <Template XsltHintPath="Web-EditControls-CS.xslt" OutputMode="MultipleFile">
+    <Template Name="Web-EditControls-CS.xslt" XsltHintPath="Web-EditControls-CS.xslt" OutputMode="MultipleFile" GenerateByDefault="true">
       <TemplateOutputDefinitions>
         <TemplateOutputDefinition ElementType="Table" FilterXPath="@Exclude='false'" RootHintPath="..\Web\WebControls" FilenameXPath="Edit{@ClassName}.ascx.cs" />
       </TemplateOutputDefinitions>
       <Attributes />
     </Template>
-    <Template XsltHintPath="Web-ListControls-ASCX.xslt" OutputMode="MultipleFile">
+    <Template Name="Web-ListControls-ASCX.xslt" XsltHintPath="Web-ListControls-ASCX.xslt" OutputMode="MultipleFile" GenerateByDefault="true">
       <TemplateOutputDefinitions>
         <TemplateOutputDefinition ElementType="Table" FilterXPath="@Exclude='false'" RootHintPath="..\Web\WebControls" FilenameXPath="{@ClassName}List.ascx" />
       </TemplateOutputDefinitions>
       <Attributes />
     </Template>
-    <Template XsltHintPath="Web-ListControls-CS.xslt" OutputMode="MultipleFile">
+    <Template Name="Web-ListControls-CS.xslt" XsltHintPath="Web-ListControls-CS.xslt" OutputMode="MultipleFile" GenerateByDefault="true">
       <TemplateOutputDefinitions>
         <TemplateOutputDefinition ElementType="Table" FilterXPath="@Exclude='false'" RootHintPath="..\Web\WebControls" FilenameXPath="{@ClassName}List.ascx.cs" />
       </TemplateOutputDefinitions>
       <Attributes />
     </Template>
-    <Template XsltHintPath="Web-ListPage-ASPX.xslt" OutputMode="MultipleFile">
+    <Template Name="Web-ListPage-ASPX.xslt" XsltHintPath="Web-ListPage-ASPX.xslt" OutputMode="MultipleFile" GenerateByDefault="true">
       <TemplateOutputDefinitions>
         <TemplateOutputDefinition ElementType="Table" FilterXPath="@Exclude='false'" RootHintPath="..\Web" FilenameXPath="{@PluralClassName}\Default.aspx" />
       </TemplateOutputDefinitions>
       <Attributes />
     </Template>
-    <Template XsltHintPath="Web-ListPage-CS.xslt" OutputMode="MultipleFile">
+    <Template Name="Web-ListPage-CS.xslt" XsltHintPath="Web-ListPage-CS.xslt" OutputMode="MultipleFile" GenerateByDefault="true">
       <TemplateOutputDefinitions>
         <TemplateOutputDefinition ElementType="Table" FilterXPath="@Exclude='false'" RootHintPath="..\Web" FilenameXPath="{@PluralClassName}\Default.aspx.cs" />
       </TemplateOutputDefinitions>
       <Attributes />
     </Template>
-    <Template XsltHintPath="Web-EditPage-ASPX.xslt" OutputMode="MultipleFile">
+    <Template Name="Web-EditPage-ASPX.xslt" XsltHintPath="Web-EditPage-ASPX.xslt" OutputMode="MultipleFile" GenerateByDefault="true">
       <TemplateOutputDefinitions>
         <TemplateOutputDefinition ElementType="Table" FilterXPath="@Exclude='false'" RootHintPath="..\Web" FilenameXPath="{@PluralClassName}\Edit.aspx" />
       </TemplateOutputDefinitions>
       <Attributes />
     </Template>
-    <Template XsltHintPath="Web-EditPage-CS.xslt" OutputMode="MultipleFile">
+    <Template Name="Web-EditPage-CS.xslt" XsltHintPath="Web-EditPage-CS.xslt" OutputMode="MultipleFile" GenerateByDefault="true">
       <TemplateOutputDefinitions>
         <TemplateOutputDefinition ElementType="Table" FilterXPath="@Exclude='false'" RootHintPath="..\Web" FilenameXPath="{@PluralClassName}\Edit.aspx.cs" />
       </TemplateOutputDefinitions>
       <Attributes />
     </Template>
-    <Template XsltHintPath="ServiceDocumentation-HTML-Methods.xslt" OutputMode="SingleFile" OutputHintPath="..\Web\Service\Documentation\Methods.aspx">
+    <Template Name="ServiceDocumentation-HTML-Methods.xslt" XsltHintPath="ServiceDocumentation-HTML-Methods.xslt" OutputMode="SingleFile" OutputHintPath="..\Web\Service\Documentation\Methods.aspx" GenerateByDefault="true">
       <TemplateOutputDefinitions />
       <Attributes />
     </Template>
-    <Template XsltHintPath="ServiceDocumentation-HTML-Types.xslt" OutputMode="SingleFile" OutputHintPath="..\Web\Service\Documentation\Types.aspx">
+    <Template Name="ServiceDocumentation-HTML-Types.xslt" XsltHintPath="ServiceDocumentation-HTML-Types.xslt" OutputMode="SingleFile" OutputHintPath="..\Web\Service\Documentation\Types.aspx" GenerateByDefault="true">
       <TemplateOutputDefinitions />
       <Attributes />
     </Template>
-    <Template XsltHintPath="RESTInterface.xslt" OutputMode="SingleFile" OutputHintPath="..\Service\IREST.Generated.cs">
+    <Template Name="RESTInterface.xslt" XsltHintPath="RESTInterface.xslt" OutputMode="SingleFile" OutputHintPath="..\Service\IREST.Generated.cs" GenerateByDefault="true">
       <TemplateOutputDefinitions />
       <Attributes />
     </Template>
-    <Template XsltHintPath="RESTImplementation.xslt" OutputMode="SingleFile" OutputHintPath="..\Service\REST.Generated.cs">
+    <Template Name="RESTImplementation.xslt" XsltHintPath="RESTImplementation.xslt" OutputMode="SingleFile" OutputHintPath="..\Service\REST.Generated.cs" GenerateByDefault="true">
       <TemplateOutputDefinitions />
       <Attributes />
     </Template>
-    <Template XsltHintPath="SOAPImplementation.xslt" OutputMode="SingleFile" OutputHintPath="..\Service\SOAP.Generated.cs">
+    <Template Name="SOAPImplementation.xslt" XsltHintPath="SOAPImplementation.xslt" OutputMode="SingleFile" OutputHintPath="..\Service\SOAP.Generated.cs" GenerateByDefault="true">
       <TemplateOutputDefinitions />
       <Attributes />
     </Template>
-    <Template XsltHintPath="SOAPInterface.xslt" OutputMode="SingleFile" OutputHintPath="..\Service\ISOAP.Generated.cs">
+    <Template Name="SOAPInterface.xslt" XsltHintPath="SOAPInterface.xslt" OutputMode="SingleFile" OutputHintPath="..\Service\ISOAP.Generated.cs" GenerateByDefault="true">
       <TemplateOutputDefinitions />
       <Attributes />
     </Template>
-    <Template XsltHintPath="RESTServiceLinkType.xslt" OutputMode="SingleFile" OutputHintPath="..\Service\ServiceObjects\REST\LinkType.Generated.cs">
+    <Template Name="RESTServiceLinkType.xslt" XsltHintPath="RESTServiceLinkType.xslt" OutputMode="SingleFile" OutputHintPath="..\Service\ServiceObjects\REST\LinkType.Generated.cs" GenerateByDefault="true">
       <TemplateOutputDefinitions />
       <Attributes />
     </Template>
-    <Template XsltHintPath="BaseServiceObjects.xslt" OutputMode="SingleFile" OutputHintPath="..\Service\ServiceObjects\BaseServiceObjects.Generated.cs">
+    <Template Name="BaseServiceObjects.xslt" XsltHintPath="BaseServiceObjects.xslt" OutputMode="SingleFile" OutputHintPath="..\Service\ServiceObjects\BaseServiceObjects.Generated.cs" GenerateByDefault="true">
       <TemplateOutputDefinitions />
       <Attributes />
     </Template>
-    <Template XsltHintPath="RESTServiceObjects.xslt" OutputMode="SingleFile" OutputHintPath="..\Service\ServiceObjects\REST\RESTServiceObjects.Generated.cs">
+    <Template Name="RESTServiceObjects.xslt" XsltHintPath="RESTServiceObjects.xslt" OutputMode="SingleFile" OutputHintPath="..\Service\ServiceObjects\REST\RESTServiceObjects.Generated.cs" GenerateByDefault="true">
       <TemplateOutputDefinitions />
       <Attributes />
     </Template>
-    <Template XsltHintPath="SOAPServiceObjects.xslt" OutputMode="SingleFile" OutputHintPath="..\Service\ServiceObjects\SOAP\SOAPServiceObjects.Generated.cs">
+    <Template Name="SOAPServiceObjects.xslt" XsltHintPath="SOAPServiceObjects.xslt" OutputMode="SingleFile" OutputHintPath="..\Service\ServiceObjects\SOAP\SOAPServiceObjects.Generated.cs" GenerateByDefault="true">
       <TemplateOutputDefinitions />
       <Attributes />
     </Template>
-    <Template XsltHintPath="RESTUrlUtil.xslt" OutputMode="SingleFile" OutputHintPath="..\Service\Utils\RESTUrlUtil.Generated.cs">
+    <Template Name="RESTUrlUtil.xslt" XsltHintPath="RESTUrlUtil.xslt" OutputMode="SingleFile" OutputHintPath="..\Service\Utils\RESTUrlUtil.Generated.cs" GenerateByDefault="true">
       <TemplateOutputDefinitions />
       <Attributes />
     </Template>
-    <Template XsltHintPath="DataAccess-EF-EDMX.xslt" OutputMode="SingleFile" OutputHintPath="..\DataAccess\DataAccess.Generated.edmx">
+    <Template Name="DataAccess-EF-EDMX.xslt" XsltHintPath="DataAccess-EF-EDMX.xslt" OutputMode="SingleFile" OutputHintPath="..\DataAccess\DataAccess.Generated.edmx" GenerateByDefault="true">
       <TemplateOutputDefinitions />
+      <Attributes />
     </Template>
   </Templates>
   <TableMappings>
-    <TableMapping SchemaName="dbo" TableName="__RefactorLog" ClassName="__RefactorLog" PluralClassName="__RefactorLogs" ReadOnly="false" Exclude="true">
+    <TableMapping ConnectionName="Default" SchemaName="dbo" TableName="__RefactorLog" ClassName="__RefactorLog" PluralClassName="__RefactorLogs" ReadOnly="false" Exclude="true">
       <ColumnMappings>
         <ColumnMapping ColumnName="OperationKey" Sequence="1" DataType="Guid" DatabaseDataType="uniqueidentifier" Length="16" Nullable="false" NullableInDatabase="false" PrimaryKey="true" FieldName="OperationKey" TreatAsYesNoIndicator="false" Exclude="false">
           <Annotations>
@@ -174,7 +180,7 @@
         <Attribute Key="ServiceExposed" Value="" />
       </Attributes>
     </TableMapping>
-    <TableMapping SchemaName="dbo" TableName="Course" ClassName="Course" PluralClassName="Courses" ReadOnly="false" Exclude="false">
+    <TableMapping ConnectionName="Default" SchemaName="dbo" TableName="Course" ClassName="Course" PluralClassName="Courses" ReadOnly="false" Exclude="false">
       <ColumnMappings>
         <ColumnMapping ColumnName="ID" Sequence="1" DataType="int" DatabaseDataType="int" Length="10" Nullable="false" NullableInDatabase="false" PrimaryKey="true" FieldName="ID" TreatAsYesNoIndicator="false" Exclude="false">
           <Annotations>
@@ -310,7 +316,7 @@
       </UniqueIndexMappings>
       <APIs>
         <API APIType="Custom" Name="FindCourse">
-          <ReturnParameter IsReturnParameter="true" Modifier="None" Quantifier="List" Type="DataObject" DataTypeReferencedTableMappingName="Course" Nullable="false" DataTypeReferencedTableMappingSchemaName="dbo">
+          <ReturnParameter IsReturnParameter="true" Modifier="None" Quantifier="List" Type="DataObject" DataTypeReferencedTableMappingSchemaName="dbo" DataTypeReferencedTableMappingName="Course" Nullable="false">
             <Annotations>
               <Annotation Type="summary">
                 <Text>Searches for courses based on keyword input.</Text>
@@ -345,7 +351,7 @@
         <Attribute Key="ServiceExposed" Value="" />
       </Attributes>
     </TableMapping>
-    <TableMapping SchemaName="dbo" TableName="Enrollment" ClassName="Enrollment" PluralClassName="Enrollments" ReadOnly="false" Exclude="false">
+    <TableMapping ConnectionName="Default" SchemaName="dbo" TableName="Enrollment" ClassName="Enrollment" PluralClassName="Enrollments" ReadOnly="false" Exclude="false">
       <ColumnMappings>
         <ColumnMapping ColumnName="ID" Sequence="1" DataType="int" DatabaseDataType="int" Length="10" Nullable="false" NullableInDatabase="false" PrimaryKey="true" FieldName="ID" TreatAsYesNoIndicator="false" Exclude="false">
           <Annotations>
@@ -418,7 +424,7 @@
         <Attribute Key="ServiceExposed" Value="" />
       </Attributes>
     </TableMapping>
-    <TableMapping SchemaName="dbo" TableName="Major" ClassName="Major" PluralClassName="Majors" ReadOnly="false" Exclude="false">
+    <TableMapping ConnectionName="Default" SchemaName="dbo" TableName="Major" ClassName="Major" PluralClassName="Majors" ReadOnly="false" Exclude="false">
       <ColumnMappings>
         <ColumnMapping ColumnName="ID" Sequence="1" DataType="int" DatabaseDataType="int" Length="10" Nullable="false" NullableInDatabase="false" PrimaryKey="true" FieldName="ID" TreatAsYesNoIndicator="false" Exclude="false">
           <Annotations>
@@ -479,7 +485,7 @@
         <Attribute Key="ServiceExposed" Value="" />
       </Attributes>
     </TableMapping>
-    <TableMapping SchemaName="dbo" TableName="Semester" ClassName="Semester" PluralClassName="Semesters" ReadOnly="false" Exclude="false">
+    <TableMapping ConnectionName="Default" SchemaName="dbo" TableName="Semester" ClassName="Semester" PluralClassName="Semesters" ReadOnly="false" Exclude="false">
       <ColumnMappings>
         <ColumnMapping ColumnName="ID" Sequence="1" DataType="int" DatabaseDataType="int" Length="10" Nullable="false" NullableInDatabase="false" PrimaryKey="true" FieldName="ID" TreatAsYesNoIndicator="false" Exclude="false">
           <Annotations>
@@ -581,7 +587,7 @@
         <Attribute Key="ServiceExposed" Value="" />
       </Attributes>
     </TableMapping>
-    <TableMapping SchemaName="dbo" TableName="Student" ClassName="Student" PluralClassName="Students" ReadOnly="false" Exclude="false">
+    <TableMapping ConnectionName="Default" SchemaName="dbo" TableName="Student" ClassName="Student" PluralClassName="Students" ReadOnly="false" Exclude="false">
       <ColumnMappings>
         <ColumnMapping ColumnName="ID" Sequence="1" DataType="int" DatabaseDataType="int" Length="10" Nullable="false" NullableInDatabase="false" PrimaryKey="true" FieldName="ID" TreatAsYesNoIndicator="false" Exclude="false">
           <Annotations>
@@ -694,7 +700,7 @@
         <Attribute Key="ServiceExposed" Value="" />
       </Attributes>
     </TableMapping>
-    <TableMapping SchemaName="dbo" TableName="Teacher" ClassName="Teacher" PluralClassName="Teachers" ReadOnly="false" Exclude="false">
+    <TableMapping ConnectionName="Default" SchemaName="dbo" TableName="Teacher" ClassName="Teacher" PluralClassName="Teachers" ReadOnly="false" Exclude="false">
       <ColumnMappings>
         <ColumnMapping ColumnName="ID" Sequence="1" DataType="int" DatabaseDataType="int" Length="10" Nullable="false" NullableInDatabase="false" PrimaryKey="true" FieldName="ID" TreatAsYesNoIndicator="false" Exclude="false">
           <Annotations>
@@ -796,7 +802,7 @@
     </TableMapping>
   </TableMappings>
   <ViewMappings>
-    <ViewMapping SchemaName="dbo" TableName="EnrollmentDetails" ClassName="EnrollmentDetails" PluralClassName="EnrollmentDetailss" ReadOnly="false" Exclude="false" ViewName="EnrollmentDetails">
+    <ViewMapping SchemaName="dbo" TableName="EnrollmentDetails" ClassName="EnrollmentDetails" PluralClassName="EnrollmentDetailss" ReadOnly="true" Exclude="false" ViewName="EnrollmentDetails">
       <ColumnMappings>
         <ColumnMapping ColumnName="CourseID" Sequence="1" DataType="int" DatabaseDataType="int" Length="10" Nullable="false" NullableInDatabase="false" PrimaryKey="false" FieldName="CourseID" TreatAsYesNoIndicator="false" Exclude="false">
           <Annotations />
@@ -870,7 +876,7 @@
     </ViewMapping>
   </ViewMappings>
   <ForeignKeyMappings>
-    <ForeignKeyMapping ForeignKeyName="FK_Course_Semester" FieldName="SemesterID" PluralFieldName="Courses" PropertyName="Semester" PluralPropertyName="Courses" ParentTableMappingName="Course" ParentColumnMappingName="SemesterID" ReferencedTableMappingName="Semester" ReferencedColumnMappingName="ID" Exclude="false" ParentTableMappingSchemaName="dbo" ReferencedTableMappingSchemaName="dbo">
+    <ForeignKeyMapping ConnectionName="Default" ForeignKeyName="FK_Course_Semester" FieldName="SemesterID" PluralFieldName="Courses" PropertyName="Semester" PluralPropertyName="Courses" ParentTableMappingSchemaName="dbo" ParentTableMappingName="Course" ParentColumnMappingName="SemesterID" ReferencedTableMappingSchemaName="dbo" ReferencedTableMappingName="Semester" ReferencedColumnMappingName="ID" Exclude="false">
       <Annotations>
         <Annotation Type="summary">
           <Text>Maps to the FK_Course_Semester foreign key in the database.</Text>
@@ -890,7 +896,7 @@
         <Attribute Key="ServiceExposed" Value="" />
       </Attributes>
     </ForeignKeyMapping>
-    <ForeignKeyMapping ForeignKeyName="FK_Course_Teacher" FieldName="TeacherID" PluralFieldName="Courses" PropertyName="Teacher" PluralPropertyName="Courses" ParentTableMappingName="Course" ParentColumnMappingName="TeacherID" ReferencedTableMappingName="Teacher" ReferencedColumnMappingName="ID" Exclude="false" ParentTableMappingSchemaName="dbo" ReferencedTableMappingSchemaName="dbo">
+    <ForeignKeyMapping ConnectionName="Default" ForeignKeyName="FK_Course_Teacher" FieldName="TeacherID" PluralFieldName="Courses" PropertyName="Teacher" PluralPropertyName="Courses" ParentTableMappingSchemaName="dbo" ParentTableMappingName="Course" ParentColumnMappingName="TeacherID" ReferencedTableMappingSchemaName="dbo" ReferencedTableMappingName="Teacher" ReferencedColumnMappingName="ID" Exclude="false">
       <Annotations>
         <Annotation Type="summary">
           <Text>Maps to the FK_Course_Teacher foreign key in the database.</Text>
@@ -910,7 +916,7 @@
         <Attribute Key="ServiceExposed" Value="" />
       </Attributes>
     </ForeignKeyMapping>
-    <ForeignKeyMapping ForeignKeyName="FK_Enrollment_Student" FieldName="StudentID" PluralFieldName="Enrollments" PropertyName="Student" PluralPropertyName="Enrollments" ParentTableMappingName="Enrollment" ParentColumnMappingName="StudentID" ReferencedTableMappingName="Student" ReferencedColumnMappingName="ID" Exclude="false" ParentTableMappingSchemaName="dbo" ReferencedTableMappingSchemaName="dbo">
+    <ForeignKeyMapping ConnectionName="Default" ForeignKeyName="FK_Enrollment_Student" FieldName="StudentID" PluralFieldName="Enrollments" PropertyName="Student" PluralPropertyName="Enrollments" ParentTableMappingSchemaName="dbo" ParentTableMappingName="Enrollment" ParentColumnMappingName="StudentID" ReferencedTableMappingSchemaName="dbo" ReferencedTableMappingName="Student" ReferencedColumnMappingName="ID" Exclude="false">
       <Annotations>
         <Annotation Type="summary">
           <Text>Maps to the FK_Enrollment_Student foreign key in the database.</Text>
@@ -930,7 +936,7 @@
         <Attribute Key="ServiceExposed" Value="" />
       </Attributes>
     </ForeignKeyMapping>
-    <ForeignKeyMapping ForeignKeyName="FK_Enrollment_Course" FieldName="CourseID" PluralFieldName="Enrollments" PropertyName="Course" PluralPropertyName="Enrollments" ParentTableMappingName="Enrollment" ParentColumnMappingName="CourseID" ReferencedTableMappingName="Course" ReferencedColumnMappingName="ID" Exclude="false" ParentTableMappingSchemaName="dbo" ReferencedTableMappingSchemaName="dbo">
+    <ForeignKeyMapping ConnectionName="Default" ForeignKeyName="FK_Enrollment_Course" FieldName="CourseID" PluralFieldName="Enrollments" PropertyName="Course" PluralPropertyName="Enrollments" ParentTableMappingSchemaName="dbo" ParentTableMappingName="Enrollment" ParentColumnMappingName="CourseID" ReferencedTableMappingSchemaName="dbo" ReferencedTableMappingName="Course" ReferencedColumnMappingName="ID" Exclude="false">
       <Annotations>
         <Annotation Type="summary">
           <Text>Maps to the FK_Enrollment_Course foreign key in the database.</Text>
@@ -950,7 +956,7 @@
         <Attribute Key="ServiceExposed" Value="" />
       </Attributes>
     </ForeignKeyMapping>
-    <ForeignKeyMapping ForeignKeyName="FK_Student_Major" FieldName="MajorID" PluralFieldName="Students" PropertyName="Major" PluralPropertyName="Students" ParentTableMappingName="Student" ParentColumnMappingName="MajorID" ReferencedTableMappingName="Major" ReferencedColumnMappingName="ID" Exclude="false" ParentTableMappingSchemaName="dbo" ReferencedTableMappingSchemaName="dbo">
+    <ForeignKeyMapping ConnectionName="Default" ForeignKeyName="FK_Student_Major" FieldName="MajorID" PluralFieldName="Students" PropertyName="Major" PluralPropertyName="Students" ParentTableMappingSchemaName="dbo" ParentTableMappingName="Student" ParentColumnMappingName="MajorID" ReferencedTableMappingSchemaName="dbo" ReferencedTableMappingName="Major" ReferencedColumnMappingName="ID" Exclude="false">
       <Annotations>
         <Annotation Type="summary">
           <Text>Maps to the FK_Student_Major foreign key in the database.</Text>

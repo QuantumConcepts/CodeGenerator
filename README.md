@@ -33,8 +33,8 @@ The first step is to understand how CodeGenerator works. Basically, CodeGenerato
 ###Templates
 A number of templates are included to get you started quick:
 
-###C♯
-####Data Model/Access Templates:
+####C♯
+#####Data Model/Access Templates:
 
 * **DataObjects.xslt** - The base data objects (model) which are defined by your database schema.
 * **Enumerations.xslt** - Generated enumerations for the data model as defined in the project.
@@ -43,11 +43,11 @@ A number of templates are included to get you started quick:
 * **Cache.xslt** - Classes which cache certain data objects (as defined in the CodeGenerator project) for quick access.
 * **Logic.xslt** - Classes which store business logic and functionality to traverse the object graph by foreign key and unique index. Also allows you to specify custom APIs.
 
-####Web Service Templates
+#####Web Service Templates
 
 * **BaseServiceObjects.xslt** - Extends the base data objects for use as return values in web service calls.
 
-#####REST Templates
+######REST Templates
 
 * **RESTServiceObjects.xslt** - Extends the base service objects and adds functionality specific to REST.
 * **RESTInterface.xslt** - Interface definitions for all generated REST endpoints (mark tables, foreign keys and unique indices with the "ServiceExposed" attribute).
@@ -55,15 +55,15 @@ A number of templates are included to get you started quick:
 * **RESTServiceLinkType.xslt** - Defines "links" between objects for easy querying of additional data.
 * **RESTUrlUtil.xslt** - Provides a standard way to build URLs to access resources via REST.
 
-#####SOAP Templates
+######SOAP Templates
 
 * **SOAPServiceObjects.xslt** - Extends the base service objects and adds functionality specific to SOAP.
 * **SOAPInterface.xslt** - interface definitions for all generated SOAP methods (mark tables, foreign keys and unique indices with the "ServiceExposed" attribute).
 * **SOAPImplementation.xslt** - Implements the SOAP interface to return data.
 
-#####Serice Documentation
+######Service Documentation
 
 * **ServiceDocumentation-Common.xslt** - Shared functionality for generating service documentation.
 * **ServiceDocumentation-HTML-Methods.xslt** - Generates HTML documentation for service methods.
 * **ServiceDocumentation-HTML-Types.xslt** - Generates HTML documentation for service types.
-* **ServiceChanges.xslt** - This templates is used outside of CodeGenerator to generate a diff between two versions of the service.
+* **ServiceChanges.xslt** - This template is used outside of CodeGenerator to generate a diff between two versions of the service.

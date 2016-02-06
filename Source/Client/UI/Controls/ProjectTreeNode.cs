@@ -14,16 +14,20 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
 {
     internal sealed class ProjectTreeNode : ProjectSchemaTreeNode
     {
-        public event EventHandler TemplateGenerateClick;
+        public event TemplateTreeNode.ClickEventHandler TemplateGenerateClick;
 
-        private Project _project;
-        private TreeNode _settingsNode, _templatesNode, _tablesNode, _viewsNode;
+        private TreeNode SettingsNode { get; set; }
+        private TreeNode TemplatesNode { get; set; }
+        private TreeNode ConnectionsNode { get; set; }
 
-        public Project Project { get { return _project; } }
+        public Project Project { get; private set; }
 
-        public ProjectTreeNode(Project project)
+        public ProjectTreeNode(Project project) : this(null, project) { }
+
+        public ProjectTreeNode(ProjectSchemaTreeNode parent, Project project)
+            : base(parent)
         {
-            _project = project;
+            this.Project = project;
 
             Initialize();
         }
@@ -35,129 +39,103 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
                 new MenuItem("Properties", new EventHandler(PropertiesMenuItem_Click))
             });
 
-            _settingsNode = new TreeNode("Settings");
-            _templatesNode = new TreeNode("Templates");
-            _tablesNode = new TreeNode("Tables");
-            _viewsNode = new TreeNode("Views");
+            SettingsNode = new TreeNode("Settings");
+            TemplatesNode = new TreeNode("Templates");
+            ConnectionsNode = new TreeNode("Connections");
 
             UpdateNode();
             Rebuild();
-
-            this.Expand();
         }
 
         public override void UpdateNode()
         {
-            if (String.IsNullOrEmpty(_project.Path))
+            if (String.IsNullOrEmpty(this.Project.Path))
                 this.Text = "New Project";
             else
-                this.Text = _project.Path.Substring(_project.Path.LastIndexOf("\\") + 1);
+                this.Text = this.Project.Path.Substring(this.Project.Path.LastIndexOf("\\") + 1);
         }
 
         public void Rebuild()
         {
             RefreshSettingsNode();
             RefreshTemplatesNode();
-            RefreshTablesNode();
-            RefreshViewsNode();
+            RefreshConnectionsNode();
 
             RebuildTree();
+
+            this.Expand();
         }
 
         public void RebuildTree()
         {
             this.Nodes.Clear();
-            this.Nodes.AddRange(new TreeNode[]
-            {
-                _settingsNode,
-                _templatesNode,
-                _tablesNode,
-                _viewsNode
-            });
+            this.Nodes.Add(SettingsNode);
+            this.Nodes.Add(TemplatesNode);
+            this.Nodes.Add(ConnectionsNode);
         }
 
         public void RefreshSettingsNode()
         {
-            TreeNode connectionsNode = null;
             TreeNode dataTypesNode = null;
 
-            _settingsNode.Nodes.Clear();
-
-            connectionsNode = new TreeNode("Connections");
-
-            if (_project.UserSettings.Connection != null)
-                connectionsNode.Nodes.Add(new ConnectionTreeNode(_project.UserSettings.Connection));
+            SettingsNode.Nodes.Clear();
 
             dataTypesNode = new TreeNode("Data Types");
 
-            foreach (DataTypeMapping dataTypeMapping in _project.DataTypeMappings)
-                dataTypesNode.Nodes.Add(new DataTypeTreeNode(dataTypeMapping));
-
-            _settingsNode.Nodes.Add(connectionsNode);
-            _settingsNode.Nodes.Add(dataTypesNode);
+            foreach (DataTypeMapping dataTypeMapping in this.Project.DataTypeMappings)
+                dataTypesNode.Nodes.Add(new DataTypeTreeNode(this, dataTypeMapping));
+            
+            SettingsNode.Nodes.Add(dataTypesNode);
         }
 
         public void RefreshTemplatesNode()
         {
-            _templatesNode.Nodes.Clear();
-            _templatesNode.ContextMenu = new ContextMenu(new MenuItem[]
+            TemplatesNode.Nodes.Clear();
+            TemplatesNode.ContextMenu = new ContextMenu(new MenuItem[]
             {
                 new MenuItem("New Template....",  new EventHandler(NewTemplateMenuItem_Click))
             });
 
-            if (!_project.Templates.IsNullOrEmpty())
+            if (!this.Project.Templates.IsNullOrEmpty())
             {
-                foreach (Template template in _project.Templates)
+                foreach (Template template in this.Project.Templates.OrderBy(o => o.XsltHintPath))
                 {
-                    TemplateTreeNode node = new TemplateTreeNode(template);
+                    TemplateTreeNode node = new TemplateTreeNode(this, template);
 
-                    node.GenerateClick += new EventHandler((s, e) =>
+                    node.GenerateClick += new TemplateTreeNode.ClickEventHandler((s, e) =>
                     {
                         if (TemplateGenerateClick != null)
                             TemplateGenerateClick(s, e);
                     });
-                    _templatesNode.Nodes.Add(node);
+                    TemplatesNode.Nodes.Add(node);
                 }
             }
         }
 
-        public void RefreshTablesNode()
+        public void RefreshConnectionsNode()
         {
-            _tablesNode.Nodes.Clear();
-
-            foreach (var schemaName in _project.TableMappings.Select(o => o.SchemaName).Distinct().OrderBy(o => o))
+            ConnectionsNode.Nodes.Clear();
+            ConnectionsNode.ContextMenu = new ContextMenu(new MenuItem[]
             {
-                SchemaTreeNode schemaNode = new SchemaTreeNode(schemaName);
+                new MenuItem("New Connection....",  new EventHandler(NewConnectionMenuItem_Click))
+            });
 
-                foreach (TableMapping tableMapping in _project.TableMappings.Where(o => string.Equals(o.SchemaName, schemaName)))
-                    schemaNode.Nodes.Add(new TableOrViewTreeNode(tableMapping));
+            if (!this.Project.Connections.IsNullOrEmpty())
+            {
+                foreach (var connectionName in this.Project.Connections.OrderBy(o => o.Name))
+                {
+                    ConnectionTreeNode node = new ConnectionTreeNode(this, connectionName);
 
-                _tablesNode.Nodes.Add(schemaNode);
+                    ConnectionsNode.Nodes.Add(node);
+                }
             }
 
-            _tablesNode.Expand();
-        }
-
-        public void RefreshViewsNode()
-        {
-            _viewsNode.Nodes.Clear();
-
-            foreach (var schemaName in _project.ViewMappings.Select(o => o.SchemaName).Distinct().OrderBy(o => o))
-            {
-                SchemaTreeNode schemaNode = new SchemaTreeNode(schemaName);
-
-                foreach (ViewMapping viewMapping in _project.ViewMappings.Where(o => string.Equals(o.SchemaName, schemaName)))
-                    schemaNode.Nodes.Add(new TableOrViewTreeNode(viewMapping));
-
-                _viewsNode.Nodes.Add(schemaNode);
-            }
-
-            _viewsNode.Expand();
+            ConnectionsNode.Expand();
         }
 
         private void PropertiesMenuItem_Click(object sender, EventArgs e)
         {
-            using (ProjectProperties dialog = new ProjectProperties(_project))
+            using (ProjectProperties dialog = new ProjectProperties(this.Project))
             {
                 dialog.ShowDialog();
             }
@@ -190,11 +168,15 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
                         return;
                     }
 
-                    _project.Templates.Add(dialog.Template);
+                    this.Project.Templates.Add(dialog.Template);
 
                     RefreshTemplatesNode();
                 }
             }
+        }
+
+        private void NewConnectionMenuItem_Click(object sender, EventArgs e)
+        {
         }
     }
 }

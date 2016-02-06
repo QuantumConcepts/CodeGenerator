@@ -13,63 +13,74 @@ using QuantumConcepts.CodeGenerator.Core;
 using log4net;
 using QuantumConcepts.Common;
 
-namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
-{
-    internal partial class Generate : Form
-    {
+namespace QuantumConcepts.CodeGenerator.Client.UI.Forms {
+    internal partial class Generate : Form {
         private static ILog Logger = LogManager.GetLogger(typeof(Generate));
 
         private Project Project { get; set; }
+        private Dictionary<Template, List<TemplateOutputDefinitionFilenameResult>> TemplateOutputs { get; set; }
         private bool AutoGenerate { get; set; }
         private Generator Generator { get; set; }
 
-        public Generate()
-        {
+        public Generate(Project project) {
             InitializeComponent();
-        }
 
-        public Generate(Project project)
-            : this()
-        {
             this.Project = project;
 
+            InitializeTemplateOutputs();
             LoadOutputsListView();
         }
 
         public Generate(Project project, Template template, bool autoGenerate, bool autoClose)
-            : this(project)
-        {
-            if (template != null)
-                outputsListView.Groups.Cast<ListViewGroup>().Single(o => o.Tag == template).Items.Cast<ListViewItem>().ForEach(o => o.Checked = true);
-            else
-                outputsListView.Items.Cast<ListViewItem>().ForEach(o => o.Checked = true);
+            : this(project) {
+            if (template != null) {
+                outputsListView
+                    .Groups.Cast<ListViewGroup>()
+                    .Single(o => o.Tag == template)
+                    .Items.Cast<ListViewItem>()
+                    .ForEach(o => o.Checked = true);
+            }
+            else {
+                outputsListView
+                    .Items.Cast<ListViewItem>()
+                    .ForEach(o => o.Checked = ((Template)o.Group.Tag).GenerateByDefault);
+            }
 
             this.AutoGenerate = autoGenerate;
             autoCloseCheckBox.Checked = autoClose;
         }
 
-        private void Generate_Load(object sender, EventArgs e)
-        {
+        private void Generate_Load(object sender, EventArgs e) {
             if (this.AutoGenerate)
                 GenerateSelectionAsync();
         }
 
-        private void outputsListView_ItemChecked(object sender, ItemCheckedEventArgs e)
-        {
+        private void filterTextBox_KeyUp(object sender, KeyEventArgs e) {
+            if (new[] { Keys.Enter, Keys.Return }.Contains(e.KeyCode))
+                LoadOutputsListView(filterTextBox.Text);
+        }
+
+        private void applyFilterButton_Click(object sender, EventArgs e) {
+            LoadOutputsListView(filterTextBox.Text);
+        }
+
+        private void clearFilterButton_Click(object sender, EventArgs e) {
+            filterTextBox.Clear();
+            LoadOutputsListView();
+        }
+
+        private void outputsListView_ItemChecked(object sender, ItemCheckedEventArgs e) {
             generateButton.Enabled = !outputsListView.CheckedItems.IsNullOrEmpty();
         }
 
-        private void outputsListView_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
+        private void outputsListView_MouseDoubleClick(object sender, MouseEventArgs e) {
             ListViewItem item = outputsListView.GetItemAt(e.Location.X, e.Location.Y);
 
-            if (item != null)
-            {
+            if (item != null) {
                 Template template = (Template)item.Group.Tag;
                 Exception error = (item.SubItems[messageColumn.Index].Tag as Exception);
 
-                if (error != null)
-                {
+                if (error != null) {
                     StringBuilder message = new StringBuilder();
 
                     message.AppendLine("Template:\t\t{0}".FormatString(template.Name));
@@ -81,8 +92,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
 
                     message.AppendLine();
 
-                    while (error != null)
-                    {
+                    while (error != null) {
                         message.AppendLine(error.Message);
                         error = error.InnerException;
                     }
@@ -95,20 +105,16 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             }
         }
 
-        private void generateButton_Click(object sender, EventArgs e)
-        {
+        private void generateButton_Click(object sender, EventArgs e) {
             GenerateSelectionAsync();
         }
 
-        private void generateAllButton_Click(object sender, EventArgs e)
-        {
+        private void generateAllButton_Click(object sender, EventArgs e) {
             GenerateAll();
         }
 
-        private void closeButton_Click(object sender, EventArgs e)
-        {
-            if (this.Generator != null)
-            {
+        private void closeButton_Click(object sender, EventArgs e) {
+            if (this.Generator != null) {
                 if (MessageBox.Show("Generation is currently under way, are you sure you want to cancel?", "Confirm Cancelation", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) != System.Windows.Forms.DialogResult.Yes)
                     return;
 
@@ -119,15 +125,12 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.Close();
         }
 
-        private void Generator_GenerationStatus(Generator generator, GenerationStatusEventArgs e)
-        {
-            this.Invoke(new GenericDelegate<GenerationStatusEventArgs>(x =>
-            {
+        private void Generator_GenerationStatus(Generator generator, GenerationStatusEventArgs e) {
+            this.Invoke(new GenericDelegate<GenerationStatusEventArgs>(x => {
                 if (x.Status == GenerationStatus.Generating)
                     return;
 
-                if (x.Status == GenerationStatus.Error)
-                {
+                if (x.Status == GenerationStatus.Error) {
                     Logger.Error(x.Error);
                     MessageBox.Show(x.Error.Message, "Generation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
@@ -137,15 +140,13 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
                 this.Generator.ItemGenerationStatus -= new Generator.ItemGenerationStatusEventHandler(Generator_ItemGenerationStatus);
                 this.Generator = null;
 
-                if (x.Status == GenerationStatus.Complete)
-                {
+                if (x.Status == GenerationStatus.Complete) {
                     bool hasErrors = outputsListView.Items.Cast<ListViewItem>().Any(o => GenerationStatus.Error.ToString().Equals(o.SubItems[statusColumn.Index].Text));
 
                     ToggleUI(true);
                     progressBar.Visible = false;
 
-                    if (!hasErrors && autoCloseCheckBox.Checked)
-                    {
+                    if (!hasErrors && autoCloseCheckBox.Checked) {
                         this.DialogResult = DialogResult.OK;
                         this.Close();
                     }
@@ -155,10 +156,8 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             }), e);
         }
 
-        void Generator_TemplateGenerationStatus(Generator generator, TemplateGenerationStatusEventArgs e)
-        {
-            this.Invoke(new GenericDelegate<TemplateGenerationStatusEventArgs>(x =>
-            {
+        void Generator_TemplateGenerationStatus(Generator generator, TemplateGenerationStatusEventArgs e) {
+            this.Invoke(new GenericDelegate<TemplateGenerationStatusEventArgs>(x => {
                 ListViewGroup group = outputsListView.Groups.Cast<ListViewGroup>().Single(o => o.Tag == e.Template);
 
                 foreach (ListViewItem item in group.Items)
@@ -166,10 +165,8 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             }), e);
         }
 
-        private void Generator_ItemGenerationStatus(Generator generator, ItemGenerationStatusEventArgs e)
-        {
-            this.Invoke(new GenericDelegate<ItemGenerationStatusEventArgs>(x =>
-            {
+        private void Generator_ItemGenerationStatus(Generator generator, ItemGenerationStatusEventArgs e) {
+            this.Invoke(new GenericDelegate<ItemGenerationStatusEventArgs>(x => {
                 ListViewItem item = outputsListView.CheckedItems.Cast<ListViewItem>().Single(o => o.Tag == x.Result);
 
                 if (x.Status == GenerationStatus.Complete)
@@ -179,34 +176,48 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             }), e);
         }
 
-        private void UpdateListViewItemStatus(ListViewItem item, GenerationStatus status, Exception exception)
-        {
+        private void UpdateListViewItemStatus(ListViewItem item, GenerationStatus status, Exception exception) {
             item.SubItems[statusColumn.Index].Text = status.ToString();
 
-            if (status == GenerationStatus.Error)
-            {
+            if (status == GenerationStatus.Error) {
                 Logger.Error(exception);
                 item.SubItems[messageColumn.Index].Text = "{0} (Double click for more.)".FormatString(exception.Message);
                 item.SubItems[messageColumn.Index].Tag = exception;
             }
         }
 
-        private void LoadOutputsListView()
-        {
+        private void InitializeTemplateOutputs() {
+            this.TemplateOutputs = (from t in ProjectContext.Project.Templates
+                                    let to = t.GetOutputFilenames()
+                                    select new {
+                                        Template = t,
+                                        Results = to
+                                    }).ToDictionary(o => o.Template, o => o.Results);
+        }
+
+        private void LoadOutputsListView(string filter = null) {
+            var templateOutputGroups = (from t in this.TemplateOutputs.Keys
+                                        let to = this.TemplateOutputs[t].Where(o => o.Element == null || filter == null || o.ElementName.Contains(filter))
+                                        let x = new {
+                                            Template = t,
+                                            OutputResults = to.OrderBy(o => o.Value)
+                                        }
+                                        where x.OutputResults.Any()
+                                        orderby x.Template.XsltHintPath
+                                        select x);
+
+            outputsListView.Groups.Clear();
             outputsListView.Items.Clear();
             outputsListView.BeginUpdate();
 
-            foreach (Template template in ProjectContext.Project.Templates)
-            {
-                ListViewGroup group = new ListViewGroup(template.Name)
-                {
-                    Tag = template
+            foreach (var g in templateOutputGroups) {
+                ListViewGroup group = new ListViewGroup(g.Template.XsltHintPath) {
+                    Tag = g.Template
                 };
 
-                foreach (TemplateOutputDefinitionFilenameResult output in template.GetOutputFilenames())
-                {
-                    ListViewItem item = new ListViewItem(new[] { output.Value, (template.OutputMode == TemplateOutputMode.SingleFile ? null : output.ElementName), null, null })
-                    {
+                foreach (TemplateOutputDefinitionFilenameResult output in g.OutputResults) {
+                    var elementName = (g.Template.OutputMode == TemplateOutputMode.SingleFile ? null : output.ElementName);
+                    ListViewItem item = new ListViewItem(new[] { output.Value, elementName, null, null }) {
                         Group = group,
                         Tag = output
                     };
@@ -222,36 +233,30 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             outputsListView.EndUpdate();
         }
 
-        public void GenerateAll()
-        {
+        public void GenerateAll() {
             outputsListView.Items.Cast<ListViewItem>().ForEach(o => o.Checked = true);
 
             GenerateSelectionAsync();
         }
 
-        private async void GenerateSelectionAsync()
-        {
+        private async void GenerateSelectionAsync() {
             ToggleUI(false);
 
-            using (new Wait())
-            {
+            using (new Wait()) {
                 Dictionary<Template, List<TemplateOutputDefinitionFilenameResult>> templateOutputs = (from li in outputsListView.CheckedItems.Cast<ListViewItem>()
                                                                                                       group (TemplateOutputDefinitionFilenameResult)li.Tag by (Template)li.Group.Tag into g
-                                                                                                      select new
-                                                                                                      {
+                                                                                                      select new {
                                                                                                           Template = g.Key,
                                                                                                           Outputs = g.ToList()
                                                                                                       }).ToDictionary(o => o.Template, o => o.Outputs);
 
-                if (templateOutputs.IsNullOrEmpty())
-                {
+                if (templateOutputs.IsNullOrEmpty()) {
                     MessageBox.Show("You must select one or more template you wish to generate.", "Generate", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     ToggleUI(true);
                     return;
                 }
 
-                outputsListView.CheckedItems.Cast<ListViewItem>().ForEach(o =>
-                {
+                outputsListView.CheckedItems.Cast<ListViewItem>().ForEach(o => {
                     o.SubItems[statusColumn.Index].Text = null;
                     o.SubItems[messageColumn.Index].Text = null;
                 });
@@ -269,8 +274,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             }
         }
 
-        private void ToggleUI(bool enable)
-        {
+        private void ToggleUI(bool enable) {
             outputsListView.Enabled = enable;
             autoCloseCheckBox.Enabled = enable;
             generateButton.Enabled = enable;

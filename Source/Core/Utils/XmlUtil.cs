@@ -103,24 +103,24 @@ namespace QuantumConcepts.CodeGenerator.Core.Utils
             try
             {
                 foreach (XElement element in elements)
-                    results.Add(ComputeComingledXPathExpression(element, elementType, parts));
+                    results.Add(ComputeComingledXPathExpression(element, nsm, elementType, parts));
             }
             catch (XPathException ex)
             {
-                throw new ApplicationException("Error computing comingled XPath.", ex);
+                throw new ApplicationException($"Error computing comingled XPath: {ex.Message}", ex);
             }
 
             return results;
         }
 
-        public static ComingledXPathExpressionResult ComputeComingledXPathExpression(XElement element, ElementType elementType, List<IComingledXPathExpressionPart> parts)
+        public static ComingledXPathExpressionResult ComputeComingledXPathExpression(XElement element, XmlNamespaceManager nsm, ElementType elementType, List<IComingledXPathExpressionPart> parts)
         {
             string nameXPath = GetXPathForNameForElementType(elementType);
             XAttribute nameAttribute = (XAttribute)((IEnumerable)element.XPathEvaluate(nameXPath)).Cast<object>().First();
             StringBuilder path = new StringBuilder();
 
             foreach (IComingledXPathExpressionPart part in parts)
-                path.Append(part.GetValue(element));
+                path.Append(part.GetValue(element, nsm));
 
             return new ComingledXPathExpressionResult(element, nameAttribute.Value, path.ToString());
         }
@@ -129,6 +129,8 @@ namespace QuantumConcepts.CodeGenerator.Core.Utils
         {
             if (elementType == ElementType.Table)
                 return "/P:Project/P:TableMappings/P:TableMapping";
+            else if (elementType == ElementType.Column)
+                return "/P:Project//P:ColumnMapping";
             else if (elementType == ElementType.ForeignKey)
                 return "/P:Project/P:ForeignKeyMappings/P:ForeignKeyMapping";
             else if (elementType == ElementType.UniqueIndex)
@@ -143,6 +145,8 @@ namespace QuantumConcepts.CodeGenerator.Core.Utils
         {
             if (elementType == ElementType.Table)
                 return "@TableName";
+            else if (elementType == ElementType.Column)
+                return "@ColumnName";
             else if (elementType == ElementType.ForeignKey)
                 return "@ForeignKeyName";
             else if (elementType == ElementType.UniqueIndex)
@@ -204,15 +208,17 @@ namespace QuantumConcepts.CodeGenerator.Core.Utils
         public static IProjectSchemaElement GetElementForXElement(Project project, ElementType elementType, XElement element)
         {
             string elementName = GetNameForElement(elementType, element);
-            string parentElementName = GetNameForParentElement(elementType, element);
 
             if (elementType == ElementType.Table)
-                return project.FindTableMapping(element.Attribute("SchemaName").Value, elementName);
+                return project.FindTableMapping(element.Attribute("ConnectionName").Value, element.Attribute("SchemaName").Value, elementName);
             else if (elementType == ElementType.ForeignKey)
-                return project.FindForeignKeyMapping(elementName);
+                return project.FindForeignKeyMapping(element.Attribute("ConnectionName").Value, elementName);
             else
             {
-                TableMapping tableMapping = project.FindTableMapping(((XAttribute)element.XPathEvaluate("ancestor::TableMapping/@SchemaName")).Value, parentElementName);
+                string parentElementName = GetNameForParentElement(elementType, element);
+                string connectionName = ((XAttribute)element.XPathEvaluate("ancestor::TableMapping/@ConnectionName")).Value;
+                string schemaName = ((XAttribute)element.XPathEvaluate("ancestor::TableMapping/@SchemaName")).Value;
+                TableMapping tableMapping = project.FindTableMapping(connectionName, schemaName, parentElementName);
 
                 if (elementType == ElementType.Column)
                     return tableMapping.FindColumnMapping(elementName);

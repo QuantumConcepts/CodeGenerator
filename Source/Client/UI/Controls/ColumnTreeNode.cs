@@ -9,30 +9,26 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
 {
     internal sealed class ColumnTreeNode : ProjectSchemaTreeNode
     {
-        private ColumnMapping _columnMapping;
+        public ColumnMapping ColumnMapping { get; private set; }
 
-        public ColumnMapping ColumnMapping
+        public ColumnTreeNode(ProjectSchemaTreeNode parent, ColumnMapping columnMapping)
+            : base(parent)
         {
-            get { return _columnMapping; }
-        }
-
-        public ColumnTreeNode(ColumnMapping columnMapping)
-        {
-            _columnMapping = columnMapping;
+            this.ColumnMapping = columnMapping;
 
             Initialize();
         }
 
         private void Initialize()
         {
-            ForeignKeyMapping foreignKey = _columnMapping.ContainingProject.FindForeignKeyMappingForParentColumn(_columnMapping);
+            ForeignKeyMapping foreignKey = this.ColumnMapping.ContainingProject.FindForeignKeyMappingForParentColumn(this.ColumnMapping);
 
-            if (foreignKey != null)
-                this.Nodes.Add(new ForeignKeyTreeNode(foreignKey));
+            if (foreignKey != null && (!foreignKey.Exclude || this.ProjectNode.Project.UserSettings.ShowExcludedItems))
+                this.Nodes.Add(new ForeignKeyTreeNode(this, foreignKey));
 
             this.ContextMenu = new ContextMenu();
             this.ContextMenu.MenuItems.Add(new MenuItem("Exclude From Project"));
-            this.ContextMenu.MenuItems[0].Checked = _columnMapping.Exclude;
+            this.ContextMenu.MenuItems[0].Checked = this.ColumnMapping.Exclude;
             this.ContextMenu.MenuItems[0].Click += new EventHandler(ExcludeFromProjectMenuItem_Click);
 
             UpdateNode();
@@ -40,12 +36,17 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
 
         public override void UpdateNode()
         {
-            this.Text = _columnMapping.ColumnName;
+            if (this.ColumnMapping.Exclude && !this.ProjectNode.Project.UserSettings.ShowExcludedItems)
+                Remove();
+            else
+            {
+                this.Text = this.ColumnMapping.ColumnName;
 
-            if (!String.IsNullOrEmpty(_columnMapping.FieldName) && !_columnMapping.ColumnName.Equals(_columnMapping.FieldName))
-                this.Text += " (" + _columnMapping.FieldName + ")";
+                if (!String.IsNullOrEmpty(this.ColumnMapping.FieldName) && !this.ColumnMapping.ColumnName.Equals(this.ColumnMapping.FieldName))
+                    this.Text += " (" + this.ColumnMapping.FieldName + ")";
 
-            this.ForeColor = (_columnMapping.Exclude ? Color.LightGray : Color.Black);
+                this.ForeColor = (this.ColumnMapping.Exclude ? Color.LightGray : Color.Black);
+            }
         }
 
         void ExcludeFromProjectMenuItem_Click(object sender, EventArgs e)
@@ -53,7 +54,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
             MenuItem menuItem = (MenuItem)sender;
 
             menuItem.Checked = !menuItem.Checked;
-            _columnMapping.Exclude = menuItem.Checked;
+            this.ColumnMapping.Exclude = menuItem.Checked;
 
             UpdateNode();
         }

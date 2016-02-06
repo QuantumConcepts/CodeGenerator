@@ -12,11 +12,18 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
 {
     internal sealed class TemplateTreeNode : ProjectSchemaTreeNode
     {
-        public event EventHandler GenerateClick;
+        internal class ClickEventArgs : EventArgs
+        {
+            public bool AutoGenerate { get; set; }
+        }
+
+        public delegate void ClickEventHandler(object sender, ClickEventArgs e);
+        public event ClickEventHandler GenerateClick;
 
         public Template Template { get; private set; }
 
-        public TemplateTreeNode(Template template)
+        public TemplateTreeNode(ProjectSchemaTreeNode parent, Template template)
+            : base(parent)
         {
             this.Template = template;
 
@@ -27,19 +34,26 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
         {
             this.ContextMenu = new ContextMenu();
             this.ContextMenu.MenuItems.Add(new MenuItem("Generate"));
+            this.ContextMenu.MenuItems.Add(new MenuItem("Generate With Options..."));
             this.ContextMenu.MenuItems.Add(new MenuItem("-"));
             this.ContextMenu.MenuItems.Add(new MenuItem("Edit..."));
             this.ContextMenu.MenuItems.Add(new MenuItem("Remove"));
             this.ContextMenu.MenuItems[0].Click += new EventHandler(GenerateMenuItem_Click);
-            this.ContextMenu.MenuItems[2].Click += new EventHandler(EditMenuItem_Click);
-            this.ContextMenu.MenuItems[3].Click += new EventHandler(RemoveMenuItem_Click);
+            this.ContextMenu.MenuItems[1].Click += new EventHandler(GenerateWithOptionsMenuItem_Click);
+            this.ContextMenu.MenuItems[3].Click += new EventHandler(EditMenuItem_Click);
+            this.ContextMenu.MenuItems[4].Click += new EventHandler(RemoveMenuItem_Click);
 
             UpdateNode();
         }
 
         private void GenerateMenuItem_Click(object sender, EventArgs e)
         {
-            OnGenerateClick();
+            OnGenerateClick(true);
+        }
+
+        private void GenerateWithOptionsMenuItem_Click(object sender, EventArgs e)
+        {
+            OnGenerateClick(false);
         }
 
         private void EditMenuItem_Click(object sender, EventArgs e)
@@ -72,13 +86,16 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
 
         public override void UpdateNode()
         {
-            this.Text = Path.GetFileNameWithoutExtension(this.Template.XsltAbsolutePath);
+            this.Text = $"{this.Template.XsltHintPath} ({(this.Template.GenerateByDefault ? "auto" : "manual")})";
         }
 
-        private void OnGenerateClick()
+        private void OnGenerateClick(bool autoGenerate)
         {
             if (GenerateClick != null)
-                GenerateClick(this, EventArgs.Empty);
+                GenerateClick(this, new ClickEventArgs
+                {
+                    AutoGenerate = autoGenerate
+                });
         }
     }
 }

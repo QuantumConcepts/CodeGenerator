@@ -31,6 +31,9 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
         [XmlArrayItem]
         public List<TemplateOutputDefinition> TemplateOutputDefinitions { get; set; }
 
+        [XmlAttribute]
+        public bool GenerateByDefault { get; set; } = true;
+
         [XmlArray]
         [XmlArrayItem("Attribute")]
         public List<Attribute<Template>> Attributes { get; set; }

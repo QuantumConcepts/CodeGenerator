@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using System.Xml.Linq;
 using System.Collections;
 using System.Xml.XPath;
+using System.Xml;
+using QuantumConcepts.CodeGenerator.Core.ProjectSchema;
 
 namespace QuantumConcepts.CodeGenerator.Core.Utils
 {
@@ -17,12 +16,31 @@ namespace QuantumConcepts.CodeGenerator.Core.Utils
             this.RawValue = rawValue;
         }
 
-        public string GetValue(XElement element)
+        public string GetValue(XElement element, XmlNamespaceManager nsm)
         {
-            object pathPartElement = ((IEnumerable)element.XPathEvaluate(this.RawValue)).Cast<object>().FirstOrDefault();
+            XPathContext context = new XPathContext((NameTable)nsm.NameTable);
+            XPathNavigator navigator = element.CreateNavigator();
+            object result = null;
 
-            if (pathPartElement != null)
-                return (pathPartElement is XAttribute ? ((XAttribute)pathPartElement).Value : ((XElement)pathPartElement).Value);
+            foreach (var ns in nsm.GetNamespacesInScope(XmlNamespaceScope.All))
+                context.AddNamespace(ns.Key, ns.Value);
+
+            context.Arguments.AddParam(XPathContext.ParameterNames.CurrentNode, string.Empty, navigator.Select("."));
+            result = navigator.Evaluate(this.RawValue, context);
+
+            if (result is string)
+                return (string)result;
+            else if (result is XPathNodeIterator)
+            {
+                var iterator = ((XPathNodeIterator)result);
+                var current = (XPathNavigator)((IEnumerable)iterator).Cast<object>().First();
+
+                return current.Value;
+            }
+            else if (result is XAttribute)
+                return ((XAttribute)result).Value;
+            else if (result is XElement)
+                return ((XElement)result).Value;
 
             return string.Empty;
         }

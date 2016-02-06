@@ -1,12 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml.Serialization;
-using System.Data;
-using System.Data.SqlClient;
-using QuantumConcepts.Common.Extensions;
 using QuantumConcepts.CodeGenerator.Core.Data;
 using QuantumConcepts.CodeGenerator.Core.Exceptions;
+using QuantumConcepts.Common.Extensions;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Xml.Serialization;
 
 namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
 {
@@ -19,27 +18,28 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
         [XmlIgnore]
         public Project ContainingProject { get { return this.ContainingUserSettings.ContainingProject; } }
 
+        [XmlIgnore]
+        public ConnectionInfo Info { get { return this.ContainingProject.Connections.SingleOrDefault(o => string.Equals(o.Name, this.Name)); } }
+
+        [XmlAttribute]
+        public string Name { get; set; }
+
         [XmlAttribute]
         public string DatabaseType { get; set; }
 
-        [XmlText]
+        [XmlAttribute]
         public string ConnectionString { get; set; }
 
         [XmlArray]
         [XmlArrayItem("Attribute")]
-        public List<Attribute<Connection>> Attributes { get; set; }
+        public List<Attribute<Connection>> Attributes { get; set; } = new List<Attribute<Connection>>();
 
         [XmlIgnore]
         public IEnumerable<IAnnotation> AllAnnotations { get { return null; } }
 
         [XmlIgnore]
         public IEnumerable<IAttribute> AllAttributes { get { return this.Attributes; } }
-
-        public Connection()
-        {
-            this.Attributes = new List<Attribute<Connection>>();
-        }
-
+        
         public void JoinToParent(UserSettings userSettings)
         {
             this.ContainingUserSettings = userSettings;
@@ -50,18 +50,34 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
             if (this.DatabaseType.IsNullOrEmpty())
                 throw new EmptyDatabaseWorkerSpecifiedException();
             else {
-                DatabaseWorker worker = DatabaseWorkerManager.Instance[this.DatabaseType];
+                DatabaseWorker worker = GetDatabaseWorker();
 
                 if (worker == null)
                     throw new NonExistentDatabaseWorkerSpecifiedException("Could not locate database worker named: {0}.".FormatString(this.DatabaseType));
 
-                worker.ValidateConnection(this.ContainingProject);
+                worker.ValidateConnection(this);
             }
         }
 
         public DatabaseWorker GetDatabaseWorker()
         {
             return DatabaseWorkerManager.Instance[this.DatabaseType];
+        }
+
+        public string GetDescription()
+        {
+            const string dataSourceKey = "Data Source";
+            const string initialCatalogKey = "Initial Catalog";
+
+            string[] parts = this.ConnectionString?.Split(';');
+            Dictionary<string, string> info = parts?.Select(o => o.Split('=')).ToDictionary(o => o[0].Trim(), o => o[1].Trim());
+            string dataSource = "Unknown";
+            string initialCatalog = "Unknown";
+
+            info?.TryGetValue(dataSourceKey, out dataSource);
+            info?.TryGetValue(initialCatalogKey, out initialCatalog);
+
+            return $@"{dataSource}\{initialCatalog} ({this.DatabaseType})";
         }
     }
 }

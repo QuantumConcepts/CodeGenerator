@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Xml;
 using System.Xml.Linq;
 
 namespace QuantumConcepts.CodeGenerator.Core.Utils
@@ -15,7 +12,7 @@ namespace QuantumConcepts.CodeGenerator.Core.Utils
             this.RawValue = rawValue;
         }
 
-        public string GetValue(XElement element)
+        public string GetValue(XElement element, XmlNamespaceManager nsm)
         {
             return this.RawValue;
         }

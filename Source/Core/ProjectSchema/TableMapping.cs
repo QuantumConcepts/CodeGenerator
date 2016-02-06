@@ -33,6 +33,12 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
         }
 
         [XmlAttribute]
+        public string ConnectionName { get; set; }
+
+        [XmlIgnore]
+        public Connection Connection { get { return this.ContainingProject.UserSettings.Connections.SingleOrDefault(o => string.Equals(o.Name, this.ConnectionName)); } }
+
+        [XmlAttribute]
         public string SchemaName
         {
             get { return _schemaName; }
@@ -164,13 +170,15 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
             }
         }
 
-        public TableMapping() {
+        public TableMapping()
+        {
             this.Annotations = new List<Annotation<TableMapping>>();
             this.Attributes = new List<Attribute<TableMapping>>();
         }
 
-        public TableMapping(string schemaName, string tableName, string className, List<ColumnMapping> columnMappings, List<UniqueIndexMapping> uniqueIndexMappings, List<Annotation<TableMapping>> annotations, List<Attribute<TableMapping>> attributes)
+        public TableMapping(string connectionName, string schemaName, string tableName, string className, List<ColumnMapping> columnMappings, List<UniqueIndexMapping> uniqueIndexMappings, List<Annotation<TableMapping>> annotations, List<Attribute<TableMapping>> attributes)
         {
+            this.ConnectionName = connectionName;
             _schemaName = schemaName;
             _tableName = tableName;
             _className = tableName;
@@ -198,7 +206,7 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
         public ColumnMapping FindColumnMapping(string name)
         {
             foreach (ColumnMapping cm in _columnMappings)
-                if (cm.ColumnName.Equals(name))
+                if (cm.ColumnName.EqualsIgnoreCase(name))
                     return cm;
 
             return null;
@@ -207,7 +215,7 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
         public UniqueIndexMapping FindUniqueIndexMapping(string name)
         {
             foreach (UniqueIndexMapping uim in _uniqueIndexMappings)
-                if (uim.UniqueIndexName.Equals(name))
+                if (uim.UniqueIndexName.EqualsIgnoreCase(name))
                     return uim;
 
             return null;

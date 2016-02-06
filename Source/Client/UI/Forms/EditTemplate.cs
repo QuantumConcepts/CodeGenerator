@@ -45,6 +45,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
                 xsltPathTextBox.Text = this.Template.XsltAbsolutePath;
                 singleFileRadioButton.Checked = (this.Template.OutputMode == TemplateOutputMode.SingleFile);
                 multipleFilesRadioButton.Checked = (this.Template.OutputMode == TemplateOutputMode.MultipleFile);
+                generateByDefaultCheckBox.Checked = (this.Template.GenerateByDefault);
 
                 if (this.Template.OutputMode == TemplateOutputMode.SingleFile)
                     singleFileOutputPathTextBox.Text = this.Template.OutputAbsolutePath;
@@ -170,13 +171,19 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             }
 
             if (this.Template == null)
-                this.Template = new Template(this.Project, xsltPathTextBox.Text, mode, singleFileOutputPath, this.TemplateOutputDefinitions);
+            {
+                this.Template = new Template(this.Project, xsltPathTextBox.Text, mode, singleFileOutputPath, this.TemplateOutputDefinitions)
+                {
+                    GenerateByDefault = generateByDefaultCheckBox.Checked
+                };
+            }
             else
             {
                 this.Template.XsltAbsolutePath = xsltPathTextBox.Text;
                 this.Template.OutputMode = mode;
                 this.Template.OutputAbsolutePath = singleFileOutputPath;
                 this.Template.TemplateOutputDefinitions = this.TemplateOutputDefinitions;
+                this.Template.GenerateByDefault = generateByDefaultCheckBox.Checked;
             }
 
             return true;

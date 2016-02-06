@@ -9,16 +9,12 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
 {
     internal sealed class UniqueIndexTreeNode : ProjectSchemaTreeNode
     {
-        private UniqueIndexMapping _uniqueIndexMapping;
+        public UniqueIndexMapping UniqueIndexMapping { get; private set; }
 
-        public UniqueIndexMapping UniqueIndexMapping
+        public UniqueIndexTreeNode(ProjectSchemaTreeNode parent, UniqueIndexMapping uniqueIndexMapping)
+            : base(parent)
         {
-            get { return _uniqueIndexMapping; }
-        }
-
-        public UniqueIndexTreeNode(UniqueIndexMapping uniqueIndexMapping)
-        {
-            _uniqueIndexMapping = uniqueIndexMapping;
+            this.UniqueIndexMapping = uniqueIndexMapping;
 
             Initialize();
         }
@@ -27,7 +23,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
         {
             this.ContextMenu = new ContextMenu();
             this.ContextMenu.MenuItems.Add(new MenuItem("Exclude From Project"));
-            this.ContextMenu.MenuItems[0].Checked = _uniqueIndexMapping.Exclude;
+            this.ContextMenu.MenuItems[0].Checked = this.UniqueIndexMapping.Exclude;
             this.ContextMenu.MenuItems[0].Click += new EventHandler(ExcludeFromProjectMenuItem_Click);
 
             UpdateNode();
@@ -35,13 +31,18 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
 
         public override void UpdateNode()
         {
-            this.Text = _uniqueIndexMapping.UniqueIndexName + " (";
+            if (this.UniqueIndexMapping.Exclude && !this.ProjectNode.Project.UserSettings.ShowExcludedItems)
+                Remove();
+            else
+            {
+                this.Text = this.UniqueIndexMapping.UniqueIndexName + " (";
 
-            foreach (ColumnMapping cm in _uniqueIndexMapping.ColumnMappings)
-                this.Text += cm.FieldName + (cm == _uniqueIndexMapping.ColumnMappings[_uniqueIndexMapping.ColumnMappings.Count - 1] ? "" : ", ");
+                foreach (ColumnMapping cm in this.UniqueIndexMapping.ColumnMappings)
+                    this.Text += cm.FieldName + (cm == this.UniqueIndexMapping.ColumnMappings[this.UniqueIndexMapping.ColumnMappings.Count - 1] ? "" : ", ");
 
-            this.Text += ")";
-            this.ForeColor = (_uniqueIndexMapping.Exclude ? Color.LightGray : Color.Black);
+                this.Text += ")";
+                this.ForeColor = (this.UniqueIndexMapping.Exclude ? Color.LightGray : Color.Black);
+            }
         }
 
         void ExcludeFromProjectMenuItem_Click(object sender, EventArgs e)
@@ -49,7 +50,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
             MenuItem menuItem = (MenuItem)sender;
 
             menuItem.Checked = !menuItem.Checked;
-            _uniqueIndexMapping.Exclude = menuItem.Checked;
+            this.UniqueIndexMapping.Exclude = menuItem.Checked;
 
             UpdateNode();
         }

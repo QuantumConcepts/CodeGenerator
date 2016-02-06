@@ -601,8 +601,6 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
                             MessageBox.Show("An error occurred while upgrading the project: {0}".FormatString(ex.Message), "Upgrade Failed", MessageBoxButtons.OK);
                             return;
                         }
-
-                        MarkAsUnsaved();
                     }
                 }
 
@@ -705,6 +703,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             using (ProjectProperties dialog = new ProjectProperties(ProjectContext.Project))
             {
                 dialog.ShowDialog();
+                LoadTreeView();
             }
         }
 
@@ -724,9 +723,9 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             }
         }
 
-        private void GenerateTemplate(Template template)
+        private void GenerateTemplate(Template template, bool autoGenerate = true)
         {
-            using (Generate dialog = new Generate(ProjectContext.Project, template, true, true))
+            using (Generate dialog = new Generate(ProjectContext.Project, template, autoGenerate, autoGenerate))
             {
                 dialog.ShowDialog();
             }
@@ -752,6 +751,12 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
 
         private void RefreshMappings()
         {
+            if (!ProjectContext.Project.UserSettings.Connections.Any())
+            {
+                MessageBox.Show("No connections have been defined, you can do so via the Properties dialog.", "No Connections", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
             using (new Wait())
             {
                 ToggleUI(false);
@@ -795,7 +800,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
                 ProjectTreeNode projectNode = new ProjectTreeNode(ProjectContext.Project);
 
                 projectTreeview.Nodes.Clear();
-                projectNode.TemplateGenerateClick += new EventHandler((s, e) => GenerateTemplate(((TemplateTreeNode)s).Template));
+                projectNode.TemplateGenerateClick += new TemplateTreeNode.ClickEventHandler((s, e) => GenerateTemplate(((TemplateTreeNode)s).Template, e.AutoGenerate));
                 projectTreeview.Nodes.Add(projectNode);
 
                 ToggleUI(true);
