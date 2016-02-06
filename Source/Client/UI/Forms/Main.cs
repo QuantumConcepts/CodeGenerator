@@ -751,6 +751,12 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
 
         private void RefreshMappings()
         {
+            if (!ProjectContext.Project.UserSettings.Connections.Any())
+            {
+                MessageBox.Show("No connections have been defined, you can do so via the Properties dialog.", "No Connections", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
             using (new Wait())
             {
                 ToggleUI(false);
