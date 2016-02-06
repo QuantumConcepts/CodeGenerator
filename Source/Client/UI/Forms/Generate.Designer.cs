@@ -40,6 +40,10 @@
             this.closeButton = new System.Windows.Forms.Button();
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.autoCloseCheckBox = new System.Windows.Forms.CheckBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.filterTextBox = new System.Windows.Forms.TextBox();
+            this.applyFilterButton = new System.Windows.Forms.Button();
+            this.clearFilterButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // outputsListView
@@ -54,9 +58,9 @@
             this.statusColumn,
             this.messageColumn});
             this.outputsListView.FullRowSelect = true;
-            this.outputsListView.Location = new System.Drawing.Point(12, 42);
+            this.outputsListView.Location = new System.Drawing.Point(12, 68);
             this.outputsListView.Name = "outputsListView";
-            this.outputsListView.Size = new System.Drawing.Size(724, 357);
+            this.outputsListView.Size = new System.Drawing.Size(724, 331);
             this.outputsListView.TabIndex = 1;
             this.outputsListView.UseCompatibleStateImageBehavior = false;
             this.outputsListView.View = System.Windows.Forms.View.Details;
@@ -148,12 +152,59 @@
             this.autoCloseCheckBox.Text = "Close this window upon successful generation.";
             this.autoCloseCheckBox.UseVisualStyleBackColor = true;
             // 
+            // label2
+            // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(464, 45);
+            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(32, 13);
+            this.label2.TabIndex = 6;
+            this.label2.Text = "Filter:";
+            // 
+            // filterTextBox
+            // 
+            this.filterTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.filterTextBox.Location = new System.Drawing.Point(500, 41);
+            this.filterTextBox.Margin = new System.Windows.Forms.Padding(2);
+            this.filterTextBox.Name = "filterTextBox";
+            this.filterTextBox.Size = new System.Drawing.Size(125, 20);
+            this.filterTextBox.TabIndex = 7;
+            this.filterTextBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.filterTextBox_KeyUp);
+            // 
+            // applyFilterButton
+            // 
+            this.applyFilterButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.applyFilterButton.Location = new System.Drawing.Point(630, 39);
+            this.applyFilterButton.Name = "applyFilterButton";
+            this.applyFilterButton.Size = new System.Drawing.Size(50, 23);
+            this.applyFilterButton.TabIndex = 8;
+            this.applyFilterButton.Text = "A&pply";
+            this.applyFilterButton.UseVisualStyleBackColor = true;
+            this.applyFilterButton.Click += new System.EventHandler(this.applyFilterButton_Click);
+            // 
+            // clearFilterButton
+            // 
+            this.clearFilterButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.clearFilterButton.Location = new System.Drawing.Point(686, 39);
+            this.clearFilterButton.Name = "clearFilterButton";
+            this.clearFilterButton.Size = new System.Drawing.Size(50, 23);
+            this.clearFilterButton.TabIndex = 9;
+            this.clearFilterButton.Text = "C&lear";
+            this.clearFilterButton.UseVisualStyleBackColor = true;
+            this.clearFilterButton.Click += new System.EventHandler(this.clearFilterButton_Click);
+            // 
             // Generate
             // 
             this.AcceptButton = this.generateButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(748, 463);
+            this.Controls.Add(this.clearFilterButton);
+            this.Controls.Add(this.applyFilterButton);
+            this.Controls.Add(this.filterTextBox);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.autoCloseCheckBox);
             this.Controls.Add(this.progressBar);
             this.Controls.Add(this.closeButton);
@@ -186,6 +237,9 @@
         private System.Windows.Forms.ProgressBar progressBar;
         private System.Windows.Forms.ColumnHeader messageColumn;
         private System.Windows.Forms.CheckBox autoCloseCheckBox;
-
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox filterTextBox;
+        private System.Windows.Forms.Button applyFilterButton;
+        private System.Windows.Forms.Button clearFilterButton;
     }
 }
