@@ -1,4 +1,8 @@
-﻿<?xml version="1.0"?>
-<UserSettings xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://Schemas.QuantumConceptsCorp.com/CodeGenerator/UserSettings.xsd">
-  <Connection DatabaseType="SQL Server">Data Source=localhost\SQL2008; Initial Catalog=CodeGeneratorSample; User ID=CodeGeneratorSample; Password=CodeGeneratorSample;</Connection>
+<?xml version="1.0"?>
+<UserSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ShowExcludedItems="false" xmlns="http://Schemas.QuantumConceptsCorp.com/CodeGenerator/UserSettings.xsd">
+  <Connections>
+    <Connection Name="Default" DatabaseType="SQL Server" ConnectionString="Data Source=localhost\SQL2008; Initial Catalog=CodeGeneratorSample; User ID=CodeGeneratorSample; Password=CodeGeneratorSample;">
+      <Attributes />
+    </Connection>
+  </Connections>
 </UserSettings>
