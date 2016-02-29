@@ -111,3 +111,4 @@ Source/Client-WPF
 Source/Setup
 .vs
 Source/Client/Samples/*
+.tfignore
