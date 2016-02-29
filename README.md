@@ -1,4 +1,4 @@
-﻿#CodeGenerator v1.7.2.0
+﻿#CodeGenerator
 **Develop stable, robust and highly versatile software, faster!**
 
 Countless hours have been spent by developers writing the same code over and over and over again. It's time to stop this repetitive coding and bring your team to the next level of efficiency.
@@ -7,14 +7,11 @@ That's where CodeGenerator comes in. This tool allows you and your team to get t
 
 CodeGenerator is truly going to change the way you write code - for the better. We've used this tool on private projects for years and decided to make it available to everyone.
 
-##Free for Personal and Non-profit Use
-CodeGenerator is free for personal and non-profit use. 
-
 ##Open Source
 CodeGenerator has been released on GitHub as open-source software! We hope to get the open source community's input and help to make this product even better.
 
 ##Installation
-CodeGenerator is currently available as a Windows installer. The latest version is v1.7.2.0 and [it can be downloaded here](https://www.quantumconceptscorp.com/Products/CodeGenerator.aspx).
+CodeGenerator is currently available as a Windows installer. The latest version [can be downloaded here](https://github.com/QuantumConcepts/CodeGenerator/releases).
 
 ##Quick Start Guide
 The first step is to understand how CodeGenerator works. Basically, CodeGenerator is a tool that reads a database schema and outputs generated code based on that schema. The output is completely up to you - C#, Java, HTML, text, XML, etc. - you can created templates to generate anything you you can think of.
@@ -28,7 +25,8 @@ The first step is to understand how CodeGenerator works. Basically, CodeGenerato
 * Templates can be written to support virtually any language or framework.
 
 ###Supported Operating Systems
-* Windows XP and above.
+* Windows
+* Linux support is planned for a future release, you can [add your input](https://github.com/QuantumConcepts/CodeGenerator/issues/6), if you'd like.
 
 ###Templates
 A number of templates are included to get you started quick:
