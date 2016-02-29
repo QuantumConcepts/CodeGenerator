@@ -14,7 +14,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVC Admin", "Plugins\MVC Ad
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Files", "Solution Files", "{DAD3677D-5CCA-4216-8A99-35F1D1FFCF9C}"
 	ProjectSection(SolutionItems) = preProject
-		..\README.html = ..\README.html
 		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
