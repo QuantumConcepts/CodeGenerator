@@ -7,8 +7,8 @@
     <ProjectGuid>{99AE2B58-7258-45CD-BE05-15389411F940}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>QuantumConcepts.CodeGenerator.RoslynTemplates</RootNamespace>
-    <AssemblyName>QuantumConcepts.CodeGenerator.RoslynTemplates</AssemblyName>
+    <RootNamespace>QuantumConcepts.CodeGenerator.Templates.Roslyn</RootNamespace>
+    <AssemblyName>QuantumConcepts.CodeGenerator.Templates.Roslyn</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />

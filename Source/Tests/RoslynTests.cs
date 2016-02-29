@@ -6,7 +6,7 @@ namespace Tests {
     [TestClass]
     public class RoslynTests {
         [TestMethod]
-        public void TestDataObjects() {
+        public void DataObjectsGenerationViaRoslynWorks() {
             TestHelper helper = new TestHelper(1);
             Project project = helper.CreateProject();
             DataObjects template = new DataObjects(project);

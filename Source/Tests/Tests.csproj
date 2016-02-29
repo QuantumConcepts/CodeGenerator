@@ -65,9 +65,9 @@
       <Project>{fd273a49-441a-426e-9367-bf26a675f2e7}</Project>
       <Name>Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Templates\RoslynTemplates\RoslynTemplates.csproj">
+    <ProjectReference Include="..\Templates\RoslynTemplates\Roslyn.csproj">
       <Project>{99ae2b58-7258-45cd-be05-15389411f940}</Project>
-      <Name>RoslynTemplates</Name>
+      <Name>Roslyn</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>
