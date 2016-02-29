@@ -193,6 +193,10 @@
       <Private>True</Private>
       <HintPath>..\packages\MySql.ConnectorNET.Data.6.8.3.2\lib\net40\MySql.Data.dll</HintPath>
     </Reference>
+    <Reference Include="QuantumConcepts.Common, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\QuantumConcepts.Common.1.2.1\lib\net40\QuantumConcepts.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -342,12 +346,6 @@
     <None Include="Xml\UserSettings.xsd">
       <SubType>Designer</SubType>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\Common\Common\QC Common.csproj">
-      <Project>{8807828d-db88-462a-875e-647240d48668}</Project>
-      <Name>QC Common</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

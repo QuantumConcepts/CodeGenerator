@@ -237,6 +237,14 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="QuantumConcepts.Common, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\QuantumConcepts.Common.1.2.1\lib\net40\QuantumConcepts.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="QuantumConcepts.Common.Forms, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\QuantumConcepts.Common.Forms.1.0.3\lib\net40\QuantumConcepts.Common.Forms.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core">
@@ -565,6 +573,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="App.config" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings1.Designer.cs</LastGenOutput>
@@ -646,14 +655,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Common\CommonForms\QC Common Forms.csproj">
-      <Project>{2b26f338-f6e8-4a24-9e2b-7b2daccfb892}</Project>
-      <Name>QC Common Forms</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Common\Common\QC Common.csproj">
-      <Project>{8807828d-db88-462a-875e-647240d48668}</Project>
-      <Name>QC Common</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Core\Core.csproj">
       <Project>{FD273A49-441A-426E-9367-BF26A675F2E7}</Project>
       <Name>Core</Name>
