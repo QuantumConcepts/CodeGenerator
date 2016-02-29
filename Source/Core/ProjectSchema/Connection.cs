@@ -79,5 +79,10 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
 
             return $@"{dataSource}\{initialCatalog} ({this.DatabaseType})";
         }
+
+        public override string ToString()
+        {
+            return this.Name;
+        }
     }
 }

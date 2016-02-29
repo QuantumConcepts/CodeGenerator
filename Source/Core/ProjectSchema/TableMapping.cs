@@ -9,7 +9,7 @@ using System.Linq;
 namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
 {
     [XmlRoot(TableMapping.ElementName)]
-    public class TableMapping : IProjectSchemaElement, IHasAnnotations<TableMapping>, IHasAttributes<TableMapping>
+    public class TableMapping : IProjectSchemaElement, IHasAnnotations<TableMapping>, IHasAttributes<TableMapping>, IHasConnectionReference
     {
         public const string ElementName = "TableMapping";
 

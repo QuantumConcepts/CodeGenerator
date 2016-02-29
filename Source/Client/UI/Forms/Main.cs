@@ -255,6 +255,8 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
 
                 if (e.Node is ProjectTreeNode)
                     ShowOptionsPanel(new ProjectOptions(((ProjectTreeNode)e.Node).Project));
+                if (e.Node is ConnectionTreeNode)
+                    ShowOptionsPanel(new ConnectionOptions(((ConnectionTreeNode)e.Node).ConnectionInfo));
                 else if (e.Node is TemplateTreeNode)
                     ShowOptionsPanel(new TemplateOptions(((TemplateTreeNode)e.Node).Template));
                 else if (e.Node is TableOrViewTreeNode)
@@ -761,7 +763,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             {
                 ToggleUI(false);
 
-                progressPanel.Status = "Preparing to refresh mappings....";
+                progressPanel.Status = "Preparing to refresh mappings...";
                 progressPanel.ProgressBar.Style = ProgressBarStyle.Marquee;
                 progressPanel.BringToFront();
                 progressPanel.Visible = true;
@@ -785,6 +787,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
                 if (TaskbarManager.IsPlatformSupported)
                     TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.NoProgress);
 
+                MarkAsUnsaved();
                 LoadTreeView();
 
                 ToggleUI(true);
@@ -800,10 +803,70 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
                 ProjectTreeNode projectNode = new ProjectTreeNode(ProjectContext.Project);
 
                 projectTreeview.Nodes.Clear();
-                projectNode.TemplateGenerateClick += new TemplateTreeNode.ClickEventHandler((s, e) => GenerateTemplate(((TemplateTreeNode)s).Template, e.AutoGenerate));
+                projectNode.TemplateGenerateClicked += new TemplateTreeNode.GenerateEventHandler((s, e) => GenerateTemplate(((TemplateTreeNode)s).Template, e.AutoGenerate));
+                projectNode.NewConnectionClicked += ProjectNode_NewConnectionClicked;
+                projectNode.ConnectionDeleteClicked += ProjectNode_ConnectionDeleteClicked;
                 projectTreeview.Nodes.Add(projectNode);
 
                 ToggleUI(true);
+            }
+        }
+
+        private void ProjectNode_NewConnectionClicked(object sender, EventArgs e)
+        {
+            var newConnectionInfo = new ConnectionInfo
+            {
+                Name = "New Connection"
+            };
+            var newConnection = new Connection
+            {
+                Name = newConnectionInfo.Name
+            };
+
+            newConnectionInfo.JoinToParent(ProjectContext.Project);
+            newConnection.JoinToParent(ProjectContext.Project.UserSettings);
+
+            ProjectContext.Project.Connections.Add(newConnectionInfo);
+            ProjectContext.Project.UserSettings.Connections.Add(newConnection);
+
+            MarkAsUnsaved();
+            LoadTreeView();
+
+            ShowOptionsPanel(new ConnectionOptions(newConnection));
+        }
+
+        private void ProjectNode_ConnectionDeleteClicked(object sender, ConnectionInfo connectionInfo)
+        {
+            if (DialogResult.Yes == MessageBox.Show("Deleting this connection will also delete all related entities (tables, foreign keys, etc.). Continue?", "Confirm Deletion", MessageBoxButtons.YesNo))
+            {
+                Func<IHasConnectionReference, bool> predicate = (o => string.Equals(o.ConnectionName, connectionInfo.Name));
+                var workItems = new[]
+                {
+                    new {
+                        Container = (IList)ProjectContext.Project.TableMappings,
+                        Items = (IEnumerable<IHasConnectionReference>)ProjectContext.Project.TableMappings.Where(predicate).ToList()
+                    },
+                    new {
+                        Container = (IList)ProjectContext.Project.ViewMappings,
+                        Items = (IEnumerable<IHasConnectionReference>)ProjectContext.Project.ViewMappings.Where(predicate).ToList()
+                    },
+                    new {
+                        Container = (IList)ProjectContext.Project.ForeignKeyMappings,
+                        Items = (IEnumerable<IHasConnectionReference>)ProjectContext.Project.ForeignKeyMappings.Where(predicate).ToList()
+                    }
+                };
+
+                foreach (var workItem in workItems)
+                {
+                    foreach (var item in workItem.Items)
+                        workItem.Container.Remove(item);
+                }
+
+                ProjectContext.Project.Connections.Remove(o => string.Equals(o.Name, connectionInfo.Name));
+                ProjectContext.Project.UserSettings.Connections.Remove(o => string.Equals(o.Name, connectionInfo.Name));
+
+                MarkAsUnsaved();
+                LoadTreeView();
             }
         }
 
@@ -972,7 +1035,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
 
                 optionsPanel.SelectedTabIndex = this.LastShownTabPage.ValueOrDefault(optionsPanel.GetType());
                 optionsPanel.Saved += new SavedDelegate(
-                    delegate(object sender, EventArgs e)
+                    delegate (object sender, EventArgs e)
                     {
                         _unsavedChanges = true;
                         UpdateTitle();

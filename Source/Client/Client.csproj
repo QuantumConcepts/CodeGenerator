@@ -291,6 +291,12 @@
       <DependentUpon>ColumnOptions.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Controls\ColumnTreeNode.cs" />
+    <Compile Include="UI\Controls\ConnectionOptions.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\ConnectionOptions.Designer.cs">
+      <DependentUpon>ConnectionOptions.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\Controls\ConnectionTreeNode.cs" />
     <Compile Include="UI\Controls\PackageInput.cs">
       <SubType>UserControl</SubType>
@@ -465,6 +471,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Controls\ColumnOptions.resx">
       <DependentUpon>ColumnOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Controls\ConnectionOptions.resx">
+      <DependentUpon>ConnectionOptions.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Controls\PackageInput.resx">
       <DependentUpon>PackageInput.cs</DependentUpon>

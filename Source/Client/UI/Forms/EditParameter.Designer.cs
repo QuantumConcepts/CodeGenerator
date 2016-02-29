@@ -121,7 +121,7 @@
             this.arrayOfDataTypeRadioButton.Name = "arrayOfDataTypeRadioButton";
             this.arrayOfDataTypeRadioButton.Size = new System.Drawing.Size(73, 17);
             this.arrayOfDataTypeRadioButton.TabIndex = 1;
-            this.arrayOfDataTypeRadioButton.Text = "Array of....";
+            this.arrayOfDataTypeRadioButton.Text = "Array of...";
             this.arrayOfDataTypeRadioButton.UseVisualStyleBackColor = false;
             // 
             // singleDataTypeRadioButton
@@ -134,7 +134,7 @@
             this.singleDataTypeRadioButton.Size = new System.Drawing.Size(78, 17);
             this.singleDataTypeRadioButton.TabIndex = 1;
             this.singleDataTypeRadioButton.TabStop = true;
-            this.singleDataTypeRadioButton.Text = "Single of....";
+            this.singleDataTypeRadioButton.Text = "Single of...";
             this.singleDataTypeRadioButton.UseVisualStyleBackColor = false;
             // 
             // enumerableOfDataTypeRadioButton
@@ -145,7 +145,7 @@
             this.enumerableOfDataTypeRadioButton.Name = "enumerableOfDataTypeRadioButton";
             this.enumerableOfDataTypeRadioButton.Size = new System.Drawing.Size(105, 17);
             this.enumerableOfDataTypeRadioButton.TabIndex = 1;
-            this.enumerableOfDataTypeRadioButton.Text = "Enumerable of....";
+            this.enumerableOfDataTypeRadioButton.Text = "Enumerable of...";
             this.enumerableOfDataTypeRadioButton.UseVisualStyleBackColor = false;
             // 
             // listOfDataTypeRadioButton
@@ -156,7 +156,7 @@
             this.listOfDataTypeRadioButton.Name = "listOfDataTypeRadioButton";
             this.listOfDataTypeRadioButton.Size = new System.Drawing.Size(65, 17);
             this.listOfDataTypeRadioButton.TabIndex = 1;
-            this.listOfDataTypeRadioButton.Text = "List of....";
+            this.listOfDataTypeRadioButton.Text = "List of...";
             this.listOfDataTypeRadioButton.UseVisualStyleBackColor = false;
             // 
             // nullableDataTypeCheckBox

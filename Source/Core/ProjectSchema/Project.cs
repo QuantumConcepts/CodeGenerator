@@ -123,6 +123,7 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
         private void Initialize()
         {
             this.UserSettings.JoinToProject(this);
+            this.Connections.ForEach(o => o.JoinToParent(this));
             this.DataTypeMappings.ForEach(o => o.JoinToProject(this));
             this.Templates.ForEach(o => o.JoinToProject(this));
             this.TableMappings.ForEach(o => o.JoinToProject(this));

@@ -588,7 +588,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.propertiesButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.propertiesButton.Name = "propertiesButton";
             this.propertiesButton.Size = new System.Drawing.Size(108, 36);
-            this.propertiesButton.Text = "Properties....";
+            this.propertiesButton.Text = "Properties...";
             this.propertiesButton.Click += new System.EventHandler(this.properties_Click);
             // 
             // refreshButton
@@ -625,7 +625,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.openFileDialog.DefaultExt = "xml";
             this.openFileDialog.FileName = "openFileDialog1";
             this.openFileDialog.Filter = "XML Stylesheets (*.xsl, *.xslt)|*.xsl;*.xslt";
-            this.openFileDialog.Title = "Choose a StyleSheet....";
+            this.openFileDialog.Title = "Choose a StyleSheet...";
             // 
             // contentSplitContainer
             // 

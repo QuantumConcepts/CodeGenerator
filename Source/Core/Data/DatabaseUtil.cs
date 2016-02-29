@@ -16,12 +16,12 @@ namespace QuantumConcepts.CodeGenerator.Core.Data
                 DatabaseWorker worker = DatabaseWorker.GetInstance(connection);
 
                 if (progressUpdate != null)
-                    progressUpdate($"{description}: Refreshing mappings....", ++currentItem, totalItems);
+                    progressUpdate($"{description}: Refreshing mappings...", ++currentItem, totalItems);
 
                 worker.Refresh(project, connection);
 
                 if (progressUpdate != null)
-                    progressUpdate($"{description}: Sorting....", ++currentItem, totalItems);
+                    progressUpdate($"{description}: Sorting...", ++currentItem, totalItems);
 
                 project.SortAll();
 

@@ -8,6 +8,9 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
 {
     internal sealed class ConnectionTreeNode : ProjectSchemaTreeNode
     {
+        public delegate void ConnectionInfoEventHandler(object sender, ConnectionInfo connectionInfo);
+        public event ConnectionInfoEventHandler DeleteClicked;
+
         private TreeNode TablesNode { get; set; }
         private TreeNode ViewsNode { get; set; }
 
@@ -25,7 +28,8 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
         {
             this.ContextMenu = new ContextMenu(new MenuItem[]
             {
-                new MenuItem("Test Connection...", new EventHandler(TestMenuItem_Click))
+                new MenuItem("Test Connection...", new EventHandler(TestMenuItem_Click)),
+                new MenuItem("Delete Connection",  new EventHandler(DeleteConnectionMenuItem_Click))
             });
 
             TablesNode = new TreeNode("Tables");
@@ -130,6 +134,17 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
             }
 
             ViewsNode.Expand();
+        }
+
+        private void DeleteConnectionMenuItem_Click(object sender, EventArgs e)
+        {
+            OnDeleteConnection();
+        }
+
+        private void OnDeleteConnection()
+        {
+            if (DeleteClicked != null)
+                DeleteClicked(this, this.ConnectionInfo);
         }
     }
 }

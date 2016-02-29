@@ -52,15 +52,10 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.databaseTabPage = new System.Windows.Forms.TabPage();
-            this.databaseParametersGridView = new System.Windows.Forms.DataGridView();
-            this.databaseParametersNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.databaseParametersValueColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.databaseConnectionStringTextBox = new System.Windows.Forms.TextBox();
-            this.databaseTypeComboBox = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
+            this.connectionTabPage = new System.Windows.Forms.TabPage();
+            this.connectionOptions = new QuantumConcepts.CodeGenerator.Client.UI.Controls.ConnectionOptions();
+            this.newConnectionButton = new System.Windows.Forms.Button();
+            this.connectionsComboBox = new System.Windows.Forms.ComboBox();
             this.generalTabPage = new System.Windows.Forms.TabPage();
             this.showExcludedItemsCheckBox = new System.Windows.Forms.CheckBox();
             this.rootNamespaceTextBox = new System.Windows.Forms.TextBox();
@@ -72,8 +67,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.dataTypesTabPage.SuspendLayout();
             this.dataTypesToolStrip.SuspendLayout();
             this.addDataTypeGroupBox.SuspendLayout();
-            this.databaseTabPage.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.databaseParametersGridView)).BeginInit();
+            this.connectionTabPage.SuspendLayout();
             this.generalTabPage.SuspendLayout();
             this.propertiesTabControl.SuspendLayout();
             this.SuspendLayout();
@@ -278,108 +272,50 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.columnHeader3.Text = "Nullable?";
             this.columnHeader3.Width = 59;
             // 
-            // databaseTabPage
+            // connectionTabPage
             // 
-            this.databaseTabPage.Controls.Add(this.databaseParametersGridView);
-            this.databaseTabPage.Controls.Add(this.databaseConnectionStringTextBox);
-            this.databaseTabPage.Controls.Add(this.databaseTypeComboBox);
-            this.databaseTabPage.Controls.Add(this.label1);
-            this.databaseTabPage.Controls.Add(this.label9);
-            this.databaseTabPage.Controls.Add(this.label11);
-            this.databaseTabPage.Location = new System.Drawing.Point(4, 22);
-            this.databaseTabPage.Name = "databaseTabPage";
-            this.databaseTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.databaseTabPage.Size = new System.Drawing.Size(599, 319);
-            this.databaseTabPage.TabIndex = 0;
-            this.databaseTabPage.Text = "Database";
-            this.databaseTabPage.UseVisualStyleBackColor = true;
+            this.connectionTabPage.Controls.Add(this.connectionOptions);
+            this.connectionTabPage.Controls.Add(this.newConnectionButton);
+            this.connectionTabPage.Controls.Add(this.connectionsComboBox);
+            this.connectionTabPage.Location = new System.Drawing.Point(4, 22);
+            this.connectionTabPage.Name = "connectionTabPage";
+            this.connectionTabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.connectionTabPage.Size = new System.Drawing.Size(599, 319);
+            this.connectionTabPage.TabIndex = 0;
+            this.connectionTabPage.Text = "Connections";
+            this.connectionTabPage.UseVisualStyleBackColor = true;
             // 
-            // databaseParametersGridView
+            // connectionOptions
             // 
-            this.databaseParametersGridView.AllowUserToAddRows = false;
-            this.databaseParametersGridView.AllowUserToDeleteRows = false;
-            this.databaseParametersGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.connectionOptions.Location = new System.Drawing.Point(8, 35);
+            this.connectionOptions.Name = "connectionOptions";
+            this.connectionOptions.SelectedTabIndex = 0;
+            this.connectionOptions.Size = new System.Drawing.Size(585, 278);
+            this.connectionOptions.TabIndex = 2;
+            this.connectionOptions.Saved += new QuantumConcepts.CodeGenerator.Client.UI.Controls.SavedDelegate(this.connectionOptions_Saved);
+            // 
+            // newConnectionButton
+            // 
+            this.newConnectionButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.newConnectionButton.Location = new System.Drawing.Point(518, 7);
+            this.newConnectionButton.Name = "newConnectionButton";
+            this.newConnectionButton.Size = new System.Drawing.Size(75, 23);
+            this.newConnectionButton.TabIndex = 1;
+            this.newConnectionButton.Text = "New...";
+            this.newConnectionButton.UseVisualStyleBackColor = true;
+            this.newConnectionButton.Click += new System.EventHandler(this.newConnectionButton_Click);
+            // 
+            // connectionsComboBox
+            // 
+            this.connectionsComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.databaseParametersGridView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            this.databaseParametersGridView.BackgroundColor = System.Drawing.SystemColors.Window;
-            this.databaseParametersGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.databaseParametersGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.databaseParametersNameColumn,
-            this.databaseParametersValueColumn});
-            this.databaseParametersGridView.GridColor = System.Drawing.SystemColors.ControlLight;
-            this.databaseParametersGridView.Location = new System.Drawing.Point(108, 139);
-            this.databaseParametersGridView.MultiSelect = false;
-            this.databaseParametersGridView.Name = "databaseParametersGridView";
-            this.databaseParametersGridView.ShowCellErrors = false;
-            this.databaseParametersGridView.ShowEditingIcon = false;
-            this.databaseParametersGridView.ShowRowErrors = false;
-            this.databaseParametersGridView.Size = new System.Drawing.Size(483, 174);
-            this.databaseParametersGridView.TabIndex = 0;
-            this.databaseParametersGridView.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.databaseParametersGridView_CellValueChanged);
-            // 
-            // databaseParametersNameColumn
-            // 
-            this.databaseParametersNameColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.databaseParametersNameColumn.Frozen = true;
-            this.databaseParametersNameColumn.HeaderText = "Name";
-            this.databaseParametersNameColumn.Name = "databaseParametersNameColumn";
-            this.databaseParametersNameColumn.ReadOnly = true;
-            // 
-            // databaseParametersValueColumn
-            // 
-            this.databaseParametersValueColumn.HeaderText = "Value";
-            this.databaseParametersValueColumn.Name = "databaseParametersValueColumn";
-            this.databaseParametersValueColumn.Width = 300;
-            // 
-            // databaseConnectionStringTextBox
-            // 
-            this.databaseConnectionStringTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.databaseConnectionStringTextBox.Location = new System.Drawing.Point(108, 33);
-            this.databaseConnectionStringTextBox.Multiline = true;
-            this.databaseConnectionStringTextBox.Name = "databaseConnectionStringTextBox";
-            this.databaseConnectionStringTextBox.Size = new System.Drawing.Size(483, 100);
-            this.databaseConnectionStringTextBox.TabIndex = 2;
-            // 
-            // databaseTypeComboBox
-            // 
-            this.databaseTypeComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.databaseTypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.databaseTypeComboBox.FormattingEnabled = true;
-            this.databaseTypeComboBox.Location = new System.Drawing.Point(108, 6);
-            this.databaseTypeComboBox.Name = "databaseTypeComboBox";
-            this.databaseTypeComboBox.Size = new System.Drawing.Size(483, 21);
-            this.databaseTypeComboBox.TabIndex = 1;
-            this.databaseTypeComboBox.SelectedIndexChanged += new System.EventHandler(this.databaseType_SelectedIndexChanged);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(39, 139);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(63, 13);
-            this.label1.TabIndex = 12;
-            this.label1.Text = "Parameters:";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(8, 36);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(94, 13);
-            this.label9.TabIndex = 12;
-            this.label9.Text = "Connection String:";
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(19, 9);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(83, 13);
-            this.label11.TabIndex = 13;
-            this.label11.Text = "Database Type:";
+            this.connectionsComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.connectionsComboBox.FormattingEnabled = true;
+            this.connectionsComboBox.Location = new System.Drawing.Point(8, 8);
+            this.connectionsComboBox.Name = "connectionsComboBox";
+            this.connectionsComboBox.Size = new System.Drawing.Size(504, 21);
+            this.connectionsComboBox.TabIndex = 0;
+            this.connectionsComboBox.SelectedIndexChanged += new System.EventHandler(this.connectionsComboBox_SelectedIndexChanged);
             // 
             // generalTabPage
             // 
@@ -425,7 +361,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             // propertiesTabControl
             // 
             this.propertiesTabControl.Controls.Add(this.generalTabPage);
-            this.propertiesTabControl.Controls.Add(this.databaseTabPage);
+            this.propertiesTabControl.Controls.Add(this.connectionTabPage);
             this.propertiesTabControl.Controls.Add(this.dataTypesTabPage);
             this.propertiesTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.propertiesTabControl.Location = new System.Drawing.Point(0, 0);
@@ -456,9 +392,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
             this.dataTypesToolStrip.PerformLayout();
             this.addDataTypeGroupBox.ResumeLayout(false);
             this.addDataTypeGroupBox.PerformLayout();
-            this.databaseTabPage.ResumeLayout(false);
-            this.databaseTabPage.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.databaseParametersGridView)).EndInit();
+            this.connectionTabPage.ResumeLayout(false);
             this.generalTabPage.ResumeLayout(false);
             this.generalTabPage.PerformLayout();
             this.propertiesTabControl.ResumeLayout(false);
@@ -487,11 +421,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ColumnHeader columnHeader3;
-        private System.Windows.Forms.TabPage databaseTabPage;
-        private System.Windows.Forms.TextBox databaseConnectionStringTextBox;
-        private System.Windows.Forms.ComboBox databaseTypeComboBox;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.TabPage connectionTabPage;
         private System.Windows.Forms.TabPage generalTabPage;
         private System.Windows.Forms.TabControl propertiesTabControl;
         private System.Windows.Forms.TextBox rootNamespaceTextBox;
@@ -499,10 +429,9 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms
         private System.Windows.Forms.ToolStrip dataTypesToolStrip;
         private System.Windows.Forms.ToolStripDropDownButton resetToDefaultDataTypesButton;
         private System.Windows.Forms.ToolStripButton clearDataTypesButton;
-        private System.Windows.Forms.DataGridView databaseParametersGridView;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn databaseParametersNameColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn databaseParametersValueColumn;
         private System.Windows.Forms.CheckBox showExcludedItemsCheckBox;
+        private System.Windows.Forms.Button newConnectionButton;
+        private System.Windows.Forms.ComboBox connectionsComboBox;
+        private Controls.ConnectionOptions connectionOptions;
     }
 }
