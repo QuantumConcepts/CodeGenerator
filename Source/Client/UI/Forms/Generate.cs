@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
+﻿using log4net;
+using QuantumConcepts.CodeGenerator.Core;
 using QuantumConcepts.CodeGenerator.Core.ProjectSchema;
+using QuantumConcepts.Common;
 using QuantumConcepts.Common.Extensions;
 using QuantumConcepts.Common.Forms.UI;
-using QuantumConcepts.CodeGenerator.Core;
-using log4net;
-using QuantumConcepts.Common;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace QuantumConcepts.CodeGenerator.Client.UI.Forms {
     internal partial class Generate : Form {
@@ -50,9 +48,9 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms {
             autoCloseCheckBox.Checked = autoClose;
         }
 
-        private void Generate_Load(object sender, EventArgs e) {
+        private async void Generate_Load(object sender, EventArgs e) {
             if (this.AutoGenerate)
-                GenerateSelectionAsync();
+                await GenerateSelectionAsync();
         }
 
         private void filterTextBox_KeyUp(object sender, KeyEventArgs e) {
@@ -105,12 +103,12 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms {
             }
         }
 
-        private void generateButton_Click(object sender, EventArgs e) {
-            GenerateSelectionAsync();
+        private async void generateButton_Click(object sender, EventArgs e) {
+            await GenerateSelectionAsync();
         }
 
-        private void generateAllButton_Click(object sender, EventArgs e) {
-            GenerateAll();
+        private async void generateAllButton_Click(object sender, EventArgs e) {
+            await GenerateAll();
         }
 
         private void closeButton_Click(object sender, EventArgs e) {
@@ -233,13 +231,13 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms {
             outputsListView.EndUpdate();
         }
 
-        public void GenerateAll() {
+        public async Task GenerateAll() {
             outputsListView.Items.Cast<ListViewItem>().ForEach(o => o.Checked = true);
 
-            GenerateSelectionAsync();
+            await GenerateSelectionAsync();
         }
 
-        private async void GenerateSelectionAsync() {
+        private async Task GenerateSelectionAsync() {
             ToggleUI(false);
 
             using (new Wait()) {
