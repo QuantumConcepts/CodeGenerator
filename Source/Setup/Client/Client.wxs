@@ -166,8 +166,8 @@
 
             <Component Id="SampleCSLINQ.zip" Guid="adf38a9c-23ec-4088-816d-c7725857e050" Win64="$(var.IsWin64)">
                 <RegistryValue Root="HKMU" Key="[RegKey]" Type="string" Value="" KeyPath="yes"/>
-                <File Id="SampleCSLINQ.zip" Source="$(var.Client.TargetDir)Samples\NET4, C#, LINQ, WebForms.zip">
-                    <Shortcut Id="CGSamplesSampleCSLINQShortcut" Directory="SamplesFolder" Name=".NET 4, C#, LINQ, WebForms" Icon="Zip.ico"/>
+                <File Id="SampleCSLINQ.zip" Source="$(var.Client.TargetDir)Samples\Sample-CS-LINQ.zip">
+                    <Shortcut Id="CGSamplesSampleCSLINQShortcut" Directory="SamplesFolder" Name="C# LINQ" Icon="Zip.ico"/>
                 </File>
             </Component>
         </ComponentGroup>

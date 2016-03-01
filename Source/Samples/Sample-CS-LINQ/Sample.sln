@@ -1,14 +1,8 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{CEB519ED-E49D-44A2-B88A-5513A7096E68}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataObjects", "DataObjects\DataObjects.csproj", "{7548D81B-DF3B-40F9-882E-D5C7F45019DA}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logic", "Logic\Logic.csproj", "{B0A336F4-D904-4040-A0BE-09A620026728}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "Web\Web.csproj", "{75733A4E-BD54-4929-8535-3B1DC3058899}"
-EndProject
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Generator Files", "Generator Files", "{31FCD577-4BD9-47B1-B385-353FA29301AC}"
 	ProjectSection(SolutionItems) = preProject
 		Generator Files\BaseServiceObjects.xslt = Generator Files\BaseServiceObjects.xslt
@@ -42,11 +36,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Generator Files", "Generato
 		Generator Files\XSLTCommon.xslt = Generator Files\XSLTCommon.xslt
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{CEB519ED-E49D-44A2-B88A-5513A7096E68}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataObjects", "DataObjects\DataObjects.csproj", "{7548D81B-DF3B-40F9-882E-D5C7F45019DA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logic", "Logic\Logic.csproj", "{B0A336F4-D904-4040-A0BE-09A620026728}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "Web\Web.csproj", "{75733A4E-BD54-4929-8535-3B1DC3058899}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{CC0554CB-5F68-4C07-9696-10910BDBDAB1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "Service\Service.csproj", "{E269B272-CAF0-43EA-960C-3CBD56D30658}"
 EndProject
-Project("{C8D11400-126E-41CD-887F-60BD40844F9E}") = "Database", "Database\Database.dbproj", "{69F60C2B-0141-42CC-B681-265F29AD9EF4}"
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Database", "Database\Database.sqlproj", "{14F75507-A004-4201-A4C5-CBB343DEE68C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -78,12 +80,12 @@ Global
 		{E269B272-CAF0-43EA-960C-3CBD56D30658}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E269B272-CAF0-43EA-960C-3CBD56D30658}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E269B272-CAF0-43EA-960C-3CBD56D30658}.Release|Any CPU.Build.0 = Release|Any CPU
-		{69F60C2B-0141-42CC-B681-265F29AD9EF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{69F60C2B-0141-42CC-B681-265F29AD9EF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{69F60C2B-0141-42CC-B681-265F29AD9EF4}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{69F60C2B-0141-42CC-B681-265F29AD9EF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{69F60C2B-0141-42CC-B681-265F29AD9EF4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{69F60C2B-0141-42CC-B681-265F29AD9EF4}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{14F75507-A004-4201-A4C5-CBB343DEE68C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14F75507-A004-4201-A4C5-CBB343DEE68C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14F75507-A004-4201-A4C5-CBB343DEE68C}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{14F75507-A004-4201-A4C5-CBB343DEE68C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14F75507-A004-4201-A4C5-CBB343DEE68C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14F75507-A004-4201-A4C5-CBB343DEE68C}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
