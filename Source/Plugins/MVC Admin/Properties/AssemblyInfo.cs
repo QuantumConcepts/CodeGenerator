@@ -8,5 +8,4 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCopyright("© Quantum Concepts Corporation")]
 [assembly: AssemblyTrademark("© Quantum Concepts Corporation")]
 [assembly: AssemblyVersion("1.0.4")]
-[assembly: AssemblyFileVersion("1.0.4")]
 [assembly: ComVisibleAttribute(false)]
