@@ -688,12 +688,16 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <Target Name="AfterBuild" Condition="$(Configuration.StartsWith('Release'))">
+  <Target Name="BeforeBuild" Condition="$(Configuration.StartsWith('Release'))">
     <ItemGroup>
       <Sample-CS-EF Include="..\Samples\Sample-CS-EF\**\*" Exclude="..\Samples\Sample-CS-EF\**\bin\**;..\Samples\Sample-CS-EF\**\obj\**;..\Samples\Sample-CS-EF\**\*.user;..\Samples\Sample-CS-EF\**\*.suo;..\Samples\Sample-CS-EF\**\.svn\**;..\Samples\Sample-CS-EF\**\*.dgen;..\Samples\Sample-CS-EF\**\*.dbmdl;..\Samples\Sample-CS-EF\**\*.schemaview;..\Samples\Sample-CS-EF\**\sql\**;..\Samples\Sample-CS-EF\**\*.xpr;" />
       <Sample-CS-LINQ Include="..\Samples\Sample-CS-LINQ\**\*" Exclude="..\Samples\Sample-CS-LINQ\**\bin\**;..\Samples\Sample-CS-LINQ\**\obj\**;..\Samples\Sample-CS-LINQ\**\*.user;..\Samples\Sample-CS-LINQ\**\*.suo;..\Samples\Sample-CS-LINQ\**\.svn\**;..\Samples\Sample-CS-LINQ\**\*.dgen;..\Samples\Sample-CS-LINQ\**\*.dbmdl;..\Samples\Sample-CS-LINQ\**\*.schemaview;..\Samples\Sample-CS-LINQ\**\sql\**;..\Samples\Sample-CS-LINQ\**\*.xpr;" />
     </ItemGroup>
+      
+    <Message Importance="high" Text="Archiving CS-EF sample..."/>
     <Zip ZipFileName="Samples\Sample-CS-EF.zip" ZipLevel="9" Files="@(Sample-CS-EF)" WorkingDirectory="..\Samples\" />
+      
+    <Message Importance="high" Text="Archiving CS-LINQ sample..."/>
     <Zip ZipFileName="Samples\Sample-CS-LINQ.zip" ZipLevel="9" Files="@(Sample-CS-LINQ)" WorkingDirectory="..\Samples\" />
   </Target>
   <PropertyGroup>
