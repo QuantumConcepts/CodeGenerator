@@ -43,6 +43,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logic", "Logic\Logic.csproj", "{B0A336F4-D904-4040-A0BE-09A620026728}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "Web\Web.csproj", "{75733A4E-BD54-4929-8535-3B1DC3058899}"
+	ProjectSection(ProjectDependencies) = postProject
+		{14F75507-A004-4201-A4C5-CBB343DEE68C} = {14F75507-A004-4201-A4C5-CBB343DEE68C}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{CC0554CB-5F68-4C07-9696-10910BDBDAB1}"
 EndProject

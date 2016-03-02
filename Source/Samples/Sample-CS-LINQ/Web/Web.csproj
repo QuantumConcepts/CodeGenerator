@@ -298,5 +298,12 @@
     <Message Importance="high" Text="Copying source files..." />
     <Copy SourceFiles="@(SourceFiles)" DestinationFiles="@(SourceFiles->'$(DestinationPath)%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" OverwriteReadonlyFiles="true" />
     <Attrib ReadOnly="true" Files="@(SourceFiles->'$(DestinationPath)%(RecursiveDir)%(Filename)%(Extension)')" />
+	
+    <ItemGroup>
+      <Sample-Code Include="..\**\*" Exclude="..\.vs\**;..\**\bin\**;..\**\obj\**;..\**\*.user;..\**\*.suo;..\**\.svn\**;..\**\*.dgen;..\**\*.dbmdl;..\**\*.schemaview;..\**\sql\**;..\**\*.xpr;" />
+    </ItemGroup>
+      
+    <Message Importance="high" Text="Archiving sample..."/>
+    <Zip ZipFileName="..\..\Sample-CS-LINQ.zip" ZipLevel="9" Files="@(Sample-Code)" WorkingDirectory="..\..\" />
   </Target>
 </Project>
