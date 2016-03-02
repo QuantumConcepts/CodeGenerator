@@ -1,16 +1,12 @@
+using QuantumConcepts.CodeGenerator.Core.Utils;
+using QuantumConcepts.Common.Extensions;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Xml.Serialization;
-using QuantumConcepts.CodeGenerator.Core.Utils;
 using System.IO;
-using System.Xml;
-using System.Xml.XPath;
 using System.Linq;
-using QuantumConcepts.Common.Extensions;
+using System.Xml;
 using System.Xml.Linq;
-using QuantumConcepts.Common.Utils;
-using QuantumConcepts.CodeGenerator.Core.Upgrade;
+using System.Xml.Serialization;
 
 namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
 {
@@ -122,6 +118,8 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
 
         private void Initialize()
         {
+            EnsureConnectionsExist();
+
             this.UserSettings.JoinToProject(this);
             this.Connections.ForEach(o => o.JoinToParent(this));
             this.DataTypeMappings.ForEach(o => o.JoinToProject(this));
@@ -129,6 +127,25 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
             this.TableMappings.ForEach(o => o.JoinToProject(this));
             this.ViewMappings.ForEach(o => o.JoinToProject(this));
             this.ForeignKeyMappings.ForEach(o => o.JoinToProject(this));
+        }
+
+        private void EnsureConnectionsExist()
+        {
+            var connectionNames = this.Connections.Select(o => o.Name).Union(this.UserSettings.Connections.Select(o => o.Name)).Distinct().ToList();
+
+            this.Connections.AddRange((from name in connectionNames
+                                       where !this.Connections.Any(o => string.Equals(o.Name, name))
+                                       select new ConnectionInfo
+                                       {
+                                           Name = name
+                                       }));
+
+            this.UserSettings.Connections.AddRange((from name in connectionNames
+                                                    where !this.UserSettings.Connections.Any(o => string.Equals(o.Name, name))
+                                                    select new Connection
+                                                    {
+                                                        Name = name
+                                                    }));
         }
 
         public DataTypeMapping FindDataTypeMapping(string databaseDataType)
@@ -140,7 +157,7 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
         {
             return this.TableMappings.SingleOrDefault(o =>
                 o.ConnectionName.EqualsIgnoreCase(connectionName)
-                && o.SchemaName.EqualsIgnoreCase(schemaName) 
+                && o.SchemaName.EqualsIgnoreCase(schemaName)
                 && o.TableName.EqualsIgnoreCase(name));
         }
 
@@ -151,9 +168,9 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
 
         public ViewMapping FindViewMapping(string connectionName, string schemaName, string name)
         {
-            return this.ViewMappings.SingleOrDefault(o => 
+            return this.ViewMappings.SingleOrDefault(o =>
                 o.ConnectionName.EqualsIgnoreCase(connectionName)
-                && o.SchemaName.EqualsIgnoreCase(schemaName) 
+                && o.SchemaName.EqualsIgnoreCase(schemaName)
                 && o.TableName.EqualsIgnoreCase(name));
         }
 

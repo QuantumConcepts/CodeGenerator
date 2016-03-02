@@ -1,9 +1,4 @@
-using QuantumConcepts.CodeGenerator.Core.Data;
-using QuantumConcepts.CodeGenerator.Core.Exceptions;
-using QuantumConcepts.Common.Extensions;
-using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Xml.Serialization;
 
@@ -32,6 +27,11 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
         {
             this.ContainingProject = project;
             this.Attributes.ForEach(o => o.JoinToParent(this));
+        }
+
+        public Connection GetConnection()
+        {
+            return this.ContainingProject.UserSettings.Connections.SingleOrDefault(o => string.Equals(this.Name, o.Name));
         }
 
         public override string ToString()
