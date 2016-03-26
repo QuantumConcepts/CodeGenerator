@@ -85,14 +85,14 @@
             this.addCustomAPIButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.addCustomAPIButton.Name = "addCustomAPIButton";
             this.addCustomAPIButton.Size = new System.Drawing.Size(123, 22);
-            this.addCustomAPIButton.Text = "Add Custom API....";
+            this.addCustomAPIButton.Text = "Add Custom API...";
             this.addCustomAPIButton.Click += new System.EventHandler(this.addCustomAPIButton_ButtonClick);
             // 
             // addCustomAPIMenuItem
             // 
             this.addCustomAPIMenuItem.Name = "addCustomAPIMenuItem";
             this.addCustomAPIMenuItem.Size = new System.Drawing.Size(174, 22);
-            this.addCustomAPIMenuItem.Text = "Add Custom API....";
+            this.addCustomAPIMenuItem.Text = "Add Custom API...";
             this.addCustomAPIMenuItem.Click += new System.EventHandler(this.addCustomAPIButton_ButtonClick);
             // 
             // addCreateAPIMenuItem
@@ -117,7 +117,7 @@
             this.editAPIButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.editAPIButton.Name = "editAPIButton";
             this.editAPIButton.Size = new System.Drawing.Size(43, 22);
-            this.editAPIButton.Text = "Edit....";
+            this.editAPIButton.Text = "Edit...";
             this.editAPIButton.Click += new System.EventHandler(this.editAPIButton_Click);
             // 
             // removeAPIButton
@@ -138,7 +138,7 @@
             this.transferAPIToolStripDropDownButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.transferAPIToolStripDropDownButton.Name = "transferAPIToolStripDropDownButton";
             this.transferAPIToolStripDropDownButton.Size = new System.Drawing.Size(89, 22);
-            this.transferAPIToolStripDropDownButton.Text = "Transfer to....";
+            this.transferAPIToolStripDropDownButton.Text = "Transfer to...";
             // 
             // label4
             // 

@@ -6,9 +6,9 @@ using QuantumConcepts.CodeGenerator.Core.ProjectSchema;
 
 namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
 {
-    internal delegate void SavedDelegate(object sender, EventArgs e);
+    public delegate void SavedDelegate(object sender, EventArgs e);
 
-    internal interface IOptionsPanel
+    public interface IOptionsPanel
     {
         event SavedDelegate Saved;
 

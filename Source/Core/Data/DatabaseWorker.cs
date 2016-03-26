@@ -14,7 +14,7 @@ namespace QuantumConcepts.CodeGenerator.Core.Data
     public abstract class DatabaseWorker
     {
         public abstract string Name { get; }
-        public virtual IList<DatabaseParameter> Parameters { get { return null; } }
+        public virtual IList<DatabaseParameter> Parameters { get; } = new List<DatabaseParameter>();
 
         protected abstract DataTable GetTables(Project project, Connection connection);
         protected abstract DataTable GetViews(Project project, Connection connection);

@@ -50,7 +50,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
@@ -240,6 +240,10 @@
       <Project>{CEB519ED-E49D-44A2-B88A-5513A7096E68}</Project>
       <Name>DataAccess</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DataObjects\DataObjects.csproj">
+      <Project>{7548D81B-DF3B-40F9-882E-D5C7F45019DA}</Project>
+      <Name>DataObjects</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Logic\Logic.csproj">
       <Project>{B0A336F4-D904-4040-A0BE-09A620026728}</Project>
       <Name>Logic</Name>
@@ -276,7 +280,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties UseAjaxifiedTemplates="True" UseJQuerySupport="True" />
+      <UserProperties UseJQuerySupport="True" UseAjaxifiedTemplates="True" />
     </VisualStudio>
   </ProjectExtensions>
   <Target Name="AfterBuild">
@@ -300,6 +304,6 @@
     </ItemGroup>
       
     <Message Importance="high" Text="Archiving sample..."/>
-    <Zip ZipFileName="..\..\Sample-CS-EF.zip" ZipLevel="9" Files="@(Sample-Code)" WorkingDirectory="..\..\" />
+    <Zip ZipFileName="..\..\Sample-CS-LINQ.zip" ZipLevel="9" Files="@(Sample-Code)" WorkingDirectory="..\..\" />
   </Target>
 </Project>

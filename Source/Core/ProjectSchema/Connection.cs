@@ -69,7 +69,7 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
             const string dataSourceKey = "Data Source";
             const string initialCatalogKey = "Initial Catalog";
 
-            string[] parts = this.ConnectionString?.Split(';');
+            string[] parts = this.ConnectionString?.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
             Dictionary<string, string> info = parts?.Select(o => o.Split('=')).ToDictionary(o => o[0].Trim(), o => o[1].Trim());
             string dataSource = "Unknown";
             string initialCatalog = "Unknown";
@@ -78,6 +78,11 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
             info?.TryGetValue(initialCatalogKey, out initialCatalog);
 
             return $@"{dataSource}\{initialCatalog} ({this.DatabaseType})";
+        }
+
+        public override string ToString()
+        {
+            return this.Name;
         }
     }
 }

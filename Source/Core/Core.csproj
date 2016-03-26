@@ -177,7 +177,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release-x64|x64' ">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x64\Release %28x64%29\</OutputPath>
+    <OutputPath>bin\x64\Release\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
@@ -192,6 +192,10 @@
     <Reference Include="MySql.Data, Version=6.8.3.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\MySql.ConnectorNET.Data.6.8.3.2\lib\net40\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="QuantumConcepts.Common, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\QuantumConcepts.Common.1.2.1\lib\net40\QuantumConcepts.Common.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -222,6 +226,7 @@
     <Compile Include="Exceptions\NonExistentDatabaseWorkerSpecifiedException.cs" />
     <Compile Include="Exceptions\EmptyDatabaseWorkerSpecifiedException.cs" />
     <Compile Include="ProjectSchema\ConnectionInfo.cs" />
+    <Compile Include="ProjectSchema\IHasConnectionReference.cs" />
     <Compile Include="TemplateGenerationStatusEventArgs.cs" />
     <Compile Include="GenerationStatusEventArgs.cs" />
     <Compile Include="ItemGenerationStatusEventArgs.cs" />
@@ -345,12 +350,6 @@
     <None Include="Xml\UserSettings.xsd">
       <SubType>Designer</SubType>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\Common\Common\QC Common.csproj">
-      <Project>{8807828d-db88-462a-875e-647240d48668}</Project>
-      <Name>QC Common</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

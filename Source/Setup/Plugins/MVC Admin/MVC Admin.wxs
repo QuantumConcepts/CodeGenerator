@@ -14,7 +14,7 @@
 <?endif ?>
 
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-    <Product Id="*" Manufacturer="Quantum Concepts" Name="CodeGenerator MVC Admin ($(var.Platform))" Version="1.0.4.0" Language="1033" UpgradeCode="95f5e0b7-83f5-4782-a4ab-46ca307496b1">
+    <Product Id="*" Manufacturer="Quantum Concepts" Name="CodeGenerator MVC Admin ($(var.Platform))" Version="!(bind.FileVersion.QuantumConcepts.CodeGenerator.Plugins.MVCAdmin.dll)" Language="1033" UpgradeCode="95f5e0b7-83f5-4782-a4ab-46ca307496b1">
         <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" Platform="$(var.Platform)"/>
         <MediaTemplate EmbedCab="yes" CompressionLevel="high" CabinetTemplate="_{0}.cab"/>
         <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed."/>

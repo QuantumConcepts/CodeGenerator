@@ -87,7 +87,6 @@ namespace QuantumConcepts.CodeGenerator.Core {
         /// <summary>Compiles the referenced XSLT for all templates.</summary>
         private IDictionary<Template, Task<XslCompiledTransform>> GetTemplateCompilationTaskMap() {
             IDictionary<Template, Task<XslCompiledTransform>> templateTransformTaskMap = new ConcurrentDictionary<Template, Task<XslCompiledTransform>>();
-            int test = this.TemplateOutputs.Keys.Count;
 
             foreach (Template template in this.TemplateOutputs.Keys) {
                 OnTemplateGenerationStatus(TemplateGenerationStatusEventArgs.CreateCompiling(template));
@@ -98,6 +97,7 @@ namespace QuantumConcepts.CodeGenerator.Core {
                 catch (Exception ex) {
                     Generator.Logger.Error(ex);
                     OnTemplateGenerationStatus(TemplateGenerationStatusEventArgs.CreateError(template, new ApplicationException("Unable to load XSLT.", ex)));
+                    break;
                 }
 
                 OnTemplateGenerationStatus(TemplateGenerationStatusEventArgs.CreateWaiting(template));
@@ -108,6 +108,9 @@ namespace QuantumConcepts.CodeGenerator.Core {
 
         /// <summary>Compiles the XSLT referenced by the provided template.</summary>
         private Task<XslCompiledTransform> CompileTemplateAsync(Template template) {
+            if (!File.Exists(template.XsltAbsolutePath))
+                throw new FileNotFoundException("The template does not exist.", template.XsltAbsolutePath);
+
             return Task.Run(() => CompileTemplate(template), this.CancellationTokenSource.Token);
         }
 

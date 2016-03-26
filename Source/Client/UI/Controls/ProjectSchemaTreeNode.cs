@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
@@ -20,9 +18,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
                 return (node as ProjectTreeNode);
             }
         }
-
-        //public ProjectSchemaTreeNode() { }
-
+        
         public ProjectSchemaTreeNode(ProjectSchemaTreeNode parent)
         {
             this.ParentSchemaNode = parent;

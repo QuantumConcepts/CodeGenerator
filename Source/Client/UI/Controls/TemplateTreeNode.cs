@@ -1,24 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
+﻿using QuantumConcepts.CodeGenerator.Client.UI.Forms;
 using QuantumConcepts.CodeGenerator.Core.ProjectSchema;
+using System;
 using System.IO;
-using QuantumConcepts.CodeGenerator.Client.UI.Forms;
-using QuantumConcepts.CodeGenerator.Core;
+using System.Windows.Forms;
 
 namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
 {
     internal sealed class TemplateTreeNode : ProjectSchemaTreeNode
     {
-        internal class ClickEventArgs : EventArgs
+        internal class GenerateEventArgs : EventArgs
         {
             public bool AutoGenerate { get; set; }
         }
 
-        public delegate void ClickEventHandler(object sender, ClickEventArgs e);
-        public event ClickEventHandler GenerateClick;
+        public delegate void GenerateEventHandler(object sender, GenerateEventArgs e);
+        public event GenerateEventHandler GenerateClick;
 
         public Template Template { get; private set; }
 
@@ -92,7 +88,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
         private void OnGenerateClick(bool autoGenerate)
         {
             if (GenerateClick != null)
-                GenerateClick(this, new ClickEventArgs
+                GenerateClick(this, new GenerateEventArgs
                 {
                     AutoGenerate = autoGenerate
                 });

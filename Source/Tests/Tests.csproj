@@ -36,6 +36,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="QuantumConcepts.Common, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\QuantumConcepts.Common.1.2.1\lib\net40\QuantumConcepts.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <Choose>
@@ -57,10 +61,6 @@
     <Compile Include="TestHelper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Common\Common\QC Common.csproj">
-      <Project>{8807828d-db88-462a-875e-647240d48668}</Project>
-      <Name>QC Common</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Core\Core.csproj">
       <Project>{fd273a49-441a-426e-9367-bf26a675f2e7}</Project>
       <Name>Core</Name>
@@ -69,6 +69,9 @@
       <Project>{99ae2b58-7258-45cd-be05-15389411f940}</Project>
       <Name>Roslyn</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

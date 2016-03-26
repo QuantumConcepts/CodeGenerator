@@ -110,3 +110,5 @@ UpgradeLog*.XML
 Source/Client-WPF
 Source/Setup
 .vs
+Source/Samples/*.zip
+.tfignore

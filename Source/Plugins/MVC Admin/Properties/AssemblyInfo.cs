@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("CodeGenerator MVC Admin Plugin")]
@@ -8,6 +7,5 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyProduct("CodeGenerator MVC Admin Plugin")]
 [assembly: AssemblyCopyright("© Quantum Concepts Corporation")]
 [assembly: AssemblyTrademark("© Quantum Concepts Corporation")]
-[assembly: AssemblyVersion("1.0.4.0")]
-[assembly: AssemblyFileVersion("1.0.4.0")]
+[assembly: AssemblyVersion("1.0.4")]
 [assembly: ComVisibleAttribute(false)]

@@ -1,20 +1,20 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-using QuantumConcepts.CodeGenerator.Core.ProjectSchema;
-using System.Windows.Forms;
 using QuantumConcepts.CodeGenerator.Client.UI.Forms;
-using System.Reflection;
-using System.IO;
 using QuantumConcepts.CodeGenerator.Core;
+using QuantumConcepts.CodeGenerator.Core.ProjectSchema;
 using QuantumConcepts.Common.Extensions;
+using System;
+using System.IO;
 using System.Linq;
+using System.Windows.Forms;
 
 namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
 {
     internal sealed class ProjectTreeNode : ProjectSchemaTreeNode
     {
-        public event TemplateTreeNode.ClickEventHandler TemplateGenerateClick;
+        public event TemplateTreeNode.GenerateEventHandler TemplateGenerateClicked;
+        public event ConnectionTreeNode.ConnectionInfoEventHandler ConnectionDeleteClicked;
+        
+        public event EventHandler NewConnectionClicked;
 
         private TreeNode SettingsNode { get; set; }
         private TreeNode TemplatesNode { get; set; }
@@ -39,9 +39,9 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
                 new MenuItem("Properties", new EventHandler(PropertiesMenuItem_Click))
             });
 
-            SettingsNode = new TreeNode("Settings");
-            TemplatesNode = new TreeNode("Templates");
-            ConnectionsNode = new TreeNode("Connections");
+            this.SettingsNode = new TreeNode("Settings");
+            this.TemplatesNode = new TreeNode("Templates");
+            this.ConnectionsNode = new TreeNode("Connections");
 
             UpdateNode();
             Rebuild();
@@ -84,16 +84,16 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
 
             foreach (DataTypeMapping dataTypeMapping in this.Project.DataTypeMappings)
                 dataTypesNode.Nodes.Add(new DataTypeTreeNode(this, dataTypeMapping));
-            
+
             SettingsNode.Nodes.Add(dataTypesNode);
         }
 
         public void RefreshTemplatesNode()
         {
-            TemplatesNode.Nodes.Clear();
-            TemplatesNode.ContextMenu = new ContextMenu(new MenuItem[]
+            this.TemplatesNode.Nodes.Clear();
+            this.TemplatesNode.ContextMenu = new ContextMenu(new MenuItem[]
             {
-                new MenuItem("New Template....",  new EventHandler(NewTemplateMenuItem_Click))
+                new MenuItem("New Template...",  new EventHandler(NewTemplateMenuItem_Click))
             });
 
             if (!this.Project.Templates.IsNullOrEmpty())
@@ -102,35 +102,37 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
                 {
                     TemplateTreeNode node = new TemplateTreeNode(this, template);
 
-                    node.GenerateClick += new TemplateTreeNode.ClickEventHandler((s, e) =>
+                    node.GenerateClick += new TemplateTreeNode.GenerateEventHandler((s, e) =>
                     {
-                        if (TemplateGenerateClick != null)
-                            TemplateGenerateClick(s, e);
+                        if (TemplateGenerateClicked != null)
+                            TemplateGenerateClicked(s, e);
                     });
-                    TemplatesNode.Nodes.Add(node);
+                    this.TemplatesNode.Nodes.Add(node);
                 }
             }
         }
 
         public void RefreshConnectionsNode()
         {
-            ConnectionsNode.Nodes.Clear();
-            ConnectionsNode.ContextMenu = new ContextMenu(new MenuItem[]
+            this.ConnectionsNode.Nodes.Clear();
+            this.ConnectionsNode.ContextMenu = new ContextMenu(new MenuItem[]
             {
-                new MenuItem("New Connection....",  new EventHandler(NewConnectionMenuItem_Click))
+                new MenuItem("New Connection...",  new EventHandler(NewConnectionMenuItem_Click))
             });
 
             if (!this.Project.Connections.IsNullOrEmpty())
             {
-                foreach (var connectionName in this.Project.Connections.OrderBy(o => o.Name))
+                foreach (var connectionInfo in this.Project.Connections.OrderBy(o => o.Name))
                 {
-                    ConnectionTreeNode node = new ConnectionTreeNode(this, connectionName);
+                    ConnectionTreeNode node = new ConnectionTreeNode(this, connectionInfo);
 
-                    ConnectionsNode.Nodes.Add(node);
+                    node.DeleteClicked += ConnectionNode_DeleteClicked;
+
+                    this.ConnectionsNode.Nodes.Add(node);
                 }
             }
 
-            ConnectionsNode.Expand();
+            this.ConnectionsNode.Expand();
         }
 
         private void PropertiesMenuItem_Click(object sender, EventArgs e)
@@ -177,6 +179,24 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Controls
 
         private void NewConnectionMenuItem_Click(object sender, EventArgs e)
         {
+            OnNewConnectionClicked();
+        }
+
+        private void ConnectionNode_DeleteClicked(object sender, ConnectionInfo connectionInfo)
+        {
+            OnConnectionDeleteClicked(connectionInfo);
+        }
+
+        private void OnNewConnectionClicked()
+        {
+            if (NewConnectionClicked != null)
+                NewConnectionClicked(this, EventArgs.Empty);
+        }
+
+        private void OnConnectionDeleteClicked(ConnectionInfo connectionInfo)
+        {
+            if (ConnectionDeleteClicked != null)
+                ConnectionDeleteClicked(this, connectionInfo);
         }
     }
 }

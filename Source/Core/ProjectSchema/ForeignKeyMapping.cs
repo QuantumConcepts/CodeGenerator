@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
 namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
 {
     [XmlRoot("ForeignKeyMapping")]
-    public class ForeignKeyMapping : IProjectSchemaElement, IHasAnnotations<ForeignKeyMapping>, IHasAttributes<ForeignKeyMapping>
+    public class ForeignKeyMapping : IProjectSchemaElement, IHasAnnotations<ForeignKeyMapping>, IHasAttributes<ForeignKeyMapping>, IHasConnectionReference
     {
         private Project _project;
         private string _foreignKeyName;
@@ -46,6 +46,9 @@ namespace QuantumConcepts.CodeGenerator.Core.ProjectSchema
 
         [XmlAttribute]
         public string ConnectionName { get; set; }
+
+        [XmlIgnore]
+        public Connection Connection { get { return this.ContainingProject.UserSettings.Connections.SingleOrDefault(o => string.Equals(o.Name, this.ConnectionName)); } }
 
         [XmlAttribute]
         public string ForeignKeyName

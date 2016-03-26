@@ -6,7 +6,7 @@
     <ProductVersion>3.8</ProductVersion>
     <ProjectGuid>799f8073-cfb7-4146-aa1b-090d8810662f</ProjectGuid>
     <SchemaVersion>2.0</SchemaVersion>
-    <OutputName>CodeGenerator MVC Admin ($(Platform))</OutputName>
+    <OutputName>MVC Admin</OutputName>
     <OutputType>Package</OutputType>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
@@ -81,12 +81,15 @@
     </WixExtension>
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" />
-  <!--
-	To modify your build process, add your task inside one of the targets below and uncomment it.
-	Other similar extension points exist, see Wix.targets.
-	<Target Name="BeforeBuild">
-	</Target>
-	<Target Name="AfterBuild">
-	</Target>
-	-->
+  <Target Name="AfterBuild">
+    <GetAssemblyIdentity AssemblyFiles="..\..\..\Plugins\MVC Admin\bin\$(Platform)\$(Configuration)\QuantumConcepts.CodeGenerator.Plugins.MVCAdmin.dll">
+      <Output TaskParameter="Assemblies" ItemName="AssemblyInfo" />
+    </GetAssemblyIdentity>
+    <PropertyGroup>
+        <In>%(AssemblyInfo.Version)</In>
+        <Pattern>^(\d+.\d+.\d+)</Pattern>
+        <AssemblyVersion>$([System.Text.RegularExpressions.Regex]::Match($(In), $(Pattern)))</AssemblyVersion>
+    </PropertyGroup>
+    <Move SourceFiles="bin\$(Platform)\$(Configuration)\MVC Admin.msi" DestinationFiles="bin\$(Platform)\$(Configuration)\CodeGenerator-MVC-Admin-$(AssemblyVersion).$(Platform).msi" />
+  </Target>
 </Project>
