@@ -112,3 +112,4 @@ Source/Setup
 .vs
 Source/Samples/*.zip
 .tfignore
+/Templates/EF6-CQRS-Aurelia/*.nupkg
