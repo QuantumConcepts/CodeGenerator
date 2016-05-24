@@ -12,7 +12,7 @@
 ***************************************************/
 </x:text>
     </x:template>
-    
+
     <x:template name="new-line">
         <x:text>
 </x:text>
@@ -48,7 +48,7 @@
             <x:variable name="projectNamespace" select="/P:Project//P:Attribute[@Key=concat('namespace-', $projectName)]/@Value"/>
 
             <x:text>.</x:text>
-            
+
             <x:choose>
                 <x:when test="$projectNamespace">
                     <x:value-of select="$projectNamespace"/>
@@ -67,11 +67,14 @@
             <x:when test="$dataType='bool'">
                 <x:text>boolean</x:text>
             </x:when>
+            <x:when test="$dataType='int' or $dataType='decimal'">
+                <x:text>number</x:text>
+            </x:when>
             <x:when test="$dataType='Guid'">
                 <x:text>string</x:text>
             </x:when>
-            <x:when test="$dataType='int' or $dataType='decimal'">
-                <x:text>number</x:text>
+            <x:when test="$dataType='DateTime'">
+                <x:text>Date</x:text>
             </x:when>
             <x:otherwise>
                 <x:value-of select="$dataType"/>
