@@ -162,12 +162,12 @@ namespace </x:text>
         <x:param name="table"/>
         <x:variable name="childTable" select="//P:TableMapping[@SchemaName=current()/@ReferencedTableMappingSchemaName and @TableName=current()/@ReferencedTableMappingName]"/>
         <x:variable name="childTablePK" select="$childTable//P:ColumnMapping[@ColumnName=current()/@ReferencedColumnMappingName]"/>
-        <x:variable name="childTablePKLower" select="fn:FirstToLower($childTablePK/@FieldName)"/>
+        <x:variable name="fieldNameLower" select="fn:FirstToLower(current()/@FieldName)"/>
         <x:variable name="routeName">
             <x:text>Get</x:text>
             <x:value-of select="@PluralPropertyName"/>
             <x:text>By</x:text>
-            <x:value-of select="$childTable/@ClassName"/>
+            <x:value-of select="@PropertyName"/>
         </x:variable>
         
         <x:text>
@@ -176,7 +176,7 @@ namespace </x:text>
         [Route("~/</x:text>
         <x:value-of select="$childTable/@PluralClassName"/>
         <x:text>/{</x:text>
-        <x:value-of select="$childTablePKLower"/>
+        <x:value-of select="$fieldNameLower"/>
         <x:text>}/</x:text>
         <x:value-of select="@PluralPropertyName"/>
         <x:text>", Name = "</x:text>
@@ -187,12 +187,12 @@ namespace </x:text>
         <x:text>(</x:text>
         <x:value-of select="$childTablePK/@DataType"/>
         <x:text> </x:text>
-        <x:value-of select="$childTablePKLower"/>
+        <x:value-of select="$fieldNameLower"/>
         <x:text>) {
            return ExecuteQuery(o =&gt; o.</x:text>
         <x:value-of select="@FieldName"/>
         <x:text> == </x:text>
-        <x:value-of select="$childTablePKLower"/>
+        <x:value-of select="$fieldNameLower"/>
         <x:text>);
         }</x:text>
     </x:template>

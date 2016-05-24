@@ -67,12 +67,12 @@ export class </x:text>
         <x:param name="table"/>
         <x:variable name="childTable" select="//P:TableMapping[@SchemaName=current()/@ReferencedTableMappingSchemaName and @TableName=current()/@ReferencedTableMappingName]"/>
         <x:variable name="childTablePK" select="$childTable//P:ColumnMapping[@ColumnName=current()/@ReferencedColumnMappingName]"/>
-        <x:variable name="childColumnNameLower" select="fn:FirstToLower(current()/@FieldName)"/>
+        <x:variable name="fieldNameLower" select="fn:FirstToLower(current()/@FieldName)"/>
         <x:variable name="routeName">
             <x:text>get</x:text>
             <x:value-of select="@PluralPropertyName"/>
             <x:text>By</x:text>
-            <x:value-of select="$childTable/@ClassName"/>
+            <x:value-of select="@PropertyName"/>
         </x:variable>
 
         <x:text>
@@ -80,14 +80,14 @@ export class </x:text>
     public </x:text>
         <x:value-of select="$routeName"/>
         <x:text>(</x:text>
-        <x:value-of select="$childColumnNameLower"/>
+        <x:value-of select="$fieldNameLower"/>
         <x:text>: </x:text>
         <x:call-template name="get-js-data-type">
             <x:with-param name="dataType" select="$childTablePK/@DataType"/>
         </x:call-template>
         <x:text>): Promise&lt;ModelType[]&gt; {
         return this.executeGet(`${this.defaultRoutePrefix}/${</x:text>
-        <x:value-of select="$childColumnNameLower"/>
+        <x:value-of select="$fieldNameLower"/>
         <x:text>}/</x:text>
         <x:value-of select="@PluralPropertyName"/>
         <x:text>`);
