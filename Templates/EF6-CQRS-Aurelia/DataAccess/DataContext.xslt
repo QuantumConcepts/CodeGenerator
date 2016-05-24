@@ -58,8 +58,8 @@ namespace </x:text>
     <x:template match="P:TableMapping" mode="call-build">
         <x:text>
             Build</x:text>
-        <x:value-of select="@PluralClassName"/>
-        <x:text>(builder);</x:text>
+        <x:value-of select="@ClassName"/>
+        <x:text>Entity(builder);</x:text>
     </x:template>
 
     <x:template match="P:TableMapping" mode="build">
@@ -69,8 +69,8 @@ namespace </x:text>
         <x:text>
 
         private void Build</x:text>
-        <x:value-of select="@PluralClassName"/>
-        <x:text>(DbModelBuilder builder) {
+        <x:value-of select="@ClassName"/>
+        <x:text>Entity(DbModelBuilder builder) {
             var entityBuilder = builder.Entity&lt;</x:text>
         <x:value-of select="@ClassName"/>
         <x:text>&gt;();
@@ -86,11 +86,9 @@ namespace </x:text>
             entityBuilder
                 .Property(o => o.</x:text>
         <x:value-of select="$pkColumn/@FieldName"/>
-        <x:text>)
-                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);</x:text>
+        <x:text>);</x:text>
 
         <x:apply-templates mode="child" select="//P:ForeignKeyMapping[@Exclude='false' and not(.//P:Attribute[@Key='passthrough']) and @ParentTableMappingSchemaName=$table/@SchemaName and @ParentTableMappingName=$table/@TableName]"/>
-        <!--<x:apply-templates mode="parent" select="//P:ForeignKeyMapping[@Exclude='false' and not(.//P:Attribute[@Key='passthrough']) and @ReferencedTableMappingSchemaName=$table/@SchemaName and @ReferencedTableMappingName=$table/@TableName]"/>-->
         <x:apply-templates mode="passthrough" select="//P:ForeignKeyMapping[@Exclude='false' and .//P:Attribute[@Key='passthrough'] and @ReferencedTableMappingSchemaName=$table/@SchemaName and @ReferencedTableMappingName=$table/@TableName]"/>
 
         <x:text>
@@ -111,11 +109,6 @@ namespace </x:text>
         <x:value-of select="@FieldName"/>
         <x:text>);</x:text>
     </x:template>
-
-    <!--<x:template match="P:ForeignKeyMapping" mode="parent">
-        <x:variable name="parentTable" select="//P:TableMapping[@SchemaName=current()/@ParentTableMappingSchemaName and @TableName=current()/@ParentTableMappingName]"/>
-
-    </x:template>-->
 
     <x:template match="P:ForeignKeyMapping" mode="passthrough">
         <x:variable name="leftTable" select="//P:TableMapping[@SchemaName=current()/@ReferencedTableMappingSchemaName and @TableName=current()/@ReferencedTableMappingName]"/>
