@@ -45,7 +45,9 @@ namespace </x:text>
         <x:text> {
     public partial class </x:text>
         <x:value-of select="@ClassName"/>
-        <x:text>Client : BaseClient&lt;ModelType&gt;, IService&lt;ModelType&gt; {
+        <x:text>Client : BaseClient&lt;ModelType&gt;, I</x:text>
+        <x:value-of select="@ClassName"/>
+        <x:text>Service {
         public </x:text>
         <x:value-of select="@ClassName"/>
         <x:text>Client(IClientConfig config) : base(config) { }
