@@ -98,7 +98,7 @@ namespace </x:text>
         </x:variable>
 
         <x:text>
-        Task&lt;IEnumerable&lt;ModelType&gt;&gt; </x:text>
+        Task&lt;ModelType&gt; </x:text>
         <x:value-of select="$routeName"/>
         <x:text>(</x:text>
         <x:value-of select="$parentTablePK/@DataType"/>
