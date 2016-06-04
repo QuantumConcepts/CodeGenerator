@@ -14,8 +14,8 @@ using </x:text>
             <x:with-param name="projectName" select="'DataAccess.Entities'"/>
         </x:call-template>
         <x:text>;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration;
 
 namespace </x:text>
         <x:call-template name="get-full-namespace">
@@ -81,18 +81,32 @@ namespace </x:text>
         <x:text>")
                 .HasKey(o => o.</x:text>
         <x:value-of select="$pkColumn/@FieldName"/>
-        <x:text>);
-
-            entityBuilder
-                .Property(o => o.</x:text>
-        <x:value-of select="$pkColumn/@FieldName"/>
         <x:text>);</x:text>
+
+        <x:apply-templates mode="build-column" select=".//P:ColumnMapping[@ColumnName!=@FieldName]"/>
 
         <x:apply-templates mode="child" select="//P:ForeignKeyMapping[@Exclude='false' and not(.//P:Attribute[@Key='passthrough']) and @ParentTableMappingSchemaName=$table/@SchemaName and @ParentTableMappingName=$table/@TableName]"/>
         <x:apply-templates mode="passthrough" select="//P:ForeignKeyMapping[@Exclude='false' and .//P:Attribute[@Key='passthrough'] and @ReferencedTableMappingSchemaName=$table/@SchemaName and @ReferencedTableMappingName=$table/@TableName]"/>
 
         <x:text>
-        }</x:text>
+            CustomizeEntity(entityBuilder);
+        }
+
+        partial void CustomizeEntity(EntityTypeConfiguration&lt;</x:text>
+        <x:value-of select="@ClassName"/>
+        <x:text>&gt; entityBuilder);</x:text>
+    </x:template>
+
+    <x:template match ="P:ColumnMapping" mode="build-column">
+        <x:text>
+
+            entityBuilder
+                .Property(o => o.</x:text>
+        <x:value-of select="@FieldName"/>
+        <x:text>)
+                .HasColumnName("</x:text>
+        <x:value-of select="@ColumnName"/>
+        <x:text>");</x:text>
     </x:template>
 
     <x:template match="P:ForeignKeyMapping" mode="child">
