@@ -53,6 +53,13 @@ using ModelType = </x:text>
         <x:text>.</x:text>
         <x:value-of select="@ClassName"/>
         <x:text>;
+using HandlerType = </x:text>
+        <x:value-of select="/P:Project/@RootNamespace"/>
+        <x:text>.Logic.</x:text>
+        <x:value-of select="@PluralClassName"/>
+        <x:text>.I</x:text>
+        <x:value-of select="@ClassName"/>
+        <x:text>CommandHandler;
 
 namespace </x:text>
         <x:call-template name="get-full-namespace">
@@ -68,10 +75,14 @@ namespace </x:text>
     public partial class </x:text>
         <x:value-of select="@ClassName"/>
         <x:text>Controller : BaseController&lt;EntityType, ModelType&gt; {
+        protected new HandlerType Handler { get; set; }
+
         public </x:text>
         <x:value-of select="@ClassName"/>
-        <x:text>Controller(ICommandHandler&lt;SearchCommand&lt;Entities.User&gt;, IEnumerable&lt;Entities.User&gt;&gt; userSearchCommandHandler, IEntityCommandHandler&lt;EntityType&gt; entityCommandHandler, IMapper mapper)
-            : base(userSearchCommandHandler, entityCommandHandler, mapper) { }
+        <x:text>Controller(ICommandHandler&lt;SearchCommand&lt;Entities.User&gt;, IEnumerable&lt;Entities.User&gt;&gt; userSearchCommandHandler, HandlerType handler, IMapper mapper)
+            : base(userSearchCommandHandler, handler, mapper) {
+            this.Handler = handler;
+        }
 
         [HttpGet]
         [Route(Name = "GetAll</x:text>
