@@ -36,15 +36,9 @@ namespace </x:text>
         <x:text>.</x:text>
         <x:value-of select="@PluralClassName"/>
         <x:text> {
-    public partial class </x:text>
+    public partial interface I</x:text>
         <x:value-of select="@ClassName"/>
-        <x:text>CommandHandler : BaseEntityCommandHandler&lt;EntityType&gt;, I</x:text>
-        <x:value-of select="@ClassName"/>
-        <x:text>CommandHandler {
-        public </x:text>
-        <x:value-of select="@ClassName"/>
-        <x:text>CommandHandler(IRepository&lt;EntityType&gt; repo) : base(repo) { }
-    }
+        <x:text>CommandHandler : IEntityCommandHandler&lt;EntityType&gt; { }
 }</x:text>
     </x:template>
 </x:stylesheet>

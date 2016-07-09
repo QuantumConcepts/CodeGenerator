@@ -78,6 +78,12 @@ using </x:text>
 
     <x:template match="P:TableMapping" mode="entity-handler">
         <x:text>
+            container.Register&lt;I</x:text>
+        <x:value-of select="@ClassName"/>
+        <x:text>CommandHandler, </x:text>
+        <x:value-of select="@ClassName"/>
+        <x:text>CommandHandler&gt;();</x:text>
+        <x:text>
             container.Register&lt;IEntityCommandHandler&lt;Entities.</x:text>
         <x:value-of select="@ClassName"/>
         <x:text>&gt;, </x:text>
