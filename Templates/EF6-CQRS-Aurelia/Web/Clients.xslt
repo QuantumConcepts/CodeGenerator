@@ -23,7 +23,7 @@
         
         <x:text>
 import {inject} from 'aurelia-framework';
-import {HttpClient} from 'aurelia-http-client';
+import {HttpClient} from 'aurelia-fetch-client';
 import {BaseService} from "./BaseService";
 import {</x:text>
         <x:value-of select="@ClassName"/>
