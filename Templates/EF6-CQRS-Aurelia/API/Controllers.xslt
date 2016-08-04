@@ -54,8 +54,10 @@ using ModelType = </x:text>
         <x:value-of select="@ClassName"/>
         <x:text>;
 using HandlerType = </x:text>
-        <x:value-of select="/P:Project/@RootNamespace"/>
-        <x:text>.Logic.</x:text>
+        <x:call-template name="get-full-namespace">
+            <x:with-param name="projectName" select="'Logic'"/>
+        </x:call-template>
+        <x:text>.</x:text>
         <x:value-of select="@PluralClassName"/>
         <x:text>.I</x:text>
         <x:value-of select="@ClassName"/>
