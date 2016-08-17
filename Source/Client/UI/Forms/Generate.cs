@@ -18,7 +18,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms {
         private Project Project { get; set; }
         private Dictionary<Template, List<TemplateOutputDefinitionFilenameResult>> TemplateOutputs { get; set; }
         private bool AutoGenerate { get; set; }
-        private Generator Generator { get; set; }
+        private GenerationContext Generator { get; set; }
 
         public Generate(Project project) {
             InitializeComponent();
@@ -123,7 +123,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms {
             this.Close();
         }
 
-        private void Generator_GenerationStatus(Generator generator, GenerationStatusEventArgs e) {
+        private void Generator_GenerationStatus(GenerationContext generator, GenerationStatusEventArgs e) {
             this.Invoke(new GenericDelegate<GenerationStatusEventArgs>(x => {
                 if (x.Status == GenerationStatus.Generating)
                     return;
@@ -133,9 +133,9 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms {
                     MessageBox.Show(x.Error.Message, "Generation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
 
-                this.Generator.GenerationStatus -= new Generator.GenerationStatusEventHandler(Generator_GenerationStatus);
-                this.Generator.TemplateGenerationStatus -= new Generator.TemplateGenerationStatusEventHandler(Generator_TemplateGenerationStatus);
-                this.Generator.ItemGenerationStatus -= new Generator.ItemGenerationStatusEventHandler(Generator_ItemGenerationStatus);
+                this.Generator.GenerationStatus -= new GenerationContext.GenerationStatusEventHandler(Generator_GenerationStatus);
+                this.Generator.TemplateGenerationStatus -= new GenerationContext.TemplateGenerationStatusEventHandler(Generator_TemplateGenerationStatus);
+                this.Generator.ItemGenerationStatus -= new GenerationContext.ItemGenerationStatusEventHandler(Generator_ItemGenerationStatus);
                 this.Generator = null;
 
                 if (x.Status == GenerationStatus.Complete) {
@@ -154,7 +154,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms {
             }), e);
         }
 
-        void Generator_TemplateGenerationStatus(Generator generator, TemplateGenerationStatusEventArgs e) {
+        void Generator_TemplateGenerationStatus(GenerationContext generator, TemplateGenerationStatusEventArgs e) {
             this.Invoke(new GenericDelegate<TemplateGenerationStatusEventArgs>(x => {
                 ListViewGroup group = outputsListView.Groups.Cast<ListViewGroup>().Single(o => o.Tag == e.Template);
 
@@ -163,7 +163,7 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms {
             }), e);
         }
 
-        private void Generator_ItemGenerationStatus(Generator generator, ItemGenerationStatusEventArgs e) {
+        private void Generator_ItemGenerationStatus(GenerationContext generator, ItemGenerationStatusEventArgs e) {
             this.Invoke(new GenericDelegate<ItemGenerationStatusEventArgs>(x => {
                 ListViewItem item = outputsListView.CheckedItems.Cast<ListViewItem>().Single(o => o.Tag == x.Result);
 
@@ -263,10 +263,10 @@ namespace QuantumConcepts.CodeGenerator.Client.UI.Forms {
                 progressBar.Maximum = templateOutputs.SelectMany(o => o.Value).Count();
                 progressBar.Visible = true;
 
-                this.Generator = new Generator(ProjectContext.Project, templateOutputs);
-                this.Generator.GenerationStatus += new Generator.GenerationStatusEventHandler(Generator_GenerationStatus);
-                this.Generator.TemplateGenerationStatus += new Generator.TemplateGenerationStatusEventHandler(Generator_TemplateGenerationStatus);
-                this.Generator.ItemGenerationStatus += new Generator.ItemGenerationStatusEventHandler(Generator_ItemGenerationStatus);
+                this.Generator = new GenerationContext(ProjectContext.Project, templateOutputs);
+                this.Generator.GenerationStatus += new GenerationContext.GenerationStatusEventHandler(Generator_GenerationStatus);
+                this.Generator.TemplateGenerationStatus += new GenerationContext.TemplateGenerationStatusEventHandler(Generator_TemplateGenerationStatus);
+                this.Generator.ItemGenerationStatus += new GenerationContext.ItemGenerationStatusEventHandler(Generator_ItemGenerationStatus);
 
                 await this.Generator.GenerateAsync();
             }

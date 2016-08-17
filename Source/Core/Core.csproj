@@ -225,12 +225,16 @@
     <Compile Include="Data\MySql\MySqlWorker.cs" />
     <Compile Include="Exceptions\NonExistentDatabaseWorkerSpecifiedException.cs" />
     <Compile Include="Exceptions\EmptyDatabaseWorkerSpecifiedException.cs" />
+    <Compile Include="Generation\BaseGenerator.cs" />
+    <Compile Include="Generation\IGenerator.cs" />
+    <Compile Include="Generation\TemplateOutputMap.cs" />
+    <Compile Include="Generation\XslTemplateGenerator.cs" />
     <Compile Include="ProjectSchema\ConnectionInfo.cs" />
     <Compile Include="ProjectSchema\IHasConnectionReference.cs" />
-    <Compile Include="TemplateGenerationStatusEventArgs.cs" />
-    <Compile Include="GenerationStatusEventArgs.cs" />
-    <Compile Include="ItemGenerationStatusEventArgs.cs" />
-    <Compile Include="GenerationStatus.cs" />
+    <Compile Include="Generation\TemplateGenerationStatusEventArgs.cs" />
+    <Compile Include="Generation\GenerationStatusEventArgs.cs" />
+    <Compile Include="Generation\ItemGenerationStatusEventArgs.cs" />
+    <Compile Include="Generation\GenerationStatus.cs" />
     <Compile Include="PackageSchema\ApplyAllInputReplacementsAction.cs" />
     <Compile Include="PackageSchema\ApplyInputReplacementsAction.cs" />
     <Compile Include="PackageSchema\IReferencesInput.cs" />
@@ -248,6 +252,7 @@
     <Compile Include="PackageSchema\ReplaceTextAction.cs" />
     <Compile Include="PackageSchema\ProjectFactory.cs" />
     <Compile Include="Plugins\PluginConfig.cs" />
+    <Compile Include="ProjectSchema\Templates\XslTemplate.cs" />
     <Compile Include="Templates\BaseCodeTemplate.cs" />
     <Compile Include="Templates\DataObjects.cs" />
     <Compile Include="Templates\BaseCodeDomTemplate.cs" />
@@ -260,7 +265,7 @@
     <Compile Include="Data\DatabaseWorker.cs" />
     <Compile Include="Data\QueryConstants.cs" />
     <Compile Include="Data\SqlServer\SqlServerWorker.cs" />
-    <Compile Include="Generator.cs" />
+    <Compile Include="Generation\GenerationContext.cs" />
     <Compile Include="ProjectSchema\Annotation.cs" />
     <Compile Include="ProjectSchema\API.cs" />
     <Compile Include="ProjectSchema\Attribute.cs" />
@@ -288,7 +293,7 @@
     <Compile Include="ProjectSchema\ProjectContext.cs" />
     <Compile Include="ProjectSchema\TableMapping.cs" />
     <Compile Include="ProjectSchema\TableMappingComparer.cs" />
-    <Compile Include="ProjectSchema\Template.cs" />
+    <Compile Include="ProjectSchema\Templates\BaseTemplate.cs" />
     <Compile Include="ProjectSchema\TemplateOutputDefinition.cs" />
     <Compile Include="ProjectSchema\TemplateOutputDefinitionFilename.cs" />
     <Compile Include="ProjectSchema\TemplateOutputDefinitionFilenameResult.cs" />
