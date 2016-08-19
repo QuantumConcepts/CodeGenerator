@@ -67,7 +67,7 @@
             <x:when test="$dataType='bool'">
                 <x:text>boolean</x:text>
             </x:when>
-            <x:when test="$dataType='int' or $dataType='decimal'">
+            <x:when test="$dataType='int' or $dataType='decimal' or $dataType='double' or $dataType='Int64'">
                 <x:text>number</x:text>
             </x:when>
             <x:when test="$dataType='Guid'">
