@@ -30,7 +30,7 @@ namespace </x:text>
         <x:value-of select="@ClassName"/>
         <x:text> : IModel {</x:text>
 
-        <x:apply-templates select=".//P:ColumnMapping[@Exclude='false' and not(.//P:Attribute[@Key='ExcludeFromAPI'])]"/>
+        <x:apply-templates select=".//P:ColumnMapping[@Exclude='false' and not(.//P:Attribute[@Key='exclude-from-api'])]"/>
 
         <x:text>
     }

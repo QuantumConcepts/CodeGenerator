@@ -24,7 +24,7 @@ export class </x:text>
         <x:value-of select="@ClassName"/>
         <x:text> implements IModel {</x:text>
 
-        <x:apply-templates select=".//P:ColumnMapping[@Exclude='false' and not(.//P:Attribute[@Key='ExcludeFromAPI'])]"/>
+        <x:apply-templates select=".//P:ColumnMapping[@Exclude='false' and not(.//P:Attribute[@Key='exclude-from-api'])]"/>
 
         <x:text>
 }</x:text>
