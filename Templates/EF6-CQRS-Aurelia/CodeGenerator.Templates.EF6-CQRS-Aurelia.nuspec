@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
     <metadata>
         <id>CodeGenerator.Templates.EF6-CQRS-Aurelia</id>
-        <version>1.0.6</version>
+        <version>1.0.7</version>
         <title>CodeGenerator EF6/CQRS/Aurelia Templates</title>
         <authors>Quantum Concepts</authors>
         <owners>QuantumConcepts</owners>
@@ -28,18 +28,19 @@ All generated code is dependency-injected (includes generated DI registration vi
         </dependencies>
     </metadata>
     <files>
-        <file src="API\AutoMapper.xslt" target="lib\API\AutoMapper.xslt" />
-        <file src="API\Clients.xslt" target="lib\API\Clients.xslt" />
-        <file src="API\Controllers.xslt" target="lib\API\Controllers.xslt" />
-        <file src="API\Models.xslt" target="lib\API\Models.xslt" />
-        <file src="API\Services.xslt" target="lib\API\Services.xslt" />
-        <file src="DataAccess\DataContext.xslt" target="lib\DataAccess\DataContext.xslt" />
-        <file src="DataAccess\Entities.xslt" target="lib\DataAccess\Entities.xslt" />
-        <file src="DataAccess\SqlRepositories.xslt" target="lib\DataAccess\SqlRepositories.xslt" />
-        <file src="Logic\CommandHandlers.xslt" target="lib\Logic\CommandHandlers.xslt" />
-        <file src="Logic\DependencyInjection.xslt" target="lib\Logic\DependencyInjection.xslt" />
-        <file src="Web\Clients.xslt" target="lib\Web\Clients.xslt" />
-        <file src="Web\Models.xslt" target="lib\Web\Models.xslt" />
-        <file src="Common.xslt" target="lib\Common.xslt" />
+        <file src="API\AutoMapper.xslt" target="API\AutoMapper.xslt" />
+        <file src="API\Clients.xslt" target="API\Clients.xslt" />
+        <file src="API\Controllers.xslt" target="API\Controllers.xslt" />
+        <file src="API\Models.xslt" target="API\Models.xslt" />
+        <file src="API\Services.xslt" target="API\Services.xslt" />
+        <file src="DataAccess\DataContext.xslt" target="DataAccess\DataContext.xslt" />
+        <file src="DataAccess\Entities.xslt" target="DataAccess\Entities.xslt" />
+        <file src="DataAccess\SqlRepositories.xslt" target="DataAccess\SqlRepositories.xslt" />
+        <file src="Logic\CommandHandlerInterfaces.xslt" target="Logic\CommandHandlerInterfaces.xslt" />
+        <file src="Logic\CommandHandlers.xslt" target="Logic\CommandHandlers.xslt" />
+        <file src="Logic\DependencyInjection.xslt" target="Logic\DependencyInjection.xslt" />
+        <file src="Web\Clients.xslt" target="Web\Clients.xslt" />
+        <file src="Web\Models.xslt" target="Web\Models.xslt" />
+        <file src="Common.xslt" target="Common.xslt" />
     </files>
 </package>
