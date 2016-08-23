@@ -34,6 +34,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Description;
 using Entities = </x:text>
         <x:call-template name="get-full-namespace">
             <x:with-param name="projectName" select="'DataAccess'"/>
@@ -86,20 +87,30 @@ namespace </x:text>
             this.Handler = handler;
         }
 
+        /// &lt;summary&gt;Gets all </x:text>
+        <x:value-of select="@PluralClassName"/>
+        <x:text>.&lt;/summary&gt;
         [HttpGet]
         [Route(Name = "GetAll</x:text>
         <x:value-of select="@PluralClassName"/>
         <x:text>")]
+        [ResponseType(typeof(IEnumerable&lt;ModelType&gt;))]
         public new Task&lt;IHttpActionResult&gt; GetAll() {
             return base.GetAll();
         }
         
+        /// &lt;summary&gt;Gets the </x:text>
+        <x:value-of select="@ClassName"></x:value-of>
+        <x:text> identified by the </x:text>
+        <x:value-of select="$pkColumn/@FieldName"/>
+        <x:text> field.&lt;/summary&gt;
         [HttpGet]
         [Route("{</x:text>
         <x:value-of select="$pkNameLower"/>
         <x:text>}", Name = "Get</x:text>
         <x:value-of select="@ClassName"/>
         <x:text>")]
+        [ResponseType(typeof(ModelType))]
         public new Task&lt;IHttpActionResult&gt; Get(</x:text>
         <x:value-of select="$pkColumn/@DataType"/>
         <x:text> </x:text>
@@ -110,20 +121,28 @@ namespace </x:text>
         <x:text>);
         }
 
+        /// &lt;summary&gt;Creates a new </x:text>
+        <x:value-of select="@ClassName"/>
+        <x:text>.&lt;/summary&gt;
         [HttpPost]
         [Route(Name = "Create</x:text>
         <x:value-of select="@ClassName"/>
         <x:text>")]
+        [ResponseType(typeof(ModelType))]
         public new Task&lt;IHttpActionResult&gt; Create(ModelType model) {
             return base.Create(model);
         }
 
+        /// &lt;summary&gt;Updates an existing </x:text>
+        <x:value-of select="@ClassName"/>
+        <x:text>.&lt;/summary&gt;
         [HttpPut]
         [Route("{</x:text>
         <x:value-of select="$pkNameLower"/>
         <x:text>}", Name = "Update</x:text>
         <x:value-of select="@ClassName"/>
         <x:text>")]
+        [ResponseType(typeof(ModelType))]
         public new Task&lt;IHttpActionResult&gt; Update(</x:text>
         <x:value-of select="$pkColumn/@DataType"/>
         <x:text> </x:text>
@@ -134,6 +153,9 @@ namespace </x:text>
         <x:text>, model);
         }
 
+        /// &lt;summary&gt;Deletes a single </x:text>
+        <x:value-of select="@ClassName"/>
+        <x:text>.&lt;/summary&gt;
         [HttpDelete]
         [Route("{</x:text>
         <x:value-of select="$pkNameLower"/>
@@ -185,6 +207,11 @@ namespace </x:text>
         
         <x:text>
 
+        /// &lt;summary&gt;Gets all </x:text>
+        <x:value-of select="$table/@PluralClassName"/>
+        <x:text> by </x:text>
+        <x:value-of select="current()/@FieldName"/>
+        <x:text>.&lt;/summary&gt;
         [HttpGet]
         [Route("~/</x:text>
         <x:value-of select="$childTable/@PluralClassName"/>
@@ -195,6 +222,7 @@ namespace </x:text>
         <x:text>", Name = "</x:text>
         <x:value-of select="$routeName"/>
         <x:text>")]
+        [ResponseType(typeof(IEnumerable&lt;ModelType&gt;))]
         public Task&lt;IHttpActionResult&gt; </x:text>
         <x:value-of select="$routeName"/>
         <x:text>(</x:text>
@@ -224,6 +252,13 @@ namespace </x:text>
 
         <x:text>
 
+        /// &lt;summary&gt;Gets a single </x:text>
+        <x:value-of select="$table/@ClassName"/>
+        <x:text> by the </x:text>
+        <x:value-of select="$parentTablePK/@FieldName"/>
+        <x:text> field of a related </x:text>
+        <x:value-of select="$parentTable/@ClassName"/>
+        <x:text>.&lt;/summary&gt;
         [HttpGet]
         [Route("~/</x:text>
         <x:value-of select="$parentTable/@PluralClassName"/>
@@ -234,6 +269,7 @@ namespace </x:text>
         <x:text>", Name = "</x:text>
         <x:value-of select="$routeName"/>
         <x:text>")]
+        [ResponseType(typeof(ModelType))]
         public Task&lt;IHttpActionResult&gt; </x:text>
         <x:value-of select="$routeName"/>
         <x:text>(</x:text>
@@ -267,6 +303,13 @@ namespace </x:text>
 
         <x:text>
 
+        /// &lt;summary&gt;Gets a single </x:text>
+        <x:value-of select="$table/@ClassName"/>
+        <x:text> by the </x:text>
+        <x:value-of select="$rightTablePK/@FieldName"/>
+        <x:text> field of a related </x:text>
+        <x:value-of select="$rightTable/@ClassName"/>
+        <x:text>.&lt;/summary&gt;
         [HttpGet]
         [Route("~/</x:text>
         <x:value-of select="$rightTable/@PluralClassName"/>
@@ -277,6 +320,7 @@ namespace </x:text>
         <x:text>", Name = "</x:text>
         <x:value-of select="$routeName"/>
         <x:text>")]
+        [ResponseType(typeof(ModelType))]
         public Task&lt;IHttpActionResult&gt; </x:text>
         <x:value-of select="$routeName"/>
         <x:text>(</x:text>
@@ -321,6 +365,19 @@ namespace </x:text>
 
         <x:text>
 
+        /// &lt;summary&gt;Gets a single </x:text>
+        <x:value-of select="$table/@ClassName"/>
+        <x:text> by the unique field(s): </x:text>
+        <x:for-each select=".//P:ColumnName">
+            <x:variable name="column" select="$table//P:ColumnMapping[@ColumnName=current()/text()]"/>
+
+            <x:value-of select="$column/@FieldName"/>
+            
+            <x:if test="position()!=last()">
+                <x:text>, </x:text>
+            </x:if>
+        </x:for-each>
+        <x:text>&lt;/summary&gt;
         [HttpGet]
         [Route("~/</x:text>
         <x:value-of select="$table/@PluralClassName"/>
@@ -340,6 +397,7 @@ namespace </x:text>
         <x:text>", Name = "</x:text>
         <x:value-of select="$routeName"/>
         <x:text>")]
+        [ResponseType(typeof(ModelType))]
         public Task&lt;IHttpActionResult&gt; </x:text>
         <x:value-of select="$functionName"/>
         <x:text>(</x:text>
