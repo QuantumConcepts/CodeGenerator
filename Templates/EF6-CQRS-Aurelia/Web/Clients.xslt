@@ -86,7 +86,9 @@ export class </x:text>
             <x:with-param name="dataType" select="$childTablePK/@DataType"/>
         </x:call-template>
         <x:text>): Promise&lt;ModelType[]&gt; {
-        return this.executeGet(`${this.defaultRoutePrefix}/${</x:text>
+        return this.executeGet(`</x:text>
+        <x:value-of select="$childTable/@PluralClassName"/>
+        <x:text>/${</x:text>
         <x:value-of select="$fieldNameLower"/>
         <x:text>}/</x:text>
         <x:value-of select="@PluralPropertyName"/>

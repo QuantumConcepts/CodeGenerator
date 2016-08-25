@@ -98,7 +98,9 @@ namespace </x:text>
         <x:text> </x:text>
         <x:value-of select="$fieldNameLower"/>
         <x:text>) {
-            return Get&lt;IEnumerable&lt;ModelType&gt;&gt;($"{this.DefaultRoutePrefix}/{</x:text>
+            return Get&lt;IEnumerable&lt;ModelType&gt;&gt;($"</x:text>
+        <x:value-of select="$childTable/@PluralClassName"/>
+        <x:text>/{</x:text>
         <x:value-of select="$fieldNameLower"/>
         <x:text>}/</x:text>
         <x:value-of select="@PluralPropertyName"/>
