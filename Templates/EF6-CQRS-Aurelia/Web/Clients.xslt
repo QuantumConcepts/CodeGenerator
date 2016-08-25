@@ -58,6 +58,10 @@ export class </x:text>
         <x:apply-templates select=".//P:UniqueIndexMapping">
             <x:with-param name="table" select="$table"/>
         </x:apply-templates>
+
+        <x:apply-templates select=".//P:API">
+            <x:with-param name="table" select="$table"/>
+        </x:apply-templates>
         
         <x:text>
 }</x:text>
@@ -212,6 +216,118 @@ export class </x:text>
             </x:if>
         </x:for-each>
         <x:text>`);
+    }</x:text>
+    </x:template>
+
+    <x:template match="P:API">
+        <x:param name="table"/>
+        <x:variable name="returnType">
+            <x:choose>
+                <x:when test="P:ReturnParameter/@Type='Void'">
+                    <x:text>any</x:text>
+                </x:when>
+                <x:otherwise>
+                    <x:variable name="param" select="P:ReturnParameter"/>
+                    
+                    <x:if test="$param/@Quantifier!='Single'">
+                        <x:text>Array&lt;</x:text>
+                    </x:if>
+                    <x:choose>
+                        <x:when test="P:ReturnParameter/@Type='DataObject'">
+                            <x:text>ModelType</x:text>
+                        </x:when>
+                        <x:otherwise>
+                            <x:value-of select="@OtherDataType"></x:value-of>
+                        </x:otherwise>
+                    </x:choose>
+                    <x:if test="$param/@Quantifier!='Single'">
+                        <x:text>&gt;</x:text>
+                    </x:if>
+                </x:otherwise>
+            </x:choose>
+        </x:variable>
+        <x:variable name="routeParams" select=".//P:Parameter[.//P:Attribute[@Key='route-param']]"></x:variable>
+        <x:variable name="bodyParams" select=".//P:Parameter[not(.//P:Attribute[@Key='route-param'])]"></x:variable>
+
+        <x:text>
+
+    /** </x:text>
+        <x:value-of select=".//P:Annotation[@Type='summary']/P:Text/text()"/>
+        <x:text> */
+    public </x:text>
+        <x:value-of select="fn:FirstToLower(@Name)"/>
+        <x:text>(</x:text>
+        <x:for-each select=".//P:Parameter">
+            <x:value-of select="fn:FirstToLower(@Name)"/>
+            <x:text>: </x:text>
+            <x:if test="@Quantifier!='Single'">
+                <x:text>Array&lt;</x:text>
+            </x:if>
+            <x:choose>
+                <x:when test="P:ReturnParameter/@Type='DataObject'">
+                    <x:variable name="paramTable" select="//P:TableMapping[@ConnectionName=current()/@DataTypeReferencedTableMappingConnectionName and @SchemaName=current()/@DataTypeReferencedTableMappingSchemaName and @TableName=current()/DataTypeReferencedTableMappingName]"/>
+                    
+                    <x:value-of select="$paramTable/@ClassName"/>
+                </x:when>
+                <x:otherwise>
+                    <x:call-template name="get-js-data-type">
+                        <x:with-param name="dataType" select="@OtherDataType"/>
+                    </x:call-template>
+                </x:otherwise>
+            </x:choose>
+            <x:if test="@Quantifier!='Single'">
+                <x:text>&gt;</x:text>
+            </x:if>
+            <x:if test="position()!=last()">
+                <x:text>, </x:text>
+            </x:if>
+        </x:for-each>
+        <x:text>): Promise&lt;</x:text>
+        <x:value-of select="$returnType"/>
+        <x:text>&gt; {
+        let url = "</x:text>
+        <x:value-of select=".//P:Attribute[@Key='route']/@Value"/>
+        <x:text>";</x:text>
+        
+        <x:if test="$routeParams">
+            <x:text>
+</x:text>
+            <x:for-each select="$routeParams">
+                <x:text>
+        url = url.replace("{</x:text>
+                <x:value-of select="@Name"/>
+                <x:text>}", </x:text>
+                <x:value-of select="@Name"/>
+                <x:text>);</x:text>
+            </x:for-each>
+        </x:if>
+        
+        <x:text>
+
+        return this.execute&lt;</x:text>
+        <x:value-of select="$returnType"/>
+        <x:text>&gt;("</x:text>
+        <x:value-of select=".//P:Attribute[@Key='http-method']/@Value"/>
+        <x:text>", url, </x:text>
+        <x:choose>
+            <x:when test="$bodyParams">
+                <x:text>{</x:text>
+                <x:for-each select="$bodyParams">
+                    <x:text>
+            </x:text>
+                    <x:value-of select="fn:FirstToLower(@Name)"/>
+                    <x:if test="position()!=last()">
+                        <x:text>,</x:text>
+                    </x:if>
+                </x:for-each>
+                <x:text>
+        }</x:text>
+            </x:when>
+            <x:otherwise>
+                <x:text>null</x:text>
+            </x:otherwise>
+        </x:choose>
+        <x:text>);
     }</x:text>
     </x:template>
 </x:stylesheet>

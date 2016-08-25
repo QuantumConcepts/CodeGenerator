@@ -188,6 +188,10 @@ namespace </x:text>
             <x:with-param name="table" select="$table"/>
         </x:apply-templates>
 
+        <x:apply-templates select=".//P:API">
+            <x:with-param name="table" select="$table"/>
+        </x:apply-templates>
+
         <x:text>
     }
 }</x:text>
@@ -429,6 +433,89 @@ namespace </x:text>
             <x:if test="position()!=last()">
                 <x:text> &amp;&amp;
                                      </x:text>
+            </x:if>
+        </x:for-each>
+        <x:text>);
+        }</x:text>
+    </x:template>
+
+    <x:template match="P:API">
+        <x:param name="table"/>
+
+        <x:text>
+
+        /// &lt;summary&gt;</x:text>
+        <x:value-of select=".//P:Annotation[@Type='summary']/P:Text/text()"/>
+        <x:text>&lt;/summary&gt;
+        [HttpGet]
+        [Route("~/</x:text>
+        <x:value-of select=".//P:Attribute[@Key='route']/@Value"/>
+        <x:text>", Name = "</x:text>
+        <x:value-of select="@Name"/>
+        <x:text>")]</x:text>
+        <x:if test="P:ReturnParameter/@Type!='Void'">
+            <x:variable name="param" select="P:ReturnParameter"/>
+            
+            <x:text>
+        [ResponseType(typeof(</x:text>
+            <x:if test="$param/@Quantifier!='Single'">
+                <x:text>IEnumerable&lt;</x:text>
+            </x:if>
+            <x:choose>
+                <x:when test="P:ReturnParameter/@Type='DataObject'">
+                    <x:variable name="paramTable" select="//P:TableMapping[@ConnectionName=$param/@DataTypeReferencedTableMappingConnectionName and @SchemaName=$param/@DataTypeReferencedTableMappingSchemaName and @TableName=$param/@DataTypeReferencedTableMappingName]"/>
+                    
+                    <x:text>Api.Common.Models.</x:text>
+                    <x:value-of select="$paramTable/@ClassName"/>
+                </x:when>
+                <x:otherwise>
+                    <x:value-of select="@OtherDataType"></x:value-of>
+                </x:otherwise>
+            </x:choose>
+            <x:if test="$param/@Quantifier!='Single'">
+                <x:text>&gt;</x:text>
+            </x:if>
+            <x:text>))]</x:text>
+        </x:if>
+        <x:text>
+        public Task&lt;IHttpActionResult&gt; </x:text>
+        <x:value-of select="@Name"/>
+        <x:text>Stub(</x:text>
+        <x:for-each select=".//P:Parameter">
+            <x:if test="@Quantifier!='Single'">
+                <x:text>IEnumerable&lt;</x:text>
+            </x:if>
+            <x:choose>
+                <x:when test="P:ReturnParameter/@Type='DataObject'">
+                    <x:variable name="paramTable" select="//P:TableMapping[@ConnectionName=current()/@DataTypeReferencedTableMappingConnectionName and @SchemaName=current()/@DataTypeReferencedTableMappingSchemaName and @TableName=current()/DataTypeReferencedTableMappingName]"/>
+                    
+                    <x:text>Api.Common.Models.</x:text>
+                    <x:value-of select="$paramTable/@ClassName"/>
+                </x:when>
+                <x:otherwise>
+                    <x:value-of select="@OtherDataType"/>
+                </x:otherwise>
+            </x:choose>
+            <x:if test="@Nullable='true'">
+                <x:text>?</x:text>
+            </x:if>
+            <x:if test="@Quantifier!='Single'">
+                <x:text>&gt;</x:text>
+            </x:if>
+            <x:text> </x:text>
+            <x:value-of select="fn:FirstToLower(@Name)"/>
+            <x:if test="position()!=last()">
+                <x:text>, </x:text>
+            </x:if>
+        </x:for-each>
+        <x:text>) {
+            return </x:text>
+        <x:value-of select="@Name"/>
+        <x:text>(</x:text>
+        <x:for-each select=".//P:Parameter">
+            <x:value-of select="fn:FirstToLower(@Name)"/>
+            <x:if test="position()!=last()">
+                <x:text>, </x:text>
             </x:if>
         </x:for-each>
         <x:text>);
