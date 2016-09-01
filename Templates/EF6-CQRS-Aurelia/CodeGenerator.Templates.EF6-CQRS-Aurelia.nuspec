@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
     <metadata>
         <id>CodeGenerator.Templates.EF6-CQRS-Aurelia</id>
-        <version>1.0.9</version>
+        <version>1.0.10</version>
         <title>CodeGenerator EF6/CQRS/Aurelia Templates</title>
         <authors>Quantum Concepts</authors>
         <owners>QuantumConcepts</owners>
@@ -33,12 +33,17 @@ All generated code is dependency-injected (includes generated DI registration vi
         <file src="API\Controllers.xslt" target="API\Controllers.xslt" />
         <file src="API\Models.xslt" target="API\Models.xslt" />
         <file src="API\Services.xslt" target="API\Services.xslt" />
+        <file src="DataAccess\Cache.xslt" target="DataAccess\Cache.xslt" />
         <file src="DataAccess\DataContext.xslt" target="DataAccess\DataContext.xslt" />
         <file src="DataAccess\Entities.xslt" target="DataAccess\Entities.xslt" />
         <file src="DataAccess\SqlRepositories.xslt" target="DataAccess\SqlRepositories.xslt" />
+        <file src="Logic\DependencyInjection.xslt" target="Logic\DependencyInjection.xslt" />
+        <file src="DataAccess\ReadRepositoryInterfaces.xslt" target="DataAccess\ReadRepositoryInterfaces.xslt" />
+        <file src="DataAccess\RepositoryInterfaces.xslt" target="DataAccess\RepositoryInterfaces.xslt" />
+        <file src="DataAccess\WriteRepositoryInterfaces.xslt" target="DataAccess\WriteRepositoryInterfaces.xslt" />
+        <file src="Logic\DependencyInjection.xslt" target="Logic\DependencyInjection.xslt" />
         <file src="Logic\CommandHandlerInterfaces.xslt" target="Logic\CommandHandlerInterfaces.xslt" />
         <file src="Logic\CommandHandlers.xslt" target="Logic\CommandHandlers.xslt" />
-        <file src="Logic\DependencyInjection.xslt" target="Logic\DependencyInjection.xslt" />
         <file src="Web\Clients.xslt" target="Web\Clients.xslt" />
         <file src="Web\Models.xslt" target="Web\Models.xslt" />
         <file src="Common.xslt" target="Common.xslt" />
