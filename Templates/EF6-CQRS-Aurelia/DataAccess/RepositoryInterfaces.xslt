@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<x:stylesheet version="1.0" xmlns:x="http://www.w3.org/1999/XSL/Transform" xmlns:P="http://Schemas.QuantumConceptsCorp.com/CodeGenerator/Project.xsd">
+<x:stylesheet version="1.0" xmlns:x="http://www.w3.org/1999/XSL/Transform" xmlns:P="http://Schemas.QuantumConceptsCorp.com/CodeGenerator/Project.xsd" xmlns:fn="urn:custom-functions">
     <x:output method="text" encoding="utf-8" indent="no" version="1.0" />
 
     <x:include href="../Common.xslt"/>
@@ -18,34 +18,24 @@
         <x:call-template name="generated-notice"/>
 
         <x:text>
-using </x:text>
-        <x:value-of select="/P:Project/@RootNamespace"/>
-        <x:text>.DataAccess.Repositories;
 using EntityType = </x:text>
-        <x:call-template name="get-full-namespace">
-            <x:with-param name="projectName" select="'DataAccess.Entities'"/>
-        </x:call-template>
-        <x:text>.</x:text>
+        <x:value-of select="/P:Project/@RootNamespace"/>
+        <x:text>.DataAccess.Entities.</x:text>
         <x:value-of select="@ClassName"/>
         <x:text>;
 
 namespace </x:text>
         <x:call-template name="get-full-namespace">
-            <x:with-param name="projectName" select="'Logic'"/>
+            <x:with-param name="projectName" select="'DataAccess.Repositories'"/>
         </x:call-template>
-        <x:text>.</x:text>
-        <x:value-of select="@PluralClassName"/>
         <x:text> {
-    public partial class </x:text>
+    public partial interface I</x:text>
         <x:value-of select="@ClassName"/>
-        <x:text>CommandHandler : BaseEntityCommandHandler&lt;EntityType&gt;, I</x:text>
+        <x:text>Repository : IRepository&lt;EntityType&gt;, I</x:text>
         <x:value-of select="@ClassName"/>
-        <x:text>CommandHandler {
-        public </x:text>
+        <x:text>ReadRepository, I</x:text>
         <x:value-of select="@ClassName"/>
-        <x:text>CommandHandler(I</x:text>
-        <x:value-of select="@ClassName"/>
-        <x:text>Repository repo) : base(repo) { }
+        <x:text>WriteRepository, ILiveReadRepository&lt;EntityType&gt; {
     }
 }</x:text>
     </x:template>

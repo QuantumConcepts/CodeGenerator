@@ -54,6 +54,13 @@ using ModelType = </x:text>
         <x:text>.</x:text>
         <x:value-of select="@ClassName"/>
         <x:text>;
+using RepoType = </x:text>
+        <x:call-template name="get-full-namespace">
+            <x:with-param name="projectName" select="'DataAccess.Repositories'"/>
+        </x:call-template>
+        <x:text>.I</x:text>
+        <x:value-of select="@ClassName"/>
+        <x:text>Repository;
 using HandlerType = </x:text>
         <x:call-template name="get-full-namespace">
             <x:with-param name="projectName" select="'Logic'"/>
@@ -78,12 +85,13 @@ namespace </x:text>
     public partial class </x:text>
         <x:value-of select="@ClassName"/>
         <x:text>Controller : BaseController&lt;EntityType, ModelType&gt; {
+        protected new RepoType Repo{ get; set; }
         protected new HandlerType Handler { get; set; }
 
         public </x:text>
         <x:value-of select="@ClassName"/>
-        <x:text>Controller(ICommandHandler&lt;SearchCommand&lt;Entities.User&gt;, IEnumerable&lt;Entities.User&gt;&gt; userSearchCommandHandler, HandlerType handler, IMapper mapper)
-            : base(userSearchCommandHandler, handler, mapper) {
+        <x:text>Controller(RepoType repo, HandlerType handler, IMapper mapper)
+            : base(repo, handler, mapper) {
             this.Handler = handler;
         }
 

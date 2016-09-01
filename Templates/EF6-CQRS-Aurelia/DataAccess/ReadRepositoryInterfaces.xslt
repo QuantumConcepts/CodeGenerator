@@ -4,7 +4,7 @@
     <x:output method="text" encoding="utf-8" indent="no" version="1.0" />
 
     <x:include href="../Common.xslt"/>
-
+    
     <x:param name="elementName"/>
 
     <x:template match="P:Project">
@@ -23,8 +23,6 @@
         <x:text>
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
 using System.Threading.Tasks;
 using EntityType = </x:text>
         <x:call-template name="get-full-namespace">
@@ -39,14 +37,9 @@ namespace </x:text>
             <x:with-param name="projectName" select="'DataAccess.Repositories'"/>
         </x:call-template>
         <x:text> {
-    public partial class </x:text>
+    public partial interface I</x:text>
         <x:value-of select="@ClassName"/>
-        <x:text>Repository : BaseSqlRepository&lt;EntityType&gt;, I</x:text>
-        <x:value-of select="@ClassName"/>
-        <x:text>Repository {
-        public </x:text>
-        <x:value-of select="@ClassName"/>
-        <x:text>Repository(Func&lt;DataContext&gt; contextFactory) : base(contextFactory) { }</x:text>
+        <x:text>ReadRepository : IReadRepository&lt;EntityType&gt; {</x:text>
 
         <x:apply-templates select="$childFKs" mode="child">
             <x:with-param name="table" select="$table"/>
@@ -76,13 +69,12 @@ namespace </x:text>
         <x:variable name="fieldNameLower" select="fn:FirstToLower(current()/@FieldName)"/>
 
         <x:text>
-
         /// &lt;summary&gt;Gets all </x:text>
         <x:value-of select="$table/@PluralClassName"/>
         <x:text> by </x:text>
         <x:value-of select="current()/@FieldName"/>
         <x:text>.&lt;/summary&gt;
-        public IEnumerable&lt;EntityType&gt; </x:text>
+        IEnumerable&lt;EntityType&gt; </x:text>
         <x:text>Get</x:text>
         <x:value-of select="@PluralPropertyName"/>
         <x:text>By</x:text>
@@ -91,13 +83,7 @@ namespace </x:text>
         <x:value-of select="$childTablePK/@DataType"/>
         <x:text> </x:text>
         <x:value-of select="$fieldNameLower"/>
-        <x:text>) {
-           return Search(o =&gt; o.</x:text>
-        <x:value-of select="@FieldName"/>
-        <x:text> == </x:text>
-        <x:value-of select="$fieldNameLower"/>
-        <x:text>);
-        }</x:text>
+        <x:text>);</x:text>
     </x:template>
 
     <x:template match="P:ForeignKeyMapping" mode="parent">
@@ -107,7 +93,6 @@ namespace </x:text>
         <x:variable name="parentTablePKLower" select="fn:FirstToLower($parentTablePK/@FieldName)"/>
 
         <x:text>
-
         /// &lt;summary&gt;Gets a single </x:text>
         <x:value-of select="$table/@ClassName"/>
         <x:text> by the </x:text>
@@ -115,7 +100,7 @@ namespace </x:text>
         <x:text> field of a related </x:text>
         <x:value-of select="$parentTable/@ClassName"/>
         <x:text>.&lt;/summary&gt;
-        public Task&lt;EntityType&gt; </x:text>
+        Task&lt;EntityType&gt; </x:text>
         <x:text>Get</x:text>
         <x:value-of select="@PropertyName"/>
         <x:text>By</x:text>
@@ -124,17 +109,7 @@ namespace </x:text>
         <x:value-of select="$parentTablePK/@DataType"/>
         <x:text> </x:text>
         <x:value-of select="$parentTablePKLower"/>
-        <x:text>) {
-            var ctx = this.ContextFactory();
-
-            return GetDbSet(ctx).SingleOrDefaultAsync(parent =&gt; parent.</x:text>
-        <x:value-of select="@PluralPropertyName"/>
-        <x:text>.Any(child =&gt; child.</x:text>
-        <x:value-of select="$parentTablePK/@FieldName"/>
-        <x:text> == </x:text>
-        <x:value-of select="$parentTablePKLower"/>
-        <x:text>));
-        }</x:text>
+        <x:text>);</x:text>
     </x:template>
 
     <x:template match="P:ForeignKeyMapping" mode="passthrough">
@@ -154,7 +129,7 @@ namespace </x:text>
         <x:text> field of a related </x:text>
         <x:value-of select="$rightTable/@ClassName"/>
         <x:text>.&lt;/summary&gt;
-        public Task&lt;EntityType&gt; </x:text>
+        Task&lt;EntityType&gt; </x:text>
         <x:text>Get</x:text>
         <x:value-of select="$rightFK/@PluralPropertyName"/>
         <x:text>By</x:text>
@@ -163,17 +138,7 @@ namespace </x:text>
         <x:value-of select="$rightTablePK/@DataType"/>
         <x:text> </x:text>
         <x:value-of select="$rightTablePKLower"/>
-        <x:text>) {
-            var ctx = this.ContextFactory();
-
-            return GetDbSet(ctx).SingleOrDefaultAsync(parent =&gt; parent.</x:text>
-        <x:value-of select="@PluralPropertyName"/>
-        <x:text>.Any(child =&gt; child.</x:text>
-        <x:value-of select="$rightTablePK/@FieldName"/>
-        <x:text> == </x:text>
-        <x:value-of select="$rightTablePKLower"/>
-        <x:text>));
-        }</x:text>
+        <x:text>);</x:text>
     </x:template>
 
     <x:template match="P:UniqueIndexMapping">
@@ -194,7 +159,7 @@ namespace </x:text>
             </x:if>
         </x:for-each>
         <x:text>&lt;/summary&gt;
-        public Task&lt;EntityType&gt; </x:text>
+        Task&lt;EntityType&gt; </x:text>
         <x:text>GetBy</x:text>
         <x:for-each select=".//P:ColumnName">
             <x:value-of select="text()"/>
@@ -218,25 +183,6 @@ namespace </x:text>
                 <x:text>, </x:text>
             </x:if>
         </x:for-each>
-        <x:text>) {
-            var ctx = this.ContextFactory();
-
-            return GetDbSet(ctx).SingleOrDefaultAsync(o =&gt; </x:text>
-        <x:for-each select=".//P:ColumnName">
-            <x:variable name="column" select="$table//P:ColumnMapping[@ColumnName=current()/text()]"/>
-
-            <x:text>object.Equals(o.</x:text>
-            <x:value-of select="$column/@FieldName"/>
-            <x:text>, </x:text>
-            <x:value-of select="fn:FirstToLower($column/@FieldName)"/>
-            <x:text>)</x:text>
-
-            <x:if test="position()!=last()">
-                <x:text> &amp;&amp;
-                                      </x:text>
-            </x:if>
-        </x:for-each>
-        <x:text>);
-        }</x:text>
+        <x:text>);</x:text>
     </x:template>
 </x:stylesheet>

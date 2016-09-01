@@ -3,7 +3,7 @@
 <x:stylesheet version="1.0" xmlns:P="http://Schemas.QuantumConceptsCorp.com/CodeGenerator/Project.xsd" xmlns:x="http://www.w3.org/1999/XSL/Transform" xmlns:ms="urn:schemas-microsoft-com:xslt" xmlns:fn="urn:custom-functions" exclude-result-prefixes="x">
     <x:output method="text" version="1.0" encoding="UTF-8" indent="no"/>
 
-    <x:include href="../packages/CodeGenerator.Templates.EF6-CQRS-Aurelia.1.0.9/Common.xslt"/>
+    <x:include href="../Common.xslt"/>
 
     <x:param name="elementName"/>
 
@@ -14,6 +14,8 @@
     <x:template match="P:TableMapping">
         <x:variable name="table" select="."/>
         <x:variable name="pkColumn" select=".//P:ColumnMapping[@PrimaryKey='true']"/>
+        <x:variable name="childFKs" select="//P:ForeignKeyMapping[@Exclude='false' and not(.//P:Attribute[@Key='passthrough']) and @ParentTableMappingSchemaName=$table/@SchemaName and @ParentTableMappingName=$table/@TableName]"/>
+        <x:variable name="parentFKs" select="//P:ForeignKeyMapping[@Exclude='false' and not(.//P:Attribute[@Key='passthrough']) and @ReferencedTableMappingSchemaName=$table/@SchemaName and @ReferencedTableMappingName=$table/@TableName]"/>
 
         <x:call-template name="generated-notice"/>
 
@@ -21,6 +23,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using </x:text>
         <x:value-of select="/P:Project/@RootNamespace"/>
         <x:text>.DataAccess.Repositories;
@@ -35,105 +38,161 @@ namespace </x:text>
             <x:with-param name="projectName" select="'DataAccess.Cache'"/>
         </x:call-template>
         <x:text> {
-    /// &lt;summary&gt;A cached repository for the </x:text>
-        <x:value-of select="@ClassName"/>
-        <x:text> class.&lt;/summary&gt;
+    /// &lt;summary&gt;A cached repository of </x:text>
+        <x:value-of select="@PluralClassName"/>
+        <x:text>.&lt;/summary&gt;
     public partial class </x:text>
         <x:value-of select="@ClassName"/>
-        <x:text>Cache : BaseCache&lt;EntityType&gt; {
+        <x:text>Cache : BaseCache&lt;EntityType&gt;, I</x:text>
+        <x:value-of select="@ClassName"/>
+        <x:text>ReadRepository {
         public </x:text>
         <x:value-of select="@ClassName"/>
-        <x:text>Cache(IRepository&lt;EntityType&gt; repo) : base(repo) { }</x:text>
+        <x:text>Cache(ILiveReadRepository&lt;EntityType&gt; repo) : base(repo) { }</x:text>
+
+        <x:apply-templates select="$childFKs" mode="child">
+            <x:with-param name="table" select="$table"/>
+        </x:apply-templates>
+
+        <x:apply-templates select="$parentFKs" mode="parent">
+            <x:with-param name="table" select="$table"/>
+        </x:apply-templates>
+
+        <x:apply-templates select=".//P:UniqueIndexMapping">
+            <x:with-param name="table" select="$table"/>
+        </x:apply-templates>
         
-        <x:for-each select="../../P:ForeignKeyMappings/P:ForeignKeyMapping[@Exclude='false' and @ConnectionName=$table/@ConnectionName and @ParentTableMappingSchemaName=$table/@SchemaName and @ParentTableMappingName=$table/@TableName]">
-            <x:variable name="foreignKey" select="."/>
-            <x:variable name="parentTableMapping" select="//P:TableMapping[@SchemaName=$foreignKey/@ParentTableMappingSchemaName and @TableName=$foreignKey/@ParentTableMappingName]"/>
-            <x:variable name="referencedTableMapping" select="//P:TableMapping[@SchemaName=$foreignKey/@ReferencedTableMappingSchemaName and @TableName=$foreignKey/@ReferencedTableMappingName]"/>
-            <x:variable name="parentTableName" select="@ParentTableMappingName"/>
-            <x:variable name="parentColumnName" select="@ParentColumnMappingName"/>
-            <x:variable name="referencedTableName" select="@ReferencedTableMappingName"/>
-            <x:variable name="referencedColumnName" select="@ReferencedColumnMappingName"/>
-            
-            <x:text>
-
-        public IEnumerable&lt;EntityType&gt; GetBy</x:text>
-            <x:value-of select="@FieldName"/>
-            <x:text>(</x:text>
-            <x:value-of select="$referencedTableMapping/P:ColumnMappings/P:ColumnMapping[@ColumnName=$referencedColumnName]/@DataType"/>
-            <x:text> </x:text>
-            <x:value-of select="fn:FirstToLower($referencedColumnName)"/>
-            <x:text>) {
-            return Search(o =&gt; object.Equals(o.</x:text>
-            <x:value-of select="@FieldName"/>
-            <x:text>, </x:text>
-            <x:value-of select="fn:FirstToLower($referencedColumnName)"/>
-            <x:text>));
-        }</x:text>
-        </x:for-each>
-
-        <x:for-each select="P:UniqueIndexMappings/P:UniqueIndexMapping[@Exclude='false']">
-            <x:text>
-
-        <![CDATA[/// <summary>Gets the ]]></x:text>
-            <x:value-of select="../../@ClassName"/>
-            <x:text><![CDATA[ matching the unique index using the passed-in values.</summary>]]>
-        public EntityType GetBy</x:text>
-            <x:for-each select="P:ColumnNames/P:ColumnName">
-                <x:variable name="columnName" select="text()"/>
-                <x:variable name="column" select="../../../../P:ColumnMappings/P:ColumnMapping[@ColumnName=$columnName]"/>
-
-                <x:value-of select="$column/@FieldName"/>
-                <x:if test="position()!=last()">
-                    <x:text>And</x:text>
-                </x:if>
-            </x:for-each>
-            <x:text>(</x:text>
-            <x:for-each select="P:ColumnNames/P:ColumnName">
-                <x:variable name="columnName" select="text()"/>
-                <x:variable name="column" select="../../../../P:ColumnMappings/P:ColumnMapping[@ColumnName=$columnName]"/>
-
-                <x:choose>
-                    <x:when test="$column/P:EnumerationMapping">
-                        <x:text>DO.</x:text>
-                        <x:value-of select="$column/P:EnumerationMapping/@Name"/>
-                    </x:when>
-                    <x:otherwise>
-                        <x:value-of select="$column/@DataType"/>
-                    </x:otherwise>
-                </x:choose>
-                <x:if test="$column/@Nullable='true'">
-                    <x:text>?</x:text>
-                </x:if>
-                <x:text> </x:text>
-                <x:value-of select="fn:FirstToLower($column/@FieldName)"/>
-
-                <x:if test="position()!=last()">
-                    <x:text>, </x:text>
-                </x:if>
-            </x:for-each>
-            <x:text>) {
-            return Search(o =&gt; </x:text>
-            <x:for-each select="P:ColumnNames/P:ColumnName">
-                <x:variable name="columnName" select="text()"/>
-                <x:variable name="column" select="../../../../P:ColumnMappings/P:ColumnMapping[@ColumnName=$columnName]"/>
-                
-                <x:text>object.Equals(o.</x:text>
-                <x:value-of select="$column/@FieldName"/>
-                <x:text>, </x:text>
-                <x:value-of select="fn:FirstToLower($column/@FieldName)"/>
-                <x:text>)</x:text>
-
-                <x:if test="position()!=last()">
-                    <x:text> &amp;&amp; </x:text>
-                </x:if>
-            </x:for-each>
-            <x:text>).SingleOrDefault();
-        }</x:text>
-        </x:for-each>
-
         <x:text>
     }
 }
 </x:text>
+    </x:template>
+
+    <x:template match="P:ForeignKeyMapping" mode="child">
+        <x:param name="table"/>
+        <x:variable name="childTable" select="//P:TableMapping[@SchemaName=current()/@ReferencedTableMappingSchemaName and @TableName=current()/@ReferencedTableMappingName]"/>
+        <x:variable name="childTablePK" select="$childTable//P:ColumnMapping[@ColumnName=current()/@ReferencedColumnMappingName]"/>
+        <x:variable name="fieldNameLower" select="fn:FirstToLower(current()/@FieldName)"/>
+
+        <x:text>
+
+        /// &lt;summary&gt;Gets all </x:text>
+        <x:value-of select="$table/@PluralClassName"/>
+        <x:text> by </x:text>
+        <x:value-of select="current()/@FieldName"/>
+        <x:text>.&lt;/summary&gt;
+        public IEnumerable&lt;EntityType&gt; </x:text>
+        <x:text>Get</x:text>
+        <x:value-of select="@PluralPropertyName"/>
+        <x:text>By</x:text>
+        <x:value-of select="@PropertyName"/>
+        <x:text>(</x:text>
+        <x:value-of select="$childTablePK/@DataType"/>
+        <x:text> </x:text>
+        <x:value-of select="$fieldNameLower"/>
+        <x:text>) {
+           return Search(o =&gt; o.</x:text>
+        <x:value-of select="@FieldName"/>
+        <x:text> == </x:text>
+        <x:value-of select="$fieldNameLower"/>
+        <x:text>);
+        }</x:text>
+    </x:template>
+
+    <x:template match="P:ForeignKeyMapping" mode="parent">
+        <x:param name="table"/>
+        <x:variable name="parentTable" select="//P:TableMapping[@SchemaName=current()/@ParentTableMappingSchemaName and @TableName=current()/@ParentTableMappingName]"/>
+        <x:variable name="parentTablePK" select="$parentTable//P:ColumnMapping[@ColumnName=current()/@ReferencedColumnMappingName]"/>
+        <x:variable name="parentTablePKLower" select="fn:FirstToLower($parentTablePK/@FieldName)"/>
+
+        <x:text>
+
+        /// &lt;summary&gt;Gets a single </x:text>
+        <x:value-of select="$table/@ClassName"/>
+        <x:text> by the </x:text>
+        <x:value-of select="$parentTablePK/@FieldName"/>
+        <x:text> field of a related </x:text>
+        <x:value-of select="$parentTable/@ClassName"/>
+        <x:text>.&lt;/summary&gt;
+        public Task&lt;EntityType&gt; </x:text>
+        <x:text>Get</x:text>
+        <x:value-of select="@PropertyName"/>
+        <x:text>By</x:text>
+        <x:value-of select="$parentTable/@ClassName"/>
+        <x:text>(</x:text>
+        <x:value-of select="$parentTablePK/@DataType"/>
+        <x:text> </x:text>
+        <x:value-of select="$parentTablePKLower"/>
+        <x:text>) {
+            return SearchSingle(parent =&gt; parent.</x:text>
+        <x:value-of select="@PluralPropertyName"/>
+        <x:text>.Any(child =&gt; child.</x:text>
+        <x:value-of select="$parentTablePK/@FieldName"/>
+        <x:text> == </x:text>
+        <x:value-of select="$parentTablePKLower"/>
+        <x:text>));
+        }</x:text>
+    </x:template>
+
+    <x:template match="P:UniqueIndexMapping">
+        <x:param name="table"/>
+
+        <x:text>
+
+        /// &lt;summary&gt;Gets a single </x:text>
+        <x:value-of select="$table/@ClassName"/>
+        <x:text> by the unique field(s): </x:text>
+        <x:for-each select=".//P:ColumnName">
+            <x:variable name="column" select="$table//P:ColumnMapping[@ColumnName=current()/text()]"/>
+
+            <x:value-of select="$column/@FieldName"/>
+
+            <x:if test="position()!=last()">
+                <x:text>, </x:text>
+            </x:if>
+        </x:for-each>
+        <x:text>&lt;/summary&gt;
+        public Task&lt;EntityType&gt; </x:text>
+        <x:text>GetBy</x:text>
+        <x:for-each select=".//P:ColumnName">
+            <x:value-of select="text()"/>
+
+            <x:if test="position()!=last()">
+                <x:text>And</x:text>
+            </x:if>
+        </x:for-each>
+        <x:text>(</x:text>
+        <x:for-each select=".//P:ColumnName">
+            <x:variable name="column" select="$table//P:ColumnMapping[@ColumnName=current()/text()]"/>
+
+            <x:value-of select="$column/@DataType"/>
+            <x:if test="$column/@Nullable='true' and //P:DataTypeMapping[@ApplicationDataType=$column/@DataType]">
+                <x:text>?</x:text>
+            </x:if>
+            <x:text> </x:text>
+            <x:value-of select="fn:FirstToLower($column/@FieldName)"/>
+
+            <x:if test="position()!=last()">
+                <x:text>, </x:text>
+            </x:if>
+        </x:for-each>
+        <x:text>) {
+            return SearchSingle(o =&gt; </x:text>
+        <x:for-each select=".//P:ColumnName">
+            <x:variable name="column" select="$table//P:ColumnMapping[@ColumnName=current()/text()]"/>
+
+            <x:text>object.Equals(o.</x:text>
+            <x:value-of select="$column/@FieldName"/>
+            <x:text>, </x:text>
+            <x:value-of select="fn:FirstToLower($column/@FieldName)"/>
+            <x:text>)</x:text>
+
+            <x:if test="position()!=last()">
+                <x:text> &amp;&amp;
+                                      </x:text>
+            </x:if>
+        </x:for-each>
+        <x:text>);
+        }</x:text>
     </x:template>
 </x:stylesheet>
