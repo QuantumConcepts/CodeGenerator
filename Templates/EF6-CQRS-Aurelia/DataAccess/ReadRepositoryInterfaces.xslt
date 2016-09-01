@@ -122,18 +122,19 @@ namespace </x:text>
 
         <x:text>
 
-        /// &lt;summary&gt;Gets a single </x:text>
-        <x:value-of select="$table/@ClassName"/>
+        /// &lt;summary&gt;Gets all </x:text>
+        <x:value-of select="$table/@PluralClassName"/>
         <x:text> by the </x:text>
         <x:value-of select="$rightTablePK/@FieldName"/>
         <x:text> field of a related </x:text>
         <x:value-of select="$rightTable/@ClassName"/>
         <x:text>.&lt;/summary&gt;
-        Task&lt;EntityType&gt; </x:text>
+        IEnumerable&lt;EntityType&gt; </x:text>
         <x:text>Get</x:text>
         <x:value-of select="$rightFK/@PluralPropertyName"/>
         <x:text>By</x:text>
         <x:value-of select="$rightFK/@PropertyName"/>
+        <x:value-of select="$rightTablePK/@FieldName"/>
         <x:text>(</x:text>
         <x:value-of select="$rightTablePK/@DataType"/>
         <x:text> </x:text>

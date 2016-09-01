@@ -85,13 +85,14 @@ namespace </x:text>
     public partial class </x:text>
         <x:value-of select="@ClassName"/>
         <x:text>Controller : BaseController&lt;EntityType, ModelType&gt; {
-        protected new RepoType Repo{ get; set; }
+        protected new RepoType Repo { get; set; }
         protected new HandlerType Handler { get; set; }
 
         public </x:text>
         <x:value-of select="@ClassName"/>
         <x:text>Controller(RepoType repo, HandlerType handler, IMapper mapper)
             : base(repo, handler, mapper) {
+            this.Repo = repo;
             this.Handler = handler;
         }
 
@@ -235,18 +236,18 @@ namespace </x:text>
         <x:value-of select="$routeName"/>
         <x:text>")]
         [ResponseType(typeof(IEnumerable&lt;ModelType&gt;))]
-        public Task&lt;IHttpActionResult&gt; </x:text>
+        public IHttpActionResult </x:text>
         <x:value-of select="$routeName"/>
         <x:text>(</x:text>
         <x:value-of select="$childTablePK/@DataType"/>
         <x:text> </x:text>
         <x:value-of select="$fieldNameLower"/>
         <x:text>) {
-           return ExecuteQuery(o =&gt; o.</x:text>
-        <x:value-of select="@FieldName"/>
-        <x:text> == </x:text>
+           return Ok(Map(this.Repo.</x:text>
+        <x:value-of select="$routeName"/>
+        <x:text>(</x:text>
         <x:value-of select="$fieldNameLower"/>
-        <x:text>);
+        <x:text>)));
         }</x:text>
     </x:template>
 
@@ -282,20 +283,18 @@ namespace </x:text>
         <x:value-of select="$routeName"/>
         <x:text>")]
         [ResponseType(typeof(ModelType))]
-        public Task&lt;IHttpActionResult&gt; </x:text>
+        public async Task&lt;IHttpActionResult&gt; </x:text>
         <x:value-of select="$routeName"/>
         <x:text>(</x:text>
         <x:value-of select="$parentTablePK/@DataType"/>
         <x:text> </x:text>
         <x:value-of select="$parentTablePKLower"/>
         <x:text>) {
-           return ExecuteQuery(parent =&gt; parent.</x:text>
-        <x:value-of select="@PluralPropertyName"/>
-        <x:text>.Any(child =&gt; child.</x:text>
-        <x:value-of select="$parentTablePK/@FieldName"/>
-        <x:text> == </x:text>
+           return Ok(Map(await this.Repo.</x:text>
+        <x:value-of select="$routeName"/>
+        <x:text>(</x:text>
         <x:value-of select="$parentTablePKLower"/>
-        <x:text>));
+        <x:text>)));
         }</x:text>
     </x:template>
 
@@ -311,12 +310,13 @@ namespace </x:text>
             <x:value-of select="$rightFK/@PluralPropertyName"/>
             <x:text>By</x:text>
             <x:value-of select="$rightFK/@PropertyName"/>
+            <x:value-of select="$rightTablePK/@FieldName"/>
         </x:variable>
 
         <x:text>
 
-        /// &lt;summary&gt;Gets a single </x:text>
-        <x:value-of select="$table/@ClassName"/>
+        /// &lt;summary&gt;Gets all </x:text>
+        <x:value-of select="$table/@PluralClassName"/>
         <x:text> by the </x:text>
         <x:value-of select="$rightTablePK/@FieldName"/>
         <x:text> field of a related </x:text>
@@ -332,21 +332,19 @@ namespace </x:text>
         <x:text>", Name = "</x:text>
         <x:value-of select="$routeName"/>
         <x:text>")]
-        [ResponseType(typeof(ModelType))]
-        public Task&lt;IHttpActionResult&gt; </x:text>
+        [ResponseType(typeof(IEnumerable&lt;ModelType&gt;))]
+        public IHttpActionResult </x:text>
         <x:value-of select="$routeName"/>
         <x:text>(</x:text>
         <x:value-of select="$rightTablePK/@DataType"/>
         <x:text> </x:text>
         <x:value-of select="$rightTablePKLower"/>
         <x:text>) {
-           return ExecuteQuery(parent =&gt; parent.</x:text>
-        <x:value-of select="@PluralPropertyName"/>
-        <x:text>.Any(child =&gt; child.</x:text>
-        <x:value-of select="$rightTablePK/@FieldName"/>
-        <x:text> == </x:text>
+           return Ok(Map(this.Repo.</x:text>
+        <x:value-of select="$routeName"/>
+        <x:text>(</x:text>
         <x:value-of select="$rightTablePKLower"/>
-        <x:text>));
+        <x:text>)));
         }</x:text>
     </x:template>
 
@@ -410,7 +408,7 @@ namespace </x:text>
         <x:value-of select="$routeName"/>
         <x:text>")]
         [ResponseType(typeof(ModelType))]
-        public Task&lt;IHttpActionResult&gt; </x:text>
+        public async Task&lt;IHttpActionResult&gt; </x:text>
         <x:value-of select="$functionName"/>
         <x:text>(</x:text>
         <x:for-each select=".//P:ColumnName">
@@ -428,22 +426,19 @@ namespace </x:text>
             </x:if>
         </x:for-each>
         <x:text>) {
-            return ExecuteQuery(o =&gt; </x:text>
+            return Ok(Map(await this.Repo.</x:text>
+        <x:value-of select="$functionName"/>
+        <x:text>(</x:text>
         <x:for-each select=".//P:ColumnName">
             <x:variable name="column" select="$table//P:ColumnMapping[@ColumnName=current()/text()]"/>
 
-            <x:text>object.Equals(o.</x:text>
-            <x:value-of select="$column/@FieldName"/>
-            <x:text>, </x:text>
             <x:value-of select="fn:FirstToLower($column/@FieldName)"/>
-            <x:text>)</x:text>
 
             <x:if test="position()!=last()">
-                <x:text> &amp;&amp;
-                                     </x:text>
+                <x:text>, </x:text>
             </x:if>
         </x:for-each>
-        <x:text>);
+        <x:text>)));
         }</x:text>
     </x:template>
 
