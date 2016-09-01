@@ -32,7 +32,7 @@ export class </x:text>
 
     <x:template match="P:ColumnMapping">
         <x:text>
-    public </x:text>
+	public </x:text>
         <x:value-of select="fn:FirstToLower(@FieldName)"/>
         <x:text>: </x:text>
         <x:call-template name="get-js-data-type"/>

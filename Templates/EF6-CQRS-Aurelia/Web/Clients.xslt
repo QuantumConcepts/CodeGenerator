@@ -35,13 +35,13 @@ import {</x:text>
 export class </x:text>
         <x:value-of select="@ClassName"/>
         <x:text>Service extends BaseService&lt;ModelType&gt; { 
-    constructor(http) {
+    constructor(http: HttpClient) {
         super(http);
 
         this.defaultRoutePrefix = "</x:text>
         <x:value-of select="@PluralClassName"/>
         <x:text>";
-    }</x:text>
+	}</x:text>
 
         <x:apply-templates select="$childFKs" mode="child">
             <x:with-param name="table" select="$table"/>
