@@ -6,5 +6,4 @@
 [assembly: AssemblyProduct("Quantum Concepts CodeGenerator Core")]
 [assembly: AssemblyCopyright("© Quantum Concepts Corporation")]
 [assembly: AssemblyTrademark("© Quantum Concepts Corporation")]
-[assembly: AssemblyVersion("1.7.5")]
-[assembly: AssemblyFileVersion("1.7.5")]
+[assembly: AssemblyVersion("1.7.6")]
