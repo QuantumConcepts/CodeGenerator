@@ -284,7 +284,7 @@ namespace QuantumConcepts.CodeGenerator.Core.Data
                 }
                 else
                 {
-                    bool isCustomDataType = !project.DataTypeMappings.Any(o => string.Equals(o.ApplicationDataType, cm.DataType, StringComparison.InvariantCultureIgnoreCase));
+                    bool isCustomDataType = (!cm.DataType.IsNullOrEmpty() && !project.DataTypeMappings.Any(o => string.Equals(o.ApplicationDataType, cm.DataType, StringComparison.InvariantCultureIgnoreCase)));
 
                     cm.Sequence = sequence;
                     cm.DatabaseDataType = databaseDataType;
