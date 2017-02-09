@@ -103,7 +103,7 @@ export class </x:text>
     <x:template match="P:ForeignKeyMapping" mode="parent">
         <x:param name="table"/>
         <x:variable name="parentTable" select="//P:TableMapping[@SchemaName=current()/@ParentTableMappingSchemaName and @TableName=current()/@ParentTableMappingName]"/>
-        <x:variable name="parentTablePK" select="$parentTable//P:ColumnMapping[@ColumnName=current()/@ReferencedColumnMappingName]"/>
+        <x:variable name="parentTablePK" select="$parentTable//P:ColumnMapping[@ColumnName=current()/@ParentColumnMappingName]"/>
         <x:variable name="parentTablePKLower" select="fn:FirstToLower($parentTablePK/@FieldName)"/>
         <x:variable name="routeName">
             <x:text>get</x:text>
